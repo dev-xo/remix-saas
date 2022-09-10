@@ -253,3 +253,5 @@ All my respect and gratitude for Kent C. Dodds _(not gonna tag it, don't wanna b
 <br />
 
 Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped in on Twitter MDs, and contributed to the template, helping me implementing Twitter Authentication Strategy and so on.
+
+<!--- Commit to add @vueeez as Contributor. --->
