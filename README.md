@@ -31,7 +31,7 @@
 - [Stripe Subscriptions](https://stripe.com/) with Support for Multiple Plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
 - Support for Javascript developers with continuous updates over time based on `remix.init`.
 
-### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/barebones-postgres-stack) version also.
+### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
 
 Would you like to change something? Fork it, change it and use `npx create-remix --template your/repo`!<br/>
 Learn more about [Remix Stacks](https://remix.run/stacks).
