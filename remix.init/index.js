@@ -305,11 +305,11 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 
 	console.log(
 		`
-    🔋 Batteries has been successfully set.
-    ❗️ Go ahead and build something amazing!
-    
-    📀 Start development server with \`${pm.run('dev')}\`
-     `.trim(),
+🔋 Batteries has been successfully set.
+❗️ Go ahead and build something amazing!
+
+📀 Start development server with \`${pm.run('dev')}\`
+`.trim(),
 	)
 }
 
