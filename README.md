@@ -52,7 +52,7 @@ Done! This starts your app in development mode, rebuilding assets on file change
 
 This section will be splitted in three threads: **Live Demo | Development | Production**.
 
-### ▫️ Live Demo
+### Live Demo
 
 Template's Demo has been developed to be really simple to use, being able to show all its provided features. Let's see the workflow to test it:
 
@@ -71,11 +71,11 @@ Template's Demo has been developed to be really simple to use, being able to sho
 - Done! We should be redirected back to our App with newly Plan already set.
   <br />
 
-### ▫️ Development
+### Development
 
 Understanding our development workspace will keep us productive.
 
-### Folder Structure
+### ▫️ Folder Structure
 
 A solid folder structure will help our App grow healthy over time. Let's review the most important folders.
 
@@ -87,7 +87,7 @@ A solid folder structure will help our App grow healthy over time. Let's review 
       ├── api           # Stores Stripe Webhook Endpoint file, and any realted API calls.
       ├── resources     # Used to call our own Server, do Redirects, update Sessions and so on.
 
-### Authentication Strategies
+### ▫️ Authentication Strategies
 
 To provide Authentication to our App, we will need to configure and get the API Keys from our Socials Providers.
 Below here you can find all template's Providers OAuth Documentations.
@@ -101,7 +101,7 @@ Once we get get the Providers API Keys `CLIENT | SECRET`, we can set them into o
 
 > If you are struggling to configure it and get the API Keys, feel free to contact me directly, have a look on youtube, or do a quick search on Google!.
 
-### Stripe Webhook
+### ▫️ Stripe Webhook
 
 To start receiving Stripe Events to our Webhook Endpoint, we will need to run the following command on the background:
 
@@ -111,13 +111,13 @@ stripe listen --forward-to localhost:3000/api/webhook
 
 The provided `Webhook Signing Secret` has to be set in our `.env` file as `DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET`.
 
-### Stripe Products
+### ▫️ Stripe Products
 
 From [Stripe Products](https://dashboard.stripe.com/test/products) Web Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions and names from `/modules/stripe/utils/stripe-plans`.
 
-### ▫️ Production
+### Production
 
-### Stripe Webhook - Web Dashboard
+### ▫️ Stripe Webhook - Web Dashboard
 
 Let's see how we can get and set our Production Webhook.
 
@@ -135,7 +135,7 @@ Let's see how we can get and set our Production Webhook.
 
 > Done! Give it a try. If something went wrong, verify that the provided steps has been followed correctly.
 
-### Setting Environment Variables
+### ▫️ Setting Environment Variables
 
 Here is a simple command you can use after Deployment. Feel free to fill it with your App `.env` variables.
 
@@ -214,7 +214,7 @@ Anything in the `dev` branch will be deployed to staging.
 
 ## 📐 Testing
 
-### Cypress
+### ▫️ Cypress
 
 We use Cypress for End-to-End tests. You'll find those in the `cypress` directory. As you make changes, add to an existing file or create a new file in the `cypress/e2e` directory to test your changes.
 
@@ -222,15 +222,15 @@ We use [`@testing-library/cypress`](https://testing-library.com/cypress) for sel
 
 To run these tests in development, run `npm run test:e2e:dev` which will start the dev server for the app as well as the Cypress client. Make sure the database is running in docker as described above.
 
-### Vitest
+### ▫️ Vitest
 
 For lower level tests of utilities and individual components, we use `vitest`. We have DOM-specific assertion helpers via [`@testing-library/jest-dom`](https://testing-library.com/jest-dom).
 
-### Type Checking
+### ▫️ Type Checking
 
 This project uses TypeScript. It's recommended to get TypeScript set up for your editor to get a really great in-editor experience with type checking and auto-complete. To run type checking across the whole project, run `npm run typecheck`.
 
-### Linting
+### ▫️ Linting
 
 This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 
@@ -245,12 +245,8 @@ Also feel free to update prettier settings from `.package-json` with your prefer
 If you found this template useful, feel free to support it with a ⭐ [Star](https://github.com/dev-xo/stripe-stack)!
 It helps a lot and gives me motivation to keep working on this and other Remix projects for the community. Thanks!
 
-### Acknowledgments
+### ▫️ Acknowledgments
 
 All my respect and gratitude for Kent C. Dodds _(not gonna tag it, don't wanna bother him)_. From day 1 him has been supporting my work for the community on Twitter and that's something amazing for a small developer like me, and some others.
 
-<br />
-
 Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped in on Twitter MDs, and contributed to the template, helping me implementing Twitter Authentication Strategy and so on.
-
-<!--- Commit to add @vueeez as Contributor. --->
