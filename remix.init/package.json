@@ -1,0 +1,12 @@
+{
+	"name": "remix.init",
+	"private": true,
+	"main": "index.js",
+	"license": "MIT",
+	"dependencies": {
+		"@iarna/toml": "^2.2.5",
+		"yaml": "^2.1.1",
+		"semver": "^7.3.7",
+		"@npmcli/package-json": "^2.0.0"
+	}
+}

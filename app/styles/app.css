@@ -1,0 +1,91 @@
+/*
+* This file will initialize tailwinds.css
+* Docs: https://tailwindcss.com/docs/guides/remix
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+::-moz-selection {
+	color: rgb(220, 255, 80);
+	background: rgba(196, 186, 255, 0.2);
+}
+
+::selection {
+	color: rgb(220, 255, 80);
+	background: rgba(196, 186, 255, 0.2);
+}
+
+@keyframes pulse {
+	from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+		transform: scale3d(1.2, 1.2, 1.2);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+.pulse {
+	animation-name: pulse;
+	animation-duration: 4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.radial-gradient {
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	z-index: -1;
+}
+
+.gradient-light {
+	animation: pulse 4s linear infinite;
+	background: rgba(255, 255, 255, 1);
+	background: radial-gradient(
+		circle,
+		hsl(250, 100%, 88%) 0%,
+		rgba(255, 255, 255, 1) 60%
+	);
+}
+
+.gradient-light-dimmed {
+	animation: pulse 4s linear infinite;
+	background: rgba(255, 255, 255, 1);
+	background: radial-gradient(
+		circle,
+		rgba(204, 194, 255, 0.6) 0%,
+		rgba(255, 255, 255, 1) 60%
+	);
+}
+
+.gradient-dark {
+	animation: pulse 4s linear infinite;
+	background: rgb(9, 9, 9);
+	background: radial-gradient(
+		circle,
+		rgba(50, 41, 105, 1) 0%,
+		rgba(9, 9, 9, 1) 80%
+	);
+}
+
+.gradient-dark-dimmed {
+	animation: pulse 4s linear infinite;
+	background: rgb(9, 9, 9);
+	background: radial-gradient(
+		circle,
+		rgba(50, 41, 105, 0.4) 0%,
+		rgba(9, 9, 9, 1) 80%
+	);
+}
