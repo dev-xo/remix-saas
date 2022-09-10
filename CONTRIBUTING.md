@@ -11,6 +11,6 @@ To get an overview of the project, read the [README](README.md). Here are some r
 - [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
 - [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
 
-## Stack Open Roadmap
+## Open Roadmap - Project
 
 We have an [Open Roadmap Project](https://github.com/users/dev-xo/projects/5) that will be updated with new Features, Fixes and so on.
