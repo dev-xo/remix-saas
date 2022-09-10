@@ -135,8 +135,16 @@ Let's see how we can get and set our Production Webhook.
 
 > Done! Give it a try. If something went wrong, verify that the provided steps has been followed correctly.
 
-<!-- ## 🪛 Setting Up Environment -->
-<!-- - How to set Fly.io Secrets https://fly.io/docs/flyctl/secrets/ -->
+### Setting Environment Variables
+
+Here is a simple command that has to be filled with your App `.env` variables.
+
+```sh
+# Start dev server:
+flyctl secrets set NODE_ENV=production PROD_HOST_URL= GOOGLE_CLIENT_ID= GOOGLE_CLIENT_SECRET= GITHUB_CLIENT_ID= GITHUB_CLIENT_SECRET= TWITTER_CLIENT_ID= TWITTER_CLIENT_SECRET= DISCORD_CLIENT_ID= DISCORD_CLIENT_SECRET= STRIPE_PUBLIC_KEY= STRIPE_SECRET_KEY= PLAN_1_PRICE_ID= PLAN_2_PRICE_ID= PLAN_3_PRICE_ID= PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET=
+```
+
+> Feel free to Add or Remove any variable you like.
 
 ## 🚀 Deployment
 
