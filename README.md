@@ -91,7 +91,7 @@ A solid folder structure will help our App grow healthy over time. Let's review 
 
 ### ▫️ Authentication Strategies
 
-To provide Authentication to our App, we will need to configure and get the API Keys from our Socials Providers.
+To provide Authentication to our App, we will need to get the API Keys from our Socials Providers.
 Below here you can find all template's Providers OAuth Documentations.
 
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
@@ -99,7 +99,7 @@ Below here you can find all template's Providers OAuth Documentations.
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Once we get get the Providers API Keys `CLIENT | SECRET`, we can set them into our `.env` file.
+Once we got our Providers API Keys `CLIENT and SECRET`, we can set them into `.env` file.
 
 > If you are struggling to configure it and get the API Keys, feel free to contact me directly, have a look on youtube, or do a quick search on Google!.
 
