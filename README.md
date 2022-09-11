@@ -247,6 +247,6 @@ It helps a lot and gives me motivation to keep working on this and other Remix p
 
 ### ▫️ Acknowledgments
 
-All my respect and gratitude for Kent C. Dodds _(not gonna tag it, don't wanna bother him)_. From day 1 him has been supporting my work for the community on Twitter and that's something amazing for a small developer like me, and some others.
+All my respect and gratitude for Kent C. Dodds _(Not gonna @him, don't wanna bother, instead gonna leave here his [Website Blog](https://kentcdodds.com/))_. From day 1 him has been supporting my work for the community on Twitter and that's something amazing for a small developer like me, and some others.
 
 Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped in on Twitter MDs, and contributed to the template, helping me implementing Twitter Authentication Strategy and so on.
