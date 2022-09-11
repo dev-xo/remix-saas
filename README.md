@@ -103,7 +103,11 @@ Once we get get the Providers API Keys `CLIENT | SECRET`, we can set them into o
 
 ### ▫️ Stripe Webhook
 
-To start receiving Stripe Events to our Webhook Endpoint, we will need to run the following command on the background:
+To start receiving Stripe Events to our Webhook Endpoint, we will need to have Stripe CLI installed in our workspace.
+
+- Install [Stripe CLI](https://stripe.com/docs/stripe-cli)
+
+- Run the following command on the background:
 
 ```sh
 stripe listen --forward-to localhost:3000/api/webhook
