@@ -248,8 +248,8 @@ Also feel free to update prettier settings from `.package-json` with your prefer
 
 Contributions are Welcome! Feel free to help us improve and update this Community Template over time!
 
-- [Contributing Guide](https://github.com/dev-xo/stripe-stack/blob/main/CONTRIBUTING.md)
-- [Open Roadmap - Project](https://github.com/users/dev-xo/projects/5)
+- [Contributing Guide](https://github.com/dev-xo/stripe-stack/blob/main/CONTRIBUTING.md) Docs.
+- [Open Roadmap](https://github.com/users/dev-xo/projects/5) Project TODOs.
 
 ## 🍪 Support
 
