@@ -291,11 +291,6 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 	])
 
 	/**
-	 * Seeds database.
-	 */
-	execSync(pm.run('setup'), { cwd: rootDirectory, stdio: 'inherit' })
-
-	/**
 	 * Formats the entire project.
 	 */
 	execSync(pm.run('format', '--loglevel warn'), {
