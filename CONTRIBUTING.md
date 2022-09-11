@@ -1,8 +1,7 @@
 # Welcome to Stripe Stack Contributing Guide
 
-Thank you for investing your time in contributing to our project! Any contribution you make will be will be welcomed.
-
-In this guide you will get an overview of the contribution workflow from opening an issue, creating a PR, reviewing, and merging the PR.
+Thank you for investing your time in contributing to our project! Any contribution you make will be welcomed.
+Feel free to check the links from bellow.
 
 ## Getting Started
 
