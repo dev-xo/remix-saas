@@ -43,7 +43,7 @@ export const Navigation = ({ user }: ComponentProps) => {
 				<Link to="/account">
 					<button
 						className="absolute left-5 top-5 rounded-xl bg-slate-700 px-3 py-1 text-sm font-bold
-					text-slate-100 transition hover:scale-105 active:scale-100">
+						text-slate-100 transition hover:scale-105 active:scale-100">
 						<span>Back</span>
 					</button>
 				</Link>
