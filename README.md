@@ -240,7 +240,7 @@ This project uses TypeScript. It's recommended to get TypeScript set up for your
 
 This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 
-### Formatting
+### ▫️ Formatting
 
 We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
 
