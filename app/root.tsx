@@ -33,22 +33,28 @@ export const meta: MetaFunction = () => {
 	return {
 		viewport: 'width=device-width, initial-scale=1',
 		charset: 'utf-8',
-		title: 'Welcome to Stripe Stack!',
-		description: '',
-		keywords: '',
-		'og:title': '',
+		title: 'Welcome to Remix Stripe Stack!',
+		description:
+			'A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io',
+		keywords:
+			'remix,stripe,create-remix,remix-stack,typescript,sqlite,prisma,tailwindcss,fly.io',
+		'og:title': 'Remix Stripe Stack',
 		'og:type': 'website',
-		'og:url': '',
-		'og:image': '',
+		'og:url': 'https://stripe-stack.fly.dev',
+		'og:image':
+			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-thumbnail.png',
 		'og:card': 'summary_large_image',
-		'og:creator': '',
-		'og:site': '',
-		'og:description': '',
-		'twitter:image': '',
+		'og:creator': '@DEV_XO2',
+		'og:site': 'https://stripe-stack.fly.dev',
+		'og:description':
+			'A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io',
+		'twitter:image':
+			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-thumbnail.png',
 		'twitter:card': 'summary_large_image',
-		'twitter:creator': '',
-		'twitter:title': '',
-		'twitter:description': '',
+		'twitter:creator': '@DEV_XO2',
+		'twitter:title': 'Remix Stripe Stack',
+		'twitter:description':
+			'A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io',
 	}
 }
 
