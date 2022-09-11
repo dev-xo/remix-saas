@@ -203,7 +203,7 @@ const replaceAndInitEnvFiles = async (rootDirectory) => {
 const replaceProjectNameFromFiles = async (rootDirectory, APP_NAME) => {
 	const FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
 	const README_PATH = path.join(rootDirectory, 'README.md')
-	const REPLACER = /barebones[\s|-]stack/gim
+	const REPLACER = /stripe[\s|-]stack/gim
 
 	const [flyToml, readme] = await Promise.all([
 		fs.readFile(FLY_TOML_PATH, 'utf-8'),
