@@ -8,7 +8,7 @@
     ·
     <a href="https://twitter.com/DEV_XO2">Twitter</a>
     <br/>
-    A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io
+    An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io
   </p>
 </p>
 
