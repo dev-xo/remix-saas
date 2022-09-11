@@ -7,6 +7,10 @@ import Stripe from 'stripe'
  *
  * Returns a Stripe Checkout Session URL.
  */
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: '2022-08-01',
+})
+
 export const createStripeCheckoutSession = async (
 	customerId: Subscription['customerId'],
 	priceId: string,
@@ -17,10 +21,6 @@ export const createStripeCheckoutSession = async (
 			: process.env.PROD_HOST_URL
 
 	try {
-		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-			apiVersion: '2022-08-01',
-		})
-
 		const session = await stripe.checkout.sessions.create({
 			customer: customerId,
 			line_items: [{ price: priceId, quantity: 1 }],

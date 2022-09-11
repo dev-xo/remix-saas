@@ -7,6 +7,10 @@ import Stripe from 'stripe'
  *
  * Returns a Stripe Customer Portal Session URL.
  */
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: '2022-08-01',
+})
+
 export const createStripeCustomerPortalSession = async (
 	customerId: Subscription['customerId'],
 ) => {
@@ -16,10 +20,6 @@ export const createStripeCustomerPortalSession = async (
 			: process.env.PROD_HOST_URL
 
 	try {
-		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-			apiVersion: '2022-08-01',
-		})
-
 		const session = await stripe.billingPortal.sessions.create({
 			customer: customerId,
 			return_url: `${HOST_URL}/resources/stripe/create-customer-portal/update-session`,
