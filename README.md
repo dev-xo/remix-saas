@@ -105,7 +105,7 @@ Once we got our Providers API Keys `CLIENT and SECRET`, we can set them into `.e
 
 ### ▫️ Stripe Webhook
 
-To start receiving Stripe Events to our Webhook Endpoint, we will need to have Stripe CLI installed in our workspace.
+Let's see how we can start receiving Stripe Events to our Webhook Endpoint.
 
 - Install [Stripe CLI](https://stripe.com/docs/stripe-cli)
 
