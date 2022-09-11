@@ -16,9 +16,9 @@
 
 - [Fly app Deployment](https://fly.io) with [Docker.](https://www.docker.com/products/docker-desktop/)
 - Database ORM with [Prisma.](https://www.prisma.io/)
-- Production-Ready with [SQLite Database.](https://sqlite.org/index.html)
+- Production Ready with [SQLite Database.](https://sqlite.org/index.html)
 - [GitHub Actions](https://github.com/features/actions) for Deploy on merge to Production and Staging environments.
-- Healthcheck endpoint for [Fly backups Region Fallbacks.](https://fly.io/docs/reference/configuration/#services-http_checks)
+- Healthcheck Endpoint for [Fly backups Region Fallbacks.](https://fly.io/docs/reference/configuration/#services-http_checks)
 - Styling with [Tailwind.css](https://tailwindcss.com/) + [Tailwind Prettier-Plugin.](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)
 - End-to-End testing with [Cypress.](https://www.cypress.io/how-it-works)
 - Unit Testing with [Vitest](https://vitest.dev) and [Testing Library.](https://testing-library.com)
@@ -29,8 +29,8 @@
 
 ### Special Stack Features
 
-- Authentication with [Remix-Auth](https://www.npmjs.com/package/remix-auth) and [Socials](https://www.npmjs.com/package/remix-auth-socials) + [Twitter](https://github.com/na2hiro/remix-auth-twitter) Strategies.
-- [Stripe Subscriptions](https://stripe.com/) with Support for Multiple Plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
+- Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) and [Socials](https://www.npmjs.com/package/remix-auth-socials) + [Twitter](https://github.com/na2hiro/remix-auth-twitter) Strategies.
+- [Stripe Subscriptions](https://stripe.com/) with Support for multiple plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
 - Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 ### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
@@ -68,7 +68,7 @@ Template's Demo has been developed to be really simple to use, being able to sho
 
 - Fill Stripe Checkout inputs with default development values.
 
-  > Type `4242` as much times as you can on each available Input. Feel free to add some Random Name also.
+  > Type `4242` as much times as you can on each available Input.
 
 - Done! We should be redirected back to our App with newly Plan already set.
   <br />
@@ -99,9 +99,9 @@ Below here you can find all template's Providers OAuth Documentations.
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Once we got our Providers API Keys `CLIENT and SECRET`, we can set them into `.env` file.
+Once we got our Providers Keys `CLIENT and SECRET`, we can set them into `.env` file.
 
-> If you are struggling to configure it and get the API Keys, feel free to contact me directly, have a look on youtube, or do a quick search on Google!.
+> If you are struggling on this step, feel free to contact me directly, have a look on youtube, or do a quick search on Google!.
 
 ### ▫️ Stripe Webhook
 
@@ -119,7 +119,7 @@ The provided `Webhook Signing Secret` has to be set in our `.env` file as `DEV_S
 
 ### ▫️ Stripe Products
 
-From [Stripe Products](https://dashboard.stripe.com/test/products) Web Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions and names from `/modules/stripe/utils/stripe-plans`.
+From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions and names from `/modules/stripe/utils/stripe-plans`.
 
 ### Production
 
@@ -131,7 +131,7 @@ Let's see how we can get and set our Production Webhook.
 
 > The link provided to Webhooks its from Stripe Test Mode. Feel free to complete the "Activate Payments" steps to get a production Webhook Key.
 
-- Create a new Endpoint.
+- Create a new Webhook Endpoint.
 
 - Set your deployed App Webhook Endpoint URL into `Endpoint URL` input.
 
