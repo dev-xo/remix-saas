@@ -36,7 +36,7 @@
 Would you like to change something? Fork it, change it and use `npx create-remix --template your/repo`!<br/>
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
-## 🔋 Quickstart
+## ✨ Quickstart
 
 ```sh
 # Initialize the following template in your workspace:
@@ -48,7 +48,7 @@ npm run dev
 
 Done! This starts your app in development mode, rebuilding assets on file changes.<br />
 
-## 🕹 Getting Started
+## 👋 Getting Started
 
 This section will be splitted in three threads: **Live Demo | Development | Production**.
 
@@ -212,7 +212,7 @@ We use GitHub Actions for continuous integration and deployment.<br/><br/>
 Anything that gets into the `main` branch will be deployed to production after running tests / build / etc.<br/>
 Anything in the `dev` branch will be deployed to staging.
 
-## 📐 Testing
+## 💅 Testing
 
 ### ▫️ Cypress
 
@@ -239,6 +239,10 @@ This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
 
 Also feel free to update prettier settings from `.package-json` with your preferred configuration.
+
+## 🤝 Contributing
+
+Contributions are Welcome! Feel free to help us improve and update this Community Template over time! I've created a small (Contributing Guide)[https://github.com/dev-xo/stripe-stack/blob/main/CONTRIBUTING.md] Also we'v got an [Open Roadmap - Project](https://github.com/users/dev-xo/projects/5)
 
 ## 🍪 Support
 
