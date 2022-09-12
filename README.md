@@ -1,5 +1,5 @@
-![GitHub-Mark-Light](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-logo.png#gh-light-mode-only)
-![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/dark-logo.png#gh-dark-mode-only)
+![GitHub-Mark-Light](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-logo-v1.png#gh-light-mode-only)
+![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/dark-logo-v1.png#gh-dark-mode-only)
 
 <p align="center">
   <h3 align="center">Stripe Stack</h3>
@@ -255,11 +255,11 @@ Contributions are Welcome! Jump in and help us improve this Community Template o
 
 ## 🍪 Support
 
-If you found this template useful, help us by [Staring ⭐ It](https://github.com/dev-xo/stripe-stack)!
-It helps a lot and gives me motivation to keep working on this and other Remix projects for the community. Thanks!
+If you found the project useful, help it by [Staring ⭐ It](https://github.com/dev-xo/stripe-stack)!
+It helps the repository grow and gives me motivation to keep working on it. Thanks you!
 
 ### ▫️ Acknowledgments
 
-All my respect and gratitude for Kent C. Dodds _(Not gonna @him, don't wanna bother, instead gonna leave here his [Website Blog](https://kentcdodds.com/))_. From day 1 him has been supporting my work for the community on Twitter and that's something amazing for a small developer like me, and some others.
+All my respect and gratitude for Kent C. Dodds _(Not gonna @him, don't wanna bother, instead gonna leave here his [Website Blog](https://kentcdodds.com/))_. Has been supporting my work on Twitter a few times already, and that's something truly amazing for any small developer.
 
-Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped in on Twitter DMs, and contributed to the template, helping me implementing Twitter Authentication Strategy.
+Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped on Twitter DMs, contributing on Twitter Authentication Strategy.
