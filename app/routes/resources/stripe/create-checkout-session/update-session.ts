@@ -48,7 +48,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 			dbUser.subscription[0].status === 'active' &&
 				session.flash('HAS_SUCCESSFULLY_SUBSCRIBED', true)
 
-			return redirect('/', {
+			return redirect('/account', {
 				headers: {
 					'Set-Cookie': await commitSession(session),
 				},
