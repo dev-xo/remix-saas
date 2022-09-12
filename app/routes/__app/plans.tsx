@@ -28,7 +28,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	return json<LoaderData>({ user })
 }
 
-export default function AccountRoute() {
+export default function PlansRoute() {
 	const { user } = useLoaderData() as LoaderData
 
 	return (
