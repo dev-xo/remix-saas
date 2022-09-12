@@ -35,7 +35,7 @@ export const meta: MetaFunction = () => {
 		charset: 'utf-8',
 		title: 'Welcome to Remix Stripe Stack!',
 		description:
-			'A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io',
+			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
 		keywords:
 			'remix,stripe,create-remix,remix-stack,typescript,sqlite,prisma,tailwindcss,fly.io',
 		'og:title': 'Remix Stripe Stack',
@@ -47,14 +47,14 @@ export const meta: MetaFunction = () => {
 		'og:creator': '@DEV_XO2',
 		'og:site': 'https://stripe-stack.fly.dev',
 		'og:description':
-			'A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io',
+			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
 		'twitter:image':
 			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-thumbnail.png',
 		'twitter:card': 'summary_large_image',
 		'twitter:creator': '@DEV_XO2',
 		'twitter:title': 'Remix Stripe Stack',
 		'twitter:description':
-			'A Stripe focused Remix Stack with Social Authentication, Subscriptions Management, Testing and a few more features. SQLite version. Deploys to Fly.io',
+			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
 	}
 }
 
