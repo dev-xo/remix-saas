@@ -15,7 +15,9 @@ export const action: ActionFunction = async ({ request }) => {
 	/**
 	 * Checks for Auth Session.
 	 */
-	const user = (await authenticator.isAuthenticated(request)) as AuthSession
+	const user = (await authenticator.isAuthenticated(
+		request,
+	)) as AuthSession | null
 
 	if (user && user.subscription[0]?.subscriptionId) {
 		const subscriptionId = user.subscription[0]?.subscriptionId

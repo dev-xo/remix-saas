@@ -17,7 +17,9 @@ export const action: ActionFunction = async ({ request }) => {
 	/**
 	 * Checks for Auth Session.
 	 */
-	const user = (await authenticator.isAuthenticated(request)) as AuthSession
+	const user = (await authenticator.isAuthenticated(
+		request,
+	)) as AuthSession | null
 
 	if (user) {
 		/**
