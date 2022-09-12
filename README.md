@@ -2,7 +2,6 @@
 ![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/dark-logo-v1.png#gh-dark-mode-only)
 
 <p align="center">
-  <h3 align="center">Stripe Stack</h3>
   <p align="center">
     <a href="https://stripe-stack.fly.dev">Live Demo</a>
     ·
