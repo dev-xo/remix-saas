@@ -95,7 +95,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	)
 }
 
-export default function AccountRoute() {
+export default function PlansRoute() {
 	const {
 		user,
 		hasSuccessfullySubscribed,
