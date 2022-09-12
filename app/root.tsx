@@ -64,7 +64,7 @@ export const meta: MetaFunction = () => {
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	const { getTheme } = await themeSessionResolver(request)
-	return { theme: getTheme(), env: getGlobalEnvs() }
+	return { theme: getTheme(), ENV: getGlobalEnvs() }
 }
 
 /**
@@ -118,7 +118,7 @@ const App = () => {
 				{/* Global Shared Envs. */}
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `window.ENV = ${JSON.stringify(data.env)}`,
+						__html: `window.ENV = ${JSON.stringify(data.ENV)}`,
 					}}
 				/>
 
