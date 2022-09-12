@@ -1,5 +1,5 @@
-![GitHub-Mark-Light](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-logo-v1.png#gh-light-mode-only)
-![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/dark-logo-v1.png#gh-dark-mode-only)
+![GitHub-Mark-Light](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-logo.png#gh-light-mode-only)
+![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/dark-logo.png#gh-dark-mode-only)
 
 <p align="center">
   <p align="center">
