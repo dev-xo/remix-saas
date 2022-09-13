@@ -5,7 +5,7 @@
   <p align="center">
     <a href="https://stripe-stack.fly.dev">Live Demo</a>
     ·
-    <a href="https://twitter.com/DEV_XO2">Twitter</a>
+    <a href="https://twitter.com/DanielKanem">Twitter</a>
     <br/>
     An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io
   </p>
