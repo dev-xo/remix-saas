@@ -7,11 +7,4 @@ import { db } from '~/utils'
  */
 export const createUser = async (
 	user: Pick<User, 'providerId' | 'email' | 'name' | 'avatar'>,
-) => {
-	try {
-		return await db.user.create({ data: user })
-	} catch (err: unknown) {
-		console.log(err)
-		return null
-	}
-}
+) => db.user.create({ data: user })

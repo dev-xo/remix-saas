@@ -7,11 +7,4 @@ import { db } from '~/utils'
  */
 export const createSubscription = async (
 	subscription: Omit<Subscription, 'id'>,
-) => {
-	try {
-		return await db.subscription.create({ data: subscription })
-	} catch (err: any) {
-		console.log(err)
-		return null
-	}
-}
+) => db.subscription.create({ data: subscription })

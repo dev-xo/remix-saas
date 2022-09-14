@@ -28,7 +28,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		 * - Updates Auth Session accordingly.
 		 * - Commits the session and redirects with newly updated headers.
 		 */
-		if (subscription?.status === 'canceled') {
+		if (subscription && subscription?.status === 'canceled') {
 			let session = await getSession(request.headers.get('Cookie'))
 
 			session.set(authenticator.sessionKey, {

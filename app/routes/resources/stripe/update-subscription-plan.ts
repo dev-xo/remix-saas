@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
 		const subscriptionId = user.subscription[0]?.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
-		if (subscription?.status === 'active') {
+		if (subscription && subscription?.status === 'active') {
 			/**
 			 * Gets values from `formData`.
 			 */
