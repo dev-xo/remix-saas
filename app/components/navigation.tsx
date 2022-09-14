@@ -11,7 +11,7 @@ export const Navigation = ({ user }: ComponentProps) => {
 
 	return (
 		<nav className="z-20 flex w-full flex-row items-center justify-end py-4 px-6">
-			{/* Left Navigation */}
+			{/* Home Link */}
 			{!user && (
 				<Link to="/" className="h-8">
 					<svg
@@ -39,6 +39,7 @@ export const Navigation = ({ user }: ComponentProps) => {
 				</Link>
 			)}
 
+			{/* Back Link */}
 			{user && location.pathname === '/plans' && (
 				<Link to="/account">
 					<button
@@ -68,6 +69,7 @@ export const Navigation = ({ user }: ComponentProps) => {
 				</a>
 				{location.pathname !== '/login' && <div className="mx-2" />}
 
+				{/* Plans Link */}
 				{user && (
 					<>
 						<Link to="/plans">

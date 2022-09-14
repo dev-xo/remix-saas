@@ -37,11 +37,10 @@ export const UpdatePlanButton = ({
 		}
 	}
 
-	/**
-	 * Compares current Subscription plan price amount,
-	 * with provided `planId` price amount.
-	 */
 	if (planIdPriceAmount && purchasedPlanPriceAmount) {
+		/**
+		 * Returns Current Plan button.
+		 */
 		if (planIdPriceAmount === purchasedPlanPriceAmount) {
 			return (
 				<button
@@ -53,7 +52,8 @@ export const UpdatePlanButton = ({
 		}
 
 		/**
-		 * As button value, we'll send newly desired planId.
+		 * Returns Upgrade or Downgrade button.
+		 * As button value, we'll provide newly desired planId.
 		 */
 		return (
 			<fetcher.Form

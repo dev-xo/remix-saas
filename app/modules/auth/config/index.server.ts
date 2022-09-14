@@ -38,19 +38,19 @@ authenticator.use(
 			 */
 			const user = await getUserByProviderIdIncludingSubscription(profile.id)
 
+			/**
+			 * If User has not been found:
+			 * Creates and stores a new User in database.
+			 * Returns newly created User as Auth Session.
+			 */
 			if (!user) {
-				/**
-				 * If User has not been found:
-				 * Creates and stores a new User into database.
-				 * Returns newly created User as Auth Session.
-				 */
 				const newUser = await createUser({
 					providerId: profile.id,
 					name: profile.displayName,
 					email: profile._json.email,
 					avatar: profile._json.picture,
 				})
-				if (!newUser) throw new Error('Unable to create user.')
+				if (!newUser) throw new Error('Unable to create User.')
 
 				return {
 					...newUser,
@@ -82,19 +82,19 @@ authenticator.use(
 			 */
 			const user = await getUserByProviderIdIncludingSubscription(profile.id)
 
+			/**
+			 * If User has not been found:
+			 * Creates and stores a new User in database.
+			 * Returns newly created User as Auth Session.
+			 */
 			if (!user) {
-				/**
-				 * If User has not been found:
-				 * Creates and stores a new User into database.
-				 * Returns newly created User as Auth Session.
-				 */
 				const newUser = await createUser({
 					providerId: profile.id,
 					name: profile.displayName,
 					email: profile._json.email,
 					avatar: profile._json.avatar_url,
 				})
-				if (!newUser) throw new Error('Unable to create user.')
+				if (!newUser) throw new Error('Unable to create User.')
 
 				return {
 					...newUser,
@@ -127,12 +127,12 @@ authenticator.use(
 			 */
 			const user = await getUserByProviderIdIncludingSubscription(profile.id)
 
+			/**
+			 * If User has not been found:
+			 * Creates and stores a new User in database.
+			 * Returns newly created User as Auth Session.
+			 */
 			if (!user) {
-				/**
-				 * If User has not been found:
-				 * Creates and stores a new User into database.
-				 * Returns newly created User as Auth Session.
-				 */
 				const newUser = await createUser({
 					providerId: profile.id,
 					name: profile.displayName,
@@ -141,7 +141,7 @@ authenticator.use(
 						? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.__json.avatar}.png`
 						: '',
 				})
-				if (!newUser) throw new Error('Unable to create user.')
+				if (!newUser) throw new Error('Unable to create User.')
 
 				return {
 					...newUser,
@@ -176,19 +176,19 @@ authenticator.use(
 				profile.id_str,
 			)
 
+			/**
+			 * If User has not been found:
+			 * Creates and stores a new User in database.
+			 * Returns newly created User as Auth Session.
+			 */
 			if (!user) {
-				/**
-				 * If User has not been found:
-				 * Creates and stores a new User into database.
-				 * Returns newly created User as Auth Session.
-				 */
 				const newUser = await createUser({
 					providerId: profile.id_str,
 					name: profile.name,
 					email: profile.email ? profile.email : '',
 					avatar: profile.profile_image_url,
 				})
-				if (!newUser) throw new Error('Unable to create user.')
+				if (!newUser) throw new Error('Unable to create User.')
 
 				return {
 					...newUser,

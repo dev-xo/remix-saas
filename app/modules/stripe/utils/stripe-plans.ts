@@ -12,8 +12,8 @@ export interface StripePlanInterface {
 export interface StripePlansInterface extends Array<StripePlanInterface> {}
 
 /**
- * Feel free to add more plans on `.env`file
- * and managing them on here.
+ * Stripe Plans.
+ * Add plans in your `.env` file and manage them on here.
  */
 export const STRIPE_PLANS: StripePlansInterface = [
 	{
