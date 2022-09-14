@@ -74,12 +74,14 @@ export const action: ActionFunction = async ({ request }) => {
 	 * - On success: Redirects to checkout with customer already set.
 	 */
 	if (user && user.subscription.length === 0) {
+		console.log('BEFORE CREATION')
 		const newStripeCustomer = await createStripeCustomer({
 			email: user.email,
 			name: user.name ? user.name : undefined,
 		})
 		if (!newStripeCustomer)
 			throw new Error('Unable to create a new Stripe Customer.')
+		console.log('AFTER')
 
 		const newSubscription = await createSubscription({
 			providerId: user.providerId,

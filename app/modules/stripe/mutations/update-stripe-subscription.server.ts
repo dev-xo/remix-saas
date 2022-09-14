@@ -12,14 +12,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export const updateStripeSubscription = async (
 	subscriptionId: Subscription['subscriptionId'],
 	params: Stripe.SubscriptionUpdateParams = {},
-) => {
-	try {
-		if (typeof subscriptionId === 'string')
-			return await stripe.subscriptions.update(subscriptionId, {
-				...params,
-			})
-	} catch (err: any) {
-		console.log(err)
-		return null
-	}
-}
+) =>
+	typeof subscriptionId === 'string' &&
+	stripe.subscriptions.update(subscriptionId, {
+		...params,
+	})

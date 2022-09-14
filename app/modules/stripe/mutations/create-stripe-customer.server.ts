@@ -10,11 +10,4 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const createStripeCustomer = async (
 	customer: Stripe.CustomerCreateParams,
-) => {
-	try {
-		return await stripe.customers.create(customer)
-	} catch (err: unknown) {
-		console.log(err)
-		return null
-	}
-}
+) => stripe.customers.create(customer)
