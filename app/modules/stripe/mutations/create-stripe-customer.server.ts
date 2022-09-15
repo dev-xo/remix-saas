@@ -10,4 +10,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const createStripeCustomer = async (
 	customer: Stripe.CustomerCreateParams,
-) => stripe.customers.create(customer)
+) => {
+	return stripe.customers.create(customer)
+}
