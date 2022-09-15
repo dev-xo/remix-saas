@@ -1,4 +1,4 @@
-import type { StripePlanInterface } from '../utils'
+import type { StripePlanInterface } from '~/modules/stripe'
 import { useFetcher } from '@remix-run/react'
 
 type ComponentProps = {

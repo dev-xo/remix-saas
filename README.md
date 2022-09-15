@@ -118,7 +118,7 @@ The provided `Webhook Signing Secret` has to be set in our `.env` file as `DEV_S
 
 ### ▫️ Stripe Products
 
-From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions and names from `/modules/stripe/utils/stripe-plans`.
+From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions and names from `/modules/stripe/stripe-plans`.
 
 ### Production
 

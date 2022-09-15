@@ -3,7 +3,7 @@ import type { AuthSession } from '~/modules/auth'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/modules/auth'
-import { STRIPE_PLANS } from '~/modules/stripe/utils'
+import { STRIPE_PLANS } from '~/modules/stripe'
 import {
 	CreateCheckoutButton,
 	UpdatePlanButton,

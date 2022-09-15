@@ -1,6 +1,6 @@
-import type { StripePlanInterface } from '../utils'
+import type { StripePlanInterface } from '~/modules/stripe'
+import { getValueFromStripePlans } from '~/modules/stripe'
 import { useFetcher } from '@remix-run/react'
-import { getValueFromStripePlans } from '../utils'
 
 type ComponentProps = {
 	planId: StripePlanInterface['planId']

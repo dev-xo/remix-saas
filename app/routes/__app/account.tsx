@@ -4,7 +4,7 @@ import type { AuthSession } from '~/modules/auth'
 import { redirect, json } from '@remix-run/node'
 import { useLoaderData, Link } from '@remix-run/react'
 import { authenticator, getSession, commitSession } from '~/modules/auth'
-import { getValueFromStripePlans } from '~/modules/stripe/utils'
+import { getValueFromStripePlans } from '~/modules/stripe'
 import { formatUnixDate, hasDateExpired } from '~/utils'
 
 import { DeleteUserButton } from '~/modules/user/components'
