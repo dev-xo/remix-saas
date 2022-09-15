@@ -5,7 +5,7 @@ import { redirect, json } from '@remix-run/node'
 import { useLoaderData, Link } from '@remix-run/react'
 import { authenticator, getSession, commitSession } from '~/modules/auth'
 import { getPurchasedPlanName } from '~/modules/stripe/utils'
-import { hasExpired, formatExpirationDate } from '~/modules/subscription/utils'
+import { formatUnixDate, hasDateExpired } from '~/utils'
 
 import { DeleteUserButton } from '~/modules/user/components'
 import { CreateCustomerPortalButton } from '~/modules/stripe/components'
@@ -54,7 +54,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		skipExpirationCheckRedirect === false
 	) {
 		const currentPeriodEnd = user.subscription[0].currentPeriodEnd
-		const hasSubscriptionExpired = hasExpired(currentPeriodEnd)
+		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
 
 		const HOST_URL =
 			process.env.NODE_ENV === 'development'
@@ -283,7 +283,7 @@ export default function AccountRoute() {
 							)}
 							:{' '}
 							{user.subscription[0].currentPeriodEnd &&
-								formatExpirationDate(user.subscription[0].currentPeriodEnd)}
+								formatUnixDate(user.subscription[0].currentPeriodEnd)}
 						</p>
 					)}
 

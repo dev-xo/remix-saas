@@ -6,6 +6,8 @@ import { updateSubscription } from '~/modules/subscription/mutations'
 import { retrieveStripeSubscription } from '~/modules/stripe/queries'
 import Stripe from 'stripe'
 
+import { updateStripeSubscription } from '~/modules/stripe/mutations'
+
 /**
  * Init.
  */
@@ -92,6 +94,10 @@ export const action: ActionFunction = async ({ request }) => {
 						currentPeriodEnd,
 						cancelAtPeriodEnd,
 					})
+
+					/* 		await updateStripeSubscription(subscriptionId, {
+						cancel_at: 1663198320,
+					}) */
 				}
 			}
 
