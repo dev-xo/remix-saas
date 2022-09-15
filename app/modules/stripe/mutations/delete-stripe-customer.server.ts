@@ -11,6 +11,4 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const deleteStripeCustomer = async (
 	customerId: Subscription['customerId'],
-) => {
-	return stripe.customers.del(customerId)
-}
+) => stripe.customers.del(customerId)

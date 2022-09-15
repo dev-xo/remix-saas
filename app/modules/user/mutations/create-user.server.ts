@@ -7,6 +7,4 @@ import { db } from '~/utils'
  */
 export const createUser = async (
 	user: Pick<User, 'providerId' | 'email' | 'name' | 'avatar'>,
-) => {
-	return db.user.create({ data: user })
-}
+) => db.user.create({ data: user })

@@ -11,6 +11,4 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const retrieveStripeCustomer = async (
 	customerId: Subscription['customerId'],
-) => {
-	return stripe.customers.retrieve(customerId)
-}
+) => stripe.customers.retrieve(customerId)

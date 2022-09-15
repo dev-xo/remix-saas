@@ -5,8 +5,5 @@ import { db } from '~/utils'
  * Queries.
  * @protected Template code.
  */
-export const getByCustomerId = async (
-	customerId: Subscription['customerId'],
-) => {
-	return db.subscription.findUnique({ where: { customerId } })
-}
+export const getByCustomerId = async (customerId: Subscription['customerId']) =>
+	db.subscription.findUnique({ where: { customerId } })
