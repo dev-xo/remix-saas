@@ -154,5 +154,9 @@ export const action: ActionFunction = async ({ request }) => {
 		}
 	}
 
+	/**
+	 * Possible status returns: 200 | 404
+	 * Not an Error, we are just handling 'x' Events.
+	 */
 	return json({}, { status: 200 })
 }
