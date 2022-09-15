@@ -8,8 +8,9 @@ import { db } from '~/utils'
 export const updateSubscription = async (
 	customerId: Subscription['customerId'],
 	subscription: Partial<Subscription>,
-) =>
-	db.subscription.update({
+) => {
+	return db.subscription.update({
 		where: { customerId },
 		data: { ...subscription },
 	})
+}

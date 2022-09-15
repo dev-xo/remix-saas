@@ -12,7 +12,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export const updateStripeCustomer = async (
 	customerId: Subscription['customerId'],
 	params: Stripe.SubscriptionUpdateParams = {},
-) =>
-	stripe.customers.update(customerId, {
+) => {
+	return stripe.customers.update(customerId, {
 		...params,
 	})
+}

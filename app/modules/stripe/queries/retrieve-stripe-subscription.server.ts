@@ -11,6 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const retrieveStripeSubscription = async (
 	subscriptionId: Subscription['subscriptionId'],
-) =>
-	typeof subscriptionId === 'string' &&
-	stripe.subscriptions.retrieve(subscriptionId)
+) => {
+	if (typeof subscriptionId === 'string')
+		return stripe.subscriptions.retrieve(subscriptionId)
+}

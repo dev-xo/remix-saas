@@ -11,10 +11,11 @@ export const getUserByProviderId = async (providerId: User['providerId']) => {
 
 export const getUserByProviderIdIncludingSubscription = async (
 	providerId: User['providerId'],
-) =>
-	db.user.findUnique({
+) => {
+	return db.user.findUnique({
 		where: { providerId },
 		include: {
 			subscription: true,
 		},
 	})
+}
