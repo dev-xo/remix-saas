@@ -39,7 +39,6 @@ export default function PlansRoute() {
 			<div className="mb-12" />
 
 			<div className="flex h-full w-full flex-col items-center px-6 md:flex-row md:items-start md:justify-center">
-				{/* Skipping Free Plan. */}
 				{STRIPE_PLANS.map((plan) => {
 					return (
 						<div

@@ -77,7 +77,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		null
 
 	/**
-	 * Returns Auth Session.
+	 * Returns a JSON Response.
 	 * Resets flashing session variables.
 	 */
 	return json<LoaderData>(

@@ -22,5 +22,5 @@ export const action: ActionFunction = async ({ request, params }) =>
 export const loader: LoaderFunction = ({ request }) => redirect('/login')
 
 export default function ProviderRoute() {
-	return <div>Whops! You should have been redirected...</div>
+	return <div>Whops! You should have been redirected.</div>
 }

@@ -89,7 +89,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 }
 
 /**
- * Root.
+ * App.
  * @protected Template code.
  */
 const App = () => {
@@ -132,6 +132,10 @@ const App = () => {
 	)
 }
 
+/**
+ * Root.
+ * @protected Template code.
+ */
 export default function AppWithProviders() {
 	const data = useLoaderData()
 

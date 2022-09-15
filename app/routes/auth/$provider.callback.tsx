@@ -19,5 +19,5 @@ export const loader: LoaderFunction = async ({ request, params }) =>
 	)
 
 export default function ProviderCallbackRoute() {
-	return <div>Whops! You should have been redirected...</div>
+	return <div>Whops! You should have been redirected.</div>
 }

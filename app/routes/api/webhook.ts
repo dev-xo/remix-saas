@@ -8,7 +8,7 @@ import { getByCustomerId } from '~/modules/subscription/queries'
 import Stripe from 'stripe'
 
 /**
- * Init.
+ * Init Environment.
  */
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
@@ -34,6 +34,7 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
 export const action: ActionFunction = async ({ request }) => {
 	const payload = await request.text()
 	const signature = request.headers.get('stripe-signature')
+
 	let event = undefined
 
 	try {
@@ -53,7 +54,7 @@ export const action: ActionFunction = async ({ request }) => {
 	}
 
 	/**
-	 * Events handlers.
+	 * Webhook Events.
 	 */
 	switch (event?.type) {
 		/**
@@ -101,10 +102,10 @@ export const action: ActionFunction = async ({ request }) => {
 
 		/**
 		 * This event occurs whenever a subscription changes.
-		 * (e.g., switching from one plan to another, or changing
+		 * (E.G: Switching plans, or changing
 		 * the status from trial to active).
 		 *
-		 * Updates Subscription Model,
+		 * Updates Subscription Model
 		 * based on the object received from the Event.
 		 */
 		case 'customer.subscription.updated': {
@@ -142,7 +143,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 			if (typeof customerId === 'string') {
 				/**
-				 * Checking for customer existence.
+				 * Checks for Customer existence.
 				 * Update will be skiped, if Customer has not been found.
 				 */
 				const dbCustomerId = await getByCustomerId(customerId)

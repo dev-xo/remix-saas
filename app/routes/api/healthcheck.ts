@@ -5,8 +5,8 @@ import { db } from '~/utils'
  * Remix - Loader.
  * @protected Template code.
  *
- * If we can connect to database to make a simple query
- * and a HEAD request to ourselves, then we're good.
+ * Connects to database with the intent to make a simple query.
+ * Also tries a HEAD request to our domain. On success, our app is healthy and running.
  * Learn more: https://fly.io/docs/reference/configuration/#services-http_checks
  */
 export const loader: LoaderFunction = async ({ request }) => {
@@ -25,7 +25,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 		return new Response('OK')
 	} catch (error: unknown) {
-		console.log('Healthcheck ❌', { error })
-		return new Response('ERROR', { status: 500 })
+		console.log('Healthcheck Error:', { error })
+		return new Response('Healthcheck Error.', { status: 500 })
 	}
 }
