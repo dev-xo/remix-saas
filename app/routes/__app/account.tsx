@@ -4,7 +4,7 @@ import type { AuthSession } from '~/modules/auth'
 import { redirect, json } from '@remix-run/node'
 import { useLoaderData, Link } from '@remix-run/react'
 import { authenticator, getSession, commitSession } from '~/modules/auth'
-import { getPurchasedPlanName } from '~/modules/stripe/utils'
+import { getValueFromStripePlans } from '~/modules/stripe/utils'
 import { formatUnixDate, hasDateExpired } from '~/utils'
 
 import { DeleteUserButton } from '~/modules/user/components'
@@ -14,7 +14,7 @@ type LoaderData = {
 	user: Awaited<AuthSession> | null
 	hasSuccessfullySubscribed: boolean | null
 	hasSuccessfullyUpdatedPlan: boolean | null
-	purchasedPlanName: string | null
+	purchasedPlanName: string | number | null
 }
 
 /**
@@ -73,7 +73,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	 */
 	const purchasedPlanName =
 		(user?.subscription[0]?.planId &&
-			getPurchasedPlanName(user.subscription[0].planId)) ||
+			getValueFromStripePlans(user.subscription[0].planId, 'planName')) ||
 		null
 
 	/**

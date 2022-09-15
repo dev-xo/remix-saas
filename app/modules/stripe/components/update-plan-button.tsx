@@ -1,6 +1,6 @@
 import type { StripePlanInterface } from '../utils'
 import { useFetcher } from '@remix-run/react'
-import { STRIPE_PLANS } from '../utils'
+import { getValueFromStripePlans } from '../utils'
 
 type ComponentProps = {
 	planId: StripePlanInterface['planId']
@@ -14,17 +14,12 @@ export const UpdatePlanButton = ({
 	const fetcher = useFetcher()
 	const isLoading = fetcher.state !== 'idle'
 
-	const planIdName = STRIPE_PLANS.find(
-		(plan) => plan.planId === planId,
-	)?.planName
-
-	const planIdPriceAmount = STRIPE_PLANS.find(
-		(plan) => plan.planId === planId,
-	)?.planPriceAmount
-
-	const purchasedPlanPriceAmount = STRIPE_PLANS.find(
-		(plan) => plan.planId === purchasedPlanId,
-	)?.planPriceAmount
+	const planIdName = getValueFromStripePlans(planId, 'planName')
+	const planIdPriceAmount = getValueFromStripePlans(planId, 'planPriceAmount')
+	const purchasedPlanPriceAmount = getValueFromStripePlans(
+		purchasedPlanId,
+		'planPriceAmount',
+	)
 
 	const buttonBackgroundClassName = () => {
 		switch (planIdName) {
@@ -53,7 +48,7 @@ export const UpdatePlanButton = ({
 
 		/**
 		 * Returns Upgrade or Downgrade button.
-		 * As button value, we'll provide newly desired planId.
+		 * As button `value`, we'll provide newly desired planId.
 		 */
 		return (
 			<fetcher.Form

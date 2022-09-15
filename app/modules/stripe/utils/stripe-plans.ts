@@ -13,7 +13,7 @@ export interface StripePlansInterface extends Array<StripePlanInterface> {}
 
 /**
  * Stripe Plans.
- * Add plans in your `.env` file and manage them on here.
+ * Add plans into `.env` file and manage them on here.
  */
 export const STRIPE_PLANS: StripePlansInterface = [
 	{
@@ -37,8 +37,10 @@ export const STRIPE_PLANS: StripePlansInterface = [
 ]
 
 /**
- * Helper.
- * Returns plan name, based on `planId`.
+ * Helpers.
+ * Gets a value from `STRIPE_PLANS` based on `planId`.
  */
-export const getPurchasedPlanName = (planId: StripePlanInterface['planId']) =>
-	STRIPE_PLANS.find((plan) => plan.planId === planId)?.planName
+export const getValueFromStripePlans = (
+	planId: StripePlanInterface['planId'],
+	value: keyof StripePlanInterface,
+) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]
