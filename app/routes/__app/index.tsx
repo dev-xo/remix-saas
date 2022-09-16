@@ -26,7 +26,7 @@ export default function AppIndexRoute() {
 					</h1>
 					<div className="mb-1" />
 					<p
-						className="cursor-default text-sm font-semibold text-slate-700
+						className="cursor-default text-base font-semibold text-slate-700
             drop-shadow-sm hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100">
 						Open Source Template
 					</p>
@@ -42,14 +42,6 @@ export default function AppIndexRoute() {
 						<span className="absolute -right-4 font-mono sm:-right-8">.</span>
 					</h1>
 				</div>
-				<div className="m-3" />
-
-				<p
-					className="max-w-lg text-center text-lg font-medium text-slate-700 opacity-80
-          drop-shadow-sm dark:text-slate-300">
-					Experience a fully customizable template, carefully developed, ready
-					for production.
-				</p>
 				<div className="m-3" />
 
 				<a
