@@ -7,7 +7,7 @@
     ·
     <a href="https://twitter.com/DEV_XO1">Twitter</a>
     <br/>
-    An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io
+    An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io
   </p>
 </p>
 
@@ -37,7 +37,7 @@
 Would you like to change something? Fork it, change it and use `npx create-remix --template your/repo`!<br/>
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
-## ✨ Quickstart
+## ⚡️ Quickstart
 
 ```sh
 # Initialize the following template in your workspace:
@@ -51,7 +51,7 @@ Done! This starts your app in development mode, rebuilding assets on file change
 
 ## 👋 Getting Started
 
-This section will be splitted in three threads: **Live Demo | Development | Production**.
+This section will be splitted into three quick threads: **Live Demo | Development | Production**.
 
 ### Live Demo
 
@@ -98,7 +98,7 @@ Below here you can find all template's Providers OAuth Documentations.
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Once we got our Providers Keys `CLIENT and SECRET`, we can set them into `.env` file.
+Once we got our Providers API Keys, we can set them into `.env` file.
 
 > If you are struggling on this step, feel free to contact me directly, have a look on youtube, or do a quick search on Google!.
 
@@ -108,17 +108,17 @@ Let's see how we can start receiving Stripe Events to our Webhook Endpoint.
 
 - Install [Stripe CLI](https://stripe.com/docs/stripe-cli)
 
-- Run the following command on the background:
+- Keep the following command running in the background:
 
 ```sh
 stripe listen --forward-to localhost:3000/api/webhook
 ```
 
-The provided `Webhook Signing Secret` has to be set in our `.env` file as `DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET`.
+The provided `Webhook Signing Secret` from the above command, has to be set in our `.env` file as `DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET`.
 
 ### ▫️ Stripe Products
 
-From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions and names from `/modules/stripe/stripe-plans`.
+From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their API Keys from `.env` file, as well as their descriptions from `/modules/stripe/stripe-plans`.
 
 ### Production
 
@@ -136,19 +136,19 @@ Let's see how we can get and set our Production Webhook.
 
 > For this template was: https://stripe-stack.fly.dev/api/webhook
 
-- Reveal the `Signing secret` that has been provided on your newly Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` in our `.env` file.
+- Reveal the `Signing Secret` value that has been provided from Stripe Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` in our `.env` file.
 
-> Done! Give it a try. If something went wrong, verify that the provided steps has been followed correctly.
+> Done! Give it a try. If something went wrong, verify that all the steps has been followed correctly.
 
 ## 🚀 Deployment
 
-This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments.
+This Remix Stack comes with two GitHub Actions that handle automatically deploying our app to Production and Staging Environments.
 
-Prior to your first deployment, you'll need to do a few things:
+Prior to the first deployment, we'll need to do a few things:
 
 - [Install Fly](https://fly.io/docs/getting-started/installing-flyctl/)
 
-- Sign up and log in to Fly:
+- Sign up and Log in to Fly:
 
 ```sh
 fly auth signup
@@ -161,7 +161,7 @@ fly apps create stripe-stack
 fly apps create stripe-stack-staging
 ```
 
-> Make sure this name matches the `app` set in your `fly.toml` file. Otherwise, you will not be able to deploy.
+> Make sure this name matches the `app` set into `fly.toml` file. Otherwise, you will not be able to deploy.
 
 - Initialize Git:
 
@@ -199,7 +199,7 @@ fly volumes create data --size 1 --app stripe-stack-staging
 
 ### ▫️ Setting Up Production Envs
 
-Here is a simple command we can use after deployment. Feel free to fill it with your App `.env` variables.
+Here is a simple command we can use after deployment. Fill it with the required App `.env` variables.
 
 ```sh
 flyctl secrets set NODE_ENV=production PROD_HOST_URL= GOOGLE_CLIENT_ID= GOOGLE_CLIENT_SECRET= GITHUB_CLIENT_ID= GITHUB_CLIENT_SECRET= TWITTER_CLIENT_ID= TWITTER_CLIENT_SECRET= DISCORD_CLIENT_ID= DISCORD_CLIENT_SECRET= STRIPE_PUBLIC_KEY= STRIPE_SECRET_KEY= PLAN_1_PRICE_ID= PLAN_2_PRICE_ID= PLAN_3_PRICE_ID= PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET=
@@ -209,7 +209,7 @@ flyctl secrets set NODE_ENV=production PROD_HOST_URL= GOOGLE_CLIENT_ID= GOOGLE_C
 
 ### ▫️ Connecting to your database
 
-The sqlite database lives at `/data/sqlite.db` in your deployed application. You can connect to the live database by running `fly ssh console -C database-cli`.
+The SQLite database lives at `/data/sqlite.db` in your deployed application. You can connect to the live database by running `fly ssh console -C database-cli`.
 
 ## ⚙️ GitHub Actions
 
@@ -217,7 +217,7 @@ We use GitHub Actions for continuous integration and deployment.<br/><br/>
 Anything that gets into the `main` branch will be deployed to production after running tests / build / etc.<br/>
 Anything in the `dev` branch will be deployed to staging.
 
-## 💅 Testing
+## 🧩 Testing
 
 ### ▫️ Cypress
 
@@ -245,7 +245,7 @@ We use [Prettier](https://prettier.io/) for auto-formatting in this project. It'
 
 Also feel free to update prettier settings from `.package-json` with your preferred configuration.
 
-## 🤝 Contributing
+## 👥 Contributing
 
 Contributions are Welcome! Jump in and help us improve this Community Template over time!
 
@@ -254,11 +254,11 @@ Contributions are Welcome! Jump in and help us improve this Community Template o
 
 ## 🍪 Support
 
-If you found the project useful, help it by [Staring ⭐ It](https://github.com/dev-xo/stripe-stack)!
+If you found the template useful, feel free to [Star ⭐ It](https://github.com/dev-xo/stripe-stack)!
 It helps the repository grow and gives me motivation to keep working on it. Thanks you!
 
 ### ▫️ Acknowledgments
 
-All my respect and gratitude for Kent C. Dodds _(Not gonna @him, don't wanna bother, instead gonna leave here his [Website Blog](https://kentcdodds.com/))_. Has been supporting my work on Twitter a few times already, and that's something truly amazing for any small developer.
+Big thanks to Kent C. Dodds _(Not gonna bother @him tagging, instead gonna leave here his [Website](https://kentcdodds.com/))_. Him has supported some of my work on Twitter a few times already, and that's something truly amazing for any small developer.
 
 Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped on Twitter DMs, contributing on Twitter Authentication Strategy.
