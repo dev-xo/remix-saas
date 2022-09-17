@@ -13,9 +13,6 @@ import { createStripeCheckoutSession } from '~/modules/stripe/utils'
  * @protected Template code.
  *
  * Redirects to Stripe Checkout.
- *
- * Also, checks for Customer existence into Auth Session or Database,
- * avoiding duplication of Stripe Customer at creation time.
  */
 export const action: ActionFunction = async ({ request }) => {
 	/**
@@ -71,7 +68,7 @@ export const action: ActionFunction = async ({ request }) => {
 	 * If Customer has not been found in any of the previous checks:
 	 * - Creates a new Stripe Customer.
 	 * - Stores newly created Stripe Customer into Database.
-	 * - On success: Redirects to checkout with customer already set.
+	 * - Redirects to checkout with customer already set.
 	 */
 	if (user && user.subscription.length === 0) {
 		const newStripeCustomer = await createStripeCustomer({

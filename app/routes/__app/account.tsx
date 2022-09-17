@@ -46,7 +46,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	/**
 	 * Checks for Subscription expiration.
-	 * If expried: Updates Auth Session.
+	 * If expried: Updates Auth Session accordingly.
 	 */
 	if (
 		user &&

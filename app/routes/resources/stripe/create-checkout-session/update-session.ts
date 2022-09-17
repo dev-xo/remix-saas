@@ -8,7 +8,9 @@ import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries
  * Remix - Loader.
  * @protected Template code.
  *
- * On Stripe Checkout Success: Updates Auth Session accordingly.
+ * Handles Stripe Checkout Redirect.
+ * - On Success: Updates Auth Session accordingly.
+ * - On Error: Redirects to '/'.
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	/**
@@ -27,11 +29,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 		)
 
 		/**
-		 * Checks for User Subscription existence.
-		 * On success:
-		 * - Parses a Cookie and returns the associated Session.
-		 * - Updates Auth Session accordingly.
-		 * - Commits the session and redirects with newly updated headers.
+		 * Checks Database User Subscription existence.
+		 * On success: Updates Auth Session accordingly.
 		 */
 		if (dbUser && dbUser.subscription[0]?.subscriptionId) {
 			let session = await getSession(request.headers.get('Cookie'))

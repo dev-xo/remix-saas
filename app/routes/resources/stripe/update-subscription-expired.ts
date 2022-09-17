@@ -24,9 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 		/**
 		 * If Subscription has expired:
-		 * - Parses a Cookie and returns the associated Session.
-		 * - Updates Auth Session accordingly.
-		 * - Commits the session and redirects with newly updated headers.
+		 * Updates Auth Session accordingly.
 		 */
 		if (subscription && subscription?.status === 'canceled') {
 			let session = await getSession(request.headers.get('Cookie'))
@@ -43,17 +41,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 			})
 			/**
 			 * Else:
-			 * - Parses a Cookie and returns the associated Session.
-			 * - Sets a value in the session that is only valid until the next session.get().
-			 * - Commits the session and redirects with newly updated headers.
+			 * Sets a value in the session that is only valid until the next session.get().
+			 * Used to skip redirect loop at checking subscription expiration.
 			 */
 		} else {
 			let session = await getSession(request.headers.get('Cookie'))
 
-			/**
-			 * Sets a value in the session that is only valid until the next session.get().
-			 * Used to skip redirect loop at checking subscription expiration.
-			 */
 			session.flash('SKIP_EXPIRATION_CHECK', true)
 
 			return redirect('/account', {

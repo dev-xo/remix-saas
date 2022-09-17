@@ -43,7 +43,6 @@ export const action: ActionFunction = async ({ request }) => {
 		await deleteUser(providerId)
 
 		/**
-		 * Parses a Cookie and returns the associated Session.
 		 * Destroys Auth Session and redirects with updated headers.
 		 */
 		let session = await getSession(request.headers.get('Cookie'))

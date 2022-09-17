@@ -33,6 +33,7 @@ export const action: ActionFunction = async ({ request }) => {
 			if (typeof newPlanId === 'string') {
 				/**
 				 * Updates current Subscription Plan.
+				 *
 				 * More info about Proration:
 				 * https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
 				 */
@@ -47,10 +48,8 @@ export const action: ActionFunction = async ({ request }) => {
 				})
 
 				/**
-				 * On success:
-				 * - Parses a Cookie and returns the associated Session.
-				 * - Updates Auth Session accordingly.
-				 * - Commits the session and redirects with newly updated headers.
+				 * On Update Stripe Subscription success:
+				 * Updates Auth Session accordingly.
 				 */
 				let session = await getSession(request.headers.get('Cookie'))
 
@@ -61,6 +60,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 				/**
 				 * Sets a value in the session that is only valid until the next session.get().
+				 * Used to enhance UI experience.
 				 */
 				session.flash('HAS_SUCCESSFULLY_UPDATED_PLAN', true)
 
