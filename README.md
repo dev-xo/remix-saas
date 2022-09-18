@@ -132,11 +132,9 @@ Let's see how we can get and set our Production Webhook.
 
 ## Deployment
 
-Stripe Stack its composed of 2 database variants: SQLite and PostgreSQL.
+Stripe Stack its composed of two templates variants: SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of each repository documentation, deployment section has been moved to its own file.
 
-In order to keep a better track and an easier maintenance of each `README.md`, deployment section has been moved to its own file.
-
-Visit [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md)
+Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) to get your app to production.
 
 ## GitHub Actions
 
