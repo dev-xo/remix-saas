@@ -65,7 +65,7 @@ Template's Demo has been developed to be really simple to test, being able to sh
 
 1. Log in with your preferred Social Authenticator.
 2. Select a Subscription Plan.
-3. Fill Stripe Checkout inputs with default development values. _(Check Note)_
+3. Fill Stripe Checkout inputs with default development values. _(Check Notes)_
 4. You should be redirected back to the app with selected Stripe Plan already set.
 
 > Notes: Stripe test mode uses the following number: `4242` as valid values for Card Information. Type it on each available input to successfully complete Checkout step.
@@ -128,13 +128,13 @@ Let's see how we can get and set our Production Webhook.
 3. Set your deployed app Webhook Endpoint URL into `Endpoint URL` input. _(Check Notes)_
 4. Reveal the `Signing Secret` value that has been provided from Stripe Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` in template's `.env` file.
 
-> Notes: <br />
-> This is an example URL of a Deployed Webhook Endpoint: https://stripe-stack.fly.dev/api/webhook<br />
-> The link provided at step 1, it's from Stripe Test Mode. Feel free to complete the "Activate Payments" steps to get a production Webhook Key.
+> Notes: This is an example of a Deployed Webhook Endpoint URL: https://stripe-stack.fly.dev/api/webhook
 
 ## Deployment
 
-Stripe Stack its composed of 2 database variants. SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of them, Deployment Section has been moved to its own file.
+Stripe Stack its composed of 2 database variants: SQLite and PostgreSQL.
+
+In order to keep a better track and an easier maintenance of each `README.md`, Deployment Section has been moved to its own file.
 
 [Visit SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md)
 
