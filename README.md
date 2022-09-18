@@ -13,7 +13,7 @@
 
 ## Features
 
-This template has been built on top of [Barebones Stack](https://github.com/dev-xo/barebones-stack), including all its base features.
+Stripe Stack has been built on top of [Barebones Stack](https://github.com/dev-xo/barebones-stack), including all its base features.
 
 ### Base Features
 
@@ -43,7 +43,7 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
 
-Initializing the template is pretty simple. Run the following commands into your console to get started:
+Initialize template running the following commands in your console:
 
 ```sh
 # Initializes template in your workspace:
@@ -53,22 +53,22 @@ npx create-remix --template dev-xo/stripe-stack
 npm run dev
 ```
 
-> Note: Cloning the repository instead of initializing it with the above commands, will result in a unapropiate erxperience. This template uses `remix.init` to configure itself and prepare your environment.
+> Note: Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. This template uses `remix.init` to configure itself and prepare your environment.
 
 ## Getting Started
 
-The following section will be splitted into three quick threads: **Live Demo, Development and Production**.
+The following section will be splitted into three threads: **Live Demo**, **Development** and **Production**.
 
 ### Live Demo
 
-Template's Demo has been developed to be really simple to test, being able to show all its provided features. Here is a basic workflow you can follow:
+Template's Demo has been developed to be really simple to test, being able to show all its provided features. Here is a basic workflow you can follow to test it:
 
 1. Log in with your preferred Social Authenticator.
 2. Select a Subscription Plan.
-3. Fill Stripe Checkout inputs with default development values. _(Check note from bellow.)_
-4. You should be redirected back to the App with selected Stripe Plan already set.
+3. Fill Stripe Checkout inputs with default development values. _(Check Note)_
+4. You should be redirected back to the app with selected Stripe Plan already set.
 
-> Notes: Stripe Checkout default dev values: Type `4242` as much times as you can on each available input.
+> Notes: Stripe test mode uses the following number: `4242` as valid values for Card Information. Type it on each available input to successfully complete Checkout step.
 
 ### Development
 
@@ -78,17 +78,17 @@ Understanding our development workspace will keep us productive.
 
 Let's review some of template's important folders:
 
-    ├── modules         # Groups our App logic and splits it into smaller sections.
-      ├──                 Stores related Components, Database interactions, Sessions, Utils etc.
-      ├──                 This folder could also be called "lib", "services" etc.
+    ├── modules         # Groups our app logic and splits it into smaller sections.
+      ├──                 Stores related components, database interactions, sessions, utils etc.
+      ├──                 This folder could also be called "lib" or "services".
 
     ├── routes
       ├── api           # Stores Stripe Webhook Endpoint file, and any realted API calls.
-      ├── resources     # Used to call our own Server, do Redirects, update Sessions and so on.
+      ├── resources     # Used to call our own server, do redirects, update sessions and so on.
 
 ### Authentication Strategies
 
-To provide Authentication to our App, we will need to get the API Keys from our Socials Providers.
+To provide authentication to our app, we will need to get the API Keys from our Socials Providers.
 Below here you can find all template's Providers OAuth Documentations.
 
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
@@ -98,7 +98,7 @@ Below here you can find all template's Providers OAuth Documentations.
 
 Once you've got the Providers API Keys, set them into template's `.env` file.
 
-> If you are struggling on this step, feel free to contact me directly, have a look on youtube, or do a quick search on Google!.
+> If you are struggling on this step, feel free to contact me directly, have a look on youtube, or do a quick search on Google.
 
 ### Stripe Webhook - Development
 
@@ -125,88 +125,23 @@ Let's see how we can get and set our Production Webhook.
 
 1. Visit [Webhooks](https://dashboard.stripe.com/test/webhooks) section from your Stripe Dashboard.
 2. Create a new Webhook Endpoint.
-3. Set your deployed App Webhook Endpoint URL into `Endpoint URL` input. _(Check notes.)_
+3. Set your deployed app Webhook Endpoint URL into `Endpoint URL` input. _(Check Notes)_
 4. Reveal the `Signing Secret` value that has been provided from Stripe Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` in template's `.env` file.
 
 > Notes: <br />
-> The link provided to Webhooks section its from Stripe Test Mode. Feel free to complete the "Activate Payments" steps to get a production Webhook Key.<br />
-> This is an example URL of a Deployed Webhook Endpoint: https://stripe-stack.fly.dev/api/webhook
+> This is an example URL of a Deployed Webhook Endpoint: https://stripe-stack.fly.dev/api/webhook<br />
+> The link provided at step 1, it's from Stripe Test Mode. Feel free to complete the "Activate Payments" steps to get a production Webhook Key.
 
 ## Deployment
 
-This Remix Stack comes with two GitHub Actions that handle automatically deploying our app to Production and Staging Environments.
+Stripe Stack its composed of 2 database variants. SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of them, Deployment Section has been moved to its own file.
 
-Prior to the first deployment, we'll need to do a few things:
-
-- [Install Fly](https://fly.io/docs/getting-started/installing-flyctl/)
-
-- Sign up and Log in to Fly:
-
-```sh
-fly auth signup
-```
-
-- Create two apps on Fly, one for staging and one for production:
-
-```sh
-fly apps create stripe-stack
-fly apps create stripe-stack-staging
-```
-
-> Make sure this name matches the `app` set into `fly.toml` file. Otherwise, you will not be able to deploy.
-
-- Initialize Git:
-
-```sh
-git init
-```
-
-- Create a new [GitHub Repository](https://repo.new), and then add it as the remote for your project. **Do not push your app yet!**
-
-```sh
-git remote add origin <ORIGIN_URL>
-```
-
-- Add a `FLY_API_TOKEN` to your GitHub repo. To do this, go to your user settings on Fly and create a new [token](https://web.fly.io/user/personal_access_tokens/new), then add it to [your repo secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) with the name `FLY_API_TOKEN`.
-
-- Add a `SESSION_SECRET` to your fly app secrets, to do this you can run the following commands:
-
-```sh
-fly secrets set SESSION_SECRET=$(openssl rand -hex 32) --app stripe-stack
-fly secrets set SESSION_SECRET=$(openssl rand -hex 32) --app stripe-stack-staging
-```
-
-> If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator/) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
-
-- Create a persistent volume for the sqlite database for both your staging and production environments. Run the following:
-
-```sh
-fly volumes create data --size 1 --app stripe-stack
-fly volumes create data --size 1 --app stripe-stack-staging
-```
-
-- Now that everything is set up you can **commit and push** your changes to your repo.
-
-> Every commit to your `main` branch will trigger a deployment to your production environment, and every commit to your `dev` branch will trigger a deployment to your staging environment.
-
-### ▫️ Setting Up Production Envs
-
-Here is a simple command we can use after deployment. Fill it with the required App `.env` variables.
-
-```sh
-flyctl secrets set NODE_ENV=production PROD_HOST_URL= GOOGLE_CLIENT_ID= GOOGLE_CLIENT_SECRET= GITHUB_CLIENT_ID= GITHUB_CLIENT_SECRET= TWITTER_CLIENT_ID= TWITTER_CLIENT_SECRET= DISCORD_CLIENT_ID= DISCORD_CLIENT_SECRET= STRIPE_PUBLIC_KEY= STRIPE_SECRET_KEY= PLAN_1_PRICE_ID= PLAN_2_PRICE_ID= PLAN_3_PRICE_ID= PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET=
-```
-
-> Development variables has opted out from this command.
-
-### ▫️ Connecting to your database
-
-The SQLite database lives at `/data/sqlite.db` in your deployed application. You can connect to the live database by running `fly ssh console -C database-cli`.
+[Visit SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md)
 
 ## GitHub Actions
 
 We use GitHub Actions for continuous integration and deployment.<br/><br/>
-Anything that gets into the `main` branch will be deployed to production after running tests / build / etc.<br/>
+Anything that gets into the `main` branch will be deployed to production after running tests, build, etc.<br/>
 Anything in the `dev` branch will be deployed to staging.
 
 ## Testing
@@ -235,7 +170,7 @@ This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 
 We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
 
-Also feel free to update prettier settings from `.package-json` with your preferred configuration.
+This template has pre-configured prettier settings on `.package-json`. Feel free to update each value with your preferred work style.
 
 ## Contributing
 
