@@ -134,9 +134,9 @@ Let's see how we can get and set our Production Webhook.
 
 Stripe Stack its composed of 2 database variants: SQLite and PostgreSQL.
 
-In order to keep a better track and an easier maintenance of each `README.md`, Deployment Section has been moved to its own file.
+In order to keep a better track and an easier maintenance of each `README.md`, deployment section has been moved to its own file.
 
-[Visit SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md)
+Visit [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md)
 
 ## GitHub Actions
 
@@ -181,7 +181,7 @@ Contributions are Welcome! Jump in and help us improve this Community Template o
 
 ## Support
 
-If you found the template useful, feel free to [Star ⭐ It](https://github.com/dev-xo/stripe-stack).
+If you found the template useful, support it with a [Star ⭐](https://github.com/dev-xo/stripe-stack)<br />
 It helps the repository grow and gives me motivation to keep working on it. Thanks you!
 
 ### Acknowledgments
