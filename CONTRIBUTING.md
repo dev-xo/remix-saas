@@ -9,6 +9,7 @@ To get an overview of the project, read the [README](README.md). Here are some r
 
 - [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
 - [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) are required to keep the repository in sintony.
 
 ## Open Project - Roadmap
 
