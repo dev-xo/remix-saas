@@ -43,7 +43,7 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
 
-Initialize template running the following commands in your console:
+To get started, run the following commands in your console:
 
 ```sh
 # Initializes template in your workspace:
@@ -175,7 +175,7 @@ This template has pre-configured prettier settings on `.package-json`. Feel free
 Contributions are Welcome! Jump in and help us improve this Community Template over time!
 
 - [Contributing Guide](https://github.com/dev-xo/stripe-stack/blob/main/CONTRIBUTING.md) Docs.
-- [Public Project Roadmap](https://github.com/users/dev-xo/projects/5) Check our TODOs, Fixes and Updates.
+- [Public Project Roadmap](https://github.com/users/dev-xo/projects/5) Check template's TODOs, fixes and updates.
 
 ## Support
 
