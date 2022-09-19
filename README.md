@@ -187,3 +187,5 @@ It helps the repository grow and gives me motivation to keep working on it. Than
 Big thanks to Kent C. Dodds _(Not gonna bother @him tagging, instead gonna leave here his [Website](https://kentcdodds.com/))_. Him has supported some of my work on Twitter a few times already, and that's something truly amazing for any small developer.
 
 Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped on Twitter DMs, contributing on Twitter Authentication Strategy.
+
+<!-- Remove, this commit has been made to test Cypress. -->
