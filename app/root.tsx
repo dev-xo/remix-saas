@@ -99,21 +99,14 @@ const App = () => {
 	return (
 		<html lang="en" className={theme ?? ''}>
 			<head>
-				{/* All meta exports on all routes. */}
 				<Meta />
-
-				{/* All link exports on all routes. */}
 				<Links />
-
-				{/* Prevents theme flashing. */}
 				<PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
 			</head>
 			<body className="h-screen bg-white dark:bg-[#090909]">
-				{/* Child routes. */}
 				<Outlet />
-
-				{/* Manages scroll position for client-side transitions. */}
 				<ScrollRestoration />
+				<Scripts />
 
 				{/* Global Shared Envs. */}
 				<script
@@ -122,10 +115,6 @@ const App = () => {
 					}}
 				/>
 
-				{/* Script tags. */}
-				<Scripts />
-
-				{/* Sets up automatic reload during development. */}
 				{process.env.NODE_ENV === 'development' && <LiveReload />}
 			</body>
 		</html>
@@ -136,7 +125,7 @@ const App = () => {
  * Root.
  * @protected Template code.
  */
-export default function AppWithProviders() {
+const AppWithProviders = () => {
 	const data = useLoaderData()
 
 	return (
@@ -147,3 +136,5 @@ export default function AppWithProviders() {
 		</ThemeProvider>
 	)
 }
+
+export default AppWithProviders
