@@ -1,1 +1,1 @@
-export * from './delete-user-button'
+export * from './DeleteUserButton'
