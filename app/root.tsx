@@ -44,14 +44,14 @@ export const meta: MetaFunction = () => {
 		'og:image':
 			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-thumbnail.png',
 		'og:card': 'summary_large_image',
-		'og:creator': '@DEV_XO1',
+		'og:creator': '@DanielKanem',
 		'og:site': 'https://stripe-stack.fly.dev',
 		'og:description':
 			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
 		'twitter:image':
 			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-thumbnail.png',
 		'twitter:card': 'summary_large_image',
-		'twitter:creator': '@DEV_XO1',
+		'twitter:creator': '@DanielKanem',
 		'twitter:title': 'Remix Stripe Stack',
 		'twitter:description':
 			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
@@ -99,21 +99,14 @@ const App = () => {
 	return (
 		<html lang="en" className={theme ?? ''}>
 			<head>
-				{/* All meta exports on all routes. */}
 				<Meta />
-
-				{/* All link exports on all routes. */}
 				<Links />
-
-				{/* Prevents theme flashing. */}
 				<PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
 			</head>
 			<body className="h-screen bg-white dark:bg-[#090909]">
-				{/* Child routes. */}
 				<Outlet />
-
-				{/* Manages scroll position for client-side transitions. */}
 				<ScrollRestoration />
+				<Scripts />
 
 				{/* Global Shared Envs. */}
 				<script
@@ -122,10 +115,6 @@ const App = () => {
 					}}
 				/>
 
-				{/* Script tags. */}
-				<Scripts />
-
-				{/* Sets up automatic reload during development. */}
 				{process.env.NODE_ENV === 'development' && <LiveReload />}
 			</body>
 		</html>
@@ -136,7 +125,7 @@ const App = () => {
  * Root.
  * @protected Template code.
  */
-export default function AppWithProviders() {
+const AppWithProviders = () => {
 	const data = useLoaderData()
 
 	return (
@@ -147,3 +136,5 @@ export default function AppWithProviders() {
 		</ThemeProvider>
 	)
 }
+
+export default AppWithProviders
