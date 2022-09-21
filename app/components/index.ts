@@ -1,2 +1,2 @@
-export * from './NavigationNotCached'
-export * from './FooterNotCached'
+export * from './Navigation'
+export * from './Footer'
