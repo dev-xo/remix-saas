@@ -87,7 +87,7 @@ export default function AppIndexRoute() {
 				<div className="mb-6" />
 
 				{/* Paragraph Headings. */}
-				<p className="leading-snugtext-gray-600 max-w-2xl cursor-default text-2xl font-normal dark:text-gray-300 sm:text-3xl">
+				<p className="max-w-2xl cursor-default text-2xl font-normal leading-snug text-gray-600 dark:text-gray-300 sm:text-3xl">
 					Easily manage{' '}
 					<span className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						Stripe Subscriptions
@@ -114,7 +114,7 @@ export default function AppIndexRoute() {
 						href="https://github.com/dev-xo/stripe-postgres-stack"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex h-16 w-full flex-row items-center rounded-md border-[1px] border-gray-300 px-6 text-lg font-semibold
+						className="flex h-16 w-full flex-row items-center rounded-xl border-[1px] border-gray-300 px-6 text-lg font-semibold
           	text-gray-800 transition hover:scale-105 active:scale-100 dark:border-gray-600 dark:text-gray-300 sm:w-auto">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +133,7 @@ export default function AppIndexRoute() {
 
 					<Link
 						to="/login"
-						className="flex h-16 w-full flex-row items-center rounded-md bg-violet-500 px-6 text-lg
+						className="flex h-16 w-full flex-row items-center rounded-xl bg-violet-500 px-6 text-lg
           	font-semibold text-gray-100 transition hover:scale-105 active:scale-100 sm:w-auto">
 						Try Template
 						<div className="ml-1" />

@@ -42,7 +42,7 @@ export default function LoginRoute() {
 				{/* Google. */}
 				<SocialButton
 					provider={SocialsProvider.GOOGLE}
-					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md 
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl 
 					bg-[#4285f4] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -58,7 +58,7 @@ export default function LoginRoute() {
 				{/* Twitter. */}
 				<SocialButton
 					provider="twitter"
-					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
 					bg-[#1da1f2] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -74,7 +74,7 @@ export default function LoginRoute() {
 				{/* Discord. */}
 				<SocialButton
 					provider={SocialsProvider.DISCORD}
-					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
 					bg-[#7289da] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -90,7 +90,7 @@ export default function LoginRoute() {
 				{/* Github. */}
 				<SocialButton
 					provider={SocialsProvider.GITHUB}
-					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
 					bg-[#2b3137] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
