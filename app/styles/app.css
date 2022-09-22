@@ -12,13 +12,13 @@ body {
 }
 
 ::-moz-selection {
-	color: rgb(220, 255, 80);
-	background: rgba(196, 186, 255, 0.2);
+	color: #fff;
+	background: #7b61ff;
 }
 
 ::selection {
-	color: rgb(220, 255, 80);
-	background: rgba(196, 186, 255, 0.2);
+	color: #fff;
+	background: #7b61ff;
 }
 
 @keyframes pulse {
@@ -35,9 +35,28 @@ body {
 	}
 }
 
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
 .pulse {
 	animation-name: pulse;
 	animation-duration: 4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.float {
+	animation-name: float;
+	animation-duration: 6s;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: infinite;
 }
@@ -52,40 +71,40 @@ body {
 
 .gradient-light {
 	animation: pulse 4s linear infinite;
-	background: rgba(255, 255, 255, 1);
-	background: radial-gradient(
-		circle,
-		hsl(250, 100%, 88%) 0%,
-		rgba(255, 255, 255, 1) 60%
+	background: rgb(255, 255, 255);
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(204, 194, 255, 0.8) 100%
 	);
 }
 
 .gradient-light-dimmed {
 	animation: pulse 4s linear infinite;
-	background: rgba(255, 255, 255, 1);
-	background: radial-gradient(
-		circle,
-		rgba(204, 194, 255, 0.6) 0%,
-		rgba(255, 255, 255, 1) 60%
+	background: rgb(255, 255, 255);
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(204, 194, 255, 0.5) 100%
 	);
 }
 
 .gradient-dark {
 	animation: pulse 4s linear infinite;
 	background: rgb(9, 9, 9);
-	background: radial-gradient(
-		circle,
-		rgba(50, 41, 105, 1) 0%,
-		rgba(9, 9, 9, 1) 80%
+	background: linear-gradient(
+		90deg,
+		rgba(50, 41, 105, 0.2) 0%,
+		rgba(50, 41, 105, 0.8) 100%
 	);
 }
 
 .gradient-dark-dimmed {
 	animation: pulse 4s linear infinite;
 	background: rgb(9, 9, 9);
-	background: radial-gradient(
-		circle,
-		rgba(50, 41, 105, 0.4) 0%,
-		rgba(9, 9, 9, 1) 80%
+	background: linear-gradient(
+		90deg,
+		rgba(9, 9, 9, 1) 0%,
+		rgba(50, 41, 105, 0.5) 100%
 	);
 }

@@ -4,7 +4,7 @@ import { redirect, json } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { authenticator } from '~/modules/auth'
 import { useTheme } from 'remix-themes'
-import { Navigation, Footer } from '~/components'
+import { Navigation } from '~/components'
 
 type LoaderData = {
 	user: Awaited<AuthSession> | null
@@ -52,7 +52,6 @@ export default function AppRoute() {
 
 			<Navigation user={user} />
 			<Outlet />
-			<Footer />
 		</div>
 	)
 }
