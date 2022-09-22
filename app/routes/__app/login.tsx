@@ -27,15 +27,12 @@ export default function LoginRoute() {
 		<div className="flex h-full flex-col items-center justify-center px-6">
 			{/* Headers. */}
 			<div className="flex w-full max-w-md flex-col">
-				<h5 className="text-left text-3xl font-bold text-slate-900 dark:text-slate-100">
+				<h5 className="text-left text-3xl font-bold text-gray-800 dark:text-gray-100">
 					Remix
 				</h5>
 				<div className="mb-1" />
-				<h5 className="text-left text-3xl font-semibold text-slate-500 dark:text-slate-400">
-					Get joyful and productive with Social{' '}
-					<span className="text-slate-900 dark:text-slate-100">
-						Authentication.
-					</span>
+				<h5 className="text-left text-3xl font-semibold text-gray-600 dark:text-gray-400">
+					Get joyful and productive with Social Authentication.
 				</h5>
 			</div>
 			<div className="mb-3" />
@@ -45,7 +42,7 @@ export default function LoginRoute() {
 				{/* Google. */}
 				<SocialButton
 					provider={SocialsProvider.GOOGLE}
-					className="relative flex h-14 w-full flex-row items-center justify-center rounded-xl 
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md 
 					bg-[#4285f4] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -61,7 +58,7 @@ export default function LoginRoute() {
 				{/* Twitter. */}
 				<SocialButton
 					provider="twitter"
-					className="relative flex h-14 w-full flex-row items-center justify-center rounded-xl 
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md
 					bg-[#1da1f2] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -77,7 +74,7 @@ export default function LoginRoute() {
 				{/* Discord. */}
 				<SocialButton
 					provider={SocialsProvider.DISCORD}
-					className="relative flex h-14 w-full flex-row items-center justify-center rounded-xl
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md
 					bg-[#7289da] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -93,7 +90,7 @@ export default function LoginRoute() {
 				{/* Github. */}
 				<SocialButton
 					provider={SocialsProvider.GITHUB}
-					className="relative flex h-14 w-full flex-row items-center justify-center rounded-xl 
+					className="relative flex h-16 w-full flex-row items-center justify-center rounded-md
 					bg-[#2b3137] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
@@ -111,9 +108,9 @@ export default function LoginRoute() {
 				<div className="mb-4" />
 
 				{/* Example Privacy Message. */}
-				<p className="text-center text-xs font-semibold text-slate-500 dark:text-slate-400">
+				<p className="text-center text-xs font-semibold text-gray-500 dark:text-gray-400">
 					By clicking “Continue" you acknowledge that this is a{' '}
-					<span className="font-bold text-slate-900 hover:opacity-60 dark:text-slate-100">
+					<span className="font-bold text-gray-800 hover:opacity-60 dark:text-gray-100">
 						simple demo
 					</span>
 					, and you are free to use it in the way you like.

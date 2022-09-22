@@ -265,7 +265,7 @@ export default function AccountRoute() {
 						<Link to="/plans">
 							<button
 								className="flex h-9 flex-row items-center justify-center rounded-xl 
-              	bg-sky-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
+              	bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
 								<span>Subscribe</span>
 							</button>
 						</Link>
