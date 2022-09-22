@@ -111,7 +111,7 @@ export default function AppIndexRoute() {
 				{/* Buttons. */}
 				<div className="flex flex-col items-center sm:flex-row">
 					<a
-						href="https://github.com/dev-xo/stripe-postgres-stack"
+						href="https://github.com/dev-xo/stripe-stack"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="flex h-16 w-full flex-row items-center rounded-xl border-[1px] border-gray-300 px-6 text-lg font-semibold
