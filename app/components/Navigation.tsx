@@ -43,15 +43,15 @@ export const Navigation = ({ user }: ComponentProps) => {
 					</h2>
 					<div className="ml-3" />
 					<span
-						className="flex max-h-6 flex-row items-center rounded-md border-[1px] border-gray-300 px-2
-						text-lg font-semibold text-gray-500 dark:border-gray-600 dark:text-gray-300">
+						className="hidden max-h-6 flex-row items-center rounded-md border-[1px] border-gray-300 px-2
+						text-lg font-semibold text-gray-500 dark:border-gray-600 dark:text-gray-300 sm:flex">
 						2.0
 					</span>
 				</div>
 			</Link>
 
 			<div className="ml-0 sm:ml-6" />
-			<div className="flex w-full flex-row items-center justify-end md:justify-start">
+			<div className="flex w-full flex-row items-center justify-start">
 				{/* Theme Switcher. */}
 				<button
 					className="group flex flex-row items-center transition hover:scale-110 active:scale-100"

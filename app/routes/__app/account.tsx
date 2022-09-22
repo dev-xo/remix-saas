@@ -107,8 +107,8 @@ export default function AccountRoute() {
 		<div className="m-12 mx-auto flex h-full w-full max-w-4xl flex-col px-6 sm:flex-row">
 			{/* Displays Checkout Success Message. */}
 			{hasSuccessfullySubscribed && (
-				<div className="fixed left-0 top-4 flex w-full select-none flex-row justify-center">
-					<p className="rounded-2xl bg-sky-500 p-2 px-12 font-bold text-white shadow-2xl">
+				<div className="fixed left-0 bottom-6 flex w-full select-none flex-row justify-center transition hover:scale-110">
+					<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
 						Successfully Subscribed
 					</p>
 				</div>
@@ -116,8 +116,8 @@ export default function AccountRoute() {
 
 			{/* Displays Updated Plan Success Message. */}
 			{hasSuccessfullyUpdatedPlan && (
-				<div className="fixed left-0 top-4 flex w-full select-none flex-row justify-center">
-					<p className="rounded-2xl bg-sky-500 p-2 px-12 font-bold text-white shadow-2xl">
+				<div className="fixed left-0 bottom-6 flex w-full select-none flex-row justify-center">
+					<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
 						Plan has been Successfully Updated.
 					</p>
 				</div>
