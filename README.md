@@ -45,7 +45,7 @@ To get started, run the following commands in your console:
 
 ```sh
 # Initializes template in your workspace:
-npx create-remix@latest  --template dev-xo/stripe-stack
+npx create-remix@latest --template dev-xo/stripe-stack
 
 # Starts dev server:
 npm run dev
