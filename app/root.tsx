@@ -92,7 +92,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
  * App.
  * @protected Template code.
  */
-const App = () => {
+function App() {
 	const data = useLoaderData()
 	const [theme] = useTheme()
 
@@ -125,7 +125,7 @@ const App = () => {
  * Root.
  * @protected Template code.
  */
-const AppWithProviders = () => {
+export default function AppWithProviders() {
 	const data = useLoaderData()
 
 	return (
@@ -136,5 +136,3 @@ const AppWithProviders = () => {
 		</ThemeProvider>
 	)
 }
-
-export default AppWithProviders
