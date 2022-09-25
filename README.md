@@ -36,7 +36,7 @@ Stripe Stack has been built on top of [Barebones Stack](https://github.com/dev-x
 
 ### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
 
-Would you like to change something? Fork it, change it and use `npx create-remix --template your/repo`!<br/>
+Would you like to change something? Fork it, change it and use `npx create-remix@latest --template your/repo`!<br/>
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
@@ -45,7 +45,7 @@ To get started, run the following commands in your console:
 
 ```sh
 # Initializes template in your workspace:
-npx create-remix --template dev-xo/stripe-stack
+npx create-remix@latest  --template dev-xo/stripe-stack
 
 # Starts dev server:
 npm run dev
@@ -130,7 +130,7 @@ Let's see how we can get and set our Production Webhook.
 
 ## Deployment
 
-Stripe Stack its composed of two templates variants: SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of each repository documentation, deployment section has been moved to its own file.
+Stripe Stack it's composed of two templates variants: SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of each repository documentation, deployment section has been moved to its own file.
 
 Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) to get your app to production.
 
