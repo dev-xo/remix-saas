@@ -260,6 +260,36 @@ export default function AccountRoute() {
 						</>
 					)}
 
+					{/* Displays formated Subscription expiration date. */}
+					{user.subscription[0]?.subscriptionId && (
+						<>
+							<p className="font-bold text-slate-700 dark:text-slate-400">
+								{user.subscription[0]?.cancelAtPeriodEnd === true ? (
+									<span className="text-red-500">EXPIRES</span>
+								) : (
+									<span className="text-slate-900 dark:text-slate-100">
+										RENEWS
+									</span>
+								)}
+								:{' '}
+								{user.subscription[0].currentPeriodEnd &&
+									formatUnixDate(user.subscription[0].currentPeriodEnd)}
+							</p>
+							<div className="mb-3" />
+						</>
+					)}
+
+					{/* Displays a message if Subscription renew has been cancelled. */}
+					{user.subscription[0]?.cancelAtPeriodEnd === true && (
+						<>
+							<p className="text-center font-semibold text-slate-500 dark:text-slate-400">
+								Your plan will be cancelled but your subscription benefits will
+								still active until expiration date.
+							</p>
+							<div className="mb-3" />
+						</>
+					)}
+
 					{/* Displays a Link Button to `/plans` route. */}
 					{!user.subscription[0]?.subscriptionId ? (
 						<Link to="/plans">
@@ -273,38 +303,10 @@ export default function AccountRoute() {
 						<Link to="/plans">
 							<button
 								className="flex h-9 flex-row items-center justify-center rounded-xl 
-							bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
+								bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
 								<span>Plans</span>
 							</button>
 						</Link>
-					)}
-
-					{/* Displays formated Subscription expiration date. */}
-					{user.subscription[0]?.subscriptionId && (
-						<p className="font-bold text-slate-700 dark:text-slate-400">
-							{user.subscription[0]?.cancelAtPeriodEnd === true ? (
-								<span className="text-red-500">EXPIRES</span>
-							) : (
-								<span className="text-slate-900 dark:text-slate-100">
-									RENEWS
-								</span>
-							)}
-							:{' '}
-							{user.subscription[0].currentPeriodEnd &&
-								formatUnixDate(user.subscription[0].currentPeriodEnd)}
-						</p>
-					)}
-
-					{/* Displays a message if Subscription renew has been cancelled. */}
-					{user.subscription[0]?.cancelAtPeriodEnd === true && (
-						<>
-							<div className="mb-3" />
-							<p className="text-center font-semibold text-slate-500 dark:text-slate-400">
-								Your plan will be cancelled but your subscription benefits will
-								still active until expiration date.
-							</p>
-							<div className="mb-3" />
-						</>
 					)}
 
 					{/* Renders `CreateCustomerPortalButton` component. */}
