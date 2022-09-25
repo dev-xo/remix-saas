@@ -261,12 +261,20 @@ export default function AccountRoute() {
 					)}
 
 					{/* Displays a Link Button to `/plans` route. */}
-					{!user.subscription[0]?.subscriptionId && (
+					{!user.subscription[0]?.subscriptionId ? (
 						<Link to="/plans">
 							<button
 								className="flex h-9 flex-row items-center justify-center rounded-xl 
               	bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
 								<span>Subscribe</span>
+							</button>
+						</Link>
+					) : (
+						<Link to="/plans">
+							<button
+								className="flex h-9 flex-row items-center justify-center rounded-xl 
+							bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
+								<span>Plans</span>
 							</button>
 						</Link>
 					)}

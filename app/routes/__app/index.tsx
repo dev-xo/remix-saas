@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react'
 export default function AppIndexRoute() {
 	return (
 		<div
-			className="flex h-auto w-full flex-col items-center p-8 sm:h-full lg:flex-row 
+			className="flex h-full w-full flex-col items-center p-8 lg:flex-row 
 			lg:justify-center lg:overflow-hidden lg:pt-0">
 			{/* Headings. */}
 			<div className="flex w-full flex-col sm:w-auto">
@@ -87,7 +87,7 @@ export default function AppIndexRoute() {
 				<div className="mb-6" />
 
 				{/* Paragraph Headings. */}
-				<p className="max-w-2xl cursor-default text-2xl font-normal leading-snug text-gray-600 dark:text-gray-300 sm:text-3xl">
+				<p className="max-w-2xl cursor-default text-3xl font-light leading-snug text-gray-600 dark:text-gray-300">
 					Easily manage{' '}
 					<span className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						Stripe Subscriptions
@@ -148,81 +148,79 @@ export default function AppIndexRoute() {
 			</div>
 
 			{/* Brandings. */}
-			<div className="float flex flex-col">
-				<div className="my-12 flex flex-wrap justify-evenly lg:my-0 lg:max-w-md">
-					{[
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157764397-ccd8ea10-b8aa-4772-a99b-35de937319e1.svg',
-							alt: 'Fly.io',
-							href: 'https://fly.io',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157764395-137ec949-382c-43bd-a3c0-0cb8cb22e22d.svg',
-							alt: 'SQLite',
-							href: 'https://sqlite.org',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157764484-ad64a21a-d7fb-47e3-8669-ec046da20c1f.svg',
-							alt: 'Prisma',
-							href: 'https://prisma.io',
-						},
-						{
-							src: 'https://avatars.githubusercontent.com/u/44036562?s=280&v=4',
-							alt: 'Github Actions',
-							href: 'https://github.com/features/actions',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157764454-48ac8c71-a2a9-4b5e-b19c-edef8b8953d6.svg',
-							alt: 'Cypress',
-							href: 'https://www.cypress.io',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157772386-75444196-0604-4340-af28-53b236faa182.svg',
-							alt: 'MSW',
-							href: 'https://mswjs.io',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157772447-00fccdce-9d12-46a3-8bb4-fac612cdc949.svg',
-							alt: 'Vitest',
-							href: 'https://vitest.dev',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157772662-92b0dd3a-453f-4d18-b8be-9fa6efde52cf.png',
-							alt: 'Testing Library',
-							href: 'https://testing-library.com',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157764276-a516a239-e377-4a20-b44a-0ac7b65c8c14.svg',
-							alt: 'Tailwind',
-							href: 'https://tailwindcss.com',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157772934-ce0a943d-e9d0-40f8-97f3-f464c0811643.svg',
-							alt: 'Prettier',
-							href: 'https://prettier.io',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157772990-3968ff7c-b551-4c55-a25c-046a32709a8e.svg',
-							alt: 'ESLint',
-							href: 'https://eslint.org',
-						},
-						{
-							src: 'https://user-images.githubusercontent.com/1500684/157773063-20a0ed64-b9f8-4e0b-9d1e-0b65a3d4a6db.svg',
-							alt: 'TypeScript',
-							href: 'https://typescriptlang.org',
-						},
-					].map((img) => (
-						<a
-							key={img.href}
-							href={img.href}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="my-6 mx-0 flex h-16 w-32 select-none justify-center p-1 opacity-80 grayscale transition hover:scale-110 hover:opacity-100
+			<div className="float my-12 flex flex-wrap justify-evenly lg:my-0 lg:max-w-md">
+				{[
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157764397-ccd8ea10-b8aa-4772-a99b-35de937319e1.svg',
+						alt: 'Fly.io',
+						href: 'https://fly.io',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157764395-137ec949-382c-43bd-a3c0-0cb8cb22e22d.svg',
+						alt: 'SQLite',
+						href: 'https://sqlite.org',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157764484-ad64a21a-d7fb-47e3-8669-ec046da20c1f.svg',
+						alt: 'Prisma',
+						href: 'https://prisma.io',
+					},
+					{
+						src: 'https://avatars.githubusercontent.com/u/44036562?s=280&v=4',
+						alt: 'Github Actions',
+						href: 'https://github.com/features/actions',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157764454-48ac8c71-a2a9-4b5e-b19c-edef8b8953d6.svg',
+						alt: 'Cypress',
+						href: 'https://www.cypress.io',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157772386-75444196-0604-4340-af28-53b236faa182.svg',
+						alt: 'MSW',
+						href: 'https://mswjs.io',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157772447-00fccdce-9d12-46a3-8bb4-fac612cdc949.svg',
+						alt: 'Vitest',
+						href: 'https://vitest.dev',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157772662-92b0dd3a-453f-4d18-b8be-9fa6efde52cf.png',
+						alt: 'Testing Library',
+						href: 'https://testing-library.com',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157764276-a516a239-e377-4a20-b44a-0ac7b65c8c14.svg',
+						alt: 'Tailwind',
+						href: 'https://tailwindcss.com',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157772934-ce0a943d-e9d0-40f8-97f3-f464c0811643.svg',
+						alt: 'Prettier',
+						href: 'https://prettier.io',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157772990-3968ff7c-b551-4c55-a25c-046a32709a8e.svg',
+						alt: 'ESLint',
+						href: 'https://eslint.org',
+					},
+					{
+						src: 'https://user-images.githubusercontent.com/1500684/157773063-20a0ed64-b9f8-4e0b-9d1e-0b65a3d4a6db.svg',
+						alt: 'TypeScript',
+						href: 'https://typescriptlang.org',
+					},
+				].map((img) => (
+					<a
+						key={img.href}
+						href={img.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="my-6 mx-0 flex h-16 w-32 select-none justify-center p-1 opacity-80 grayscale transition hover:scale-110 hover:opacity-100
             	hover:grayscale-0 focus:grayscale-0 dark:-hue-rotate-180 dark:invert sm:mx-12">
-							<img alt={img.alt} src={img.src} />
-						</a>
-					))}
-				</div>
+						<img alt={img.alt} src={img.src} />
+					</a>
+				))}
 			</div>
 		</div>
 	)

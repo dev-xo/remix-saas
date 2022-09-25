@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function LoginRoute() {
 	return (
-		<div className="flex h-full flex-col items-center justify-center px-6">
+		<div className="absolute flex h-full w-full flex-col items-center justify-center px-6">
 			{/* Headers. */}
 			<div className="flex w-full max-w-md flex-col">
 				<h5 className="text-left text-3xl font-bold text-gray-800 dark:text-gray-100">

@@ -19,8 +19,8 @@ export const Navigation = ({ user }: ComponentProps) => {
 				to={!user ? '/' : '/account'}
 				className="group flex flex-row items-center">
 				<div
-					className="hidden h-16 w-16 flex-row items-center justify-center rounded-2xl bg-violet-500
-					transition group-hover:scale-105 group-active:scale-100 sm:flex">
+					className="flex h-16 w-16 flex-row items-center justify-center rounded-2xl
+					bg-violet-500 transition group-hover:scale-105 group-active:scale-100">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
@@ -86,20 +86,8 @@ export const Navigation = ({ user }: ComponentProps) => {
 				</button>
 			</div>
 
-			{/* Plans Link */}
-			{user && (
-				<div className="flex flex-row items-center justify-end">
-					<Link to="/plans">
-						<button
-							className="flex h-9 flex-row items-center justify-center rounded-xl bg-violet-500 px-6
-							text-base font-bold text-white transition hover:scale-105 active:scale-100">
-							<span>Plans</span>
-						</button>
-					</Link>
-					<div className="mx-2" />
-					<LogoutButton />
-				</div>
-			)}
+			{/* Logout */}
+			{user && <LogoutButton />}
 		</nav>
 	)
 }
