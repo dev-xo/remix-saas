@@ -1,5 +1,5 @@
-![GitHub-Mark-Light](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/light-logo.png#gh-light-mode-only)
-![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/dark-logo.png#gh-dark-mode-only)
+![GitHub-Mark-Light](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/sqlite-light-logo-v2.png#gh-light-mode-only)
+![GitHub-Mark-Dark ](https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/sqlite-dark-logo-v2.png#gh-dark-mode-only)
 
 <p align="center">
   <p align="center">
@@ -30,13 +30,12 @@ Stripe Stack has been built on top of [Barebones Stack](https://github.com/dev-x
 
 ### Implemented Features
 
-- Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) and [Socials](https://www.npmjs.com/package/remix-auth-socials) + [Twitter](https://github.com/na2hiro/remix-auth-twitter) Strategies.
-- [Stripe Subscriptions](https://stripe.com/) with Support for multiple plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
+- Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials) + [Twitter Strategy.](https://github.com/na2hiro/remix-auth-twitter)
+- [Stripe Subscriptions](https://stripe.com/) with support for Multiple Plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
 - Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 ### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
 
-Would you like to change something? Fork it, change it and use `npx create-remix@latest --template your/repo`!<br/>
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
