@@ -2,7 +2,7 @@ import type { Subscription } from '@prisma/client'
 import Stripe from 'stripe'
 
 /**
- * Mutations.
+ * Utils.
  * @protected Template code.
  */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
