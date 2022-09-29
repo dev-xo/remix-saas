@@ -11,7 +11,7 @@ import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries
 import { createUser } from '~/modules/user/mutations'
 
 /**
- * Authenticator.
+ * Init.
  * @protected Template code.
  */
 export let authenticator = new Authenticator(sessionStorage)
@@ -40,8 +40,8 @@ authenticator.use(
 
 			/**
 			 * If User has not been found:
-			 * Creates and stores a new User in database.
-			 * Returns newly created User as Auth Session.
+			 * - Creates and stores a new User in database.
+			 * - Returns newly created User as Auth Session.
 			 */
 			if (!user) {
 				const newUser = await createUser({
@@ -50,7 +50,8 @@ authenticator.use(
 					email: profile._json.email,
 					avatar: profile._json.picture,
 				})
-				if (!newUser) throw new Error('Unable to create User.')
+				if (!newUser)
+					throw new Error('There was an Error trying to create a new User.')
 
 				return {
 					...newUser,
@@ -84,8 +85,8 @@ authenticator.use(
 
 			/**
 			 * If User has not been found:
-			 * Creates and stores a new User in database.
-			 * Returns newly created User as Auth Session.
+			 * - Creates and stores a new User in database.
+			 * - Returns newly created User as Auth Session.
 			 */
 			if (!user) {
 				const newUser = await createUser({
@@ -94,7 +95,8 @@ authenticator.use(
 					email: profile._json.email,
 					avatar: profile._json.avatar_url,
 				})
-				if (!newUser) throw new Error('Unable to create User.')
+				if (!newUser)
+					throw new Error('There was an Error trying to create a new User.')
 
 				return {
 					...newUser,
@@ -129,8 +131,8 @@ authenticator.use(
 
 			/**
 			 * If User has not been found:
-			 * Creates and stores a new User in database.
-			 * Returns newly created User as Auth Session.
+			 * - Creates and stores a new User in database.
+			 * - Returns newly created User as Auth Session.
 			 */
 			if (!user) {
 				const newUser = await createUser({
@@ -141,7 +143,8 @@ authenticator.use(
 						? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.__json.avatar}.png`
 						: '',
 				})
-				if (!newUser) throw new Error('Unable to create User.')
+				if (!newUser)
+					throw new Error('There was an Error trying to create a new User.')
 
 				return {
 					...newUser,
@@ -178,8 +181,8 @@ authenticator.use(
 
 			/**
 			 * If User has not been found:
-			 * Creates and stores a new User in database.
-			 * Returns newly created User as Auth Session.
+			 * - Creates and stores a new User in database.
+			 * - Returns newly created User as Auth Session.
 			 */
 			if (!user) {
 				const newUser = await createUser({
@@ -188,7 +191,8 @@ authenticator.use(
 					email: profile.email ? profile.email : '',
 					avatar: profile.profile_image_url,
 				})
-				if (!newUser) throw new Error('Unable to create User.')
+				if (!newUser)
+					throw new Error('There was an Error trying to create a new User.')
 
 				return {
 					...newUser,

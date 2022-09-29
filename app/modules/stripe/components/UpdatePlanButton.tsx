@@ -47,7 +47,7 @@ export const UpdatePlanButton = ({
 		}
 
 		/**
-		 * Returns Upgrade or Downgrade button.
+		 * Returns Upgrade or Downgrade Plan button.
 		 * As button `value`, we'll provide newly desired planId.
 		 */
 		return (

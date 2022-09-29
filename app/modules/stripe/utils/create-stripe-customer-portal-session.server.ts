@@ -29,7 +29,7 @@ export const createStripeCustomerPortalSession = async (
 		throw new Error('Unable to create a new Stripe Customer Portal Session.')
 
 	/**
-	 * Returns a new Stripe Customer Portal Session URL.
+	 * Returns newly created Stripe Customer Portal Session URL.
 	 */
 	return session.url
 }

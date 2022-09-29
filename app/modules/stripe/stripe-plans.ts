@@ -13,7 +13,7 @@ export interface StripePlansInterface extends Array<StripePlanInterface> {}
 
 /**
  * Stripe Plans.
- * Add plans into `.env` file and manage them on here.
+ * Add Stripe `priceIds` into `.env` file and manage them on here.
  */
 export const STRIPE_PLANS: StripePlansInterface = [
 	{

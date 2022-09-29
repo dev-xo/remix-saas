@@ -36,7 +36,7 @@ export const createStripeCheckoutSession = async (
 		throw new Error('Unable to create a new Stripe Checkout Session.')
 
 	/**
-	 * Returns a new Stripe Checkout Session URL.
+	 * Returns newly created Stripe Checkout Session URL.
 	 */
 	return session.url
 }
