@@ -105,25 +105,7 @@ export default function AccountRoute() {
 
 	return (
 		<div className="m-12 mx-auto flex h-full w-full max-w-4xl flex-col px-6 sm:flex-row">
-			{/* Displays Checkout Success Message. */}
-			{hasSuccessfullySubscribed && (
-				<div className="fixed left-0 bottom-6 flex w-full select-none flex-row justify-center transition hover:scale-110">
-					<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
-						Successfully Subscribed
-					</p>
-				</div>
-			)}
-
-			{/* Displays Updated Plan Success Message. */}
-			{hasSuccessfullyUpdatedPlan && (
-				<div className="fixed left-0 bottom-6 flex w-full select-none flex-row justify-center">
-					<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
-						Plan has been Successfully Updated.
-					</p>
-				</div>
-			)}
-
-			{/* User Related. */}
+			{/* User Account. */}
 			{user && (
 				<div className="flex w-full flex-col items-center">
 					{/* Avatar. */}
@@ -140,7 +122,7 @@ export default function AccountRoute() {
 
 					{/* Info. */}
 					<div className="flex flex-col items-center">
-						<h5 className="relative flex flex-row items-center text-3xl font-bold text-slate-900 dark:text-slate-100">
+						<h5 className="relative flex flex-row items-center text-3xl font-bold text-gray-900 dark:text-gray-100">
 							{user.name}
 							<svg
 								className="absolute -right-9 h-7 w-7 fill-sky-500"
@@ -150,8 +132,8 @@ export default function AccountRoute() {
 							</svg>
 						</h5>
 						<div className="mb-1" />
-						<span className="font-semibold text-slate-700 dark:text-slate-400">
-							{user.name}
+						<span className="font-semibold text-gray-700 dark:text-gray-400">
+							My account
 						</span>
 					</div>
 					<div className="mb-3" />
@@ -172,6 +154,7 @@ export default function AccountRoute() {
 							className="h-44 w-44 select-none opacity-40 drop-shadow-xl"
 						/>
 
+						{/* Purchased Plans. */}
 						{!purchasedPlanName && (
 							<div className="absolute top-6 flex flex-row items-center justify-center">
 								<img
@@ -245,7 +228,7 @@ export default function AccountRoute() {
 					<div className="m-3" />
 
 					{/* Displays Subscription Plan. */}
-					<h5 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+					<h5 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
 						{purchasedPlanName ? purchasedPlanName + ' Plan' : 'Subscription'}
 					</h5>
 					<div className="mb-1" />
@@ -253,7 +236,7 @@ export default function AccountRoute() {
 					{/* Displays a message if there is no Subscription. */}
 					{!user.subscription[0]?.subscriptionId && (
 						<>
-							<p className="text-center font-semibold text-slate-500 dark:text-slate-400">
+							<p className="text-center font-semibold text-gray-500 dark:text-gray-400">
 								Subscribe to get some tasty Cookies!
 							</p>
 							<div className="mb-3" />
@@ -263,11 +246,11 @@ export default function AccountRoute() {
 					{/* Displays formated Subscription expiration date. */}
 					{user.subscription[0]?.subscriptionId && (
 						<>
-							<p className="font-bold text-slate-700 dark:text-slate-400">
+							<p className="font-bold text-gray-700 dark:text-gray-400">
 								{user.subscription[0]?.cancelAtPeriodEnd === true ? (
 									<span className="text-red-500">EXPIRES</span>
 								) : (
-									<span className="text-slate-900 dark:text-slate-100">
+									<span className="text-gray-900 dark:text-gray-100">
 										RENEWS
 									</span>
 								)}
@@ -282,7 +265,7 @@ export default function AccountRoute() {
 					{/* Displays a message if Subscription renew has been cancelled. */}
 					{user.subscription[0]?.cancelAtPeriodEnd === true && (
 						<>
-							<p className="text-center font-semibold text-slate-500 dark:text-slate-400">
+							<p className="text-center font-semibold text-gray-500 dark:text-gray-400">
 								Your plan will be cancelled but your subscription benefits will
 								still active until expiration date.
 							</p>
@@ -291,23 +274,15 @@ export default function AccountRoute() {
 					)}
 
 					{/* Displays a Link Button to `/plans` route. */}
-					{!user.subscription[0]?.subscriptionId ? (
-						<Link to="/plans">
-							<button
-								className="flex h-9 flex-row items-center justify-center rounded-xl 
+					<Link to="/plans">
+						<button
+							className="flex h-9 flex-row items-center justify-center rounded-xl 
               	bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
-								<span>Subscribe</span>
-							</button>
-						</Link>
-					) : (
-						<Link to="/plans">
-							<button
-								className="flex h-9 flex-row items-center justify-center rounded-xl 
-								bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
-								<span>Plans</span>
-							</button>
-						</Link>
-					)}
+							<span>
+								{!user.subscription[0]?.subscriptionId ? 'Subscribe' : 'Plans'}
+							</span>
+						</button>
+					</Link>
 
 					{/* Renders `CreateCustomerPortalButton` component. */}
 					{user.subscription[0]?.customerId && (
@@ -315,6 +290,24 @@ export default function AccountRoute() {
 							<div className="mb-3" />
 							<CreateCustomerPortalButton />
 						</>
+					)}
+
+					{/* Displays Checkout Success Message. */}
+					{hasSuccessfullySubscribed && (
+						<div className="fixed left-0 bottom-6 flex w-full select-none flex-row justify-center transition hover:scale-110">
+							<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
+								Successfully Subscribed
+							</p>
+						</div>
+					)}
+
+					{/* Displays Updated Plan Success Message. */}
+					{hasSuccessfullyUpdatedPlan && (
+						<div className="fixed left-0 bottom-6 flex w-full select-none flex-row justify-center">
+							<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
+								Plan has been Successfully Updated.
+							</p>
+						</div>
 					)}
 				</div>
 			)}
