@@ -35,7 +35,7 @@ export const meta: MetaFunction = () => {
 		charset: 'utf-8',
 		title: 'Welcome to Remix Stripe Stack!',
 		description:
-			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
+			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
 		keywords:
 			'remix,stripe,create-remix,remix-stack,typescript,sqlite,prisma,tailwindcss,fly.io',
 		'og:title': 'Remix Stripe Stack',
@@ -47,14 +47,14 @@ export const meta: MetaFunction = () => {
 		'og:creator': '@DanielKanem',
 		'og:site': 'https://stripe-stack.fly.dev',
 		'og:description':
-			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
+			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
 		'twitter:image':
 			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/thumbnail-sqlite-v3.png',
 		'twitter:card': 'summary_large_image',
 		'twitter:creator': '@DanielKanem',
 		'twitter:title': 'Remix Stripe Stack',
 		'twitter:description':
-			'An open source Remix Stack that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. SQLite version. Deploys to Fly.io',
+			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
 	}
 }
 
@@ -81,7 +81,11 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 			</head>
 			<body className="flex h-screen flex-col items-center justify-center">
 				{/* Add here the UI you want your users to see. */}
-				<h1 className="text-2xl">Something went wrong!</h1>
+				<h1 className="text-center text-3xl font-semibold">
+					Whops.
+					<br />
+					Something went wrong!
+				</h1>
 				<Scripts />
 			</body>
 		</html>

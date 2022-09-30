@@ -23,8 +23,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
 		/**
-		 * If Subscription has expired:
-		 * Updates Auth Session accordingly.
+		 * If Subscription has expired: Updates Auth Session accordingly.
 		 */
 		if (subscription && subscription?.status === 'canceled') {
 			let session = await getSession(request.headers.get('Cookie'))

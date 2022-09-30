@@ -44,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
 	}
 
 	/**
-	 * Checks for Customer into Database.
+	 * Checks for Customer into database.
 	 * On success: Redirects to checkout with customer already set.
 	 */
 	if (user && user.subscription.length === 0) {
@@ -67,7 +67,7 @@ export const action: ActionFunction = async ({ request }) => {
 	/**
 	 * If Customer has not been found in any of the previous checks:
 	 * - Creates a new Stripe Customer.
-	 * - Stores newly created Stripe Customer into Database.
+	 * - Stores newly created Stripe Customer into database.
 	 * - Redirects to checkout with customer already set.
 	 */
 	if (user && user.subscription.length === 0) {
@@ -76,7 +76,9 @@ export const action: ActionFunction = async ({ request }) => {
 			name: user.name ? user.name : undefined,
 		})
 		if (!newStripeCustomer)
-			throw new Error('Unable to create a new Stripe Customer.')
+			throw new Error(
+				'There was an Error trying to create a new Stripe Customer.',
+			)
 
 		const newSubscription = await createSubscription({
 			providerId: user.providerId,
@@ -89,7 +91,7 @@ export const action: ActionFunction = async ({ request }) => {
 			cancelAtPeriodEnd: null,
 		})
 		if (!newSubscription)
-			throw new Error('Unable to create a new Subscription.')
+			throw new Error('There was an Error trying to create a new Subscription.')
 
 		const customerId = newStripeCustomer.id
 		const stripeRedirectUrl = await createStripeCheckoutSession(

@@ -11,7 +11,7 @@ import { deleteUser } from '~/modules/user/mutations'
  * @protected Template code.
  
  * Deletes current Stripe Customer. (If exists)
- * Deletes current User from Database.
+ * Deletes current User from database.
  */
 export const action: ActionFunction = async ({ request }) => {
 	/**
@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 	if (user) {
 		/**
-		 * Checks Database for Customer existence.
+		 * Checks database for Subscription Customer existence.
 		 * On success: Deletes current Stripe Customer.
 		 */
 		const dbUser = await getUserByProviderIdIncludingSubscription(
@@ -36,8 +36,8 @@ export const action: ActionFunction = async ({ request }) => {
 		}
 
 		/**
-		 * Deletes current User from Database.
-		 * This will delete Subscription Model also, on cascade mode.
+		 * Deletes current User from database.
+		 * This will also delete Subscription Model in cascade mode.
 		 */
 		const providerId = user.providerId
 		await deleteUser(providerId)

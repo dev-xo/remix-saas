@@ -4,7 +4,7 @@ import type { ActionFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { updateSubscription } from '~/modules/subscription/mutations'
 import { retrieveStripeSubscription } from '~/modules/stripe/queries'
-import { getSubscriptionCustomerById } from '~/modules/subscription/queries'
+import { getSubscriptionByCustomerId } from '~/modules/subscription/queries'
 import Stripe from 'stripe'
 
 /**
@@ -140,7 +140,7 @@ export const action: ActionFunction = async ({ request }) => {
 				 * Checks for Customer existence into database.
 				 * On failure: Update will be skiped.
 				 */
-				const dbCustomerId = await getSubscriptionCustomerById(customerId)
+				const dbCustomerId = await getSubscriptionByCustomerId(customerId)
 				if (!dbCustomerId?.customerId) return json({}, { status: 200 })
 
 				await updateSubscription(customerId, {

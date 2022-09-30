@@ -22,14 +22,14 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	if (user) {
 		/**
-		 * Gets User from Database.
+		 * Gets User from database.
 		 */
 		const dbUser = await getUserByProviderIdIncludingSubscription(
 			user.providerId,
 		)
 
 		/**
-		 * Checks Database User Subscription existence.
+		 * Checks for User Subscription existence.
 		 * On success: Updates Auth Session accordingly.
 		 */
 		if (dbUser && dbUser.subscription[0]?.subscriptionId) {

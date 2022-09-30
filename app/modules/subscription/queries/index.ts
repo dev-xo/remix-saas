@@ -1,1 +1,1 @@
-export * from './get-subscription-customer.server'
+export * from './get-subscription.server'

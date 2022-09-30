@@ -48,8 +48,7 @@ export const action: ActionFunction = async ({ request }) => {
 				})
 
 				/**
-				 * On Update Stripe Subscription success:
-				 * Updates Auth Session accordingly.
+				 * On Update Stripe Subscription success: Updates Auth Session accordingly.
 				 */
 				let session = await getSession(request.headers.get('Cookie'))
 
