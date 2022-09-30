@@ -12,16 +12,10 @@ import Stripe from 'stripe'
  */
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 
-const DEVELOPMENT_ENDPOINT_SECRET =
-	process.env.DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET
-
-const PRODUCTION_ENDPOINT_SECRET =
-	process.env.PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET
-
-const WEBHOOK_ENDPOINT =
+const WEBHOOK_ENDPOINT_SECRET =
 	process.env.NODE_ENV === 'development'
-		? DEVELOPMENT_ENDPOINT_SECRET
-		: PRODUCTION_ENDPOINT_SECRET
+		? process.env.DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET
+		: process.env.PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET
 
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
 	apiVersion: '2022-08-01',
@@ -45,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 			event = stripe.webhooks.constructEvent(
 				payload,
 				signature,
-				WEBHOOK_ENDPOINT,
+				WEBHOOK_ENDPOINT_SECRET,
 			) as Stripe.DiscriminatedEvent
 		}
 	} catch (err: unknown) {
@@ -143,8 +137,8 @@ export const action: ActionFunction = async ({ request }) => {
 
 			if (typeof customerId === 'string') {
 				/**
-				 * Checks for Customer existence.
-				 * Update will be skiped, if Customer has not been found.
+				 * Checks for Customer existence into database.
+				 * On failure: Update will be skiped.
 				 */
 				const dbCustomerId = await getSubscriptionCustomerById(customerId)
 				if (!dbCustomerId?.customerId) return json({}, { status: 200 })
@@ -165,7 +159,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 	/**
 	 * Possible status returns: 200 | 404
-	 * Not an Error, we are just handling 'x' Events.
+	 * No reason to throw an Error, we are just handling 'x' Events.
 	 */
 	return json({}, { status: 200 })
 }
