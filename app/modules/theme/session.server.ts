@@ -11,7 +11,7 @@ const sessionStorage = createCookieSessionStorage({
 		sameSite: 'lax',
 		path: '/',
 		httpOnly: true,
-		secrets: [process.env.SESSION_SECRET || ''],
+		secrets: [process.env.SESSION_SECRET || 'NOT_A_STRONG_SESSION_SECRET'],
 		secure: process.env.NODE_ENV === 'production',
 	},
 })

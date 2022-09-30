@@ -30,13 +30,14 @@ export const loader: LoaderFunction = async ({ request }) => {
 	})) as LoaderData['user']
 
 	/**
-	 * Parses a Cookie and returns the associated Session.
-	 * Also, gets flash values from Session.
+	 * Parses `__auth` Cookie and returns the associated Session.
 	 */
 	const session = await getSession(request.headers.get('Cookie'))
 
-	const skipExpirationCheckRedirect =
-		session.get('SKIP_EXPIRATION_CHECK') || false
+	/**
+	 * Gets flash values from Session.
+	 */
+	const skipExpirationCheck = session.get('SKIP_EXPIRATION_CHECK') || false
 
 	const hasSuccessfullySubscribed =
 		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null
@@ -51,7 +52,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	if (
 		user &&
 		user.subscription[0]?.currentPeriodEnd &&
-		skipExpirationCheckRedirect === false
+		skipExpirationCheck === false
 	) {
 		const currentPeriodEnd = user.subscription[0].currentPeriodEnd
 		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
@@ -68,8 +69,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	}
 
 	/**
-	 * If User has an active Subscription:
-	 * Retrieves the name of the active plan.
+	 * Retrieves the name of the current Subscription plan. (If any)
 	 */
 	const purchasedPlanName =
 		(user?.subscription[0]?.planId &&
@@ -77,8 +77,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		null
 
 	/**
-	 * Returns a JSON Response.
-	 * Resets flashing session variables.
+	 * Returns a JSON Response and resets flashing Session variables.
 	 */
 	return json<LoaderData>(
 		{
