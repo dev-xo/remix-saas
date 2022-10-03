@@ -8,7 +8,7 @@ import { createStripeCustomerPortalSession } from '~/modules/stripe/utils'
  * Remix - Action.
  * @protected Template code.
  *
- * Redirects to Customer Portal.
+ * Redirects to Stripe Customer Portal.
  */
 export const action: ActionFunction = async ({ request }) => {
 	/**
@@ -19,8 +19,8 @@ export const action: ActionFunction = async ({ request }) => {
 	)) as Awaited<AuthSession> | null
 
 	/**
-	 * Checks for Customer in Auth Session.
-	 * On success: Redirects to Customer Portal.
+	 * Checks for Subscription Customer in Auth Session.
+	 * On success: Redirects to Stripe Customer Portal.
 	 */
 	if (user && user.subscription[0]?.customerId) {
 		const customerId = user.subscription[0].customerId

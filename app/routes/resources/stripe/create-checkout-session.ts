@@ -29,8 +29,8 @@ export const action: ActionFunction = async ({ request }) => {
 	const { planId } = Object.fromEntries(formData)
 
 	/**
-	 * Checks for Customer into Auth Session.
-	 * On success: Redirects to checkout with customer already set.
+	 * Checks for Subscription Customer into Auth Session.
+	 * On success: Redirects to checkout with Customer already set.
 	 */
 	if (user && user.subscription[0]?.customerId) {
 		const customerId = user.subscription[0].customerId
@@ -44,8 +44,8 @@ export const action: ActionFunction = async ({ request }) => {
 	}
 
 	/**
-	 * Checks for Customer into database.
-	 * On success: Redirects to checkout with customer already set.
+	 * Checks for Subscription Customer into database.
+	 * On success: Redirects to checkout with Customer already set.
 	 */
 	if (user && user.subscription.length === 0) {
 		const dbUser = await getUserByProviderIdIncludingSubscription(
@@ -65,10 +65,10 @@ export const action: ActionFunction = async ({ request }) => {
 	}
 
 	/**
-	 * If Customer has not been found in any of the previous checks:
+	 * If Subscription Customer has not been found in any of the previous checks:
 	 * - Creates a new Stripe Customer.
 	 * - Stores newly created Stripe Customer into database.
-	 * - Redirects to checkout with customer already set.
+	 * - Redirects to checkout with Customer already set.
 	 */
 	if (user && user.subscription.length === 0) {
 		const newStripeCustomer = await createStripeCustomer({

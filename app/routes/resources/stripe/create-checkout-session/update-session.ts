@@ -29,7 +29,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		)
 
 		/**
-		 * Checks for User Subscription existence.
+		 * Checks for Subscription ID existence.
 		 * On success: Updates Auth Session accordingly.
 		 */
 		if (dbUser && dbUser.subscription[0]?.subscriptionId) {

@@ -18,6 +18,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 		request,
 	)) as AuthSession | null
 
+	/**
+	 * Checks for Subscription ID existence into Auth Session.
+	 */
 	if (user && user.subscription[0]?.subscriptionId) {
 		const subscriptionId = user.subscription[0].subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
