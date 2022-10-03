@@ -1,5 +1,7 @@
 {
 	"name": "stripe-stack",
+	"license": "MIT",
+	"author": "https://github.com/dev-xo",
 	"private": true,
 	"sideEffects": false,
 	"scripts": {
