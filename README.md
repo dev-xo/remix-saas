@@ -55,7 +55,7 @@ npx create-remix@latest --template dev-xo/stripe-stack
 npm run dev
 ```
 
-> Note: Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. This template uses `remix.init` to configure itself and prepare your environment.
+> Notes: Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. This template uses `remix.init` to configure itself and prepare your environment.
 
 ## Getting Started
 
@@ -68,7 +68,7 @@ Template's Demo has been built to be really simple to test, being able to show a
 1. Log in with your preferred Social Authenticator.
 2. Select a Subscription Plan.
 3. Fill Stripe Checkout inputs with default development values. _(Check Notes)_
-4. You should be redirected back to the app with selected Stripe Plan already set.
+4. We should be redirected back to the app with selected Stripe Plan already set.
 
 > Notes: Stripe test mode uses the following number: `4242` as valid values for Card Information. Type it as much times as you can on each available input to successfully complete Checkout step.
 
@@ -86,7 +86,7 @@ Let's review some of template's important folders:
 
     ├── routes
       ├── api           # Stores Stripe Webhook Endpoint file, and any realted API calls.
-      ├── resources     # Does calls to database, redirects, updates sessions and so on.
+      ├── resources     # Does database calls, redirects, updates sessions and so on.
 
 ### Authentication Strategies
 
