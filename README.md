@@ -76,6 +76,12 @@ Template's Demo has been built to be really simple to test, being able to show a
 
 Understanding our development workspace will keep us productive.
 
+### Usage
+
+Template can be used in the way you like. Feel free to remove all the HTML code you don't need, and keep just the `actions and loaders` from Remix.
+
+Code that is necessary for the template to keep working as expected, has been marked as `@required`.
+
 ### Folder Structure
 
 Let's review some of template's important folders:
@@ -86,7 +92,7 @@ Let's review some of template's important folders:
 
     ├── routes
       ├── api           # Stores Stripe Webhook Endpoint file, and any realted API calls.
-      ├── resources     # Does database calls, redirects, updates sessions and so on.
+      ├── resources     # Stores database calls, redirects, session updates and so on.
 
 ### Authentication Strategies
 
