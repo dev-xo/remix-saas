@@ -91,6 +91,7 @@ export default function AppIndexRoute() {
 					Easily manage{' '}
 					<a
 						href="https://stripe.com/docs/billing/subscriptions/overview"
+						target="_blank"
 						rel="noopener noreferrer"
 						className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						Stripe Subscriptions
@@ -102,6 +103,7 @@ export default function AppIndexRoute() {
 					,{' '}
 					<a
 						href="https://stripe.com/docs/billing/subscriptions/integrating-customer-portal"
+						target="_blank"
 						rel="noopener noreferrer"
 						className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						Customer Portal
@@ -109,6 +111,7 @@ export default function AppIndexRoute() {
 					and{' '}
 					<a
 						href="https://github.com/sergiodxa/remix-auth"
+						target="_blank"
 						rel="noopener noreferrer"
 						className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						User Account
