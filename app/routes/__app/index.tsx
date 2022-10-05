@@ -89,21 +89,30 @@ export default function AppIndexRoute() {
 				{/* Paragraph Headings. */}
 				<p className="max-w-2xl cursor-default text-3xl font-light leading-snug text-gray-600 dark:text-gray-300">
 					Easily manage{' '}
-					<span className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
+					<a
+						href="https://stripe.com/docs/billing/subscriptions/overview"
+						rel="noopener noreferrer"
+						className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						Stripe Subscriptions
-					</span>
+					</a>
 					,{' '}
-					<span className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
+					<span className="font-semibold text-violet-500 hover:brightness-125 dark:text-violet-300">
 						Multiple Plans
 					</span>
 					,{' '}
-					<span className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
+					<a
+						href="https://stripe.com/docs/billing/subscriptions/integrating-customer-portal"
+						rel="noopener noreferrer"
+						className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						Customer Portal
-					</span>{' '}
+					</a>{' '}
 					and{' '}
-					<span className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
+					<a
+						href="https://github.com/sergiodxa/remix-auth"
+						rel="noopener noreferrer"
+						className="font-semibold text-violet-500 hover:underline hover:brightness-125 dark:text-violet-300">
 						User Account
-					</span>{' '}
+					</a>{' '}
 					in the same template.
 				</p>
 				<div className="mb-10" />
