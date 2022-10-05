@@ -36,7 +36,7 @@ Stripe Stack has been built on top of [Barebones SQLite Stack](https://github.co
 ### Implemented Features
 
 - Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials) + [Twitter Strategy.](https://github.com/na2hiro/remix-auth-twitter)
-- [Stripe Subscriptions](https://stripe.com/) with support for Multiple Plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
+- [Stripe Subscriptions](https://stripe.com/docs/billing/subscriptions/overview) with support for Multiple Plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
 - Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 ### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
