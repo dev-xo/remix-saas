@@ -53,9 +53,9 @@ export default function AppRoute() {
 			<Navigation user={user} />
 			<Outlet />
 
-			{/* Bottom Helper. */}
+			{/* Footer. */}
 			{user && (
-				<div className="flex w-auto flex-row items-center justify-center py-4">
+				<footer className="flex w-auto flex-row items-center justify-center py-4">
 					<a
 						href="https://github.com/dev-xo/stripe-stack"
 						target="_blank"
@@ -92,7 +92,7 @@ export default function AppRoute() {
 						<div className="w-2" />
 						Twitter
 					</a>
-				</div>
+				</footer>
 			)}
 		</div>
 	)
