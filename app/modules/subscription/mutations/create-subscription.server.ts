@@ -3,7 +3,7 @@ import { db } from '~/utils'
 
 /**
  * Mutations.
- * @protected Template code.
+ * @required Template code.
  */
 export const createSubscription = async (
 	subscription: Omit<Subscription, 'id'>,

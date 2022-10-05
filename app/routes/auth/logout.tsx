@@ -4,14 +4,14 @@ import { authenticator } from '~/modules/auth'
 
 /**
  * Remix - Action.
- * @protected Template code.
+ * @required Template code.
  */
 export const action: ActionFunction = async ({ request }) =>
 	await authenticator.logout(request, { redirectTo: '/' })
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  */
 export const loader: LoaderFunction = ({ request }) => redirect('/')
 

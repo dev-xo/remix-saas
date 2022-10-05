@@ -15,7 +15,7 @@ type LoaderData = {
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	/**

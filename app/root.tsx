@@ -60,7 +60,7 @@ export const meta: MetaFunction = () => {
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	const { getTheme } = await themeSessionResolver(request)
@@ -94,7 +94,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 
 /**
  * App.
- * @protected Template code.
+ * @required Template code.
  */
 function App() {
 	const data = useLoaderData()
@@ -127,7 +127,7 @@ function App() {
 
 /**
  * Root.
- * @protected Template code.
+ * @required Template code.
  */
 export default function AppWithProviders() {
 	const data = useLoaderData()

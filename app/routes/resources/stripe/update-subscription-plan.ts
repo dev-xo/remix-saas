@@ -7,7 +7,7 @@ import { updateStripeSubscription } from '~/modules/stripe/mutations'
 
 /**
  * Remix - Action.
- * @protected Template code.
+ * @required Template code.
  *
  * Upgrades or Downgrades current Subscription Plan.
  */

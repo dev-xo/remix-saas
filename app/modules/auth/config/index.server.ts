@@ -12,7 +12,7 @@ import { createUser } from '~/modules/user/mutations'
 
 /**
  * Init.
- * @protected Template code.
+ * @required Template code.
  */
 export let authenticator = new Authenticator(sessionStorage)
 

@@ -5,7 +5,7 @@ import { authenticator } from '~/modules/auth'
 
 /**
  * Remix - Action.
- * @protected Template code.
+ * @required Template code.
  */
 export const action: ActionFunction = async ({ request, params }) =>
 	await authenticator.authenticate(
@@ -17,7 +17,7 @@ export const action: ActionFunction = async ({ request, params }) =>
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  */
 export const loader: LoaderFunction = ({ request }) => redirect('/login')
 

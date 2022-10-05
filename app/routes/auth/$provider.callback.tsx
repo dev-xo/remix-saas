@@ -4,7 +4,7 @@ import { authenticator } from '~/modules/auth'
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request, params }) =>
 	await authenticator.authenticate(

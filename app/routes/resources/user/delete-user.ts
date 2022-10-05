@@ -8,7 +8,7 @@ import { deleteUser } from '~/modules/user/mutations'
 
 /**
  * Remix - Action.
- * @protected Template code.
+ * @required Template code.
  
  * Deletes current Stripe Customer. (If exists)
  * Deletes current User from database.

@@ -3,7 +3,7 @@ import { db } from '~/utils'
 
 /**
  * Queries.
- * @protected Template code.
+ * @required Template code.
  */
 export const getUserByProviderId = async (providerId: User['providerId']) => {
 	return db.user.findUnique({ where: { providerId } })

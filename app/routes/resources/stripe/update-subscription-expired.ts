@@ -6,7 +6,7 @@ import { retrieveStripeSubscription } from '~/modules/stripe/queries'
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  *
  * If current Subscription has expired: Updates Auth Session accordingly.
  */

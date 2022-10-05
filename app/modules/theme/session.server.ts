@@ -3,7 +3,7 @@ import { createThemeSessionResolver } from 'remix-themes'
 
 /**
  * Session.
- * @protected Template code.
+ * @required Template code.
  */
 const sessionStorage = createCookieSessionStorage({
 	cookie: {

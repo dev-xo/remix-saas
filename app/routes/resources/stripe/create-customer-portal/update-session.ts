@@ -6,7 +6,7 @@ import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  *
  * Handles Stripe Customer Portal Redirect.
  * - On Success: Updates Auth Session accordingly.

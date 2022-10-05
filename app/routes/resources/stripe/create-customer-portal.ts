@@ -6,7 +6,7 @@ import { createStripeCustomerPortalSession } from '~/modules/stripe/utils'
 
 /**
  * Remix - Action.
- * @protected Template code.
+ * @required Template code.
  *
  * Redirects to Stripe Customer Portal.
  */

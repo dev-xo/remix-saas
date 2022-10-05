@@ -1,6 +1,6 @@
 /**
  * Utils.
- * @protected Template code.
+ * @required Template code.
  */
 export interface StripePlanInterface {
 	planId: string

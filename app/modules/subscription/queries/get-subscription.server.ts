@@ -3,7 +3,7 @@ import { db } from '~/utils'
 
 /**
  * Queries.
- * @protected Template code.
+ * @required Template code.
  */
 export const getSubscriptionByCustomerId = async (
 	customerId: Subscription['customerId'],

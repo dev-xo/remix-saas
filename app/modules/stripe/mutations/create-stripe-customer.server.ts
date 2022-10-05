@@ -2,7 +2,7 @@ import Stripe from 'stripe'
 
 /**
  * Mutations.
- * @protected Template code.
+ * @required Template code.
  */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 	apiVersion: '2022-08-01',

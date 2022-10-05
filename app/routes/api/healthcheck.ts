@@ -3,7 +3,7 @@ import { db } from '~/utils'
 
 /**
  * Remix - Loader.
- * @protected Template code.
+ * @required Template code.
  *
  * Connects to database with the intent to make a simple query.
  * Also tries a HEAD request to our domain. On success, our app is healthy and running.

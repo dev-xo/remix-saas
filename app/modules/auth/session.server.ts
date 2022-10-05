@@ -7,7 +7,7 @@ export interface AuthSession extends User {
 
 /**
  * Session.
- * @protected Template code.
+ * @required Template code.
  */
 export const sessionStorage = createCookieSessionStorage({
 	cookie: {

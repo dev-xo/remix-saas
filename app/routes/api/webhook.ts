@@ -23,7 +23,7 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
 
 /**
  * Remix - Action.
- * @protected Template code.
+ * @required Template code.
  */
 export const action: ActionFunction = async ({ request }) => {
 	const payload = await request.text()
