@@ -10,7 +10,7 @@
     <a href="https://twitter.com/DanielKanem">Twitter</a>
     <br/>
     <br/>
-    An open source Remix Template that integrates Stripe Subscriptions, Social Authentication and Testing. Javascript Supported. SQLite version. Deploys to Fly.io
+    An open source Remix Template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Javascript Supported. SQLite version. Deploys to Fly.io 
   </p>
 </p>
 
