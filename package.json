@@ -83,7 +83,7 @@
 		"eslint": "^8.23.1",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-cypress": "^2.12.1",
-		"happy-dom": "^6.0.4",
+		"happy-dom": "^7.0.6",
 		"msw": "^0.47.2",
 		"npm-run-all": "^4.1.5",
 		"postcss": "^8.4.16",
