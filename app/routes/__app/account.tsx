@@ -293,7 +293,9 @@ export default function AccountRoute() {
 
 					{/* Displays Checkout Success Message. */}
 					{hasSuccessfullySubscribed && (
-						<div className="fixed left-0 top-9 z-50 flex w-full select-none flex-row justify-center transition hover:scale-110">
+						<div
+							className="select-noneflex-row absolute top-9 left-0 right-0 z-20 m-auto flex
+							w-[300px] transform justify-center transition hover:scale-110">
 							<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
 								Successfully Subscribed
 							</p>
@@ -302,7 +304,9 @@ export default function AccountRoute() {
 
 					{/* Displays Updated Plan Success Message. */}
 					{hasSuccessfullyUpdatedPlan && (
-						<div className="fixed left-0 top-9 z-50 flex w-full select-none flex-row justify-center transition hover:scale-110">
+						<div
+							className="select-noneflex-row absolute top-9 left-0 right-0 z-20 m-auto flex
+							w-[400px] transform justify-center transition hover:scale-110">
 							<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
 								Plan has been Successfully Updated.
 							</p>
