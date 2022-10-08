@@ -1,5 +1,5 @@
-# We don't want lockfiles in stacks, as people could use a different package manager.
-# This part will be removed by `remix.init`.
+# We don't need lockfiles in our stacks,
+# as people could use a different package manager.
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
@@ -7,22 +7,25 @@ pnpm-lock.yml
 
 node_modules
 
-/.cache
-/build
-/public/build
-.env
-
-# Testing
-/cypress/screenshots
-/cypress/videos
-/prisma/data.db
-/prisma/data.db-journal
-
-/coverage
-
+# Editor Configs.
 .idea
 .vscode
 .prettierrc.js
 .DS_Store
 
+/.cache
+/build
+/public/build
+.env
+
+# Tests.
+/cypress/screenshots
+/cypress/videos
+/coverage
+
+# Prisma.
+/prisma/data.db
+/prisma/data.db-journal
+
+# Tailwind CSS.
 /app/styles/tailwind.css
