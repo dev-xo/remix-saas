@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-describe('Example force pass test.', () => {
-	it('It should pass successfully.', () => {
-		const hasPassed = true
-		expect(hasPassed).toBeTruthy()
+describe('Smoke test.', () => {
+	it('Should successfully pass.', () => {
+		const hasVitestConfiguredSuccessfully = true
+		expect(hasVitestConfiguredSuccessfully).toBeTruthy()
 	})
 })
