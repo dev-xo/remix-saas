@@ -9,14 +9,10 @@ import { SocialButton } from '~/modules/auth/components'
  * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)
 
-	/**
-	 * On Auth Session: Redirects to `/account`.
-	 */
+	// On Auth Session: Redirects to `/account`.
 	if (user) return redirect('/account')
 
 	return json({})

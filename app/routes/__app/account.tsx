@@ -22,21 +22,15 @@ type LoaderData = {
  * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = (await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
 	})) as LoaderData['user']
 
-	/**
-	 * Parses `__auth` Cookie and returns the associated Session.
-	 */
+	// Parses `__auth` Cookie and returns the associated Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
-	/**
-	 * Gets flash values from Session.
-	 */
+	// Gets flash values from Session.
 	const skipExpirationCheck = session.get('SKIP_EXPIRATION_CHECK') || false
 
 	const hasSuccessfullySubscribed =
@@ -45,10 +39,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 	const hasSuccessfullyUpdatedPlan =
 		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null
 
-	/**
-	 * Checks for Subscription expiration.
-	 * If expried: Updates Auth Session accordingly.
-	 */
+	// Checks for Subscription expiration.
+	// If expried: Updates Auth Session accordingly.
 	if (
 		user &&
 		user.subscription[0]?.currentPeriodEnd &&
@@ -68,17 +60,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 			)
 	}
 
-	/**
-	 * Retrieves the name of the current Subscription plan. (If any)
-	 */
+	// Retrieves the name of the current Subscription plan. (If any)
 	const purchasedPlanName =
 		(user?.subscription[0]?.planId &&
 			getValueFromStripePlans(user.subscription[0].planId, 'planName')) ||
 		null
 
-	/**
-	 * Returns a JSON Response and resets flashing Session variables.
-	 */
+	// Returns a JSON Response and resets flashing Session variables.
 	return json<LoaderData>(
 		{
 			user,
@@ -274,9 +262,7 @@ export default function AccountRoute() {
 
 					{/* Displays a Link Button to `/plans` route. */}
 					<Link to="/plans">
-						<button
-							className="flex h-9 flex-row items-center justify-center rounded-xl 
-              	bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
+						<button className="flex h-9 flex-row items-center justify-center rounded-xl bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
 							<span>
 								{!user.subscription[0]?.subscriptionId ? 'Subscribe' : 'Plans'}
 							</span>

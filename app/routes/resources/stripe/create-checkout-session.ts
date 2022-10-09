@@ -11,27 +11,19 @@ import { createStripeCheckoutSession } from '~/modules/stripe/utils'
 /**
  * Remix - Action.
  * @required Template code.
- *
- * Redirects to Stripe Checkout.
  */
 export const action: ActionFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = (await authenticator.isAuthenticated(
 		request,
 	)) as Awaited<AuthSession> | null
 
-	/**
-	 * Gets values from `formData`.
-	 */
+	// Gets values from `formData`.
 	const formData = await request.formData()
 	const { planId } = Object.fromEntries(formData)
 
-	/**
-	 * Checks for Subscription Customer into Auth Session.
-	 * On success: Redirects to checkout with Customer already set.
-	 */
+	// Checks for Subscription Customer into Auth Session.
+	// On success: Redirects to checkout with Customer already set.
 	if (user && user.subscription[0]?.customerId) {
 		const customerId = user.subscription[0].customerId
 		const stripeRedirectUrl = await createStripeCheckoutSession(
@@ -43,10 +35,8 @@ export const action: ActionFunction = async ({ request }) => {
 			return redirect(stripeRedirectUrl)
 	}
 
-	/**
-	 * Checks for Subscription Customer into database.
-	 * On success: Redirects to checkout with Customer already set.
-	 */
+	// Checks for Subscription Customer into database.
+	// On success: Redirects to checkout with Customer already set.
 	if (user && user.subscription.length === 0) {
 		const dbUser = await getUserByProviderIdIncludingSubscription(
 			user.providerId,
@@ -64,12 +54,10 @@ export const action: ActionFunction = async ({ request }) => {
 		}
 	}
 
-	/**
-	 * If Subscription Customer has not been found in any of the previous checks:
-	 * - Creates a new Stripe Customer.
-	 * - Stores newly created Stripe Customer into database.
-	 * - Redirects to checkout with Customer already set.
-	 */
+	// If Subscription Customer has not been found in any of the previous checks:
+	// - Creates a new Stripe Customer.
+	// - Stores newly created Stripe Customer into database.
+	// - Redirects to checkout with Customer already set.
 	if (user && user.subscription.length === 0) {
 		const newStripeCustomer = await createStripeCustomer({
 			email: user.email,
@@ -103,8 +91,6 @@ export const action: ActionFunction = async ({ request }) => {
 			return redirect(stripeRedirectUrl)
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return json({}, { status: 400 })
 }

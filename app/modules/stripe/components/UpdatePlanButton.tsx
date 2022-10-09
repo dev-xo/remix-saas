@@ -33,9 +33,7 @@ export const UpdatePlanButton = ({
 	}
 
 	if (planIdPriceAmount && purchasedPlanPriceAmount) {
-		/**
-		 * Returns Current Plan button.
-		 */
+		// Returns Current Plan button.
 		if (planIdPriceAmount === purchasedPlanPriceAmount) {
 			return (
 				<button
@@ -46,10 +44,8 @@ export const UpdatePlanButton = ({
 			)
 		}
 
-		/**
-		 * Returns Upgrade or Downgrade Plan button.
-		 * As button `value`, we'll provide newly desired planId.
-		 */
+		// Returns Upgrade or Downgrade Plan button.
+		// As button `value`, we'll provide newly desired planId.
 		return (
 			<fetcher.Form
 				action="/resources/stripe/update-subscription-plan"

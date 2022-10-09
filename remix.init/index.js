@@ -3,7 +3,6 @@
  * @author @dev-xo https://github.com/dev-xo
  *
  * Some of the Typescript related scripts, have been developed by other authors.
- * @author @kentcdodds https://github.com/kentcdodds
  * @author @MichaelDeBoey https://github.com/MichaelDeBoey
  */
 const { execSync } = require('child_process')
@@ -80,9 +79,7 @@ const removeUnusedDependencies = (dependencies, unusedDependencies) =>
 const cleanupCypressFiles = async (rootDirectory) => {
 	const CYPRESS_CONFIG_PATH = path.join(rootDirectory, 'cypress.config.js')
 
-	/**
-	 * Reads, replaces and writes a new file.
-	 */
+	// Reads, replaces and writes a new file.
 	const cypressConfig = await fs.readFile(CYPRESS_CONFIG_PATH, 'utf-8')
 	const replacedCypressConfig = cypressConfig.replace(
 		'export default',
@@ -97,9 +94,7 @@ const cleanupCypressFiles = async (rootDirectory) => {
 const cleanupVitestConfigFile = async (rootDirectory) => {
 	const VITEST_CONFIG_PATH = path.join(rootDirectory, 'vitest.config.js')
 
-	/**
-	 * Reads, replaces and writes a new file.
-	 */
+	// Reads, replaces and writes a new file.
 	const vitestConfig = await fs.readFile(VITEST_CONFIG_PATH, 'utf-8')
 	const replacedVitestConfig = vitestConfig.replace(
 		'setup-test-env.ts',
@@ -119,9 +114,7 @@ const cleanupDeployWorkflowFile = async (rootDirectory) => {
 		'deploy.yml',
 	)
 
-	/**
-	 * Reads, parses, replaces and writes a new file.
-	 */
+	// Reads, parses, replaces and writes a new file.
 	const deployWorkflow = await fs.readFile(DEPLOY_WORKFLOW_PATH, 'utf-8')
 	const parsedWorkflow = YAML.parse(deployWorkflow)
 
@@ -137,7 +130,7 @@ const cleanupDeployWorkflowFile = async (rootDirectory) => {
 }
 
 /**
- * Updates package.json
+ * Updates package.json.
  */
 const updatePackageJson = async (rootDirectory, isTypeScript, APP_NAME) => {
 	const packageJson = await PackageJson.load(rootDirectory)
@@ -177,9 +170,7 @@ const replaceAndInitEnvFiles = async (rootDirectory) => {
 	const ENV_PATH = path.join(rootDirectory, '.env')
 	const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
 
-	/**
-	 * Reads, replaces and writes a new `.env` file.
-	 */
+	// Reads, replaces and writes a new `.env` file.
 	const exampleEnv = await fs.readFile(EXAMPLE_ENV_PATH, 'utf-8')
 	const replacedExampleEnv = exampleEnv.replace(
 		/^SESSION_SECRET=.*$/m,
@@ -187,9 +178,7 @@ const replaceAndInitEnvFiles = async (rootDirectory) => {
 	)
 	await fs.writeFile(ENV_PATH, replacedExampleEnv)
 
-	/**
-	 * Removes `.env.example` file from directory.
-	 */
+	// Removes `.env.example` file from directory.
 	await fs.unlink(EXAMPLE_ENV_PATH)
 }
 
@@ -210,15 +199,11 @@ const replaceProjectNameFromFiles = async (rootDirectory, APP_NAME) => {
 		fs.readFile(README_PATH, 'utf-8'),
 	])
 
-	/**
-	 * Replaces Fly.toml file.
-	 */
+	// Replaces Fly.toml file.
 	const replacedFlyToml = toml.parse(flyToml)
 	replacedFlyToml.app = replacedFlyToml.app.replace(REPLACER, APP_NAME)
 
-	/**
-	 * Replaces README.md file.
-	 */
+	// Replaces README.md file.
 	const replacedReadme = readme.replace(REPLACER, APP_NAME)
 
 	await Promise.all([
@@ -251,15 +236,11 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 	const DIR_NAME = path.basename(rootDirectory)
 	const APP_NAME = DIR_NAME.replace(/[^a-zA-Z0-9-_]/g, '-')
 
-	/**
-	 * Returns commands for the package manager used in the workspace.
-	 */
+	// Returns commands for the package manager used in the workspace.
 	const pm = getPackageManagerCommand(packageManager)
 
 	if (!isTypeScript) {
-		/**
-		 * Cleans up all Typescript references from the project.
-		 */
+		// Cleans up all Typescript references from the project.
 		await Promise.all([
 			cleanupCypressFiles(rootDirectory),
 			cleanupVitestConfigFile(rootDirectory),
@@ -268,31 +249,21 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 	}
 
 	await Promise.all([
-		/**
-		 * Updates package.json.
-		 */
+		// Updates package.json.
 		updatePackageJson(rootDirectory, isTypeScript, APP_NAME),
 
-		/**
-		 * Creates and initiates a newly `.env` file,
-		 * with provided variables from `.env.example`.
-		 */
+		// Creates and initiates a newly `.env` file,
+		// with provided variables from `.env.example`.
 		replaceAndInitEnvFiles(rootDirectory),
 
-		/**
-		 * Replaces default project name for the one provided by `DIR_NAME`.
-		 */
+		// Replaces default project name for the one provided by `DIR_NAME`.
 		replaceProjectNameFromFiles(rootDirectory, APP_NAME),
 
-		/**
-		 * Replaces `lockfile` based on the package manager used in the workspace.
-		 */
+		// Replaces `lockfile` based on the package manager used in the workspace.
 		replaceDockerLockFile(rootDirectory, pm),
 	])
 
-	/**
-	 * Formats the entire project.
-	 */
+	// Formats the entire project.
 	execSync(pm.run('format', '--loglevel warn'), {
 		cwd: rootDirectory,
 		stdio: 'inherit',

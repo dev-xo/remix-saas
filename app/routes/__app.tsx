@@ -15,16 +15,12 @@ type LoaderData = {
  * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = (await authenticator.isAuthenticated(
 		request,
 	)) as LoaderData['user']
 
-	/**
-	 * On Auth Session: Redirects to `/account`.
-	 */
+	// On Auth Session: Redirects to `/account`.
 	const url = new URL(request.url)
 	if (user && url.pathname === '/') return redirect('/account')
 
@@ -60,8 +56,7 @@ export default function AppRoute() {
 						href="https://github.com/dev-xo/stripe-stack"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex h-12 flex-row items-center text-lg font-semibold text-gray-800 opacity-100
-          	transition hover:scale-105 hover:opacity-100 active:scale-100 dark:text-gray-300">
+						className="flex h-12 flex-row items-center text-lg font-semibold text-gray-800 opacity-100 transition hover:scale-105 hover:opacity-100 active:scale-100 dark:text-gray-300">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
@@ -81,8 +76,7 @@ export default function AppRoute() {
 						href="https://twitter.com/DanielKanem"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex h-12 flex-row items-center text-lg font-semibold text-gray-800 opacity-40
-          	transition hover:scale-105 hover:opacity-100 active:scale-100 dark:text-gray-300">
+						className="flex h-12 flex-row items-center text-lg font-semibold text-gray-800 opacity-40 transition hover:scale-105 hover:opacity-100 active:scale-100 dark:text-gray-300">
 						<svg
 							className="h-8 fill-gray-800 dark:fill-gray-300"
 							viewBox="0 0 24 24"

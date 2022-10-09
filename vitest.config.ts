@@ -11,10 +11,9 @@ export default defineConfig({
 		globals: true,
 		environment: 'happy-dom',
 		setupFiles: ['./test/setup-env.ts'],
-		/**
-		 * Disable CSS if you don't have tests that relies on it,
-		 * since parsing CSS it's slow.
-		 */
+
+		// Disable CSS if you don't have tests that relies on it,
+		// since parsing CSS it's slow.
 		css: false,
 	},
 })

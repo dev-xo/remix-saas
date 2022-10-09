@@ -7,27 +7,19 @@ import { retrieveStripeSubscription } from '~/modules/stripe/queries'
 /**
  * Remix - Loader.
  * @required Template code.
- *
- * If current Subscription has expired: Updates Auth Session accordingly.
  */
 export const loader: LoaderFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = (await authenticator.isAuthenticated(
 		request,
 	)) as AuthSession | null
 
-	/**
-	 * Checks for Subscription ID existence into Auth Session.
-	 */
+	// Checks for Subscription ID existence into Auth Session.
 	if (user && user.subscription[0]?.subscriptionId) {
 		const subscriptionId = user.subscription[0].subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
-		/**
-		 * If Subscription has expired: Updates Auth Session accordingly.
-		 */
+		// If Subscription has expired: Updates Auth Session accordingly.
 		if (subscription && subscription?.status === 'canceled') {
 			let session = await getSession(request.headers.get('Cookie'))
 
@@ -41,12 +33,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 					'Set-Cookie': await commitSession(session),
 				},
 			})
-			/**
-			 * Else:
-			 * Sets a value in the session that is only valid until the next session.get().
-			 * Used to skip redirect loop at checking subscription expiration.
-			 */
-		} else {
+		}
+
+		// Sets a value in the session that is only valid until the next session.get().
+		// Used to skip redirect loop at checking subscription expiration.
+		else {
 			let session = await getSession(request.headers.get('Cookie'))
 
 			session.flash('SKIP_EXPIRATION_CHECK', true)
@@ -59,8 +50,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 		}
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return redirect('/')
 }

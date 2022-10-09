@@ -17,9 +17,7 @@ const HOST_URL =
 export const createStripeCustomerPortalSession = async (
 	customerId: Subscription['customerId'],
 ) => {
-	/**
-	 * Creates a Customer Portal Session object.
-	 */
+	// Creates a Customer Portal Session object.
 	const session = await stripe.billingPortal.sessions.create({
 		customer: customerId,
 		return_url: `${HOST_URL}/resources/stripe/create-customer-portal/update-session`,
@@ -28,8 +26,6 @@ export const createStripeCustomerPortalSession = async (
 	if (!session?.url)
 		throw new Error('Unable to create a new Stripe Customer Portal Session.')
 
-	/**
-	 * Returns newly created Stripe Customer Portal Session URL.
-	 */
+	// Returns newly created Stripe Customer Portal Session URL.
 	return session.url
 }

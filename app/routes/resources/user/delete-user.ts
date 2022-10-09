@@ -9,23 +9,16 @@ import { deleteUser } from '~/modules/user/mutations'
 /**
  * Remix - Action.
  * @required Template code.
- 
- * Deletes current Stripe Customer. (If exists)
- * Deletes current User from database.
  */
 export const action: ActionFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = (await authenticator.isAuthenticated(
 		request,
 	)) as AuthSession | null
 
 	if (user) {
-		/**
-		 * Checks database for Subscription Customer existence.
-		 * On success: Deletes current Stripe Customer.
-		 */
+		// Checks database for Subscription Customer existence.
+		// On success: Deletes current Stripe Customer.
 		const dbUser = await getUserByProviderIdIncludingSubscription(
 			user.providerId,
 		)
@@ -35,16 +28,12 @@ export const action: ActionFunction = async ({ request }) => {
 			await deleteStripeCustomer(customerId)
 		}
 
-		/**
-		 * Deletes current User from database.
-		 * This will also delete Subscription Model in cascade mode.
-		 */
+		// Deletes current User from database.
+		// This will also delete Subscription Model in cascade mode.
 		const providerId = user.providerId
 		await deleteUser(providerId)
 
-		/**
-		 * Destroys Auth Session and redirects with updated headers.
-		 */
+		// Destroys Auth Session and redirects with updated headers.
 		let session = await getSession(request.headers.get('Cookie'))
 
 		return redirect('/', {
@@ -54,8 +43,6 @@ export const action: ActionFunction = async ({ request }) => {
 		})
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return json({}, { status: 400 })
 }

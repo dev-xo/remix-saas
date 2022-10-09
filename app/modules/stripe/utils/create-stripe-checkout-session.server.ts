@@ -20,9 +20,7 @@ export const createStripeCheckoutSession = async (
 ) => {
 	if (!priceId) throw new Error('Stripe `priceId` is undefined.')
 
-	/**
-	 * Creates a Checkout Session object.
-	 */
+	// Creates a Checkout Session object.
 	const session = await stripe.checkout.sessions.create({
 		customer: customerId,
 		line_items: [{ price: priceId, quantity: 1 }],
@@ -35,8 +33,6 @@ export const createStripeCheckoutSession = async (
 	if (!session?.url)
 		throw new Error('Unable to create a new Stripe Checkout Session.')
 
-	/**
-	 * Returns newly created Stripe Checkout Session URL.
-	 */
+	// Returns newly created Stripe Checkout Session URL.
 	return session.url
 }

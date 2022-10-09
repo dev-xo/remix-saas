@@ -8,38 +8,27 @@ import { updateStripeSubscription } from '~/modules/stripe/mutations'
 /**
  * Remix - Action.
  * @required Template code.
- *
- * Upgrades or Downgrades current Subscription Plan.
  */
 export const action: ActionFunction = async ({ request }) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = (await authenticator.isAuthenticated(
 		request,
 	)) as AuthSession | null
 
-	/**
-	 * Checks for Subscription ID existence into Auth Session.
-	 */
+	// Checks for Subscription ID existence into Auth Session.
 	if (user && user.subscription[0]?.subscriptionId) {
 		const subscriptionId = user.subscription[0]?.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
 		if (subscription && subscription?.status === 'active') {
-			/**
-			 * Gets values from `formData`.
-			 */
+			// Gets values from `formData`.
 			const formData = await request.formData()
 			const { newPlanId } = Object.fromEntries(formData)
 
 			if (typeof newPlanId === 'string') {
-				/**
-				 * Updates current Subscription Plan.
-				 *
-				 * More info about Proration:
-				 * https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
-				 */
+				// Updates current Subscription Plan.
+				// More info about Proration:
+				// https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
 				await updateStripeSubscription(subscriptionId, {
 					proration_behavior: 'always_invoice',
 					items: [
@@ -50,9 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 					],
 				})
 
-				/**
-				 * On Update Stripe Subscription success: Updates Auth Session accordingly.
-				 */
+				// On Update Stripe Subscription success: Updates Auth Session accordingly.
 				let session = await getSession(request.headers.get('Cookie'))
 
 				session.set(authenticator.sessionKey, {
@@ -60,10 +47,8 @@ export const action: ActionFunction = async ({ request }) => {
 					subscription: [{ ...user.subscription[0], planId: newPlanId }],
 				} as AuthSession)
 
-				/**
-				 * Sets a value in the session that is only valid until the next session.get().
-				 * Used to enhance UI experience.
-				 */
+				// Sets a value in the session that is only valid until the next session.get().
+				// Used to enhance UI experience.
 				session.flash('HAS_SUCCESSFULLY_UPDATED_PLAN', true)
 
 				return redirect('/account', {
@@ -75,8 +60,6 @@ export const action: ActionFunction = async ({ request }) => {
 		}
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return json({}, { status: 400 })
 }

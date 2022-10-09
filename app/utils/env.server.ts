@@ -1,20 +1,15 @@
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
-			/**
-			 * BASE
-			 */
+			// BASE
 			NODE_ENV: 'development' | 'production' | 'test'
 			SESSION_SECRET: string
-			/**
-			 * BASE URLs
-			 */
+
+			// BASE URLs
 			DEV_HOST_URL: string
 			PROD_HOST_URL: string
 
-			/**
-			 * AUTH
-			 */
+			// AUTH
 			GOOGLE_CLIENT_ID: string
 			GOOGLE_CLIENT_SECRET: string
 
@@ -27,22 +22,16 @@ declare global {
 			DISCORD_CLIENT_ID: string
 			DISCORD_CLIENT_SECRET: string
 
-			/**
-			 * STRIPE
-			 */
+			// STRIPE
 			STRIPE_PUBLIC_KEY: string
 			STRIPE_SECRET_KEY: string
 
-			/**
-			 * STRIPE PLANS
-			 */
+			// STRIPE PLANS
 			PLAN_1_PRICE_ID: string
 			PLAN_2_PRICE_ID: string
 			PLAN_3_PRICE_ID: string
 
-			/**
-			 * STRIPE WEBHOOK
-			 */
+			// STRIPE WEBHOOK
 			DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET: string
 			PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET: string
 		}

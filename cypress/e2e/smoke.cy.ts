@@ -7,8 +7,8 @@
  * Remix team it's working on its fix already.
  * Check cypress/support/e2e for a detailed explanation.
  */
-describe('Smoke test!.', () => {
-	it('Should display template name text.', () => {
+describe('Example test.', () => {
+	it('Should display template name.', () => {
 		cy.visit('/')
 		cy.findByText('Discover Remix')
 	})

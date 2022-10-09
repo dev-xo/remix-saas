@@ -33,16 +33,12 @@ authenticator.use(
 			prompt: 'consent',
 		},
 		async ({ profile }) => {
-			/**
-			 * Checks for User existence in database.
-			 */
+			// Checks for User existence in database.
 			const user = await getUserByProviderIdIncludingSubscription(profile.id)
 
-			/**
-			 * If User has not been found:
-			 * - Creates and stores a new User in database.
-			 * - Returns newly created User as Auth Session.
-			 */
+			// If User has not been found:
+			// - Creates and stores a new User in database.
+			// - Returns newly created User as Auth Session.
 			if (!user) {
 				const newUser = await createUser({
 					providerId: profile.id,
@@ -59,9 +55,7 @@ authenticator.use(
 				}
 			}
 
-			/**
-			 * Returns user from database as Auth Session.
-			 */
+			// Returns user from database as Auth Session.
 			return { ...user }
 		},
 	),
@@ -78,16 +72,12 @@ authenticator.use(
 			callbackURL: `${HOST_URL}/auth/${SocialsProvider.GITHUB}/callback`,
 		},
 		async ({ profile }) => {
-			/**
-			 * Checks for User existence in database.
-			 */
+			// Checks for User existence in database.
 			const user = await getUserByProviderIdIncludingSubscription(profile.id)
 
-			/**
-			 * If User has not been found:
-			 * - Creates and stores a new User in database.
-			 * - Returns newly created User as Auth Session.
-			 */
+			// If User has not been found:
+			// - Creates and stores a new User in database.
+			// - Returns newly created User as Auth Session.
 			if (!user) {
 				const newUser = await createUser({
 					providerId: profile.id,
@@ -104,9 +94,7 @@ authenticator.use(
 				}
 			}
 
-			/**
-			 * Returns user from database as Auth Session.
-			 */
+			// Returns user from database as Auth Session.
 			return { ...user }
 		},
 	),
@@ -124,16 +112,12 @@ authenticator.use(
 			scope: ['identify', 'email'],
 		},
 		async ({ profile }) => {
-			/**
-			 * Checks for User existence in database.
-			 */
+			// Checks for User existence in database.
 			const user = await getUserByProviderIdIncludingSubscription(profile.id)
 
-			/**
-			 * If User has not been found:
-			 * - Creates and stores a new User in database.
-			 * - Returns newly created User as Auth Session.
-			 */
+			// If User has not been found:
+			// - Creates and stores a new User in database.
+			// - Returns newly created User as Auth Session.
 			if (!user) {
 				const newUser = await createUser({
 					providerId: profile.id,
@@ -152,9 +136,7 @@ authenticator.use(
 				}
 			}
 
-			/**
-			 * Returns user from database as Auth Session.
-			 */
+			// Returns user from database as Auth Session.
 			return { ...user }
 		},
 	),
@@ -172,18 +154,14 @@ authenticator.use(
 			includeEmail: true,
 		},
 		async ({ accessToken, accessTokenSecret, profile }) => {
-			/**
-			 * Checks for User existence in database.
-			 */
+			// Checks for User existence in database.
 			const user = await getUserByProviderIdIncludingSubscription(
 				profile.id_str,
 			)
 
-			/**
-			 * If User has not been found:
-			 * - Creates and stores a new User in database.
-			 * - Returns newly created User as Auth Session.
-			 */
+			// If User has not been found:
+			// - Creates and stores a new User in database.
+			// - Returns newly created User as Auth Session.
 			if (!user) {
 				const newUser = await createUser({
 					providerId: profile.id_str,
@@ -200,9 +178,7 @@ authenticator.use(
 				}
 			}
 
-			/**
-			 * Returns user from database as Auth Session.
-			 */
+			// Returns user from database as Auth Session.
 			return { ...user }
 		},
 	),
