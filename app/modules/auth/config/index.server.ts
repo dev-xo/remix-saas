@@ -60,7 +60,7 @@ authenticator.use(
 			}
 
 			/**
-			 * Returns Auth Session from database.
+			 * Returns user from database as Auth Session.
 			 */
 			return { ...user }
 		},
@@ -105,7 +105,7 @@ authenticator.use(
 			}
 
 			/**
-			 * Returns Auth Session from database.
+			 * Returns user from database as Auth Session.
 			 */
 			return { ...user }
 		},
@@ -153,7 +153,7 @@ authenticator.use(
 			}
 
 			/**
-			 * Returns Auth Session from database.
+			 * Returns user from database as Auth Session.
 			 */
 			return { ...user }
 		},
@@ -201,7 +201,7 @@ authenticator.use(
 			}
 
 			/**
-			 * Returns Auth Session from database.
+			 * Returns user from database as Auth Session.
 			 */
 			return { ...user }
 		},
