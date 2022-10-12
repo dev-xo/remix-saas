@@ -38,7 +38,10 @@
 		"jsxSingleQuote": false,
 		"singleAttributePerLine": false,
 		"arrowParens": "always",
-		"trailingComma": "all"
+		"trailingComma": "all",
+		"plugins": [
+			"prettier-plugin-tailwindcss"
+		]
 	},
 	"eslintIgnore": [
 		"/node_modules",
