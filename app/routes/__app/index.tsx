@@ -58,7 +58,7 @@ export default function AppIndexRoute() {
 							<div className="w-3" />
 
 							<a
-								href="https://discord.com/invite/remix"
+								href="https://discord.com/invite/xwx7mMzVkA"
 								target="_blank"
 								rel="noopener noreferrer">
 								<svg
