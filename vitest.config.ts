@@ -10,7 +10,7 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: 'happy-dom',
-		setupFiles: ['./test/setup-env.ts'],
+		setupFiles: ['./test/setup-vitest.ts'],
 
 		// Disable CSS if you don't have tests that relies on it,
 		// since parsing CSS it's slow.
