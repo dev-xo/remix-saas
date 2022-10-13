@@ -10,9 +10,7 @@ import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(
-		request,
-	)) as AuthSession | null
+	const user = await authenticator.isAuthenticated(request)
 
 	if (user) {
 		// Gets User from database.

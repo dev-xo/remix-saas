@@ -1,5 +1,4 @@
 import type { ActionFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
 import { redirect, json } from '@remix-run/node'
 import { authenticator, getSession, destroySession } from '~/modules/auth'
 import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries'
@@ -12,9 +11,7 @@ import { deleteUser } from '~/modules/user/mutations'
  */
 export const action: ActionFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(
-		request,
-	)) as AuthSession | null
+	const user = await authenticator.isAuthenticated(request)
 
 	if (user) {
 		// Checks database for Subscription Customer existence.

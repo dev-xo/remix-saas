@@ -1,5 +1,4 @@
 import type { ActionFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
 import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/modules/auth'
 import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries'
@@ -14,9 +13,7 @@ import { createStripeCheckoutSession } from '~/modules/stripe/utils'
  */
 export const action: ActionFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(
-		request,
-	)) as Awaited<AuthSession> | null
+	const user = await authenticator.isAuthenticated(request)
 
 	// Gets values from `formData`.
 	const formData = await request.formData()

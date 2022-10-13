@@ -16,9 +16,7 @@ type LoaderData = {
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(
-		request,
-	)) as LoaderData['user']
+	const user = await authenticator.isAuthenticated(request)
 
 	// On Auth Session: Redirects to `/account`.
 	const url = new URL(request.url)

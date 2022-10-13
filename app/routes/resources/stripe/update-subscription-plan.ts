@@ -11,9 +11,7 @@ import { updateStripeSubscription } from '~/modules/stripe/mutations'
  */
 export const action: ActionFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(
-		request,
-	)) as AuthSession | null
+	const user = await authenticator.isAuthenticated(request)
 
 	// Checks for Subscription ID existence into Auth Session.
 	if (user && user.subscription[0]?.subscriptionId) {

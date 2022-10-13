@@ -23,9 +23,9 @@ type LoaderData = {
  */
 export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(request, {
+	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
-	})) as LoaderData['user']
+	})
 
 	// Parses `__auth` Cookie and returns the associated Session.
 	const session = await getSession(request.headers.get('Cookie'))

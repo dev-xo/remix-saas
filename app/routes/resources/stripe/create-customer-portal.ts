@@ -1,5 +1,4 @@
 import type { ActionFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
 import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/modules/auth'
 import { createStripeCustomerPortalSession } from '~/modules/stripe/utils'
@@ -10,9 +9,7 @@ import { createStripeCustomerPortalSession } from '~/modules/stripe/utils'
  */
 export const action: ActionFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = (await authenticator.isAuthenticated(
-		request,
-	)) as Awaited<AuthSession> | null
+	const user = await authenticator.isAuthenticated(request)
 
 	// Checks for Subscription Customer in Auth Session.
 	// On success: Redirects to Stripe Customer Portal.

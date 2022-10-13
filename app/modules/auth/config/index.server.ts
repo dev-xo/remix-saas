@@ -1,3 +1,4 @@
+import { AuthSession } from '../session.server'
 import { Authenticator } from 'remix-auth'
 import {
 	GoogleStrategy,
@@ -14,7 +15,7 @@ import { createUser } from '~/modules/user/mutations'
  * Init.
  * @required Template code.
  */
-export let authenticator = new Authenticator(sessionStorage)
+export let authenticator = new Authenticator<AuthSession>(sessionStorage)
 
 const HOST_URL =
 	process.env.NODE_ENV === 'development'
