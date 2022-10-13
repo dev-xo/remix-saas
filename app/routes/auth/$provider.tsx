@@ -1,5 +1,4 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
-import type { SocialsProvider } from 'remix-auth-socials'
 import { redirect } from '@remix-run/node'
 import { authenticator } from '~/modules/auth'
 
@@ -8,12 +7,7 @@ import { authenticator } from '~/modules/auth'
  * @required Template code.
  */
 export const action: ActionFunction = async ({ request, params }) =>
-	await authenticator.authenticate(
-		params.provider !== 'twitter'
-			? (params.provider as SocialsProvider)
-			: params.provider,
-		request,
-	)
+	await authenticator.authenticate(params.provider as string, request)
 
 /**
  * Remix - Loader.
