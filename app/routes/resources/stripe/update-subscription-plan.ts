@@ -14,8 +14,8 @@ export const action: ActionFunction = async ({ request }) => {
 	const user = await authenticator.isAuthenticated(request)
 
 	// Checks for Subscription ID existence into Auth Session.
-	if (user && user.subscription[0]?.subscriptionId) {
-		const subscriptionId = user.subscription[0]?.subscriptionId
+	if (user && user.subscription?.subscriptionId) {
+		const subscriptionId = user.subscription?.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
 		if (subscription && subscription?.status === 'active') {
@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 				session.set(authenticator.sessionKey, {
 					...user,
-					subscription: [{ ...user.subscription[0], planId: newPlanId }],
+					subscription: { ...user.subscription, planId: newPlanId },
 				} as AuthSession)
 
 				// Sets a value in the session that is only valid until the next session.get().

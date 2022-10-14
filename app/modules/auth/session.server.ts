@@ -2,7 +2,7 @@ import type { User, Subscription } from '@prisma/client'
 import { createCookieSessionStorage } from '@remix-run/node'
 
 export interface AuthSession extends User {
-	subscription: Subscription[]
+	subscription?: Subscription | null
 }
 
 /**

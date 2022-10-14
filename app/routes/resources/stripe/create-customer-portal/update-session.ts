@@ -20,12 +20,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 		// Checks for Subscription ID existence.
 		// On success: Updates Auth Session accordingly.
-		if (dbUser && dbUser.subscription[0]?.subscriptionId) {
+		if (dbUser && dbUser.subscription?.subscriptionId) {
 			let session = await getSession(request.headers.get('Cookie'))
 
 			session.set(authenticator.sessionKey, {
 				...user,
-				subscription: [{ ...dbUser.subscription[0] }],
+				subscription: { ...dbUser.subscription },
 			} as AuthSession)
 
 			return redirect('/account', {

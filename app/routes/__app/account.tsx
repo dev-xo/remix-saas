@@ -43,10 +43,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 	// If expried: Updates Auth Session accordingly.
 	if (
 		user &&
-		user.subscription[0]?.currentPeriodEnd &&
+		user.subscription?.currentPeriodEnd &&
 		skipExpirationCheck === false
 	) {
-		const currentPeriodEnd = user.subscription[0].currentPeriodEnd
+		const currentPeriodEnd = user.subscription.currentPeriodEnd
 		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
 
 		const HOST_URL =
@@ -62,8 +62,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	// Retrieves the name of the current Subscription plan. (If any)
 	const purchasedPlanName =
-		(user?.subscription[0]?.planId &&
-			getValueFromStripePlans(user.subscription[0].planId, 'planName')) ||
+		(user?.subscription?.planId &&
+			getValueFromStripePlans(user.subscription.planId, 'planName')) ||
 		null
 
 	// Returns a JSON Response and resets flashing Session variables.
@@ -221,7 +221,7 @@ export default function AccountRoute() {
 					<div className="mb-1" />
 
 					{/* Displays a message if there is no Subscription. */}
-					{!user.subscription[0]?.subscriptionId && (
+					{!user.subscription?.subscriptionId && (
 						<>
 							<p className="text-center font-semibold text-gray-500 dark:text-gray-400">
 								Subscribe to get some tasty Cookies!
@@ -231,10 +231,10 @@ export default function AccountRoute() {
 					)}
 
 					{/* Displays formated Subscription expiration date. */}
-					{user.subscription[0]?.subscriptionId && (
+					{user.subscription?.subscriptionId && (
 						<>
 							<p className="font-bold text-gray-700 dark:text-gray-400">
-								{user.subscription[0]?.cancelAtPeriodEnd === true ? (
+								{user.subscription?.cancelAtPeriodEnd === true ? (
 									<span className="text-red-500">EXPIRES</span>
 								) : (
 									<span className="text-gray-900 dark:text-gray-100">
@@ -242,15 +242,15 @@ export default function AccountRoute() {
 									</span>
 								)}
 								:{' '}
-								{user.subscription[0].currentPeriodEnd &&
-									formatUnixDate(user.subscription[0].currentPeriodEnd)}
+								{user.subscription.currentPeriodEnd &&
+									formatUnixDate(user.subscription.currentPeriodEnd)}
 							</p>
 							<div className="mb-3" />
 						</>
 					)}
 
 					{/* Displays a message if Subscription renew has been cancelled. */}
-					{user.subscription[0]?.cancelAtPeriodEnd === true && (
+					{user.subscription?.cancelAtPeriodEnd === true && (
 						<>
 							<p className="text-center font-semibold text-gray-500 dark:text-gray-400">
 								Your plan will be cancelled but your subscription benefits will
@@ -264,13 +264,13 @@ export default function AccountRoute() {
 					<Link to="/plans">
 						<button className="flex h-9 flex-row items-center justify-center rounded-xl bg-violet-500 px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100">
 							<span>
-								{!user.subscription[0]?.subscriptionId ? 'Subscribe' : 'Plans'}
+								{!user.subscription?.subscriptionId ? 'Subscribe' : 'Plans'}
 							</span>
 						</button>
 					</Link>
 
 					{/* Renders `CreateCustomerPortalButton` component. */}
-					{user.subscription[0]?.customerId && (
+					{user.subscription?.customerId && (
 						<>
 							<div className="mb-3" />
 							<CreateCustomerPortalButton />

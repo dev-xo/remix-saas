@@ -20,8 +20,8 @@ export const action: ActionFunction = async ({ request }) => {
 			user.providerId,
 		)
 
-		if (dbUser && dbUser.subscription[0]?.customerId) {
-			const customerId = dbUser.subscription[0].customerId
+		if (dbUser && dbUser.subscription?.customerId) {
+			const customerId = dbUser.subscription.customerId
 			await deleteStripeCustomer(customerId)
 		}
 

@@ -1,4 +1,4 @@
-import { AuthSession } from '../session.server'
+import type { AuthSession } from '../session.server'
 import { Authenticator } from 'remix-auth'
 import {
 	GoogleStrategy,
@@ -52,12 +52,13 @@ authenticator.use(
 
 				return {
 					...newUser,
-					subscription: [],
 				}
 			}
 
 			// Returns user from database as Auth Session.
-			return { ...user }
+			return {
+				...user,
+			}
 		},
 	),
 )
@@ -91,12 +92,13 @@ authenticator.use(
 
 				return {
 					...newUser,
-					subscription: [],
 				}
 			}
 
 			// Returns user from database as Auth Session.
-			return { ...user }
+			return {
+				...user,
+			}
 		},
 	),
 )
@@ -133,12 +135,13 @@ authenticator.use(
 
 				return {
 					...newUser,
-					subscription: [],
 				}
 			}
 
 			// Returns user from database as Auth Session.
-			return { ...user }
+			return {
+				...user,
+			}
 		},
 	),
 )
@@ -175,12 +178,13 @@ authenticator.use(
 
 				return {
 					...newUser,
-					subscription: [],
 				}
 			}
 
 			// Returns user from database as Auth Session.
-			return { ...user }
+			return {
+				...user,
+			}
 		},
 	),
 )

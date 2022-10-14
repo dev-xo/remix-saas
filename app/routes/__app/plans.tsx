@@ -144,7 +144,7 @@ export default function PlansRoute() {
 							<div className="m-3" />
 
 							{/* Renders `CreateCheckoutButton` component. */}
-							{!user?.subscription[0]?.subscriptionId && (
+							{!user?.subscription?.subscriptionId && (
 								<CreateCheckoutButton
 									planId={plan.planId}
 									planName={plan.planName}
@@ -152,10 +152,10 @@ export default function PlansRoute() {
 							)}
 
 							{/* Renders `UpdatePlanButton` component. */}
-							{user?.subscription[0]?.planId && (
+							{user?.subscription?.planId && (
 								<UpdatePlanButton
 									planId={plan.planId}
-									purchasedPlanId={user.subscription[0].planId}
+									purchasedPlanId={user.subscription.planId}
 								/>
 							)}
 						</div>

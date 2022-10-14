@@ -13,8 +13,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 	const user = await authenticator.isAuthenticated(request)
 
 	// Checks for Subscription ID existence into Auth Session.
-	if (user && user.subscription[0]?.subscriptionId) {
-		const subscriptionId = user.subscription[0].subscriptionId
+	if (user && user.subscription?.subscriptionId) {
+		const subscriptionId = user.subscription.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
 		// If Subscription has expired: Updates Auth Session accordingly.
@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 			session.set(authenticator.sessionKey, {
 				...user,
-				subscription: [{ customerId: user.subscription[0].customerId }],
+				subscription: { customerId: user.subscription.customerId },
 			} as AuthSession)
 
 			return redirect('/account', {
