@@ -96,13 +96,15 @@ Let's review some of template's important folders:
 
 ### Authentication Strategies
 
-To provide authentication to our app, we will need to get the API Keys from our Socials Providers.
+To provide authentication to our app, we will need to get the secret API Keys from our Socials Providers.
 Below here you can find all template's Providers OAuth Documentations.
 
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
 - [Twitter OAuth](https://developer.twitter.com/en/docs/authentication/overview)
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
+
+Usually this providers will ask you for a `Callback URI / Redirect URL`. An example of a Callback URI would look like this one: `https://my-deployed-app.fly.dev/auth/provider/callback`. Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`.
 
 Once you've got the Providers API Keys, set them into template's `.env` file.
 
