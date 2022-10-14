@@ -104,7 +104,9 @@ Below here you can find all template's Providers OAuth Documentations.
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Usually this providers will ask you for a `Callback URI / Redirect URL`. An example of a Callback URI would look like this one: `https://my-deployed-app.fly.dev/auth/provider/callback`. Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`.
+Usually this providers will ask you for a `Callback URI / Redirect URL`.
+
+An example of a Callback URI would look like this one: `https://my-deployed-app.fly.dev/auth/provider/callback`. Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`.
 
 Once you've got the Providers API Keys, set them into template's `.env` file.
 
