@@ -96,11 +96,11 @@ const cleanupVitestConfigFile = async (rootDirectory) => {
 
 	// Reads, replaces and writes a new file.
 	const vitestConfig = await fs.readFile(VITEST_CONFIG_PATH, 'utf-8')
-	const replacedVitestConfig = vitestConfig.replace(
-		'setup-test-env.ts',
-		'setup-test-env.js',
+	const replacedVitestSetupConfig = vitestConfig.replace(
+		'setup-vitest.ts',
+		'setup-vitest.js',
 	)
-	await fs.writeFile(VITEST_CONFIG_PATH, replacedVitestConfig)
+	await fs.writeFile(VITEST_CONFIG_PATH, replacedVitestSetupConfig)
 }
 
 /**
