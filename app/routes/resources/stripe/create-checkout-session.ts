@@ -2,7 +2,6 @@ import type { ActionFunction } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/modules/auth'
 import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries'
-
 import { createStripeCustomer } from '~/modules/stripe/mutations'
 import { createSubscription } from '~/modules/subscription/mutations'
 import { createStripeCheckoutSession } from '~/modules/stripe/utils'
