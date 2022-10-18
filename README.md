@@ -52,7 +52,7 @@ To get started, run the following commands in your console:
 npx create-remix@latest --template dev-xo/stripe-stack
 
 # Starts dev server:
-npm run dev
+cp .env.example .env && npm run dev
 ```
 
 > Notes: Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. This template uses `remix.init` to configure itself and prepare your environment.
