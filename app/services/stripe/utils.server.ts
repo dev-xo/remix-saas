@@ -68,12 +68,8 @@ export const createStripeCheckoutSession = async (
 		line_items: [{ price: priceId, quantity: 1 }],
 		mode: 'subscription',
 		payment_method_types: ['card'],
-		success_url: `${getDomainUrl(
-			request,
-		)}/resources/stripe/create-checkout-session/update-session`,
-		cancel_url: `${getDomainUrl(
-			request,
-		)}/resources/stripe/create-checkout-session/update-session`,
+		success_url: `${getDomainUrl(request)}/checkout`,
+		cancel_url: `${getDomainUrl(request)}/checkout/failure`,
 	})
 
 	if (!session?.url)
