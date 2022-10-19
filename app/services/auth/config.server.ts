@@ -24,7 +24,6 @@ export let authenticator = new Authenticator<AuthSession>(sessionStorage, {
 	sessionErrorKey: 'AUTH_SESSION_ERROR_KEY',
 })
 
-// TODO: Use getDomain instead of this.
 const HOST_URL =
 	process.env.NODE_ENV === 'development'
 		? process.env.DEV_HOST_URL
@@ -201,8 +200,8 @@ authenticator.use(
 		// - Compares database `user.password` with provided `formData` password.
 		// - Returns user from database as Auth Session.
 		if (formType === 'login') {
-			if (!dbUser) throw new Error('Email not found.')
-			if (!dbUser.password) throw new Error('Password is required.')
+			if (!dbUser || !dbUser.password)
+				throw new Error('User or Email not found.')
 			if (typeof password !== 'string') throw new Error('Password is required.')
 
 			const isValid = await bcrypt.compare(password, dbUser.password.hash)
@@ -220,7 +219,8 @@ authenticator.use(
 		// - Creates and stores a new User in database.
 		// - Returns newly created User as Auth Session.
 		if (formType === 'signup') {
-			if (dbUser?.email === email) throw new Error('Email is already in use.')
+			if (dbUser && dbUser?.email === email)
+				throw new Error('Email is already in use.')
 			if (typeof password !== 'string') throw new Error('Password is required.')
 			if (typeof name !== 'string') throw new Error('Name is required.')
 
