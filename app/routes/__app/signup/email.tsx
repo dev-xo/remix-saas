@@ -1,8 +1,8 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
-import { Link, Form, useLoaderData } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
-import { getSession, commitSession } from '~/services/auth/session.server'
+import type { MetaFunction, LoaderFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Link, Form, useLoaderData } from '@remix-run/react';
+import { authenticator } from '~/services/auth/config.server';
+import { getSession, commitSession } from '~/services/auth/session.server';
 
 /**
  * Remix - Meta.
@@ -10,12 +10,12 @@ import { getSession, commitSession } from '~/services/auth/session.server'
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Sign Up with Email',
-	}
-}
+	};
+};
 
 type LoaderData = {
-	formError: string
-}
+	formError: string;
+};
 
 /**
  * Remix - Loader.
@@ -25,11 +25,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',
-	})
+	});
 
 	// Parses a Cookie and returns its associated Session.
-	const session = await getSession(request.headers.get('cookie'))
-	const error = session.get(authenticator.sessionErrorKey)
+	const session = await getSession(request.headers.get('cookie'));
+	const error = session.get(authenticator.sessionErrorKey);
 
 	return json<LoaderData>(
 		{ formError: error?.message },
@@ -38,11 +38,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	)
-}
+	);
+};
 
 export default function SignupEmailRoute() {
-	const { formError } = useLoaderData() as LoaderData
+	const { formError } = useLoaderData() as LoaderData;
 
 	return (
 		<div className="relative flex w-full max-w-md flex-col">
@@ -142,5 +142,5 @@ export default function SignupEmailRoute() {
 				, and you are free to use it in the way you like.
 			</p>
 		</div>
-	)
+	);
 }

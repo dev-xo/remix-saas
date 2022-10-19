@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Link } from '@remix-run/react';
 
 export default function AppIndexRoute() {
 	return (
@@ -235,5 +235,5 @@ export default function AppIndexRoute() {
 				))}
 			</div>
 		</div>
-	)
+	);
 }

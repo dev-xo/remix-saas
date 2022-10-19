@@ -1,36 +1,36 @@
-import type { StripePlanInterface } from '~/services/stripe/stripe-plans'
-import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
-import { useFetcher } from '@remix-run/react'
+import type { StripePlanInterface } from '~/services/stripe/stripe-plans';
+import { getValueFromStripePlans } from '~/services/stripe/stripe-plans';
+import { useFetcher } from '@remix-run/react';
 
 type ComponentProps = {
-	planId: StripePlanInterface['planId']
-	purchasedPlanId: StripePlanInterface['planId']
-}
+	planId: StripePlanInterface['planId'];
+	purchasedPlanId: StripePlanInterface['planId'];
+};
 
 export const UpdatePlanButton = ({
 	planId,
 	purchasedPlanId,
 }: ComponentProps) => {
-	const fetcher = useFetcher()
-	const isLoading = fetcher.state !== 'idle'
+	const fetcher = useFetcher();
+	const isLoading = fetcher.state !== 'idle';
 
-	const planIdName = getValueFromStripePlans(planId, 'planName')
-	const planIdPriceAmount = getValueFromStripePlans(planId, 'planPriceAmount')
+	const planIdName = getValueFromStripePlans(planId, 'planName');
+	const planIdPriceAmount = getValueFromStripePlans(planId, 'planPriceAmount');
 	const purchasedPlanPriceAmount = getValueFromStripePlans(
 		purchasedPlanId,
 		'planPriceAmount',
-	)
+	);
 
 	const buttonBackgroundClassName = () => {
 		switch (planIdName) {
 			case 'Basic':
-				return 'bg-green-700 hover:bg-green-500'
+				return 'bg-green-700 hover:bg-green-500';
 			case 'Creative':
-				return 'bg-sky-700 hover:bg-sky-500'
+				return 'bg-sky-700 hover:bg-sky-500';
 			case 'PRO':
-				return 'bg-purple-700 hover:bg-purple-500'
+				return 'bg-purple-700 hover:bg-purple-500';
 		}
-	}
+	};
 
 	if (planIdPriceAmount && purchasedPlanPriceAmount) {
 		// Returns Current Plan button.
@@ -41,7 +41,7 @@ export const UpdatePlanButton = ({
 					px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100`}>
 					<span>Curent Plan</span>
 				</button>
-			)
+			);
 		}
 
 		// Returns Upgrade or Downgrade Plan button.
@@ -66,8 +66,8 @@ export const UpdatePlanButton = ({
 					</span>
 				</button>
 			</fetcher.Form>
-		)
+		);
 	}
 
-	return null
-}
+	return null;
+};
