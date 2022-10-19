@@ -22,6 +22,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 		failureRedirect: '/',
 	})
 
+	// Early exit, avoiding Session updates.
+	if (!user || user.subscription?.subscriptionId) return redirect('/account')
+
 	if (user) {
 		// Checks for User existence in database.
 		const dbUser = (await getUserByIdIncludingSubscription(
@@ -69,19 +72,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 						},
 					},
 				)
-			} else {
-				return json<LoaderData>(
-					{
-						hasSkippedSubscriptionCheck: true,
-						hasSuccessfullySubscribed: false,
-					},
-					{
-						headers: {
-							'Set-Cookie': await commitSession(session),
-						},
-					},
-				)
 			}
+
+			return json<LoaderData>(
+				{
+					hasSkippedSubscriptionCheck: true,
+					hasSuccessfullySubscribed: false,
+				},
+				{
+					headers: {
+						'Set-Cookie': await commitSession(session),
+					},
+				},
+			)
 		}
 	}
 
