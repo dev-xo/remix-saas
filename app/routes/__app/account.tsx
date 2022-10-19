@@ -1,14 +1,24 @@
-import type { LoaderFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
+import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { AuthSession } from '~/services/auth/session.server'
 
 import { redirect, json } from '@remix-run/node'
-import { useLoaderData, Link } from '@remix-run/react'
-import { authenticator, getSession, commitSession } from '~/modules/auth'
-import { getValueFromStripePlans } from '~/modules/stripe'
-import { formatUnixDate, hasDateExpired } from '~/utils'
+import { Link, useLoaderData } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
+import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
-import { DeleteUserButton } from '~/modules/user/components'
-import { CreateCustomerPortalButton } from '~/modules/stripe/components'
+import { DeleteUserButton } from '~/components/User/DeleteUserButton'
+import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPortalButton'
+
+/**
+ * Remix - Meta.
+ */
+export const meta: MetaFunction = () => {
+	return {
+		title: 'Stripe Stack - Account',
+	}
+}
 
 type LoaderData = {
 	user: Awaited<AuthSession> | null
@@ -27,7 +37,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		failureRedirect: '/login',
 	})
 
-	// Parses `__auth` Cookie and returns the associated Session.
+	// Parses a Cookie and returns its associated Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
 	// Gets flash values from Session.

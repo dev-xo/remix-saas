@@ -14,8 +14,8 @@ import {
 	useLoaderData,
 } from '@remix-run/react'
 import { ThemeProvider, PreventFlashOnWrongTheme, useTheme } from 'remix-themes'
-import { themeSessionResolver } from '~/modules/theme/session.server'
-import { getGlobalEnvs } from './utils'
+import { themeSessionResolver } from '~/services/theme/session.server'
+import { getGlobalEnvs } from './utils/env.server'
 
 import tailwindStylesheetUrl from './styles/tailwind.css'
 

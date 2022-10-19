@@ -1,9 +1,12 @@
 import type { ActionFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
+import type { AuthSession } from '~/services/auth/session.server'
 import { redirect, json } from '@remix-run/node'
-import { authenticator, getSession, commitSession } from '~/modules/auth'
-import { retrieveStripeSubscription } from '~/modules/stripe/queries'
-import { updateStripeSubscription } from '~/modules/stripe/mutations'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import {
+	retrieveStripeSubscription,
+	updateStripeSubscription,
+} from '~/services/stripe/utils.server'
 
 /**
  * Remix - Action.

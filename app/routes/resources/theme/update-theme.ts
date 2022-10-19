@@ -1,5 +1,5 @@
 import { createThemeAction } from 'remix-themes'
-import { themeSessionResolver } from '~/modules/theme/session.server'
+import { themeSessionResolver } from '~/services/theme/session.server'
 
 /**
  * Remix - Action.

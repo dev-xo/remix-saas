@@ -1,8 +1,9 @@
 import type { LoaderFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
+import type { AuthSession } from '~/services/auth/session.server'
 import { redirect } from '@remix-run/node'
-import { authenticator, getSession, commitSession } from '~/modules/auth'
-import { retrieveStripeSubscription } from '~/modules/stripe/queries'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
 
 /**
  * Remix - Loader.

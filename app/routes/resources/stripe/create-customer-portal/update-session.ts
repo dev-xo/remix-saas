@@ -1,8 +1,9 @@
 import type { LoaderFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
+import type { AuthSession } from '~/services/auth/session.server'
 import { redirect } from '@remix-run/node'
-import { authenticator, getSession, commitSession } from '~/modules/auth'
-import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { getUserByIdIncludingSubscription } from '~/models/user.server'
 
 /**
  * Remix - Loader.
@@ -14,9 +15,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	if (user) {
 		// Gets User from database.
-		const dbUser = await getUserByProviderIdIncludingSubscription(
-			user.providerId,
-		)
+		const dbUser = (await getUserByIdIncludingSubscription(
+			user.id,
+		)) as AuthSession
 
 		// Checks for Subscription ID existence.
 		// On success: Updates Auth Session accordingly.

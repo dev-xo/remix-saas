@@ -1,10 +1,12 @@
 import type { ActionFunction } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
-import { authenticator } from '~/modules/auth'
-import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries'
-import { createStripeCustomer } from '~/modules/stripe/mutations'
-import { createSubscription } from '~/modules/subscription/mutations'
-import { createStripeCheckoutSession } from '~/modules/stripe/utils'
+import { authenticator } from '~/services/auth/config.server'
+import { getUserByIdIncludingSubscription } from '~/models/user.server'
+import { createSubscription } from '~/models/subscription.server'
+import {
+	createStripeCustomer,
+	createStripeCheckoutSession,
+} from '~/services/stripe/utils.server'
 
 /**
  * Remix - Action.
@@ -23,6 +25,7 @@ export const action: ActionFunction = async ({ request }) => {
 	if (user && user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCheckoutSession(
+			request,
 			customerId,
 			planId as string,
 		)
@@ -34,13 +37,12 @@ export const action: ActionFunction = async ({ request }) => {
 	// Checks for Subscription Customer into database.
 	// On success: Redirects to checkout with Customer already set.
 	if (user && !user.subscription) {
-		const dbUser = await getUserByProviderIdIncludingSubscription(
-			user.providerId,
-		)
+		const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 		if (dbUser && dbUser.subscription?.customerId) {
 			const customerId = dbUser.subscription.customerId
 			const stripeRedirectUrl = await createStripeCheckoutSession(
+				request,
 				customerId,
 				planId as string,
 			)
@@ -56,7 +58,7 @@ export const action: ActionFunction = async ({ request }) => {
 	// - Redirects to checkout with Customer already set.
 	if (user && !user.subscription) {
 		const newStripeCustomer = await createStripeCustomer({
-			email: user.email,
+			email: user.email ? user.email : '',
 			name: user.name ? user.name : undefined,
 		})
 		if (!newStripeCustomer)
@@ -65,7 +67,7 @@ export const action: ActionFunction = async ({ request }) => {
 			)
 
 		const newSubscription = await createSubscription({
-			providerId: user.providerId,
+			userId: user.id,
 			customerId: newStripeCustomer.id,
 			subscriptionId: null,
 			planId: null,
@@ -79,6 +81,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 		const customerId = newStripeCustomer.id
 		const stripeRedirectUrl = await createStripeCheckoutSession(
+			request,
 			customerId,
 			planId as string,
 		)

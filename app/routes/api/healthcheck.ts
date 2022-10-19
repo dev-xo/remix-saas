@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/node'
-import { db } from '~/utils'
+import { db } from '~/utils/db.server'
 
 /**
  * Remix - Loader.

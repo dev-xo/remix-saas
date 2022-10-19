@@ -35,9 +35,9 @@ Stripe Stack has been built on top of [Barebones SQLite Stack](https://github.co
 
 ### Implemented Features
 
-- Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials) + [Twitter Strategy.](https://github.com/na2hiro/remix-auth-twitter)
-- [Stripe Subscriptions](https://stripe.com/docs/billing/subscriptions/overview) with support for Multiple Plans, [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
-- Support for Javascript developers with continuous updates over time based on `remix.init`.
+- Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes: [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials), [Twitter Strategy.](https://github.com/na2hiro/remix-auth-twitter) and [Form Strategy.](https://github.com/sergiodxa/remix-auth-form)
+- [Stripe Subscriptions](https://stripe.com/docs/billing/subscriptions/overview) with support for [Multiple Plans](#), [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
+- Partial Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 ### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
 
@@ -65,7 +65,7 @@ The following section will be splitted into three quick threads: **Live Demo**, 
 
 Template's Demo has been built to be really simple to test, being able to show all its provided features. Here is a basic workflow we can follow to test it:
 
-1. Log in with your preferred Social Authenticator.
+1. Log in with your preferred Authentication method.
 2. Select a Subscription Plan.
 3. Fill Stripe Checkout inputs with default development values. _(Check Notes)_
 4. We should be redirected back to the app with selected Stripe Plan already set.
@@ -86,17 +86,21 @@ Code that is necessary for the template to keep working as expected, has been ma
 
 Let's review some of template's important folders:
 
-    ├── modules         # Groups app logic and splits it into smaller sections.
-      ├──                 Stores related components, database interactions, configs, utils etc.
-      ├──                 This folder could also be called "lib" or "services".
+    ├── models          # Stores database interactions.
+    ├── services        # Stores configs, utils and and template initializers.
+      ├──                 This folder could also be called "lib" or "modules".
 
     ├── routes
-      ├── api           # Stores Stripe Webhook Endpoint file, and any realted API calls.
-      ├── resources     # Stores database calls, redirects, session updates and so on.
+      ├── api           # Stores Stripe Webhook Endpoint, and any realted API calls.
+      ├── resources     # Stores app logic, redirects and session updates.
 
-### Authentication Strategies
+### Authentication
 
-To provide authentication to our app, we will need to get the secret API Keys from our Socials Providers.
+Stripe Stack provides Social and Form Authentication.
+
+### Social Authentication
+
+To start using Social Authentication, we'll need to get the secret API Keys from our Socials Providers.
 Below here you can find all template's Providers OAuth Documentations.
 
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
@@ -104,11 +108,24 @@ Below here you can find all template's Providers OAuth Documentations.
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Usually this providers will ask you for a `Callback URI / Redirect URL`.
+Usually Social Providers will ask you for a `Callback URI / Redirect URL`.
 
 An example of a Callback URI would look like this one: `https://my-deployed-app.fly/auth/provider/callback`. Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`.
 
 Once you've got the Providers API Keys, set them into template's `.env` file.
+
+### Email / Password Authentication
+
+Using this method is pretty straightforward, the only thing we have to know is that in order to allow the user recover its password, we'll need to use an Email Provider.
+
+For this template we used [Sendinblue](https://www.sendinblue.com), an Email Provider that does not require Credit Card for registration, either use. It's limited to 300 Emails per day, but it's good enough for development propouses. Feel free to use [Mailgun](https://www.mailgun.com) or any other Email Service you like.
+
+Let's see how we can set up this service:
+
+1. Create an account at [Sendinblue](https://www.sendinblue.com).
+2. Go to Menu, and click on `SMTP & API`.
+3. Create and Copy an API Key.
+4. Paste it into template's `.env` file as `EMAIL_PROVIDER_API_KEY`.
 
 > If you are struggling on this step, feel free to contact me directly, have a look on youtube, or do a quick search on Google.
 
@@ -127,7 +144,7 @@ stripe listen --forward-to localhost:3000/api/webhook
 
 ### Stripe Products
 
-From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their secret Keys from `.env` file, as well as their descriptions from `/modules/stripe/stripe-plans`.
+From [Stripe Products](https://dashboard.stripe.com/test/products) Dashboard, create as many products as you want. Remember to update their secret API Keys from `.env` file, as well as the product descriptions from `/services/stripe/stripe-plans`.
 
 ### Production
 
@@ -198,6 +215,4 @@ It helps the repository grow and gives me motivation to keep working on it. Than
 
 ### Acknowledgments
 
-Big thanks to Kent C. Dodds _(Not gonna bother @him tagging, instead gonna leave here his [Website](https://kentcdodds.com/))_. Him has supported some of my work on Twitter a few times already, and that's something truly amazing for any small developer.
-
-Also a big shout out to [@vueeez](https://github.com/vueeez) who just jumped on Twitter DMs, contributing on Twitter Authentication Strategy.
+A shout out to [@vueeez](https://github.com/vueeez) who just jumped on Twitter DMs, contributing on Twitter Authentication Strategy.

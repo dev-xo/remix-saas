@@ -1,10 +1,10 @@
 import type { LoaderFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
+import type { AuthSession } from '~/services/auth/session.server'
 import { redirect, json } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
-import { authenticator } from '~/modules/auth'
+import { authenticator } from '~/services/auth/config.server'
 import { useTheme } from 'remix-themes'
-import { Navigation } from '~/components'
+import { Navigation } from '~/components/Navigation'
 
 type LoaderData = {
 	user: Awaited<AuthSession> | null
@@ -29,6 +29,8 @@ export default function AppRoute() {
 	const { user } = useLoaderData() as LoaderData
 	const [theme] = useTheme()
 	const location = useLocation()
+
+	console.log(user)
 
 	const setRadialGradientBasedOnTheme =
 		theme === 'light'

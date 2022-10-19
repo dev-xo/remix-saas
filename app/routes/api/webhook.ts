@@ -2,22 +2,24 @@
 
 import type { ActionFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { updateSubscription } from '~/modules/subscription/mutations'
-import { retrieveStripeSubscription } from '~/modules/stripe/queries'
-import { getSubscriptionByCustomerId } from '~/modules/subscription/queries'
+import {
+	updateSubscription,
+	getSubscriptionByCustomerId,
+} from '~/models/subscription.server'
+import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
 import Stripe from 'stripe'
 
 /**
  * Init Environment.
  */
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
+const STRIPE_SECRET_API_KEY = process.env.STRIPE_SECRET_API_KEY
 
 const WEBHOOK_ENDPOINT_SECRET =
 	process.env.NODE_ENV === 'development'
 		? process.env.DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET
 		: process.env.PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET
 
-const stripe = new Stripe(STRIPE_SECRET_KEY, {
+const stripe = new Stripe(STRIPE_SECRET_API_KEY, {
 	apiVersion: '2022-08-01',
 })
 

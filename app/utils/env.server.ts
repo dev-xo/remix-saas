@@ -4,10 +4,14 @@ declare global {
 			// BASE
 			NODE_ENV: 'development' | 'production' | 'test'
 			SESSION_SECRET: string
+			ENCRYPTION_SECRET: string
 
 			// BASE URLs
 			DEV_HOST_URL: string
 			PROD_HOST_URL: string
+
+			// EMAIL PROVIDER
+			EMAIL_PROVIDER_API_KEY: string
 
 			// AUTH
 			GOOGLE_CLIENT_ID: string
@@ -23,8 +27,8 @@ declare global {
 			DISCORD_CLIENT_SECRET: string
 
 			// STRIPE
-			STRIPE_PUBLIC_KEY: string
-			STRIPE_SECRET_KEY: string
+			STRIPE_PUBLIC_API_KEY: string
+			STRIPE_SECRET_API_KEY: string
 
 			// STRIPE PLANS
 			PLAN_1_PRICE_ID: string

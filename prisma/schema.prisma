@@ -11,24 +11,30 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid())
-
-  providerId   String        @unique
-  email        String
+  id           String        @unique @default(cuid())
+  email        String?       @unique
   name         String?
   avatar       String?
+  password     Password?
   subscription Subscription?
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
 
-model Subscription {
-  id         String @id @default(cuid())
-  user       User   @relation(fields: [providerId], references: [providerId], onDelete: Cascade)
-  providerId String @unique
+model Password {
+  hash String
 
-  customerId         String   @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+model Subscription {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  customerId         String?  @unique
   subscriptionId     String?
   planId             String?
   status             String?

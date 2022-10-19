@@ -1,9 +1,10 @@
 import type { ActionFunction } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
-import { authenticator, getSession, destroySession } from '~/modules/auth'
-import { getUserByProviderIdIncludingSubscription } from '~/modules/user/queries'
-import { deleteStripeCustomer } from '~/modules/stripe/mutations'
-import { deleteUser } from '~/modules/user/mutations'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, destroySession } from '~/services/auth/session.server'
+import { getUserByIdIncludingSubscription } from '~/models/user.server'
+import { deleteStripeCustomer } from '~/services/stripe/utils.server'
+import { deleteUser } from '~/models/user.server'
 
 /**
  * Remix - Action.
@@ -16,9 +17,7 @@ export const action: ActionFunction = async ({ request }) => {
 	if (user) {
 		// Checks database for Subscription Customer existence.
 		// On success: Deletes current Stripe Customer.
-		const dbUser = await getUserByProviderIdIncludingSubscription(
-			user.providerId,
-		)
+		const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 		if (dbUser && dbUser.subscription?.customerId) {
 			const customerId = dbUser.subscription.customerId
@@ -27,8 +26,8 @@ export const action: ActionFunction = async ({ request }) => {
 
 		// Deletes current User from database.
 		// This will also delete Subscription Model in cascade mode.
-		const providerId = user.providerId
-		await deleteUser(providerId)
+		const userId = user.id
+		await deleteUser(userId)
 
 		// Destroys Auth Session and redirects with updated headers.
 		let session = await getSession(request.headers.get('Cookie'))

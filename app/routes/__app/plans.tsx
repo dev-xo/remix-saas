@@ -1,13 +1,20 @@
-import type { LoaderFunction } from '@remix-run/node'
-import type { AuthSession } from '~/modules/auth'
+import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { AuthSession } from '~/services/auth/session.server'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { authenticator } from '~/modules/auth'
-import { STRIPE_PLANS } from '~/modules/stripe'
-import {
-	CreateCheckoutButton,
-	UpdatePlanButton,
-} from '~/modules/stripe/components'
+import { authenticator } from '~/services/auth/config.server'
+import { STRIPE_PLANS } from '~/services/stripe/stripe-plans'
+import { CreateCheckoutButton } from '~/components/Stripe/CreateCheckoutButton'
+import { UpdatePlanButton } from '~/components/Stripe/UpdatePlanButton'
+
+/**
+ * Remix - Meta.
+ */
+export const meta: MetaFunction = () => {
+	return {
+		title: 'Stripe Stack - Plans',
+	}
+}
 
 type LoaderData = {
 	user: Awaited<AuthSession> | null

@@ -1,7 +1,7 @@
 import type { ActionFunction } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
-import { authenticator } from '~/modules/auth'
-import { createStripeCustomerPortalSession } from '~/modules/stripe/utils'
+import { authenticator } from '~/services/auth/config.server'
+import { createStripeCustomerPortalSession } from '~/services/stripe/utils.server'
 
 /**
  * Remix - Action.
@@ -16,6 +16,7 @@ export const action: ActionFunction = async ({ request }) => {
 	if (user && user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCustomerPortalSession(
+			request,
 			customerId,
 		)
 
