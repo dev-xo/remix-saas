@@ -28,14 +28,14 @@ export const RESET_PASSWORD_SESSION_KEY = 'RESET_PASSWORD_SESSION_KEY'
 const resetPasswordTokenQueryParam = 'token'
 const tokenType = 'forgot-password'
 
-type LoaderData = {
-	hasSuccessfullySendEmail: boolean | null
-}
-
 /**
  * Remix - Loader.
  * @required Template code.
  */
+type LoaderData = {
+	hasSuccessfullySendEmail: boolean | null
+}
+
 export const loader: LoaderFunction = async ({ request, params }) => {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
@@ -58,12 +58,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 		// Decrypts URL `token`.
 		const token = JSON.parse(decrypt(resetPasswordTokenString))
 
-		// On token matching type, and `email` in `token.payload`:
-		// - Sets a `payload` value in Session.
+		// On decrypt:
+		// - Updates Session.
 		// - Commits Session and redirects with updated headers.
 		if (token.type === tokenType && token.payload?.email) {
-			const session = await getSession(request.headers.get('Cookie'))
-
 			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email)
 
 			return redirect('/login/reset-password', {
@@ -115,14 +113,12 @@ export const action: ActionFunction = async ({ request, params }) => {
 	// Checks for User existence in database.
 	const dbUser = await getUserByEmailIncludingPassword(email)
 
-	console.log(dbUser)
-
-	if (!dbUser?.email || !dbUser.name)
+	if (!dbUser || !dbUser?.email || !dbUser.name)
 		return json(
 			{
 				formError: {
 					error: {
-						message: 'Whops! User or Email not found.',
+						message: 'User or Email not found.',
 					},
 				},
 			},
@@ -134,7 +130,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 		JSON.stringify({ type: tokenType, payload: { email } }),
 	)
 
-	// Creates a new Object URL
+	// Creates a new Object URL.
 	// Also sets newly created and encrypted params for it.
 	const resetPasswordUrl = new URL(
 		`${getDomainUrl(request)}/login/forgot-password`,
@@ -145,7 +141,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 		resetPasswordToken,
 	)
 
-	// Sends User an Email with newly created `resetPasswordUrl` link.
+	// Sends User an Email with newly encrypted `resetPasswordUrl`.
 	const responseEmail = await sendRecoveryEmail({
 		to: [
 			{
@@ -168,13 +164,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 		</html>
 		`,
 	})
+
 	if (!responseEmail)
 		return json(
 			{
 				formError: {
 					error: {
-						message:
-							'Whops! There was an Error trying to send a Reset Password Email.',
+						message: 'Whops! There was an Error trying to send Email.',
 					},
 				},
 			},
@@ -187,7 +183,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 	session.flash('HAS_SUCCESSFULLY_SEND_EMAIL', true)
 
-	// Returns a JSON Response.
+	// Returns a JSON Response commiting Session.
 	return json(
 		{ success: true },
 		{
@@ -209,7 +205,7 @@ export default function ForgotPasswordRoute() {
 			{hasSuccessfullySendEmail && (
 				<div
 					className="select-noneflex-row absolute top-9 left-0 right-0 z-20 m-auto flex
-							w-[400px] transform justify-center transition hover:scale-110">
+					w-[400px] transform justify-center transition hover:scale-110">
 					<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
 						Email has been Successfully sent.
 					</p>
@@ -228,7 +224,7 @@ export default function ForgotPasswordRoute() {
 						type="email"
 						required
 						className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
-              px-4 text-base font-semibold text-black transition dark:text-white"
+            px-4 text-base font-semibold text-black transition dark:text-white"
 					/>
 				</div>
 				<div className="mb-3" />
@@ -243,7 +239,7 @@ export default function ForgotPasswordRoute() {
 				<button
 					type="submit"
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
-					  bg-slate-600 text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+					bg-slate-600 text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
 						viewBox="0 0 24 24"
@@ -251,7 +247,7 @@ export default function ForgotPasswordRoute() {
 						<path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.7-8 5.334L4 8.7V6.297l8 5.333 8-5.333V8.7z" />
 					</svg>
 
-					<span>{fetcher.state === 'idle' ? 'Submit' : 'Submitting...'}</span>
+					<span>{fetcher.state === 'idle' ? 'Submit' : 'Submitting ...'}</span>
 				</button>
 			</fetcher.Form>
 			<div className="mb-4" />

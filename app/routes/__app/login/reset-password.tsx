@@ -102,7 +102,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 	// Checks for User existence in database.
 	const dbUser = await getUserByEmailIncludingPassword(email)
-	if (!dbUser?.email || !dbUser.password) return redirect('/login')
+	if (!dbUser || !dbUser?.email || !dbUser.password) return redirect('/login')
 
 	// Resets User password.
 	await resetUserPassword(email, password)
@@ -123,7 +123,7 @@ export default function ResetPasswordRoute() {
 	return (
 		<div className="flex w-full max-w-md flex-col">
 			<fetcher.Form method="post">
-				{/* Password Input */}
+				{/* Password Input. */}
 				<div>
 					<label className="font-semibold text-gray-800 dark:text-gray-100">
 						Password
@@ -135,12 +135,12 @@ export default function ResetPasswordRoute() {
 						autoComplete="new-password"
 						required
 						className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
-              px-4 text-base font-semibold text-black transition dark:text-white"
+            px-4 text-base font-semibold text-black transition dark:text-white"
 					/>
 				</div>
 				<div className="mb-3" />
 
-				{/* Confirm Password Input */}
+				{/* Confirm Password Input. */}
 				<div>
 					<label className="font-semibold text-gray-800 dark:text-gray-100">
 						Confirm Password
@@ -152,7 +152,7 @@ export default function ResetPasswordRoute() {
 						autoComplete="current-password"
 						required
 						className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
-              px-4 text-base font-semibold text-black transition dark:text-white"
+            px-4 text-base font-semibold text-black transition dark:text-white"
 					/>
 				</div>
 				<div className="mb-3" />
@@ -167,7 +167,7 @@ export default function ResetPasswordRoute() {
 				<button
 					type="submit"
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
-					  bg-slate-600 text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+					bg-slate-600 text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
 						viewBox="0 0 24 24"

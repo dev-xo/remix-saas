@@ -81,7 +81,7 @@ export default function LoginRoute() {
 			<Link
 				to="email"
 				className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
-					bg-slate-600 text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+				bg-slate-600 text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 				<svg
 					className="absolute left-6 h-6 w-6 fill-white"
 					viewBox="0 0 24 24"

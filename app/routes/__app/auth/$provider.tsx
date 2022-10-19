@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 	const { formType } = Object.fromEntries(formData)
 
 	// Based on `formType`, we'll know where to redirect in case of error.
-	// Used to validate form data.
+	// Used to validate Form data.
 	const loginEmailRoute = '/login/email'
 	const signupEmailRoute = '/signup/email'
 	const fallbackRoute = '/login'
