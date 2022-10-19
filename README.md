@@ -37,7 +37,7 @@ Stripe Stack has been built on top of [Barebones SQLite Stack](https://github.co
 
 - Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes: [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials), [Twitter Strategy.](https://github.com/na2hiro/remix-auth-twitter) and [Form Strategy.](https://github.com/sergiodxa/remix-auth-form)
 - [Stripe Subscriptions](https://stripe.com/docs/billing/subscriptions/overview) with support for [Multiple Plans](#), [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
-- Partial Support for Javascript developers with continuous updates over time based on `remix.init`.
+- Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 ### We've got a 🐘 [PostgreSQL](https://github.com/dev-xo/stripe-postgres-stack) version also.
 
@@ -78,7 +78,7 @@ Understanding our development workspace will keep us productive.
 
 ### Usage
 
-Template can be used in the way you like. Feel free to remove all the HTML code you don't need, and keep just the `actions and loaders` from Remix.
+Template can be used in the way you like. Feel free to remove all the HTML code you don't need, and keep just the `loaders` and `actions` from Remix.
 
 Code that is necessary for the template to keep working as expected, has been marked as `@required`.
 
@@ -87,7 +87,7 @@ Code that is necessary for the template to keep working as expected, has been ma
 Let's review some of template's important folders:
 
     ├── models          # Stores database interactions.
-    ├── services        # Stores configs, utils and and template initializers.
+    ├── services        # Stores sessions, configs, utils and and template initializers.
       ├──                 This folder could also be called "lib" or "modules".
 
     ├── routes
@@ -116,11 +116,11 @@ Once you've got the Providers API Keys, set them into template's `.env` file.
 
 ### Email / Password Authentication
 
-Using this method is pretty straightforward, the only thing we have to know is that in order to allow the user recover its password, we'll need to use an Email Provider.
+Using this method is pretty straightforward, the only thing we have to know is that in order to allow the user recover its password, we'll need to use an Email Service.
 
-For this template we used [Sendinblue](https://www.sendinblue.com), an Email Provider that does not require Credit Card for registration, either use. It's limited to 300 Emails per day, but it's good enough for development propouses. Feel free to use [Mailgun](https://www.mailgun.com) or any other Email Service you like.
+For this template we'll use [Sendinblue](https://www.sendinblue.com), an Email Service that does not require Credit Card for registration, either use. It's limited to 300 Emails per day, but it's good enough for development propouses. Feel free to use [Mailgun](https://www.mailgun.com) or any other Email Service you like.
 
-Let's see how we can set up this service:
+Let's see how we can set it up:
 
 1. Create an account at [Sendinblue](https://www.sendinblue.com).
 2. Go to Menu, and click on `SMTP & API`.
