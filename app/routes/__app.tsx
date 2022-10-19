@@ -6,14 +6,14 @@ import { authenticator } from '~/services/auth/config.server'
 import { useTheme } from 'remix-themes'
 import { Navigation } from '~/components/Navigation'
 
-type LoaderData = {
-	user: Awaited<AuthSession> | null
-}
-
 /**
  * Remix - Loader.
  * @required Template code.
  */
+type LoaderData = {
+	user: Awaited<AuthSession> | null
+}
+
 export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)

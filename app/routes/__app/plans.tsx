@@ -16,14 +16,14 @@ export const meta: MetaFunction = () => {
 	}
 }
 
-type LoaderData = {
-	user: Awaited<AuthSession> | null
-}
-
 /**
  * Remix - Loader.
  * @required Template code.
  */
+type LoaderData = {
+	user: Awaited<AuthSession> | null
+}
+
 export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {

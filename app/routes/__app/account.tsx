@@ -20,6 +20,10 @@ export const meta: MetaFunction = () => {
 	}
 }
 
+/**
+ * Remix - Loader.
+ * @required Template code.
+ */
 type LoaderData = {
 	user: Awaited<AuthSession> | null
 	hasSuccessfullySubscribed: boolean | null
@@ -27,10 +31,6 @@ type LoaderData = {
 	purchasedPlanName: string | number | null
 }
 
-/**
- * Remix - Loader.
- * @required Template code.
- */
 export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {

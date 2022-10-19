@@ -7,15 +7,15 @@ import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 import { getUserByIdIncludingSubscription } from '~/models/user.server'
 
+/**
+ * Remix - Loader.
+ * @required Template code.
+ */
 type LoaderData = {
 	hasSkippedSubscriptionCheck: boolean | false
 	hasSuccessfullySubscribed: boolean | false
 }
 
-/**
- * Remix - Loader.
- * @required Template code.
- */
 export const loader: LoaderFunction = async ({ request, params }) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 	})
 
 	if (user) {
-		// Gets User from database.
+		// Checks for User existence in database.
 		const dbUser = (await getUserByIdIncludingSubscription(
 			user.id,
 		)) as AuthSession
@@ -94,6 +94,8 @@ export default function CheckoutRoute() {
 		useLoaderData() as LoaderData
 	const submit = useSubmit()
 
+	// After a successfully Stripe Checkout redirect, user will wait 'x' seconds,
+	// allowing Stripe Webhook update our database.
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)
 			setTimeout(() => submit(null, { method: 'get' }), 7000)
