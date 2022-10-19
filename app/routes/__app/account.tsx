@@ -1,15 +1,15 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node';
-import type { AuthSession } from '~/services/auth/session.server';
+import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { AuthSession } from '~/services/auth/session.server'
 
-import { redirect, json } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
-import { authenticator } from '~/services/auth/config.server';
-import { getSession, commitSession } from '~/services/auth/session.server';
-import { getValueFromStripePlans } from '~/services/stripe/stripe-plans';
-import { formatUnixDate, hasDateExpired } from '~/utils/misc';
+import { redirect, json } from '@remix-run/node'
+import { Link, useLoaderData } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
+import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
-import { DeleteUserButton } from '~/components/User/DeleteUserButton';
-import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPortalButton';
+import { DeleteUserButton } from '~/components/User/DeleteUserButton'
+import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPortalButton'
 
 /**
  * Remix - Meta.
@@ -17,15 +17,15 @@ import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPo
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Account',
-	};
-};
+	}
+}
 
 type LoaderData = {
-	user: Awaited<AuthSession> | null;
-	hasSuccessfullySubscribed: boolean | null;
-	hasSuccessfullyUpdatedPlan: boolean | null;
-	purchasedPlanName: string | number | null;
-};
+	user: Awaited<AuthSession> | null
+	hasSuccessfullySubscribed: boolean | null
+	hasSuccessfullyUpdatedPlan: boolean | null
+	purchasedPlanName: string | number | null
+}
 
 /**
  * Remix - Loader.
@@ -35,19 +35,19 @@ export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
-	});
+	})
 
 	// Parses a Cookie and returns its associated Session.
-	const session = await getSession(request.headers.get('Cookie'));
+	const session = await getSession(request.headers.get('Cookie'))
 
 	// Gets flash values from Session.
-	const skipExpirationCheck = session.get('SKIP_EXPIRATION_CHECK') || false;
+	const skipExpirationCheck = session.get('SKIP_EXPIRATION_CHECK') || false
 
 	const hasSuccessfullySubscribed =
-		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null;
+		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null
 
 	const hasSuccessfullyUpdatedPlan =
-		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null;
+		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null
 
 	// Checks for Subscription expiration.
 	// If expried: Updates Auth Session accordingly.
@@ -56,25 +56,25 @@ export const loader: LoaderFunction = async ({ request }) => {
 		user.subscription?.currentPeriodEnd &&
 		skipExpirationCheck === false
 	) {
-		const currentPeriodEnd = user.subscription.currentPeriodEnd;
-		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd);
+		const currentPeriodEnd = user.subscription.currentPeriodEnd
+		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
 
 		const HOST_URL =
 			process.env.NODE_ENV === 'development'
 				? process.env.DEV_HOST_URL
-				: process.env.PROD_HOST_URL;
+				: process.env.PROD_HOST_URL
 
 		if (hasSubscriptionExpired)
 			return redirect(
 				`${HOST_URL}/resources/stripe/update-subscription-expired`,
-			);
+			)
 	}
 
 	// Retrieves the name of the current Subscription plan. (If any)
 	const purchasedPlanName =
 		(user?.subscription?.planId &&
 			getValueFromStripePlans(user.subscription.planId, 'planName')) ||
-		null;
+		null
 
 	// Returns a JSON Response and resets flashing Session variables.
 	return json<LoaderData>(
@@ -89,8 +89,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	);
-};
+	)
+}
 
 export default function AccountRoute() {
 	const {
@@ -98,7 +98,7 @@ export default function AccountRoute() {
 		hasSuccessfullySubscribed,
 		hasSuccessfullyUpdatedPlan,
 		purchasedPlanName,
-	} = useLoaderData() as LoaderData;
+	} = useLoaderData() as LoaderData
 
 	return (
 		<div className="m-12 mx-auto flex h-full w-full max-w-4xl flex-col px-6 sm:flex-row">
@@ -311,5 +311,5 @@ export default function AccountRoute() {
 				</div>
 			)}
 		</div>
-	);
+	)
 }

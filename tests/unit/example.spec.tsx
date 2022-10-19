@@ -1,5 +1,5 @@
-import '@testing-library/jest-dom';
-import { describe, expect, it } from 'vitest';
+import '@testing-library/jest-dom'
+import { describe, expect, it } from 'vitest'
 /* import { render, screen } from '../utils' */
 /* import ExampleComponent from '~/components/ExampleComponent' */
 
@@ -13,9 +13,9 @@ describe('Example unit tests.', () => {
 	it('Should get data from Mocks.', async () => {
 		const data = await fetch('https://my-mock-api.com').then((response) =>
 			response.json(),
-		);
-		expect(data).not.toBeNull();
-	});
+		)
+		expect(data).not.toBeNull()
+	})
 
 	/* it('Should have "Default message." as text content.', async () => {
 		render(<ExampleComponent message="" />)
@@ -30,4 +30,4 @@ describe('Example unit tests.', () => {
 			'Vitest message.',
 		)
 	}) */
-});
+})

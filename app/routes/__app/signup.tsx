@@ -1,5 +1,5 @@
-import type { MetaFunction } from '@remix-run/node';
-import { Outlet, useLocation } from '@remix-run/react';
+import type { MetaFunction } from '@remix-run/node'
+import { Outlet, useLocation } from '@remix-run/react'
 
 /**
  * Remix - Meta.
@@ -7,11 +7,11 @@ import { Outlet, useLocation } from '@remix-run/react';
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Sign up',
-	};
-};
+	}
+}
 
 export default function SignupRoute() {
-	const location = useLocation();
+	const location = useLocation()
 
 	return (
 		<div className="flex h-full w-full flex-col items-center justify-center px-6">
@@ -32,5 +32,5 @@ export default function SignupRoute() {
 			{/* Outlet. */}
 			<Outlet />
 		</div>
-	);
+	)
 }

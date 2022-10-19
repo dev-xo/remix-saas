@@ -1,12 +1,12 @@
-import type { ActionFunction } from '@remix-run/node';
-import { redirect, json } from '@remix-run/node';
-import { authenticator } from '~/services/auth/config.server';
-import { getUserByIdIncludingSubscription } from '~/models/user.server';
-import { createSubscription } from '~/models/subscription.server';
+import type { ActionFunction } from '@remix-run/node'
+import { redirect, json } from '@remix-run/node'
+import { authenticator } from '~/services/auth/config.server'
+import { getUserByIdIncludingSubscription } from '~/models/user.server'
+import { createSubscription } from '~/models/subscription.server'
 import {
 	createStripeCustomer,
 	createStripeCheckoutSession,
-} from '~/services/stripe/utils.server';
+} from '~/services/stripe/utils.server'
 
 /**
  * Remix - Action.
@@ -14,41 +14,41 @@ import {
  */
 export const action: ActionFunction = async ({ request }) => {
 	// Checks for Auth Session.
-	const user = await authenticator.isAuthenticated(request);
+	const user = await authenticator.isAuthenticated(request)
 
 	// Gets values from `formData`.
-	const formData = await request.formData();
-	const { planId } = Object.fromEntries(formData);
+	const formData = await request.formData()
+	const { planId } = Object.fromEntries(formData)
 
 	// Checks for Subscription Customer into Auth Session.
 	// On success: Redirects to checkout with Customer already set.
 	if (user && user.subscription?.customerId) {
-		const customerId = user.subscription.customerId;
+		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCheckoutSession(
 			request,
 			customerId,
 			planId as string,
-		);
+		)
 
 		if (typeof stripeRedirectUrl === 'string')
-			return redirect(stripeRedirectUrl);
+			return redirect(stripeRedirectUrl)
 	}
 
 	// Checks for Subscription Customer into database.
 	// On success: Redirects to checkout with Customer already set.
 	if (user && !user.subscription) {
-		const dbUser = await getUserByIdIncludingSubscription(user.id);
+		const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 		if (dbUser && dbUser.subscription?.customerId) {
-			const customerId = dbUser.subscription.customerId;
+			const customerId = dbUser.subscription.customerId
 			const stripeRedirectUrl = await createStripeCheckoutSession(
 				request,
 				customerId,
 				planId as string,
-			);
+			)
 
 			if (typeof stripeRedirectUrl === 'string')
-				return redirect(stripeRedirectUrl);
+				return redirect(stripeRedirectUrl)
 		}
 	}
 
@@ -60,11 +60,11 @@ export const action: ActionFunction = async ({ request }) => {
 		const newStripeCustomer = await createStripeCustomer({
 			email: user.email ? user.email : '',
 			name: user.name ? user.name : undefined,
-		});
+		})
 		if (!newStripeCustomer)
 			throw new Error(
 				'There was an Error trying to create a new Stripe Customer.',
-			);
+			)
 
 		const newSubscription = await createSubscription({
 			userId: user.id,
@@ -75,23 +75,21 @@ export const action: ActionFunction = async ({ request }) => {
 			currentPeriodStart: null,
 			currentPeriodEnd: null,
 			cancelAtPeriodEnd: null,
-		});
+		})
 		if (!newSubscription)
-			throw new Error(
-				'There was an Error trying to create a new Subscription.',
-			);
+			throw new Error('There was an Error trying to create a new Subscription.')
 
-		const customerId = newStripeCustomer.id;
+		const customerId = newStripeCustomer.id
 		const stripeRedirectUrl = await createStripeCheckoutSession(
 			request,
 			customerId,
 			planId as string,
-		);
+		)
 
 		if (typeof stripeRedirectUrl === 'string')
-			return redirect(stripeRedirectUrl);
+			return redirect(stripeRedirectUrl)
 	}
 
 	// Whops!
-	return json({}, { status: 400 });
-};
+	return json({}, { status: 400 })
+}

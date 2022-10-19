@@ -9,12 +9,12 @@ export async function sendRecoveryEmail({
 }: {
 	to: [
 		{
-			email: string;
-			name: string;
+			email: string
+			name: string
 		},
-	];
-	subject: string;
-	htmlContent: string;
+	]
+	subject: string
+	htmlContent: string
 }) {
 	return fetch(`https://api.sendinblue.com/v3/smtp/email`, {
 		method: 'post',
@@ -32,5 +32,5 @@ export async function sendRecoveryEmail({
 			'Api-Key': process.env.EMAIL_PROVIDER_API_KEY,
 			'Content-Type': 'application/json',
 		},
-	});
+	})
 }
