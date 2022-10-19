@@ -18,9 +18,9 @@ node_modules
 .env
 
 # Tests.
-/cypress/screenshots
-/cypress/videos
-/coverage
+/test-results/
+/playwright-report/
+/playwright/.cache/
 
 # Prisma.
 /prisma/data.db

@@ -26,7 +26,7 @@ Stripe Stack has been built on top of [Barebones SQLite Stack](https://github.co
 - [GitHub Actions](https://github.com/features/actions) for Deploy on merge to Production and Staging environments.
 - Healthcheck Endpoint for [Fly backups Region Fallbacks.](https://fly.io/docs/reference/configuration/#services-http_checks)
 - Styling with [Tailwind.css](https://tailwindcss.com/) + [Tailwind Prettier-Plugin.](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)
-- End-to-End testing with [Cypress.](https://www.cypress.io/how-it-works)
+- End-to-End testing with [Playwright.](https://playwright.dev)
 - Unit Testing with [Vitest](https://vitest.dev) and [Testing Library.](https://testing-library.com)
 - Local third party request mocking with [MSW.](https://mswjs.io)
 - Linting with [ESLint.](https://eslint.org/)
@@ -173,13 +173,11 @@ Anything in the `dev` branch will be deployed to staging.
 
 ## Testing
 
-### Cypress
+### Playwright
 
-We use Cypress for End-to-End tests. You'll find those in the `cypress` directory. As you make changes, add to an existing file or create a new file in the `cypress/e2e` directory to test your changes.
+We use Playwright for End-to-End tests. You'll find those in the `tests/e2e` directory. As you make changes, add to an existing file or create a new file in the `tests/e2e` directory to test your changes.
 
-We use [`@testing-library/cypress`](https://testing-library.com/cypress) for selecting elements on the page semantically.
-
-To run these tests in development, run `npm run test:e2e:dev` which will start the dev server for the app as well as the Cypress client. Make sure the database is running in docker as described above.
+To run these tests in development, run `npm run test:e2e:dev`.
 
 ### Vitest
 

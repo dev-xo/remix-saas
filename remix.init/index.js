@@ -74,21 +74,6 @@ const removeUnusedDependencies = (dependencies, unusedDependencies) =>
 	)
 
 /**
- * Cleans up Typescript references from Cypress folders.
- */
-const cleanupCypressFiles = async (rootDirectory) => {
-	const CYPRESS_CONFIG_PATH = path.join(rootDirectory, 'cypress.config.js')
-
-	// Reads, replaces and writes a new file.
-	const cypressConfig = await fs.readFile(CYPRESS_CONFIG_PATH, 'utf-8')
-	const replacedCypressConfig = cypressConfig.replace(
-		'export default',
-		'module.exports =',
-	)
-	await fs.writeFile(CYPRESS_CONFIG_PATH, replacedCypressConfig)
-}
-
-/**
  * Cleans up Typescript references from Vitest config.
  */
 const cleanupVitestConfigFile = async (rootDirectory) => {
@@ -242,7 +227,6 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 	if (!isTypeScript) {
 		// Cleans up all Typescript references from the project.
 		await Promise.all([
-			cleanupCypressFiles(rootDirectory),
 			cleanupVitestConfigFile(rootDirectory),
 			cleanupDeployWorkflowFile(rootDirectory),
 		])

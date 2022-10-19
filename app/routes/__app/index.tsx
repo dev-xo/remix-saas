@@ -183,9 +183,9 @@ export default function AppIndexRoute() {
 						href: 'https://github.com/features/actions',
 					},
 					{
-						src: 'https://user-images.githubusercontent.com/1500684/157764454-48ac8c71-a2a9-4b5e-b19c-edef8b8953d6.svg',
-						alt: 'Cypress',
-						href: 'https://www.cypress.io',
+						src: 'https://playwright.dev/img/playwright-logo.svg',
+						alt: 'Playwright',
+						href: 'https://playwright.dev/',
 					},
 					{
 						src: 'https://user-images.githubusercontent.com/1500684/157772386-75444196-0604-4340-af28-53b236faa182.svg',

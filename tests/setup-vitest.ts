@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect'
 import { installGlobals } from '@remix-run/node'
-import { server } from 'mocks'
+import { server } from '../mocks'
 
 /**
  * Since Remix relies on browser API's such as fetch,

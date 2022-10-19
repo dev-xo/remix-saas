@@ -33,7 +33,7 @@ export const meta: MetaFunction = () => {
 	return {
 		viewport: 'width=device-width, initial-scale=1',
 		charset: 'utf-8',
-		title: 'Welcome to Remix Stripe Stack!',
+		title: 'Welcome to Stripe Stack!',
 		description:
 			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
 		keywords:

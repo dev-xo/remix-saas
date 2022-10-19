@@ -19,12 +19,12 @@
 		"start:mocks": "binode --require ./mocks -- @remix-run/serve:remix-serve build",
 		"format": "prettier --write .",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+		"typecheck": "tsc -b",
 		"test": "vitest",
 		"test:cov": "vitest --coverage",
-		"test:e2e:dev": "start-server-and-test dev http://localhost:3000 \"npx cypress open\"",
+		"test:e2e:dev": "playwright test",
 		"pretest:e2e:run": "npm run build",
-		"test:e2e:run": "cross-env PORT=8811 start-server-and-test start:mocks http://localhost:8811 \"npx cypress run\"",
-		"typecheck": "tsc -b && tsc -b cypress",
+		"test:e2e:run": "cross-env CI=true playwright test",
 		"validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
 	},
 	"prettier": {
@@ -65,9 +65,9 @@
 		"stripe": "^10.6.0"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.27.1",
 		"@remix-run/dev": "*",
 		"@remix-run/eslint-config": "*",
-		"@testing-library/cypress": "^8.0.3",
 		"@testing-library/dom": "^8.18.1",
 		"@testing-library/jest-dom": "^5.16.5",
 		"@testing-library/react": "^13.4.0",
@@ -84,10 +84,8 @@
 		"binode": "^1.0.5",
 		"c8": "^7.12.0",
 		"cross-env": "^7.0.3",
-		"cypress": "^10.8.0",
 		"eslint": "^8.23.1",
 		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-cypress": "^2.12.1",
 		"happy-dom": "^7.0.6",
 		"msw": "^0.47.2",
 		"npm-run-all": "^4.1.5",
