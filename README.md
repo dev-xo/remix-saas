@@ -205,7 +205,7 @@ This template has pre-configured prettier settings on `.package-json`. Feel free
 
 Contributions are Welcome! Jump in and help us improve this Community Template over time!
 
-- [Contributing Guide](https://github.com/dev-xo/stripe-stack/blob/main/CONTRIBUTING.md) Docs.
+- [Contributing Guide](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/CONTRIBUTING.md) Docs.
 - [Public Project Roadmap](https://github.com/users/dev-xo/projects/5) Check template's TODOs, fixes and updates.
 
 ## Support
