@@ -59,6 +59,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		const currentPeriodEnd = user.subscription.currentPeriodEnd
 		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
 
+		// TODO: remove this
 		const HOST_URL =
 			process.env.NODE_ENV === 'development'
 				? process.env.DEV_HOST_URL
