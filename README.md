@@ -154,14 +154,11 @@ In order to start receiving Stripe Events to our deployed app, we'll need to set
 
 Stripe Stack has support for SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of each deployment documentation, we moved each one to its own file.
 
-Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) to get your SQLite app to production.
-Check [PostgreSQL DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/POSTGRESQL-DEPLOYMENT.md) to get your PostgreSQL app to production.
+Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) or [PostgreSQL DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/POSTGRESQL-DEPLOYMENT.md) to get your app to production.
 
 ## GitHub Actions
 
-We use GitHub Actions for continuous integration and deployment.<br/><br/>
-Anything that gets into the `main` branch will be deployed to production after running tests, build, etc.<br/>
-Anything in the `dev` branch will be deployed to staging.
+We use GitHub Actions for continuous integration and deployment. Anything that gets into the `main` branch will be deployed to production after running tests, build, etc. Anything in the `dev` branch will be deployed to staging.
 
 ## Testing
 
@@ -200,8 +197,8 @@ Contributions are Welcome! Jump in and help us improve this Community Template o
 
 ## Support
 
-If you found the template useful, support it with a [Star ⭐](https://github.com/dev-xo/stripe-stack)<br />
-It helps the repository grow and gives me motivation to keep working on it. Thanks you!
+If you find this template useful, support it with a [Star ⭐](https://github.com/dev-xo/stripe-stack)<br />
+It helps the repository grow and gives us motivation to keep working on it. Thanks you!
 
 ### Acknowledgments
 
