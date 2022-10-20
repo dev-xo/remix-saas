@@ -46,10 +46,13 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 To get started, run the following commands in your console:
 
 ```sh
-# Initializes template in your workspace:
+# 1. Initialize template in your workspace:
 npx create-remix@latest --template dev-xo/stripe-stack
 
-# Starts dev server:
+# 2. You will be prompted to select the database your project will run on.
+# -. If you dont select a database, project will default to SQLite.
+
+# Start dev server:
 npm run dev
 ```
 
