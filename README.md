@@ -154,7 +154,8 @@ In order to start receiving Stripe Events to our deployed app, we'll need to set
 
 Stripe Stack has support for SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of each deployment documentation, we moved each one to its own file.
 
-Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) to get your app to production.
+Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) to get your SQLite app to production.
+Check [PostgreSQL DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/POSTGRESQL-DEPLOYMENT.md) to get your PostgreSQL app to production.
 
 ## GitHub Actions
 
