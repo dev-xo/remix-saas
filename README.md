@@ -43,9 +43,9 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
 
-Stripe Stack has support for SQLite and PostgreSQL database based on Prisma. The installer will prompt you to select the database your project will run on.
+Stripe Stack has support for multiple databases based on Prisma. The installer will prompt you to select the database your project will run on. Based on this choice, deployment files will be updated, allowing a successfull deploy to Fly.io
 
-Based on this choice, deployment files will be updated, allowing a successfull deploy to Fly.io. To get started, run the following commands in your console:
+To get started, run the following commands in your console:
 
 ```sh
 # Initialize template in your workspace:
@@ -83,6 +83,10 @@ Understanding our development workspace will keep us productive.
 ### Usage
 
 Template can be used in the way you like. Remove all the HTML code you don't need keeping just the `loaders` and `actions` from Remix. Code that is necessary for the template to keep working as expected, has been marked as `@required`.
+
+### Prisma Migrations
+
+If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to do it, feel free to remove the folder inside `/prisma` called `migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
 
 ### Folder Structure
 
