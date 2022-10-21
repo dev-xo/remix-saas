@@ -149,7 +149,7 @@ const updateProjectNameFromRiles = async (rootDirectory, APP_NAME) => {
 	const README_PATH = path.join(rootDirectory, 'README.md')
 
 	// Matches.
-	const DEFAULT_PROJECT_NAME_MATCHER = /remix-init/gim
+	const DEFAULT_PROJECT_NAME_MATCHER = /stripe-stack/gim
 
 	const [flyToml, readme] = await Promise.all([
 		fs.readFile(FLY_TOML_PATH, 'utf-8'),
