@@ -95,15 +95,15 @@ const cleanupTypescriptWorkflow = async (rootDirectory) => {
 const updatePackageJson = async (rootDirectory, isTypeScript, APP_NAME) => {
 	const packageJson = await PackageJson.load(rootDirectory)
 
-	/* const {
+	const {
 		devDependencies,
 		prisma: { seed: prismaSeed, ...prisma },
 		scripts: { typecheck, validate, ...scripts },
-	} = packageJson.content */
+	} = packageJson.content
 
 	packageJson.update({
 		name: APP_NAME,
-		/* devDependencies: isTypeScript
+		devDependencies: isTypeScript
 			? devDependencies
 			: removeUnusedDependencies(devDependencies, ['ts-node']),
 		prisma: isTypeScript
@@ -116,7 +116,7 @@ const updatePackageJson = async (rootDirectory, isTypeScript, APP_NAME) => {
 			  },
 		scripts: isTypeScript
 			? { ...scripts, typecheck, validate }
-			: { ...scripts, validate: validate.replace(' typecheck', '') }, */
+			: { ...scripts, validate: validate.replace(' typecheck', '') },
 	})
 
 	await packageJson.save()
