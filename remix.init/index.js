@@ -13,6 +13,8 @@ const YAML = require('yaml')
 const semver = require('semver')
 const PackageJson = require('@npmcli/package-json')
 
+const rimraf = require('rimraf')
+
 /**
  * Helpers.
  */
@@ -199,7 +201,29 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 	const POSTGRESQL_DB = 'PostgreSQL'
 
 	// Paths.
-	const PRISMA_SCHEMA_PATH = path.join(rootDirectory, 'prisma', 'schema.prisma')
+	const SQLITE_PRISMA_SCHEMA_PATH = path.join(
+		rootDirectory,
+		'prisma',
+		'schema.prisma',
+	)
+	const SQLITE_PRISMA_MIGRATIONS_PATH = path.join(
+		rootDirectory,
+		'prisma',
+		'migrations',
+	)
+	const SQLITE_PRISMA_DEV_DB_PATH = path.join(rootDirectory, 'prisma', 'dev.db')
+	const SQLITE_PRISMA_DEV_DB_JOURNAL_PATH = path.join(
+		rootDirectory,
+		'prisma',
+		'dev.db-journal',
+	)
+	const POSTGRES_PRISMA_MIGRATIONS_PATH = path.join(
+		rootDirectory,
+		'remix.init',
+		'lib',
+		'postgres',
+		'migrations',
+	)
 
 	const SQLITE_DEPLOY_WORKFLOW_PATH = path.join(
 		rootDirectory,
@@ -270,13 +294,25 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 			const dbAnswer = answers.database
 
 			if (dbAnswer === POSTGRESQL_DB) {
-				// Replaces Prisma scheme client provider.
-				const prismaSchema = await fs.readFile(PRISMA_SCHEMA_PATH, 'utf-8')
+				// Replaces Prisma files.
+				const prismaSchema = await fs.readFile(
+					SQLITE_PRISMA_SCHEMA_PATH,
+					'utf-8',
+				)
 				const newPrismaSchema = prismaSchema.replace(
 					PRISMA_SQLITE_MATCHER,
 					PRISMA_POSTGRES_REPLACER,
 				)
-				await fs.writeFile(PRISMA_SCHEMA_PATH, newPrismaSchema)
+				await fs.writeFile(SQLITE_PRISMA_SCHEMA_PATH, newPrismaSchema)
+
+				//await fs.unlink(SQLITE_PRISMA_MIGRATIONS_PATH)
+				rimraf.sync(SQLITE_PRISMA_MIGRATIONS_PATH, {}, () => true)
+				rimraf.sync(SQLITE_PRISMA_DEV_DB_PATH, {}, () => true)
+				rimraf.sync(SQLITE_PRISMA_DEV_DB_JOURNAL_PATH, {}, () => true)
+				await fs.rename(
+					POSTGRES_PRISMA_MIGRATIONS_PATH,
+					path.join(rootDirectory, 'prisma', 'migrations'),
+				)
 
 				// Replaces Github workflows.
 				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
