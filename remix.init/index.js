@@ -240,6 +240,15 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'docker-compose.yml',
 	)
 
+	const SQLITE_ENV_EXAMPLE_PATH = path.join(rootDirectory, '.env.example')
+	const POSTGRES_ENV_EXAMPLE_PATH = path.join(
+		rootDirectory,
+		'remix.init',
+		'lib',
+		'postgres',
+		'.env.example',
+	)
+
 	const START_SH_PATH = path.join(rootDirectory, 'start.sh')
 
 	// Matches & Replacers.
@@ -283,6 +292,10 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 					POSTGRES_DOCKER_COMPOSE_YML_PATH,
 					path.join(rootDirectory, 'docker-compose.yml'),
 				)
+
+				// Replaces .env.example file.
+				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
+				await fs.rename(POSTGRES_ENV_EXAMPLE_PATH, SQLITE_ENV_EXAMPLE_PATH)
 
 				// Removes `start.sh`.
 				await fs.unlink(START_SH_PATH)
