@@ -5,7 +5,7 @@
   <p align="center">
     <a href="https://stripe-stack.fly.dev">Live Demo</a>
     ·
-    <a href="https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md">Deployment Documentation</a>
+    <a href="https://github.com/dev-xo/dev-xo/tree/main/stripe-stack/docs">Deployment Documentation</a>
     ·
     <a href="https://twitter.com/DanielKanem">Twitter</a>
     <br/>
