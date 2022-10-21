@@ -5,15 +5,14 @@
 const { execSync } = require('child_process')
 const fs = require('fs/promises')
 const path = require('path')
-const crypto = require('crypto')
+const rimraf = require('rimraf')
 const inquirer = require('inquirer')
+const crypto = require('crypto')
 
 const toml = require('@iarna/toml')
 const YAML = require('yaml')
 const semver = require('semver')
 const PackageJson = require('@npmcli/package-json')
-
-const rimraf = require('rimraf')
 
 /**
  * Helpers.
