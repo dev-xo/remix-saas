@@ -199,7 +199,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 	const SQLITE_DB = 'SQLite'
 	const POSTGRESQL_DB = 'PostgreSQL'
 
-	// Paths.
+	// Prisma Paths.
 	const SQLITE_PRISMA_SCHEMA_PATH = path.join(
 		rootDirectory,
 		'prisma',
@@ -224,6 +224,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'migrations',
 	)
 
+	// Github Workflow Paths.
 	const SQLITE_DEPLOY_WORKFLOW_PATH = path.join(
 		rootDirectory,
 		'.github',
@@ -238,6 +239,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'deploy.yml',
 	)
 
+	// Deploy File Paths.
 	const SQLITE_DOCKERFILE_PATH = path.join(rootDirectory, 'Dockerfile')
 	const SQLITE_FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
 
@@ -262,7 +264,9 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'postgres',
 		'docker-compose.yml',
 	)
+	const START_SH_PATH = path.join(rootDirectory, 'start.sh')
 
+	// Env File Paths.
 	const SQLITE_ENV_EXAMPLE_PATH = path.join(rootDirectory, '.env.example')
 	const POSTGRES_ENV_EXAMPLE_PATH = path.join(
 		rootDirectory,
@@ -271,8 +275,6 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'postgres',
 		'.env.example',
 	)
-
-	const START_SH_PATH = path.join(rootDirectory, 'start.sh')
 
 	// Matches & Replacers.
 	const PRISMA_SQLITE_MATCHER = 'sqlite'
@@ -304,13 +306,13 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 				)
 				await fs.writeFile(SQLITE_PRISMA_SCHEMA_PATH, newPrismaSchema)
 
-				//await fs.unlink(SQLITE_PRISMA_MIGRATIONS_PATH)
 				rimraf.sync(SQLITE_PRISMA_MIGRATIONS_PATH, {}, () => true)
 				rimraf.sync(SQLITE_PRISMA_DEV_DB_PATH, {}, () => true)
 				rimraf.sync(SQLITE_PRISMA_DEV_DB_JOURNAL_PATH, {}, () => true)
+
 				await fs.rename(
 					POSTGRES_PRISMA_MIGRATIONS_PATH,
-					path.join(rootDirectory, 'prisma', 'migrations'),
+					SQLITE_PRISMA_MIGRATIONS_PATH,
 				)
 
 				// Replaces Github workflows.
@@ -385,7 +387,7 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 🙏 Support us on Github if you found it useful.
  
 📀 Start development with \`${pm.run('dev')}\`
- `.trim(),
+		`.trim(),
 	)
 }
 
