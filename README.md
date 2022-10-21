@@ -43,7 +43,7 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
 
-Stripe Stack has support for multiple databases based on Prisma. The installer will prompt you to select the database your project will run on. Based on this choice, deployment files will be updated, allowing a successfull deploy to Fly.io
+Stripe Stack has support for multiple database based on Prisma. The installer will prompt a selector allowing you to choose the database your project will run on. Deployment files will be updated matching the required criteria to successfully deploy to Fly.io
 
 To get started, run the following commands in your console:
 
