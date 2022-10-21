@@ -10,7 +10,7 @@
     <a href="https://twitter.com/DanielKanem">Twitter</a>
     <br/>
     <br/>
-    A Stripe focused Remix Stack that integrates Subscriptions, Authentication and Testing. Support for SQLite and PostgreSQL.  Deploys to Fly.io 
+    A Stripe focused Remix Stack that integrates Subscriptions, Authentication and Testing. Support for SQLite and PostgreSQL. Deploys to Fly.io 
   </p>
 </p>
 
@@ -86,7 +86,7 @@ Template can be used in the way you like. Remove all the HTML code you don't nee
 
 ### Prisma Migrations
 
-If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to do it, feel free to remove the folder inside `/prisma` called `migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
+If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to accomplish it, feel free to remove the folder inside `/prisma` called `/migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
 
 ### Folder Structure
 
