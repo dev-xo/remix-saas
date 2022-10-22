@@ -35,26 +35,26 @@ export const meta: MetaFunction = () => {
 		charset: 'utf-8',
 		title: 'Welcome to Stripe Stack!',
 		description:
-			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
+			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io ',
 		keywords:
-			'remix,stripe,create-remix,remix-stack,typescript,sqlite,prisma,tailwindcss,fly.io',
+			'remix,stripe,create-remix,remix-stack,typescript,sqlite,postgresql,prisma,tailwindcss,fly.io',
 		'og:title': 'Remix Stripe Stack',
 		'og:type': 'website',
 		'og:url': 'https://stripe-stack.fly.dev',
 		'og:image':
-			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/thumbnail-sqlite-v3.png',
+			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/Stripe-Thumbnail.png',
 		'og:card': 'summary_large_image',
 		'og:creator': '@DanielKanem',
 		'og:site': 'https://stripe-stack.fly.dev',
 		'og:description':
-			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
+			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io ',
 		'twitter:image':
-			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/thumbnail-sqlite-v3.png',
+			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/Stripe-Thumbnail.png',
 		'twitter:card': 'summary_large_image',
 		'twitter:creator': '@DanielKanem',
 		'twitter:title': 'Remix Stripe Stack',
 		'twitter:description':
-			'An Open Source Remix template that integrates Stripe Subscriptions, Social Authentication, Testing and a few more features. Deploys to Fly.io ',
+			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io',
 	}
 }
 

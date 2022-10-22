@@ -10,7 +10,7 @@
     <a href="https://twitter.com/DanielKanem">Twitter</a>
     <br/>
     <br/>
-    A Stripe focused Remix Stack that integrates Subscriptions, Authentication and Testing. Support for SQLite and PostgreSQL. Deploys to Fly.io 
+    A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io 
   </p>
 </p>
 
