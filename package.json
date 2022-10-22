@@ -16,7 +16,6 @@
 		"setup:db": "prisma generate && prisma migrate deploy",
 		"setup:seed": "prisma db seed",
 		"start": "remix-serve build",
-		"start:mocks": "binode --require ./mocks --require ./node_modules/dotenv/config -- @remix-run/serve:remix-serve build",
 		"format": "prettier --write .",
 		"lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
 		"typecheck": "tsc -b",
