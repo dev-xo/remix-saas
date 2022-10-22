@@ -111,7 +111,7 @@ const config: PlaywrightTestConfig = {
 
 	// Run your local dev server before starting the tests.
 	webServer: {
-		command: 'cross-env PORT=8811 npm run dev',
+		command: 'cross-env PORT=8811 npm run start:mocks',
 		port: 8811,
 	},
 }
