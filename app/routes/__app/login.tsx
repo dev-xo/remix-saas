@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Outlet, useLocation } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
  * Remix - Loader.
  * @required Template code.
  */
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',

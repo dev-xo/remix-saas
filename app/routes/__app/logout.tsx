@@ -1,4 +1,4 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import type { ActionFunction, LoaderArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 
@@ -13,7 +13,7 @@ export const action: ActionFunction = async ({ request }) =>
  * Remix - Loader.
  * @required Template code.
  */
-export const loader: LoaderFunction = ({ request }) => redirect('/')
+export const loader = async ({ request }: LoaderArgs) => redirect('/')
 
 export default function LogoutRoute() {
 	return <div>Whops! You should have been redirected.</div>

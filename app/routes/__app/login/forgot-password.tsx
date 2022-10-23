@@ -1,8 +1,4 @@
-import type {
-	MetaFunction,
-	LoaderFunction,
-	ActionFunction,
-} from '@remix-run/node'
+import type { MetaFunction, LoaderArgs, ActionFunction } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
 import { Link, useLoaderData, useFetcher } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
@@ -36,7 +32,7 @@ type LoaderData = {
 	hasSuccessfullySendEmail: boolean | null
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',
@@ -195,7 +191,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 export default function ForgotPasswordRoute() {
-	const { hasSuccessfullySendEmail } = useLoaderData() as LoaderData
+	const { hasSuccessfullySendEmail } = useLoaderData<typeof loader>()
 	const fetcher = useFetcher()
 	const { formError } = fetcher.data || {}
 

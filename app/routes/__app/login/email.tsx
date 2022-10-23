@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, Form, useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
@@ -21,7 +21,7 @@ type LoaderData = {
 	formError: string
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',
@@ -43,7 +43,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 }
 
 export default function LoginRoute() {
-	const { formError } = useLoaderData() as LoaderData
+	const { formError } = useLoaderData<typeof loader>()
 
 	return (
 		<div className="flex w-full max-w-md flex-col">

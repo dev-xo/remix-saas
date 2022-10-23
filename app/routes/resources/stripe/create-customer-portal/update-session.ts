@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 import { redirect } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
@@ -9,7 +9,7 @@ import { getUserByIdIncludingSubscription } from '~/models/user.server'
  * Remix - Loader.
  * @required Template code.
  */
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)
 

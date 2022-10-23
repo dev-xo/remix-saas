@@ -1,5 +1,6 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
+
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
@@ -24,7 +25,7 @@ type LoaderData = {
 	user: Awaited<AuthSession> | null
 }
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
@@ -34,7 +35,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 export default function PlansRoute() {
-	const { user } = useLoaderData() as LoaderData
+	const { user } = useLoaderData<typeof loader>()
 
 	return (
 		<div className="m-12 mx-auto flex h-auto w-full max-w-7xl flex-col items-center px-6 sm:h-full">
