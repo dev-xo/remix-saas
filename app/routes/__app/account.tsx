@@ -61,8 +61,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 		if (hasSubscriptionExpired) {
 			const subscription = await retrieveStripeSubscription(subscriptionId)
 
-			console.log('BLOCK 1')
-
 			if (subscription && subscription?.status === 'canceled') {
 				let session = await getSession(request.headers.get('Cookie'))
 
