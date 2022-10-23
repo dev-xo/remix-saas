@@ -1,10 +1,12 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 
 import { redirect, json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
+
+import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
 import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
 import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
@@ -31,7 +33,7 @@ type LoaderData = {
 	purchasedPlanName: string | number | null
 }
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
@@ -39,9 +41,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	// Parses a Cookie and returns its associated Session.
 	const session = await getSession(request.headers.get('Cookie'))
-
-	// Gets flash values from Session.
-	const skipExpirationCheck = session.get('SKIP_EXPIRATION_CHECK') || false
 
 	const hasSuccessfullySubscribed =
 		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null
@@ -52,28 +51,40 @@ export const loader: LoaderFunction = async ({ request }) => {
 	// Checks for Subscription expiration.
 	// If expried: Updates Auth Session accordingly.
 	if (
-		user &&
-		user.subscription?.currentPeriodEnd &&
-		skipExpirationCheck === false
+		user.subscription?.subscriptionId &&
+		user.subscription?.currentPeriodEnd
 	) {
+		const subscriptionId = user.subscription.subscriptionId
 		const currentPeriodEnd = user.subscription.currentPeriodEnd
 		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
 
-		// TODO: remove this
-		const HOST_URL =
-			process.env.NODE_ENV === 'development'
-				? process.env.DEV_HOST_URL
-				: process.env.PROD_HOST_URL
+		if (hasSubscriptionExpired) {
+			const subscription = await retrieveStripeSubscription(subscriptionId)
 
-		if (hasSubscriptionExpired)
-			return redirect(
-				`${HOST_URL}/resources/stripe/update-subscription-expired`,
-			)
+			console.log('BLOCK 1')
+
+			if (subscription && subscription?.status === 'canceled') {
+				let session = await getSession(request.headers.get('Cookie'))
+
+				console.log('BLOCK 2')
+
+				session.set(authenticator.sessionKey, {
+					...user,
+					subscription: { customerId: user.subscription.customerId },
+				} as AuthSession)
+
+				return redirect('/account', {
+					headers: {
+						'Set-Cookie': await commitSession(session),
+					},
+				})
+			}
+		}
 	}
 
-	// Retrieves the name of the current Subscription plan. (If any)
+	// Retrieves current Subscription plan. (If any)
 	const purchasedPlanName =
-		(user?.subscription?.planId &&
+		(user.subscription?.planId &&
 			getValueFromStripePlans(user.subscription.planId, 'planName')) ||
 		null
 
@@ -99,7 +110,7 @@ export default function AccountRoute() {
 		hasSuccessfullySubscribed,
 		hasSuccessfullyUpdatedPlan,
 		purchasedPlanName,
-	} = useLoaderData() as LoaderData
+	} = useLoaderData<typeof loader>()
 
 	return (
 		<div className="m-12 mx-auto flex h-full w-full max-w-4xl flex-col px-6 sm:flex-row">
