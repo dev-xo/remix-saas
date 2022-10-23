@@ -1,5 +1,6 @@
-import type { LoaderFunction } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
+
 import { useEffect } from 'react'
 import { redirect, json } from '@remix-run/node'
 import { useLoaderData, useSubmit } from '@remix-run/react'
@@ -16,67 +17,53 @@ type LoaderData = {
 	hasSuccessfullySubscribed: boolean | false
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
 	// Early exit, avoiding Session updates.
-	if (!user || user.subscription?.subscriptionId) return redirect('/account')
+	if (user.subscription?.subscriptionId) return redirect('/account')
 
-	if (user) {
-		// Checks for User existence in database.
-		const dbUser = (await getUserByIdIncludingSubscription(
-			user.id,
-		)) as AuthSession
+	// Checks for User existence in database.
+	const dbUser = (await getUserByIdIncludingSubscription(
+		user.id,
+	)) as AuthSession
+	if (!dbUser) throw new Error('Whops! Something went wrong.')
 
-		// Parses a Cookie and returns its associated Session.
-		const session = await getSession(request.headers.get('Cookie'))
+	// Parses a Cookie and returns its associated Session.
+	const session = await getSession(request.headers.get('Cookie'))
 
-		// Gets flash values from Session.
-		const skipSubscriptionCheck =
-			session.get('SKIP_SUBSCRIPTION_CHECK') || false
+	// Gets flash values from Session.
+	const skipSubscriptionCheck = session.get('SKIP_SUBSCRIPTION_CHECK') || false
 
-		// Checks for Subscription ID existence.
-		// On success: Updates Auth Session accordingly.
-		if (dbUser && dbUser.subscription?.subscriptionId) {
-			session.set(authenticator.sessionKey, {
-				...user,
-				subscription: { ...dbUser.subscription },
-			} as AuthSession)
+	// Checks for Subscription ID existence.
+	// On success: Updates Auth Session accordingly.
+	if (dbUser.subscription?.subscriptionId) {
+		session.set(authenticator.sessionKey, {
+			...user,
+			subscription: { ...dbUser.subscription },
+		} as AuthSession)
 
+		// Sets a value in the session that is only valid until the next session.get().
+		// Used to enhance UI experience.
+		session.flash('HAS_SUCCESSFULLY_SUBSCRIBED', true)
+
+		return redirect('/account', {
+			headers: {
+				'Set-Cookie': await commitSession(session),
+			},
+		})
+	} else {
+		if (skipSubscriptionCheck === false) {
 			// Sets a value in the session that is only valid until the next session.get().
 			// Used to enhance UI experience.
-			session.flash('HAS_SUCCESSFULLY_SUBSCRIBED', true)
-
-			return redirect('/account', {
-				headers: {
-					'Set-Cookie': await commitSession(session),
-				},
-			})
-		} else {
-			if (skipSubscriptionCheck === false) {
-				// Sets a value in the session that is only valid until the next session.get().
-				// Used to enhance UI experience.
-				session.flash('SKIP_SUBSCRIPTION_CHECK', true)
-
-				return json<LoaderData>(
-					{
-						hasSkippedSubscriptionCheck: false,
-						hasSuccessfullySubscribed: false,
-					},
-					{
-						headers: {
-							'Set-Cookie': await commitSession(session),
-						},
-					},
-				)
-			}
+			session.flash('SKIP_SUBSCRIPTION_CHECK', true)
 
 			return json<LoaderData>(
 				{
-					hasSkippedSubscriptionCheck: true,
+					hasSkippedSubscriptionCheck: false,
 					hasSuccessfullySubscribed: false,
 				},
 				{
@@ -86,15 +73,24 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 				},
 			)
 		}
-	}
 
-	// Whops!
-	return json('/')
+		return json<LoaderData>(
+			{
+				hasSkippedSubscriptionCheck: true,
+				hasSuccessfullySubscribed: false,
+			},
+			{
+				headers: {
+					'Set-Cookie': await commitSession(session),
+				},
+			},
+		)
+	}
 }
 
 export default function CheckoutRoute() {
 	const { hasSkippedSubscriptionCheck, hasSuccessfullySubscribed } =
-		useLoaderData() as LoaderData
+		useLoaderData<typeof loader>()
 	const submit = useSubmit()
 
 	// After a successfully Stripe Checkout redirect, user will wait 'x' seconds,
