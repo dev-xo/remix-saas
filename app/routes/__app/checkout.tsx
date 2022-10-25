@@ -59,7 +59,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 		session.flash('SKIP_SUBSCRIPTION_CHECK', true)
 
 		// Updates Auth Session with newly created Checkout values.
-		// Like Customer ID.
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
@@ -103,7 +102,7 @@ export default function CheckoutRoute() {
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)
 			// Feel free to update the seconds a user will have to wait,
-			// until we do the Subscription validation.
+			// until the Subscriptions arrives into database.
 			setTimeout(() => submit(null, { method: 'get' }), 8000)
 	}, [hasSkippedSubscriptionCheck, submit])
 
