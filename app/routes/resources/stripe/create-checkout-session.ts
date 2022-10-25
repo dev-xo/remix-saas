@@ -14,7 +14,9 @@ import {
  */
 export const action = async ({ request }: ActionArgs) => {
 	// Checks for Auth Session.
-	const user = await authenticator.isAuthenticated(request)
+	const user = await authenticator.isAuthenticated(request, {
+		failureRedirect: '/',
+	})
 
 	// Gets values from `formData`.
 	const formData = await request.formData()
@@ -22,7 +24,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 	// Checks for Subscription Customer into Auth Session.
 	// On success: Redirects to checkout with Customer already set.
-	if (user && user.subscription?.customerId) {
+	if (user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCheckoutSession(
 			request,
@@ -36,7 +38,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 	// Checks for Subscription Customer into database.
 	// On success: Redirects to checkout with Customer already set.
-	if (user && !user.subscription) {
+	if (!user.subscription) {
 		const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 		if (dbUser && dbUser.subscription?.customerId) {
@@ -50,13 +52,15 @@ export const action = async ({ request }: ActionArgs) => {
 			if (typeof stripeRedirectUrl === 'string')
 				return redirect(stripeRedirectUrl)
 		}
+
+		// TODO: Move bellow section here.
 	}
 
 	// If Subscription Customer has not been found in any of the previous checks:
 	// - Creates a new Stripe Customer.
 	// - Stores newly created Stripe Customer into database.
 	// - Redirects to checkout with Customer already set.
-	if (user && !user.subscription) {
+	if (!user.subscription) {
 		const newStripeCustomer = await createStripeCustomer({
 			email: user.email ? user.email : '',
 			name: user.name ? user.name : undefined,

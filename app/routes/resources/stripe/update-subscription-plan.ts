@@ -14,10 +14,12 @@ import {
  */
 export const action = async ({ request }: ActionArgs) => {
 	// Checks for Auth Session.
-	const user = await authenticator.isAuthenticated(request)
+	const user = await authenticator.isAuthenticated(request, {
+		failureRedirect: '/',
+	})
 
 	// Checks for Subscription ID existence into Auth Session.
-	if (user && user.subscription?.subscriptionId) {
+	if (user.subscription?.subscriptionId) {
 		const subscriptionId = user.subscription?.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 

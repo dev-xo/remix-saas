@@ -58,7 +58,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 		// Sets a flash value in Session, used to enhance UI experience.
 		session.flash('SKIP_SUBSCRIPTION_CHECK', true)
 
-		// Updates Auth Session with newly created Customer ID.
+		// Updates Auth Session with newly created Checkout values.
+		// Like Customer ID.
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },

@@ -9,11 +9,13 @@ import { createStripeCustomerPortalSession } from '~/services/stripe/utils.serve
  */
 export const action = async ({ request }: ActionArgs) => {
 	// Checks for Auth Session.
-	const user = await authenticator.isAuthenticated(request)
+	const user = await authenticator.isAuthenticated(request, {
+		failureRedirect: '/',
+	})
 
 	// Checks for Subscription Customer in Auth Session.
 	// On success: Redirects to Stripe Customer Portal.
-	if (user && user.subscription?.customerId) {
+	if (user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCustomerPortalSession(
 			request,
