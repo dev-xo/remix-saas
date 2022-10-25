@@ -38,7 +38,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 	// Checks for Subscription Customer into database.
 	// On success: Redirects to checkout with Customer already set.
-	if (!user.subscription) {
+	if (!user.subscription?.customerId) {
 		const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 		if (dbUser && dbUser.subscription?.customerId) {
@@ -53,14 +53,10 @@ export const action = async ({ request }: ActionArgs) => {
 				return redirect(stripeRedirectUrl)
 		}
 
-		// TODO: Move bellow section here.
-	}
-
-	// If Subscription Customer has not been found in any of the previous checks:
-	// - Creates a new Stripe Customer.
-	// - Stores newly created Stripe Customer into database.
-	// - Redirects to checkout with Customer already set.
-	if (!user.subscription) {
+		// If Subscription Customer has not been found in any of the previous checks:
+		// - Creates a new Stripe Customer.
+		// - Stores newly created Stripe Customer into database.
+		// - Redirects to checkout with Customer already set.
 		const newStripeCustomer = await createStripeCustomer({
 			email: user.email ? user.email : '',
 			name: user.name ? user.name : undefined,
