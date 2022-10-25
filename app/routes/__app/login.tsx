@@ -35,7 +35,7 @@ export default function LoginRoute() {
 			case '/login/forgot-password':
 				return 'Forgot your password?'
 			case '/login/reset-password':
-				return 'Reset password'
+				return 'Reset your password'
 			default:
 				return 'Login with Email'
 		}
@@ -48,7 +48,6 @@ export default function LoginRoute() {
 				<h5 className="text-left text-3xl font-bold text-gray-800 dark:text-gray-100">
 					Remix
 				</h5>
-				<div className="mb-1" />
 				<h5 className="text-left text-3xl font-semibold text-gray-600 dark:text-gray-400">
 					{location && subHeaderText()}
 				</h5>
@@ -61,11 +60,8 @@ export default function LoginRoute() {
 
 			{/* Example Privacy Message. */}
 			<p className="max-w-md text-center text-xs font-semibold text-gray-500 dark:text-gray-400">
-				By clicking “Continue" you acknowledge that this is a{' '}
-				<span className="font-bold text-gray-800 hover:opacity-60 dark:text-gray-100">
-					simple demo
-				</span>
-				, and you are free to use it in the way you like.
+				By clicking “Continue" you acknowledge that this is a simple demo, and
+				you can use it in the way you like.
 			</p>
 		</div>
 	)
