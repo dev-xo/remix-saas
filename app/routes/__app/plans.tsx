@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
  * @required Template code.
  */
 type LoaderData = {
-	user: Awaited<AuthSession> | null
+	user: Awaited<AuthSession>
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -152,7 +152,7 @@ export default function PlansRoute() {
 							<div className="m-3" />
 
 							{/* Renders `CreateCheckoutButton` component. */}
-							{!user?.subscription?.subscriptionId && (
+							{!user.subscription?.subscriptionId && (
 								<CreateCheckoutButton
 									planId={plan.planId}
 									planName={plan.planName}

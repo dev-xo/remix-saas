@@ -1,15 +1,15 @@
 import { Link } from '@remix-run/react'
 import { SocialsProvider } from 'remix-auth-socials'
-import { SocialButtonForm } from '~/components/Authentication/SocialButtonForm'
+import { LoginSocialsForm } from '~/components/Authentication/LoginSocialsForm'
 
 export default function LoginRoute() {
 	return (
 		<div className="flex w-full max-w-md flex-col">
 			{/* Google. */}
-			<SocialButtonForm provider={SocialsProvider.GOOGLE}>
+			<LoginSocialsForm provider={SocialsProvider.GOOGLE}>
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl 
-						bg-[#4285f4] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+					bg-[#4285f4] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
 						viewBox="0 0 24 24"
@@ -19,14 +19,14 @@ export default function LoginRoute() {
 
 					<span>Continue with Google</span>
 				</button>
-			</SocialButtonForm>
+			</LoginSocialsForm>
 			<div className="mb-1" />
 
 			{/* Twitter. */}
-			<SocialButtonForm provider="twitter">
+			<LoginSocialsForm provider="twitter">
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
-						bg-[#1da1f2] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+					bg-[#1da1f2] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
 						viewBox="0 0 24 24"
@@ -36,14 +36,14 @@ export default function LoginRoute() {
 
 					<span>Continue with Twitter</span>
 				</button>
-			</SocialButtonForm>
+			</LoginSocialsForm>
 			<div className="mb-1" />
 
 			{/* Discord. */}
-			<SocialButtonForm provider={SocialsProvider.DISCORD}>
+			<LoginSocialsForm provider={SocialsProvider.DISCORD}>
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
-						bg-[#7289da] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+					bg-[#7289da] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
 						viewBox="0 0 24 24"
@@ -53,14 +53,14 @@ export default function LoginRoute() {
 
 					<span>Continue with Discord</span>
 				</button>
-			</SocialButtonForm>
+			</LoginSocialsForm>
 			<div className="mb-1" />
 
 			{/* Github. */}
-			<SocialButtonForm provider={SocialsProvider.GITHUB}>
+			<LoginSocialsForm provider={SocialsProvider.GITHUB}>
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
-						bg-[#2b3137] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
+					bg-[#2b3137] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
 					<svg
 						className="absolute left-6 h-6 w-6 fill-white"
 						viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ export default function LoginRoute() {
 
 					<span>Continue with Github</span>
 				</button>
-			</SocialButtonForm>
+			</LoginSocialsForm>
 			<div className="mb-1" />
 
 			{/* Email. */}
