@@ -82,11 +82,11 @@ Understanding our development workspace will keep us productive.
 
 ### Usage
 
-Template can be used in the way you like. Remove all the HTML code you don't need keeping just the `loaders` and `actions` from Remix. Code that is necessary for the template to keep working as expected, has been marked as `@required`.
+Template can be used in the way you like. Feel free to remove all the HTML code you don't need, keeping just the `loaders` and `actions` from Remix. Code that is necessary for the template to work as expected, has been marked as `@required`.
 
 ### Prisma Migrations
 
-If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to accomplish it, feel free to remove the folder inside `/prisma` called `/migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
+If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to accomplish this, feel free to remove the folder inside `/prisma` called `/migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
 
 ### Folder Structure
 
@@ -106,35 +106,34 @@ Stripe Stack provides Social and Form Authentication.
 
 ### Social Authentication
 
-To start using Social Authentication, we'll need to get the secret API Keys from the following Providers.
-Below here you can find all template's Providers OAuth Documentations.
+To start using Social Authentication, we'll need to get the secret API Keys from the following Providers. Below here you can find all template's Providers OAuth Documentations.
 
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
 - [Twitter OAuth](https://developer.twitter.com/en/docs/authentication/overview)
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Usually Social Providers will ask you for a `Callback URI / Redirect URL`. An example of a Callback URI would look like the following one: `https://my-deployed-app.fly/auth/provider/callback`.
+Usually Social Providers will ask you for a `Callback URI / Redirect URL`. An example of a Callback URI for this template will look like the following one: `https://my-deployed-app.fly/auth/provider/callback`.
 
 Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`. Remember to set your Provider API Keys into template's `.env` file.
 
 ### Email / Password Authentication
 
-Using this method is pretty straightforward. The only thing we have to know is that in order to allow the user recover its password, we'll need to setup an Email Service.
+Using this method is pretty straightforward. The only thing we have to know is that in order to allow the user recover its password, we'll need to use an Email Service.
 
-For this template we'll use [Sendinblue](https://www.sendinblue.com), an Email Service that does not require Credit Card for registration, either use. It's limited to 300 Emails per day, but it's good enough for development propouses.
+This template uses [Sendinblue](https://www.sendinblue.com), an Email Service that does not require Credit Card for registration, either use. It's limited to 300 Emails per day, but it's good enough for development propouses.
 
 Let's see how we can set up this service:
 
 1. Create an account at [Sendinblue](https://www.sendinblue.com).
 2. Go to Menu, and click on `SMTP & API`.
-3. Create and Copy an API Key.
+3. Create and Copy the provided API Key.
 
 Done! Paste it into template's `.env` file as `EMAIL_PROVIDER_API_KEY`.
 
 ### Stripe Webhook - Development
 
-In order to start receiving Stripe Events to our Webhook Endpoint, we'll have to install [Stripe CLI.](https://stripe.com/docs/stripe-cli) Once installed, keep the following command running on your background:
+In order to start receiving Stripe Events to our Webhook Endpoint, we'll have to install [Stripe CLI.](https://stripe.com/docs/stripe-cli) Once installed, keep the following command running on the background:
 
 ```sh
 stripe listen --forward-to localhost:3000/api/webhook
