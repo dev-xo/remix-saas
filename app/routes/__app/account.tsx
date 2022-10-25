@@ -40,7 +40,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	})
 
 	// Parses a Cookie and returns its associated Session.
-	// Gets values from Session.
+	// Gets flash values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
 	const hasSuccessfullySubscribed =
