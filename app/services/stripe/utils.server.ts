@@ -69,7 +69,7 @@ export const createStripeCheckoutSession = async (
 		mode: 'subscription',
 		payment_method_types: ['card'],
 		success_url: `${getDomainUrl(request)}/checkout`,
-		cancel_url: `${getDomainUrl(request)}/checkout`,
+		cancel_url: `${getDomainUrl(request)}/checkout/cancel`,
 	})
 
 	if (!session?.url)

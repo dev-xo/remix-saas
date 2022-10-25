@@ -27,27 +27,22 @@ export const loader = async ({ request }: LoaderArgs) => {
 	if (user.subscription?.subscriptionId) return redirect('/account')
 
 	// Checks for User existence in database.
-	const dbUser = (await getUserByIdIncludingSubscription(
-		user.id,
-	)) as AuthSession
-	if (!dbUser) throw new Error('Whops! Something went wrong.')
+	const dbUser = await getUserByIdIncludingSubscription(user.id)
+	if (!dbUser) throw new Error('User not found in database.')
 
 	// Parses a Cookie and returns its associated Session.
-	const session = await getSession(request.headers.get('Cookie'))
-
 	// Gets flash values from Session.
+	const session = await getSession(request.headers.get('Cookie'))
 	const skipSubscriptionCheck = session.get('SKIP_SUBSCRIPTION_CHECK') || false
 
-	// Checks for Subscription ID existence.
-	// On success: Updates Auth Session accordingly.
+	// On Subscription ID existence: Updates Auth Session accordingly.
 	if (dbUser.subscription?.subscriptionId) {
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
 		} as AuthSession)
 
-		// Sets a value in the session that is only valid until the next session.get().
-		// Used to enhance UI experience.
+		// Sets a flash value in Session, used to enhance UI experience.
 		session.flash('HAS_SUCCESSFULLY_SUBSCRIBED', true)
 
 		return redirect('/account', {
@@ -55,28 +50,23 @@ export const loader = async ({ request }: LoaderArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		})
-	} else {
-		if (skipSubscriptionCheck === false) {
-			// Sets a value in the session that is only valid until the next session.get().
-			// Used to enhance UI experience.
-			session.flash('SKIP_SUBSCRIPTION_CHECK', true)
+	}
 
-			return json<LoaderData>(
-				{
-					hasSkippedSubscriptionCheck: false,
-					hasSuccessfullySubscribed: false,
-				},
-				{
-					headers: {
-						'Set-Cookie': await commitSession(session),
-					},
-				},
-			)
-		}
+	// If Subscription ID has not been found,
+	// sets a flash value in Session, allowing the cycle to repeat.
+	if (skipSubscriptionCheck === false) {
+		// Sets a flash value in Session, used to enhance UI experience.
+		session.flash('SKIP_SUBSCRIPTION_CHECK', true)
+
+		// Updates Auth Session with newly created Customer ID.
+		session.set(authenticator.sessionKey, {
+			...user,
+			subscription: { ...dbUser.subscription },
+		} as AuthSession)
 
 		return json<LoaderData>(
 			{
-				hasSkippedSubscriptionCheck: true,
+				hasSkippedSubscriptionCheck: false,
 				hasSuccessfullySubscribed: false,
 			},
 			{
@@ -86,6 +76,20 @@ export const loader = async ({ request }: LoaderArgs) => {
 			},
 		)
 	}
+
+	// Return default values.
+	// Subscription existence has not been able to be verified.
+	return json<LoaderData>(
+		{
+			hasSkippedSubscriptionCheck: true,
+			hasSuccessfullySubscribed: false,
+		},
+		{
+			headers: {
+				'Set-Cookie': await commitSession(session),
+			},
+		},
+	)
 }
 
 export default function CheckoutRoute() {
@@ -93,11 +97,13 @@ export default function CheckoutRoute() {
 		useLoaderData<typeof loader>()
 	const submit = useSubmit()
 
-	// After a successfully Stripe Checkout redirect, user will wait 'x' seconds,
-	// allowing Stripe Webhook update our database.
+	// This effect will allow Stripe Webhook to update our database,
+	// giving it a few seconds to accomplish it.
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)
-			setTimeout(() => submit(null, { method: 'get' }), 7000)
+			// Feel free to update the seconds a user will have to wait,
+			// until we do the Subscription validation.
+			setTimeout(() => submit(null, { method: 'get' }), 8000)
 	}, [hasSkippedSubscriptionCheck, submit])
 
 	return (
@@ -137,9 +143,9 @@ export default function CheckoutRoute() {
 					<div className="mb-3" />
 
 					<p className="text-center text-base font-semibold text-gray-800 dark:text-gray-100">
-						We was unable to activate your subscription.
-						<br /> Contact us at: example@gmail.com and we will solve it for
-						you!
+						We was unable to verify your subscription.
+						<br /> Please, contact us at: example@gmail.com and we will solve it
+						for you!
 					</p>
 				</div>
 			)}
