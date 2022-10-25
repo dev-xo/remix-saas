@@ -82,7 +82,9 @@ Understanding our development workspace will keep us productive.
 
 ### Usage
 
-Template can be used in the way you like. Feel free to remove all the HTML code you don't need, keeping just the `loaders` and `actions` from Remix. Code that is necessary for the template to work as expected, has been marked as `@required`.
+Template can be used in the way you like. Feel free to remove all the HTML code you don't need, keeping just the `loaders` and `actions` from Remix.
+
+Code that is necessary for the template to work as expected, has been marked as `@required`.
 
 ### Prisma Migrations
 
