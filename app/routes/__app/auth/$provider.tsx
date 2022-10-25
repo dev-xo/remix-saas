@@ -1,4 +1,4 @@
-import type { ActionFunction, LoaderArgs } from '@remix-run/node'
+import type { ActionArgs, LoaderArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 
@@ -6,7 +6,7 @@ import { authenticator } from '~/services/auth/config.server'
  * Remix - Action.
  * @required Template code.
  */
-export const action: ActionFunction = async ({ request, params }) => {
+export const action = async ({ request, params }: ActionArgs) => {
 	// Gets values from `formData`.
 	const formData = await request.clone().formData()
 	const { formType } = Object.fromEntries(formData)

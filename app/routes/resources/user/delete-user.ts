@@ -1,4 +1,4 @@
-import type { ActionFunction } from '@remix-run/node'
+import type { ActionArgs } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, destroySession } from '~/services/auth/session.server'
@@ -10,7 +10,7 @@ import { deleteUser } from '~/models/user.server'
  * Remix - Action.
  * @required Template code.
  */
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)
 

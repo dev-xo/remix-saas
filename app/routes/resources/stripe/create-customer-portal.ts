@@ -1,4 +1,4 @@
-import type { ActionFunction } from '@remix-run/node'
+import type { ActionArgs } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 import { createStripeCustomerPortalSession } from '~/services/stripe/utils.server'
@@ -7,7 +7,7 @@ import { createStripeCustomerPortalSession } from '~/services/stripe/utils.serve
  * Remix - Action.
  * @required Template code.
  */
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)
 

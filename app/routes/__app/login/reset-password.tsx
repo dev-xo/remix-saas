@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderArgs, ActionFunction } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
@@ -53,7 +53,7 @@ export const loader = async ({ request }: LoaderArgs) => {
  * Remix - Action.
  * @required Template code.
  */
-export const action: ActionFunction = async ({ request, params }) => {
+export const action = async ({ request }: ActionArgs) => {
 	// Gets values from `formData`.
 	const formData = await request.clone().formData()
 	const { password, confirmPassword } = Object.fromEntries(formData)

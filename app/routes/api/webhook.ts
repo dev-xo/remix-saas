@@ -1,6 +1,6 @@
 /// <reference types="stripe-event-types" />
 
-import type { ActionFunction } from '@remix-run/node'
+import type { ActionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
 	updateSubscription,
@@ -27,7 +27,7 @@ const stripe = new Stripe(STRIPE_SECRET_API_KEY, {
  * Remix - Action.
  * @required Template code.
  */
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
 	const payload = await request.text()
 	const signature = request.headers.get('stripe-signature')
 
