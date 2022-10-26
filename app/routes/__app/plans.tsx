@@ -40,7 +40,7 @@ export default function PlansRoute() {
 	return (
 		<div className="m-12 mx-auto flex h-auto w-full max-w-7xl flex-col items-center px-6 sm:h-full">
 			<h3 className="text-3xl font-bold text-gray-700 dark:text-gray-300">
-				Choose Plan
+				Choose your plan
 			</h3>
 			<div className="mb-12" />
 

@@ -305,7 +305,7 @@ export default function AccountRoute() {
 						className="select-noneflex-row absolute top-9 left-0 right-0 z-20 m-auto flex
 						w-[400px] transform justify-center transition hover:scale-110">
 						<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
-							Plan has been Successfully Updated.
+							Plan has been successfully updated.
 						</p>
 					</div>
 				)}
