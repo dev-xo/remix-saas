@@ -184,7 +184,7 @@ authenticator.use(
 authenticator.use(
 	new FormStrategy(async ({ form, context }) => {
 		// Gets values from `formData`.
-		// We'll use `formType` to determine if user is trying to signup, or login.
+		// We'll use `formType` to determine if user is trying to signup or login.
 		const { name, email, password, formType } = Object.fromEntries(form)
 
 		// Validates `formData` values.
@@ -195,37 +195,35 @@ authenticator.use(
 		// Checks for User existence in database.
 		const dbUser = await getUserByEmailIncludingSubscriptionAndPassword(email)
 
-		// On login:
-		// - Validates database user and provided `formData` fields.
-		// - Compares database `user.password` with provided `formData` password.
-		// - Returns user from database as Auth Session.
 		if (formType === 'login') {
-			if (!dbUser || !dbUser.password)
-				throw new Error('User or Email not found.')
-			if (typeof password !== 'string') throw new Error('Password is required.')
+			// Validates database User and provided `formData` fields.
+			if (!dbUser || !dbUser.password) throw new Error('Whops! User not found.')
+			if (!password || typeof password !== 'string')
+				throw new Error('Password is required.')
 
+			// Compares database `user.password` with provided `formData` password.
 			const isValid = await bcrypt.compare(password, dbUser.password.hash)
 			if (!isValid)
 				throw new Error(
 					'User or Password does not match our required criteria.',
 				)
 
+			// Returns database User as Auth Session.
 			return dbUser
 		}
 
-		// On signup:
-		// - Validates database user and provided `formData` fields.
-		// - Hashes provided `formData` password.
-		// - Creates and stores a new User in database.
-		// - Returns newly created User as Auth Session.
 		if (formType === 'signup') {
+			// Validates database user and provided `formData` fields.
 			if (dbUser && dbUser?.email === email)
-				throw new Error('Email is already in use.')
-			if (typeof password !== 'string') throw new Error('Password is required.')
-			if (typeof name !== 'string') throw new Error('Name is required.')
+				throw new Error('Whops! Email is already in use.')
+			if (password && typeof password !== 'string')
+				throw new Error('Password is required.')
+			if (name && typeof name !== 'string') throw new Error('Name is required.')
 
+			// Hashes provided `formData` password.
 			const hashedPassword = await bcrypt.hash(password, 10)
 
+			// Creates and stores a new User in database.
 			const newUser = await createEmailUser(
 				{
 					name,
@@ -237,6 +235,7 @@ authenticator.use(
 			if (!newUser)
 				throw new Error('There was an Error trying to create a new User.')
 
+			// Returns newly created User as Auth Session.
 			return newUser
 		}
 

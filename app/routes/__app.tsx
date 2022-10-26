@@ -30,6 +30,7 @@ export default function AppRoute() {
 	const [theme] = useTheme()
 	const location = useLocation()
 
+	// Cleanup console.log | Dev propouses.
 	console.log(user)
 
 	const setRadialGradientBasedOnTheme =

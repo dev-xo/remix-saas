@@ -13,7 +13,7 @@ export const action = async ({ request }: ActionArgs) => {
 		failureRedirect: '/',
 	})
 
-	// Checks for Subscription Customer in Auth Session.
+	// Checks for Customer ID into Auth Session.
 	// On success: Redirects to Stripe Customer Portal.
 	if (user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
