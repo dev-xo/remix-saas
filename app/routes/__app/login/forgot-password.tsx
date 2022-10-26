@@ -21,8 +21,8 @@ export const meta: MetaFunction = () => {
  * Consts.
  */
 export const RESET_PASSWORD_SESSION_KEY = 'RESET_PASSWORD_SESSION_KEY'
-const resetPasswordTokenQueryParam = 'token'
-const tokenType = 'forgot-password'
+const queryTokenParam = 'token'
+const queryTokenType = 'forgot-password'
 
 /**
  * Remix - Loader.
@@ -39,25 +39,24 @@ export const loader = async ({ request }: LoaderArgs) => {
 	})
 
 	// Parses a Cookie and returns its associated Session.
-	const session = await getSession(request.headers.get('Cookie'))
-
 	// Gets flash values from Session.
+	const session = await getSession(request.headers.get('Cookie'))
 	const hasSuccessfullySendEmail =
 		session.get('HAS_SUCCESSFULLY_SEND_EMAIL') || false
 
-	// Gets `token` param from current URL.
-	const resetPasswordTokenString = new URL(request.url).searchParams.get(
-		resetPasswordTokenQueryParam,
+	// Gets `token` param value from current URL.
+	const resetPasswordToken = new URL(request.url).searchParams.get(
+		queryTokenParam,
 	)
 
-	if (resetPasswordTokenString) {
+	if (resetPasswordToken) {
 		// Decrypts URL `token`.
-		const token = JSON.parse(decrypt(resetPasswordTokenString))
+		const token = JSON.parse(decrypt(resetPasswordToken))
 
 		// On decrypt:
-		// - Updates Session.
+		// - Sets a value in Session that contains User Email.
 		// - Commits Session and redirects with updated headers.
-		if (token.type === tokenType && token.payload?.email) {
+		if (token.type === queryTokenType && token.payload?.email) {
 			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email)
 
 			return redirect('/login/reset-password', {
@@ -65,9 +64,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 					'Set-Cookie': await commitSession(session),
 				},
 			})
-		} else {
-			return redirect('/login')
-		}
+		} else return redirect('/login')
 	}
 
 	// Returns a JSON Response and resets flashing Session variables.
@@ -87,6 +84,14 @@ export const loader = async ({ request }: LoaderArgs) => {
  * Remix - Action.
  * @required Template code.
  */
+type FetcherData = {
+	formError: {
+		error: {
+			message: string
+		}
+	}
+}
+
 export const action = async ({ request }: ActionArgs) => {
 	// Gets values from `formData`.
 	const formData = await request.clone().formData()
@@ -114,7 +119,7 @@ export const action = async ({ request }: ActionArgs) => {
 			{
 				formError: {
 					error: {
-						message: 'User or Email not found.',
+						message: 'Whops! User not found.',
 					},
 				},
 			},
@@ -123,21 +128,18 @@ export const action = async ({ request }: ActionArgs) => {
 
 	// Creates and encrypts a `JSON` object.
 	const resetPasswordToken = encrypt(
-		JSON.stringify({ type: tokenType, payload: { email } }),
+		JSON.stringify({ type: queryTokenType, payload: { email } }),
 	)
 
 	// Creates a new Object URL.
-	// Also sets newly created and encrypted params for it.
 	const resetPasswordUrl = new URL(
 		`${getDomainUrl(request)}/login/forgot-password`,
 	)
 
-	resetPasswordUrl.searchParams.set(
-		resetPasswordTokenQueryParam,
-		resetPasswordToken,
-	)
+	// Sets newly encrypted 'token' as params.
+	resetPasswordUrl.searchParams.set(queryTokenParam, resetPasswordToken)
 
-	// Sends User an Email with newly encrypted `resetPasswordUrl`.
+	// Sends User an Email with newly created URL.
 	const responseEmail = await sendRecoveryEmail({
 		to: [
 			{
@@ -166,7 +168,8 @@ export const action = async ({ request }: ActionArgs) => {
 			{
 				formError: {
 					error: {
-						message: 'Whops! There was an Error trying to send Email.',
+						message:
+							'Whops! There was an Error trying to send the recovery email.',
 					},
 				},
 			},
@@ -176,7 +179,6 @@ export const action = async ({ request }: ActionArgs) => {
 	// Sets a value in the session that is only valid until the next session.get().
 	// Used to enhance UI experience.
 	const session = await getSession(request.headers.get('Cookie'))
-
 	session.flash('HAS_SUCCESSFULLY_SEND_EMAIL', true)
 
 	// Returns a JSON Response commiting Session.
@@ -192,7 +194,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function ForgotPasswordRoute() {
 	const { hasSuccessfullySendEmail } = useLoaderData<typeof loader>()
-	const fetcher = useFetcher()
+	const fetcher = useFetcher<FetcherData>()
 	const { formError } = fetcher.data || {}
 
 	return (
@@ -203,7 +205,7 @@ export default function ForgotPasswordRoute() {
 					className="select-noneflex-row absolute top-9 left-0 right-0 z-20 m-auto flex
 					w-[400px] transform justify-center transition hover:scale-110">
 					<p className="rounded-2xl bg-violet-500 p-2 px-12 font-bold text-white shadow-2xl">
-						Email has been Successfully sent.
+						Email has been successfully sent.
 					</p>
 				</div>
 			)}
@@ -225,6 +227,7 @@ export default function ForgotPasswordRoute() {
 				</div>
 				<div className="mb-3" />
 
+				{/* Displays Form error message. */}
 				{formError?.error?.message && (
 					<p className="rounded-2xl bg-red-500 p-2 px-4 font-bold text-white shadow-2xl">
 						{formError.error.message}

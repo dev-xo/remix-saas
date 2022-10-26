@@ -101,6 +101,7 @@ export default function SignupEmailRoute() {
 				</div>
 				<div className="mb-3" />
 
+				{/* Displays Form error message. */}
 				{formError && (
 					<p className="rounded-2xl bg-red-500 p-2 px-4 font-bold text-white shadow-2xl">
 						{formError}

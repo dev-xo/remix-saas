@@ -28,7 +28,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	})
 
 	// Parses a Cookie and returns its associated Session.
-	// Used to get errors from Session.
+	// Gets errors from Session.
 	const session = await getSession(request.headers.get('cookie'))
 	const error = session.get(authenticator.sessionErrorKey)
 
@@ -52,7 +52,7 @@ export default function LoginRoute() {
 				{/* Communicates our backend if user is trying to signup, or login. */}
 				<input type="hidden" name="formType" value="login" />
 
-				{/* Email Input */}
+				{/* Email Input. */}
 				<div>
 					<label className="font-semibold text-gray-800 dark:text-gray-100">
 						Email
@@ -68,7 +68,7 @@ export default function LoginRoute() {
 				</div>
 				<div className="mb-3" />
 
-				{/* Password Input */}
+				{/* Password Input. */}
 				<div className="">
 					<label className="font-semibold text-gray-800 dark:text-gray-100">
 						Password
@@ -85,6 +85,7 @@ export default function LoginRoute() {
 				</div>
 				<div className="mb-3" />
 
+				{/* Displays Form error message. */}
 				{formError && (
 					<p className="rounded-2xl bg-red-500 p-2 px-4 font-bold text-white shadow-2xl">
 						{formError}
