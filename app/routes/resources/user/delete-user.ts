@@ -12,21 +12,22 @@ import { deleteUser } from '~/models/user.server'
  */
 export const action = async ({ request }: ActionArgs) => {
 	// Checks for Auth Session.
-	const user = await authenticator.isAuthenticated(request)
+	const user = await authenticator.isAuthenticated(request, {
+		failureRedirect: '/login',
+	})
 
-	if (user) {
-		// Checks database for Subscription Customer existence.
-		// On success: Deletes current Stripe Customer.
-		const dbUser = await getUserByIdIncludingSubscription(user.id)
+	// Checks for User existence in database.
+	const dbUser = await getUserByIdIncludingSubscription(user.id)
 
-		if (dbUser && dbUser.subscription?.customerId) {
+	if (dbUser) {
+		// Deletes current Stripe Customer.
+		if (dbUser.subscription?.subscriptionId) {
 			const customerId = dbUser.subscription.customerId
 			await deleteStripeCustomer(customerId)
 		}
 
 		// Deletes current User from database.
-		// This will also delete Subscription Model in cascade mode.
-		const userId = user.id
+		const userId = dbUser.id
 		await deleteUser(userId)
 
 		// Destroys Auth Session and redirects with updated headers.
