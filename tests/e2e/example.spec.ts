@@ -8,5 +8,5 @@ test('Homepage should have a page title.', async ({ page }) => {
 	await page.goto('/')
 
 	// Expect page to have 'x' title.
-	await expect(page).toHaveTitle(/Welcome to Stripe Stack!/)
+	await expect(page).toHaveTitle(/Remix - Stripe Stack/)
 })
