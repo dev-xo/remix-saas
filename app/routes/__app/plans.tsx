@@ -1,12 +1,12 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node';
-import type { AuthSession } from '~/services/auth/session.server';
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
+import type { AuthSession } from '~/services/auth/session.server'
 
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { authenticator } from '~/services/auth/config.server';
-import { STRIPE_PLANS } from '~/services/stripe/stripe-plans';
-import { CreateCheckoutButton } from '~/components/Stripe/CreateCheckoutButton';
-import { UpdatePlanButton } from '~/components/Stripe/UpdatePlanButton';
+import { json } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
+import { STRIPE_PLANS } from '~/services/stripe/stripe-plans'
+import { CreateCheckoutButton } from '~/components/Stripe/CreateCheckoutButton'
+import { UpdatePlanButton } from '~/components/Stripe/UpdatePlanButton'
 
 /**
  * Remix - Meta.
@@ -14,28 +14,28 @@ import { UpdatePlanButton } from '~/components/Stripe/UpdatePlanButton';
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Plans',
-	};
-};
+	}
+}
 
 /**
  * Remix - Loader.
  * @required Template code.
  */
 type LoaderData = {
-	user: Awaited<AuthSession>;
-};
+	user: Awaited<AuthSession>
+}
 
 export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
-	});
+	})
 
-	return json<LoaderData>({ user });
-};
+	return json<LoaderData>({ user })
+}
 
 export default function PlansRoute() {
-	const { user } = useLoaderData<typeof loader>();
+	const { user } = useLoaderData<typeof loader>()
 
 	return (
 		<div className="m-12 mx-auto flex h-auto w-full max-w-7xl flex-col items-center px-6 sm:h-full">
@@ -167,9 +167,9 @@ export default function PlansRoute() {
 								/>
 							)}
 						</div>
-					);
+					)
 				})}
 			</div>
 		</div>
-	);
+	)
 }

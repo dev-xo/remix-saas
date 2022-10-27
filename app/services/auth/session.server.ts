@@ -1,8 +1,8 @@
-import type { User, Subscription } from '@prisma/client';
-import { createCookieSessionStorage } from '@remix-run/node';
+import type { User, Subscription } from '@prisma/client'
+import { createCookieSessionStorage } from '@remix-run/node'
 
 export interface AuthSession extends User {
-	subscription?: Subscription;
+	subscription?: Subscription
 }
 
 /**
@@ -18,6 +18,6 @@ export const sessionStorage = createCookieSessionStorage({
 		secrets: [process.env.SESSION_SECRET || 'NOT_A_STRONG_SESSION_SECRET'],
 		secure: process.env.NODE_ENV === 'production',
 	},
-});
+})
 
-export const { getSession, commitSession, destroySession } = sessionStorage;
+export const { getSession, commitSession, destroySession } = sessionStorage

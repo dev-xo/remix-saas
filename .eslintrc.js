@@ -16,4 +16,4 @@ module.exports = {
 			version: 28,
 		},
 	},
-};
+}

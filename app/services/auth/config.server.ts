@@ -1,20 +1,20 @@
-import type { AuthSession } from '~/services/auth/session.server';
-import { Authenticator } from 'remix-auth';
+import type { AuthSession } from '~/services/auth/session.server'
+import { Authenticator } from 'remix-auth'
 import {
 	SocialsProvider,
 	GoogleStrategy,
 	GitHubStrategy,
 	DiscordStrategy,
-} from 'remix-auth-socials';
-import { TwitterStrategy } from 'remix-auth-twitter';
-import { FormStrategy } from 'remix-auth-form';
-import { sessionStorage } from '~/services/auth/session.server';
+} from 'remix-auth-socials'
+import { TwitterStrategy } from 'remix-auth-twitter'
+import { FormStrategy } from 'remix-auth-form'
+import { sessionStorage } from '~/services/auth/session.server'
 import {
 	getUserByIdIncludingSubscription,
 	getUserByEmailIncludingSubscriptionAndPassword,
-} from '~/models/user.server';
-import { createSocialUser, createEmailUser } from '~/models/user.server';
-import bcrypt from 'bcryptjs';
+} from '~/models/user.server'
+import { createSocialUser, createEmailUser } from '~/models/user.server'
+import bcrypt from 'bcryptjs'
 
 /**
  * Init.
@@ -22,12 +22,12 @@ import bcrypt from 'bcryptjs';
  */
 export let authenticator = new Authenticator<AuthSession>(sessionStorage, {
 	sessionErrorKey: 'AUTH_SESSION_ERROR_KEY',
-});
+})
 
 const HOST_URL =
 	process.env.NODE_ENV === 'development'
 		? process.env.DEV_HOST_URL
-		: process.env.PROD_HOST_URL;
+		: process.env.PROD_HOST_URL
 
 /**
  * Strategies - Google.
@@ -42,7 +42,7 @@ authenticator.use(
 		},
 		async ({ profile }) => {
 			// Checks for User existence in database.
-			const user = await getUserByIdIncludingSubscription(profile.id);
+			const user = await getUserByIdIncludingSubscription(profile.id)
 
 			// If User has not been found:
 			// - Creates and stores a new User in database.
@@ -53,18 +53,18 @@ authenticator.use(
 					name: profile.displayName,
 					email: profile._json.email,
 					avatar: profile._json.picture,
-				});
+				})
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.');
+					throw new Error('There was an Error trying to create a new User.')
 
-				return newUser;
+				return newUser
 			}
 
 			// Returns user from database as Auth Session.
-			return user;
+			return user
 		},
 	),
-);
+)
 
 /**
  * Strategies - Github.
@@ -78,7 +78,7 @@ authenticator.use(
 		},
 		async ({ profile }) => {
 			// Checks for User existence in database.
-			const user = await getUserByIdIncludingSubscription(profile.id);
+			const user = await getUserByIdIncludingSubscription(profile.id)
 
 			// If User has not been found:
 			// - Creates and stores a new User in database.
@@ -89,18 +89,18 @@ authenticator.use(
 					name: profile.displayName,
 					email: profile._json.email,
 					avatar: profile._json.avatar_url,
-				});
+				})
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.');
+					throw new Error('There was an Error trying to create a new User.')
 
-				return newUser;
+				return newUser
 			}
 
 			// Returns user from database as Auth Session.
-			return user;
+			return user
 		},
 	),
-);
+)
 
 /**
  * Strategies - Discord.
@@ -115,7 +115,7 @@ authenticator.use(
 		},
 		async ({ profile }) => {
 			// Checks for User existence in database.
-			const user = await getUserByIdIncludingSubscription(profile.id);
+			const user = await getUserByIdIncludingSubscription(profile.id)
 
 			// If User has not been found:
 			// - Creates and stores a new User in database.
@@ -128,18 +128,18 @@ authenticator.use(
 					avatar: profile.__json.avatar
 						? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.__json.avatar}.png`
 						: '',
-				});
+				})
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.');
+					throw new Error('There was an Error trying to create a new User.')
 
-				return newUser;
+				return newUser
 			}
 
 			// Returns user from database as Auth Session.
-			return user;
+			return user
 		},
 	),
-);
+)
 
 /**
  * Strategies - Twitter.
@@ -154,7 +154,7 @@ authenticator.use(
 		},
 		async ({ accessToken, accessTokenSecret, profile }) => {
 			// Checks for User existence in database.
-			const user = await getUserByIdIncludingSubscription(profile.id_str);
+			const user = await getUserByIdIncludingSubscription(profile.id_str)
 
 			// If User has not been found:
 			// - Creates and stores a new User in database.
@@ -165,18 +165,18 @@ authenticator.use(
 					name: profile.name,
 					email: profile.email ? profile.email : '',
 					avatar: profile.profile_image_url,
-				});
+				})
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.');
+					throw new Error('There was an Error trying to create a new User.')
 
-				return newUser;
+				return newUser
 			}
 
 			// Returns user from database as Auth Session.
-			return user;
+			return user
 		},
 	),
-);
+)
 
 /**
  * Strategies - FormStrategy.
@@ -185,45 +185,43 @@ authenticator.use(
 	new FormStrategy(async ({ form, context }) => {
 		// Gets values from `formData`.
 		// We'll use `formType` to determine if user is trying to signup or login.
-		const { name, email, password, formType } = Object.fromEntries(form);
+		const { name, email, password, formType } = Object.fromEntries(form)
 
 		// Validates `formData` values.
 		// This could be extended with libraries like: https://zod.dev
 		if (typeof email !== 'string' || !email.includes('@'))
-			throw new Error('Email does not match our required criteria.');
+			throw new Error('Email does not match our required criteria.')
 
 		// Checks for User existence in database.
-		const dbUser = await getUserByEmailIncludingSubscriptionAndPassword(email);
+		const dbUser = await getUserByEmailIncludingSubscriptionAndPassword(email)
 
 		if (formType === 'login') {
 			// Validates database User and provided `formData` fields.
-			if (!dbUser || !dbUser.password)
-				throw new Error('Whops! User not found.');
+			if (!dbUser || !dbUser.password) throw new Error('Whops! User not found.')
 			if (!password || typeof password !== 'string')
-				throw new Error('Password is required.');
+				throw new Error('Password is required.')
 
 			// Compares database `user.password` with provided `formData` password.
-			const isValid = await bcrypt.compare(password, dbUser.password.hash);
+			const isValid = await bcrypt.compare(password, dbUser.password.hash)
 			if (!isValid)
 				throw new Error(
 					'User or Password does not match our required criteria.',
-				);
+				)
 
 			// Returns database User as Auth Session.
-			return dbUser;
+			return dbUser
 		}
 
 		if (formType === 'signup') {
 			// Validates database user and provided `formData` fields.
 			if (dbUser && dbUser?.email === email)
-				throw new Error('Whops! Email is already in use.');
+				throw new Error('Whops! Email is already in use.')
 			if (password && typeof password !== 'string')
-				throw new Error('Password is required.');
-			if (name && typeof name !== 'string')
-				throw new Error('Name is required.');
+				throw new Error('Password is required.')
+			if (name && typeof name !== 'string') throw new Error('Name is required.')
 
 			// Hashes provided `formData` password.
-			const hashedPassword = await bcrypt.hash(password, 10);
+			const hashedPassword = await bcrypt.hash(password, 10)
 
 			// Creates and stores a new User in database.
 			const newUser = await createEmailUser(
@@ -233,18 +231,18 @@ authenticator.use(
 					avatar: `https://ui-avatars.com/api/?name=${name}`,
 				},
 				hashedPassword,
-			);
+			)
 			if (!newUser)
-				throw new Error('There was an Error trying to create a new User.');
+				throw new Error('There was an Error trying to create a new User.')
 
 			// Returns newly created User as Auth Session.
-			return newUser;
+			return newUser
 		}
 
 		// Whops!
-		throw new Error('Whops! Something went wrong!');
+		throw new Error('Whops! Something went wrong!')
 	}),
 
 	// Strategy name.
 	'email',
-);
+)
