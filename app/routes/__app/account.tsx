@@ -1,17 +1,17 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node'
-import type { AuthSession } from '~/services/auth/session.server'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node';
+import type { AuthSession } from '~/services/auth/session.server';
 
-import { redirect, json } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
-import { getSession, commitSession } from '~/services/auth/session.server'
+import { redirect, json } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
+import { authenticator } from '~/services/auth/config.server';
+import { getSession, commitSession } from '~/services/auth/session.server';
 
-import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
-import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
-import { formatUnixDate, hasDateExpired } from '~/utils/misc'
+import { retrieveStripeSubscription } from '~/services/stripe/utils.server';
+import { getValueFromStripePlans } from '~/services/stripe/stripe-plans';
+import { formatUnixDate, hasDateExpired } from '~/utils/misc';
 
-import { DeleteUserButton } from '~/components/User/DeleteUserButton'
-import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPortalButton'
+import { DeleteUserButton } from '~/components/User/DeleteUserButton';
+import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPortalButton';
 
 /**
  * Remix - Meta.
@@ -19,35 +19,35 @@ import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPo
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Account',
-	}
-}
+	};
+};
 
 /**
  * Remix - Loader.
  * @required Template code.
  */
 type LoaderData = {
-	user: Awaited<AuthSession>
-	hasSuccessfullySubscribed: boolean | null
-	hasSuccessfullyUpdatedPlan: boolean | null
-	purchasedPlanName: string | number | null
-}
+	user: Awaited<AuthSession>;
+	hasSuccessfullySubscribed: boolean | null;
+	hasSuccessfullyUpdatedPlan: boolean | null;
+	purchasedPlanName: string | number | null;
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
-	})
+	});
 
 	// Parses a Cookie and returns its associated Session.
 	// Gets flash values from Session.
-	const session = await getSession(request.headers.get('Cookie'))
+	const session = await getSession(request.headers.get('Cookie'));
 
 	const hasSuccessfullySubscribed =
-		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null
+		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null;
 
 	const hasSuccessfullyUpdatedPlan =
-		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null
+		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null;
 
 	// Checks for Subscription expiration.
 	// If expried: Updates Auth Session accordingly.
@@ -55,26 +55,26 @@ export const loader = async ({ request }: LoaderArgs) => {
 		user.subscription?.subscriptionId &&
 		user.subscription?.currentPeriodEnd
 	) {
-		const subscriptionId = user.subscription.subscriptionId
-		const currentPeriodEnd = user.subscription.currentPeriodEnd
-		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
+		const subscriptionId = user.subscription.subscriptionId;
+		const currentPeriodEnd = user.subscription.currentPeriodEnd;
+		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd);
 
 		if (hasSubscriptionExpired) {
-			const subscription = await retrieveStripeSubscription(subscriptionId)
+			const subscription = await retrieveStripeSubscription(subscriptionId);
 
 			if (subscription && subscription.status === 'canceled') {
-				let session = await getSession(request.headers.get('Cookie'))
+				let session = await getSession(request.headers.get('Cookie'));
 
 				session.set(authenticator.sessionKey, {
 					...user,
 					subscription: { customerId: user.subscription.customerId },
-				} as AuthSession)
+				} as AuthSession);
 
 				return redirect('/account', {
 					headers: {
 						'Set-Cookie': await commitSession(session),
 					},
-				})
+				});
 			}
 		}
 	}
@@ -83,7 +83,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	const purchasedPlanName =
 		(user.subscription?.planId &&
 			getValueFromStripePlans(user.subscription.planId, 'planName')) ||
-		null
+		null;
 
 	// Returns a JSON Response and resets flashing Session variables.
 	return json<LoaderData>(
@@ -98,8 +98,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	)
-}
+	);
+};
 
 export default function AccountRoute() {
 	const {
@@ -107,7 +107,7 @@ export default function AccountRoute() {
 		hasSuccessfullySubscribed,
 		hasSuccessfullyUpdatedPlan,
 		purchasedPlanName,
-	} = useLoaderData<typeof loader>()
+	} = useLoaderData<typeof loader>();
 
 	return (
 		<div className="m-12 mx-auto flex h-full w-full max-w-4xl flex-col px-6 sm:flex-row">
@@ -311,5 +311,5 @@ export default function AccountRoute() {
 				)}
 			</div>
 		</div>
-	)
+	);
 }

@@ -1,4 +1,4 @@
-import { Form } from '@remix-run/react'
+import { Form } from '@remix-run/react';
 
 export const DeleteUserButton = () => {
 	return (
@@ -9,5 +9,5 @@ export const DeleteUserButton = () => {
 				<span>Delete Account</span>
 			</button>
 		</Form>
-	)
-}
+	);
+};

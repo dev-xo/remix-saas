@@ -1,6 +1,6 @@
-import { Link } from '@remix-run/react'
-import { SocialsProvider } from 'remix-auth-socials'
-import { LoginSocialsForm } from '~/components/Authentication/LoginSocialsForm'
+import { Link } from '@remix-run/react';
+import { SocialsProvider } from 'remix-auth-socials';
+import { LoginSocialsForm } from '~/components/Authentication/LoginSocialsForm';
 
 export default function LoginRoute() {
 	return (
@@ -92,5 +92,5 @@ export default function LoginRoute() {
 				<span>Continue with Email</span>
 			</Link>
 		</div>
-	)
+	);
 }

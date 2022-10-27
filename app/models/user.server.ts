@@ -1,7 +1,7 @@
-import type { User } from '@prisma/client'
-import type { Password } from '@prisma/client'
-import { db } from '~/utils/db.server'
-import bcrypt from 'bcryptjs'
+import type { User } from '@prisma/client';
+import type { Password } from '@prisma/client';
+import { db } from '~/utils/db.server';
+import bcrypt from 'bcryptjs';
 
 /**
  * Mutations.
@@ -10,8 +10,8 @@ import bcrypt from 'bcryptjs'
 export const createSocialUser = async (
 	user: Pick<User, 'id' | 'email' | 'name' | 'avatar'>,
 ) => {
-	return db.user.create({ data: user })
-}
+	return db.user.create({ data: user });
+};
 
 export const createEmailUser = async (
 	user: Pick<User, 'email' | 'name' | 'avatar'>,
@@ -26,19 +26,19 @@ export const createEmailUser = async (
 				},
 			},
 		},
-	})
-}
+	});
+};
 
 export const deleteUser = async (id: User['id']) => {
-	return db.user.delete({ where: { id } })
-}
+	return db.user.delete({ where: { id } });
+};
 
 export const resetUserPassword = async (
 	email: User['email'],
 	password: Password['hash'],
 ) => {
 	if (typeof email === 'string') {
-		const hashedPassword = await bcrypt.hash(password, 10)
+		const hashedPassword = await bcrypt.hash(password, 10);
 
 		return db.user.update({
 			where: { email },
@@ -49,9 +49,9 @@ export const resetUserPassword = async (
 					},
 				},
 			},
-		})
+		});
 	}
-}
+};
 
 /**
  * Queries.
@@ -64,8 +64,8 @@ export const getUserByIdIncludingSubscription = async (id: User['id']) => {
 			include: {
 				subscription: true,
 			},
-		})
-}
+		});
+};
 
 export const getUserByEmailIncludingSubscriptionAndPassword = async (
 	email: User['email'],
@@ -77,8 +77,8 @@ export const getUserByEmailIncludingSubscriptionAndPassword = async (
 				subscription: true,
 				password: true,
 			},
-		})
-}
+		});
+};
 
 export const getUserByEmailIncludingPassword = async (email: User['email']) => {
 	if (typeof email === 'string')
@@ -87,5 +87,5 @@ export const getUserByEmailIncludingPassword = async (email: User['email']) => {
 			include: {
 				password: true,
 			},
-		})
-}
+		});
+};

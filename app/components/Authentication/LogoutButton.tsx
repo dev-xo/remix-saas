@@ -1,4 +1,4 @@
-import { Form } from '@remix-run/react'
+import { Form } from '@remix-run/react';
 
 export const LogoutButton = () => {
 	return (
@@ -9,5 +9,5 @@ export const LogoutButton = () => {
 				<span>Logout</span>
 			</button>
 		</Form>
-	)
-}
+	);
+};

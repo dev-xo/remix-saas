@@ -3,7 +3,7 @@ import type {
 	LoaderFunction,
 	MetaFunction,
 	ErrorBoundaryComponent,
-} from '@remix-run/node'
+} from '@remix-run/node';
 import {
 	Links,
 	LiveReload,
@@ -12,19 +12,23 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useLoaderData,
-} from '@remix-run/react'
-import { ThemeProvider, PreventFlashOnWrongTheme, useTheme } from 'remix-themes'
-import { themeSessionResolver } from '~/services/theme/session.server'
-import { getGlobalEnvs } from './utils/env.server'
+} from '@remix-run/react';
+import {
+	ThemeProvider,
+	PreventFlashOnWrongTheme,
+	useTheme,
+} from 'remix-themes';
+import { themeSessionResolver } from '~/services/theme/session.server';
+import { getGlobalEnvs } from './utils/env.server';
 
-import tailwindStylesheetUrl from './styles/tailwind.css'
+import tailwindStylesheetUrl from './styles/tailwind.css';
 
 /**
  * Remix - Links.
  */
 export const links: LinksFunction = () => {
-	return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }]
-}
+	return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];
+};
 
 /**
  * Remix - Meta.
@@ -55,23 +59,23 @@ export const meta: MetaFunction = () => {
 		'twitter:title': 'Remix Stripe Stack',
 		'twitter:description':
 			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io',
-	}
-}
+	};
+};
 
 /**
  * Remix - Loader.
  * @required Template code.
  */
 export const loader: LoaderFunction = async ({ request }) => {
-	const { getTheme } = await themeSessionResolver(request)
-	return { theme: getTheme(), ENV: getGlobalEnvs() }
-}
+	const { getTheme } = await themeSessionResolver(request);
+	return { theme: getTheme(), ENV: getGlobalEnvs() };
+};
 
 /**
  * Remix - Error Boundary.
  */
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-	console.error(error)
+	console.error(error);
 	return (
 		<html>
 			<head>
@@ -89,16 +93,16 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 				<Scripts />
 			</body>
 		</html>
-	)
-}
+	);
+};
 
 /**
  * App.
  * @required Template code.
  */
 function App() {
-	const data = useLoaderData()
-	const [theme] = useTheme()
+	const data = useLoaderData();
+	const [theme] = useTheme();
 
 	return (
 		<html lang="en" className={theme ?? ''}>
@@ -122,7 +126,7 @@ function App() {
 				{process.env.NODE_ENV === 'development' && <LiveReload />}
 			</body>
 		</html>
-	)
+	);
 }
 
 /**
@@ -130,7 +134,7 @@ function App() {
  * @required Template code.
  */
 export default function AppWithProviders() {
-	const data = useLoaderData()
+	const data = useLoaderData();
 
 	return (
 		<ThemeProvider
@@ -138,5 +142,5 @@ export default function AppWithProviders() {
 			themeAction="/resources/theme/update-theme">
 			<App />
 		</ThemeProvider>
-	)
+	);
 }

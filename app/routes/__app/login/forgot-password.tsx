@@ -1,12 +1,12 @@
-import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node'
-import { redirect, json } from '@remix-run/node'
-import { Link, useLoaderData, useFetcher } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
-import { getSession, commitSession } from '~/services/auth/session.server'
-import { getUserByEmailIncludingPassword } from '~/models/user.server'
-import { encrypt, decrypt } from '~/services/auth/utils.server'
-import { sendRecoveryEmail } from '~/services/email/utils.server'
-import { getDomainUrl } from '~/utils/misc.server'
+import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node';
+import { redirect, json } from '@remix-run/node';
+import { Link, useLoaderData, useFetcher } from '@remix-run/react';
+import { authenticator } from '~/services/auth/config.server';
+import { getSession, commitSession } from '~/services/auth/session.server';
+import { getUserByEmailIncludingPassword } from '~/models/user.server';
+import { encrypt, decrypt } from '~/services/auth/utils.server';
+import { sendRecoveryEmail } from '~/services/email/utils.server';
+import { getDomainUrl } from '~/utils/misc.server';
 
 /**
  * Remix - Meta.
@@ -14,57 +14,57 @@ import { getDomainUrl } from '~/utils/misc.server'
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Forgot Password',
-	}
-}
+	};
+};
 
 /**
  * Consts.
  */
-export const RESET_PASSWORD_SESSION_KEY = 'RESET_PASSWORD_SESSION_KEY'
-const queryTokenParam = 'token'
-const queryTokenType = 'forgot-password'
+export const RESET_PASSWORD_SESSION_KEY = 'RESET_PASSWORD_SESSION_KEY';
+const queryTokenParam = 'token';
+const queryTokenType = 'forgot-password';
 
 /**
  * Remix - Loader.
  * @required Template code.
  */
 type LoaderData = {
-	hasSuccessfullySendEmail: boolean | null
-}
+	hasSuccessfullySendEmail: boolean | null;
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',
-	})
+	});
 
 	// Parses a Cookie and returns its associated Session.
 	// Gets flash values from Session.
-	const session = await getSession(request.headers.get('Cookie'))
+	const session = await getSession(request.headers.get('Cookie'));
 	const hasSuccessfullySendEmail =
-		session.get('HAS_SUCCESSFULLY_SEND_EMAIL') || false
+		session.get('HAS_SUCCESSFULLY_SEND_EMAIL') || false;
 
 	// Gets `token` param value from current URL.
 	const resetPasswordToken = new URL(request.url).searchParams.get(
 		queryTokenParam,
-	)
+	);
 
 	if (resetPasswordToken) {
 		// Decrypts URL `token`.
-		const token = JSON.parse(decrypt(resetPasswordToken))
+		const token = JSON.parse(decrypt(resetPasswordToken));
 
 		// On decrypt:
 		// - Sets a value in Session that contains User Email.
 		// - Commits Session and redirects with updated headers.
 		if (token.type === queryTokenType && token.payload?.email) {
-			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email)
+			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email);
 
 			return redirect('/login/reset-password', {
 				headers: {
 					'Set-Cookie': await commitSession(session),
 				},
-			})
-		} else return redirect('/login')
+			});
+		} else return redirect('/login');
 	}
 
 	// Returns a JSON Response and resets flashing Session variables.
@@ -77,8 +77,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	)
-}
+	);
+};
 
 /**
  * Remix - Action.
@@ -87,15 +87,15 @@ export const loader = async ({ request }: LoaderArgs) => {
 type FetcherData = {
 	formError: {
 		error: {
-			message: string
-		}
-	}
-}
+			message: string;
+		};
+	};
+};
 
 export const action = async ({ request }: ActionArgs) => {
 	// Gets values from `formData`.
-	const formData = await request.clone().formData()
-	const { email } = Object.fromEntries(formData)
+	const formData = await request.clone().formData();
+	const { email } = Object.fromEntries(formData);
 
 	// Validates `formData` values.
 	// This could be extended with libraries like: https://zod.dev
@@ -109,10 +109,10 @@ export const action = async ({ request }: ActionArgs) => {
 				},
 			},
 			{ status: 400 },
-		)
+		);
 
 	// Checks for User existence in database.
-	const dbUser = await getUserByEmailIncludingPassword(email)
+	const dbUser = await getUserByEmailIncludingPassword(email);
 
 	if (!dbUser || !dbUser?.email || !dbUser.name)
 		return json(
@@ -124,20 +124,20 @@ export const action = async ({ request }: ActionArgs) => {
 				},
 			},
 			{ status: 400 },
-		)
+		);
 
 	// Creates and encrypts a `JSON` object.
 	const resetPasswordToken = encrypt(
 		JSON.stringify({ type: queryTokenType, payload: { email } }),
-	)
+	);
 
 	// Creates a new Object URL.
 	const resetPasswordUrl = new URL(
 		`${getDomainUrl(request)}/login/forgot-password`,
-	)
+	);
 
 	// Sets newly encrypted 'token' as params.
-	resetPasswordUrl.searchParams.set(queryTokenParam, resetPasswordToken)
+	resetPasswordUrl.searchParams.set(queryTokenParam, resetPasswordToken);
 
 	// Sends User an Email with newly created URL.
 	const responseEmail = await sendRecoveryEmail({
@@ -161,7 +161,7 @@ export const action = async ({ request }: ActionArgs) => {
 			</body>
 		</html>
 		`,
-	})
+	});
 
 	if (!responseEmail)
 		return json(
@@ -174,12 +174,12 @@ export const action = async ({ request }: ActionArgs) => {
 				},
 			},
 			{ status: 400 },
-		)
+		);
 
 	// Sets a value in the session that is only valid until the next session.get().
 	// Used to enhance UI experience.
-	const session = await getSession(request.headers.get('Cookie'))
-	session.flash('HAS_SUCCESSFULLY_SEND_EMAIL', true)
+	const session = await getSession(request.headers.get('Cookie'));
+	session.flash('HAS_SUCCESSFULLY_SEND_EMAIL', true);
 
 	// Returns a JSON Response commiting Session.
 	return json(
@@ -189,13 +189,13 @@ export const action = async ({ request }: ActionArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	)
-}
+	);
+};
 
 export default function ForgotPasswordRoute() {
-	const { hasSuccessfullySendEmail } = useLoaderData<typeof loader>()
-	const fetcher = useFetcher<FetcherData>()
-	const { formError } = fetcher.data || {}
+	const { hasSuccessfullySendEmail } = useLoaderData<typeof loader>();
+	const fetcher = useFetcher<FetcherData>();
+	const { formError } = fetcher.data || {};
 
 	return (
 		<div className="flex w-full max-w-md flex-col">
@@ -259,5 +259,5 @@ export default function ForgotPasswordRoute() {
 				</Link>
 			</div>
 		</div>
-	)
+	);
 }

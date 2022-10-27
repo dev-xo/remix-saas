@@ -3,10 +3,10 @@
  * @required Template code.
  */
 export interface StripePlanInterface {
-	planId: string
-	planName: string
-	planPriceAmount: number
-	planDescription: string
+	planId: string;
+	planName: string;
+	planPriceAmount: number;
+	planDescription: string;
 }
 
 export interface StripePlansInterface extends Array<StripePlanInterface> {}
@@ -34,7 +34,7 @@ export const STRIPE_PLANS: StripePlansInterface = [
 		planPriceAmount: 0.9,
 		planDescription: 'Infinite Cookies per Day!',
 	},
-]
+];
 
 /**
  * Helpers.
@@ -43,4 +43,4 @@ export const STRIPE_PLANS: StripePlansInterface = [
 export const getValueFromStripePlans = (
 	planId: StripePlanInterface['planId'],
 	value: keyof StripePlanInterface,
-) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]
+) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value];
