@@ -1,9 +1,9 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
-import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vite';
 
 /**
  * Learn more about Vite: https://vitejs.dev/config/
@@ -22,4 +22,4 @@ export default defineConfig({
 		// since parsing CSS it's slow.
 		css: false,
 	},
-})
+});

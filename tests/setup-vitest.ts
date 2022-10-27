@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom/extend-expect'
-import { installGlobals } from '@remix-run/node'
-import { server } from '../mocks'
+import '@testing-library/jest-dom/extend-expect';
+import { installGlobals } from '@remix-run/node';
+import { server } from '../mocks';
 
 /**
  * Since Remix relies on browser API's such as fetch,
@@ -10,11 +10,11 @@ import { server } from '../mocks'
  *
  * Learn more about Remix Polyfills https://remix.run/docs/en/v1/other-api/node#polyfills
  */
-installGlobals()
+installGlobals();
 
 /**
  * Inits Mocked Server.
  */
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
-afterAll(() => server.close())
-afterEach(() => server.resetHandlers())
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+afterAll(() => server.close());
+afterEach(() => server.resetHandlers());
