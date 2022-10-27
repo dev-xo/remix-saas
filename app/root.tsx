@@ -33,7 +33,7 @@ export const meta: MetaFunction = () => {
 	return {
 		viewport: 'width=device-width, initial-scale=1',
 		charset: 'utf-8',
-		title: 'Welcome to Stripe Stack!',
+		title: 'Remix - Stripe Stack',
 		description:
 			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io ',
 		keywords:
@@ -107,7 +107,7 @@ function App() {
 				<Links />
 				<PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
 			</head>
-			<body className="h-screen bg-white dark:bg-[#090909]">
+			<body className="h-full bg-white dark:bg-[#090909]">
 				<Outlet />
 				<ScrollRestoration />
 				<Scripts />
