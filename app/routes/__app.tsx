@@ -1,5 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node'
-import type { AuthSession } from '~/services/auth/session.server'
+import type { LoaderArgs } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
@@ -10,11 +9,7 @@ import { Navigation } from '~/components/Navigation'
  * Remix - Loader.
  * @required Template code.
  */
-type LoaderData = {
-	user: Awaited<AuthSession> | null
-}
-
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)
 
@@ -22,16 +17,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 	const url = new URL(request.url)
 	if (user && url.pathname === '/') return redirect('/account')
 
-	return json<LoaderData>({ user })
+	return json({ user })
 }
 
 export default function AppRoute() {
-	const { user } = useLoaderData() as LoaderData
+	const { user } = useLoaderData<typeof loader>()
 	const [theme] = useTheme()
 	const location = useLocation()
-
-	// Cleanup console.log | Dev propouses.
-	console.log(user)
 
 	const setRadialGradientBasedOnTheme =
 		theme === 'light'

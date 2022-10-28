@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import { db } from '~/utils/db.server'
 
 /**
@@ -9,7 +9,7 @@ import { db } from '~/utils/db.server'
  * Also tries a HEAD request to our domain. On success, our app is healthy and running.
  * Learn more: https://fly.io/docs/reference/configuration/#services-http_checks
  */
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	const host =
 		request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
 

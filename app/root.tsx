@@ -1,6 +1,6 @@
 import type {
 	LinksFunction,
-	LoaderFunction,
+	LoaderArgs,
 	MetaFunction,
 	ErrorBoundaryComponent,
 } from '@remix-run/node'
@@ -62,7 +62,7 @@ export const meta: MetaFunction = () => {
  * Remix - Loader.
  * @required Template code.
  */
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
 	const { getTheme } = await themeSessionResolver(request)
 	return { theme: getTheme(), ENV: getGlobalEnvs() }
 }
@@ -97,7 +97,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
  * @required Template code.
  */
 function App() {
-	const data = useLoaderData()
+	const { theme: ssrTheme, ENV } = useLoaderData<typeof loader>()
 	const [theme] = useTheme()
 
 	return (
@@ -105,7 +105,7 @@ function App() {
 			<head>
 				<Meta />
 				<Links />
-				<PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
+				<PreventFlashOnWrongTheme ssrTheme={Boolean(ssrTheme)} />
 			</head>
 			<body className="h-full bg-white dark:bg-[#090909]">
 				<Outlet />
@@ -115,7 +115,7 @@ function App() {
 				{/* Global Shared Envs. */}
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+						__html: `window.ENV = ${JSON.stringify(ENV)}`,
 					}}
 				/>
 
