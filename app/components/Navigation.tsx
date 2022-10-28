@@ -16,7 +16,7 @@ export const Navigation = ({ user }: ComponentProps) => {
 		<nav className="z-20 flex w-full flex-row items-center py-6 px-8">
 			{/* Logo Link */}
 			<Link
-				to={!user ? '/' : '/account'}
+				to={user ? '/account' : '/'}
 				className="group flex flex-row items-center">
 				<div
 					className="flex h-16 w-16 flex-row items-center justify-center rounded-2xl
