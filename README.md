@@ -37,6 +37,7 @@ Stripe Stack has been built on top of [Barebones Stack](https://github.com/dev-x
 
 - Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes: [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials) and [Form Strategy.](https://github.com/sergiodxa/remix-auth-form)
 - [Stripe Subscriptions](https://stripe.com/docs/billing/subscriptions/overview) with support for [Multiple Plans](#), [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
+- Forms validation Client and Server side with [Conform.](https://conform.guide/)
 - Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
