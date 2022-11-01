@@ -1,7 +1,6 @@
 import type { User } from '@prisma/client'
 import type { Password } from '@prisma/client'
 import { db } from '~/utils/db.server'
-import bcrypt from 'bcryptjs'
 
 /**
  * Mutations.
