@@ -56,6 +56,7 @@
 		"@remix-run/serve": "*",
 		"bcryptjs": "^2.4.3",
 		"dayjs": "^1.11.5",
+		"isbot": "^3.6.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"remix-auth": "^3.2.2",
