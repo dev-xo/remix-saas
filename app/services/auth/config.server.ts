@@ -7,14 +7,9 @@ import {
 	DiscordStrategy,
 } from 'remix-auth-socials'
 import { TwitterStrategy } from 'remix-auth-twitter'
-import { FormStrategy } from 'remix-auth-form'
 import { sessionStorage } from '~/services/auth/session.server'
-import {
-	getUserByIdIncludingSubscription,
-	getUserByEmailIncludingSubscriptionAndPassword,
-} from '~/models/user.server'
-import { createSocialUser, createEmailUser } from '~/models/user.server'
-import bcrypt from 'bcryptjs'
+import { getUserByIdIncludingSubscription } from '~/models/user.server'
+import { createSocialUser } from '~/models/user.server'
 
 /**
  * Init.
@@ -176,73 +171,4 @@ authenticator.use(
 			return user
 		},
 	),
-)
-
-/**
- * Strategies - FormStrategy.
- */
-authenticator.use(
-	new FormStrategy(async ({ form, context }) => {
-		// Gets values from `formData`.
-		// We'll use `formType` to determine if user is trying to signup or login.
-		const { name, email, password, formType } = Object.fromEntries(form)
-
-		// Validates `formData` values.
-		// This could be extended with libraries like: https://zod.dev
-		if (typeof email !== 'string' || !email.includes('@'))
-			throw new Error('Email does not match our required criteria.')
-
-		// Checks for User existence in database.
-		const dbUser = await getUserByEmailIncludingSubscriptionAndPassword(email)
-
-		if (formType === 'login') {
-			// Validates database User and provided `formData` fields.
-			if (!dbUser || !dbUser.password) throw new Error('Whops! User not found.')
-			if (!password || typeof password !== 'string')
-				throw new Error('Password is required.')
-
-			// Compares database `user.password` with provided `formData` password.
-			const isValid = await bcrypt.compare(password, dbUser.password.hash)
-			if (!isValid)
-				throw new Error(
-					'User or Password does not match our required criteria.',
-				)
-
-			// Returns database User as Auth Session.
-			return dbUser
-		}
-
-		if (formType === 'signup') {
-			// Validates database user and provided `formData` fields.
-			if (dbUser && dbUser?.email === email)
-				throw new Error('Whops! Email is already in use.')
-			if (password && typeof password !== 'string')
-				throw new Error('Password is required.')
-			if (name && typeof name !== 'string') throw new Error('Name is required.')
-
-			// Hashes provided `formData` password.
-			const hashedPassword = await bcrypt.hash(password, 10)
-
-			// Creates and stores a new User in database.
-			const newUser = await createEmailUser(
-				{
-					name,
-					email,
-					avatar: `https://ui-avatars.com/api/?name=${name}`,
-				},
-				hashedPassword,
-			)
-			if (!newUser)
-				throw new Error('There was an Error trying to create a new User.')
-
-			// Returns newly created User as Auth Session.
-			return newUser
-		}
-
-		// Whops!
-		throw new Error('Whops! Something went wrong!')
-	}),
-
-	// Strategy name.
-	'email',
 )

@@ -2,17 +2,12 @@
  * Utils.
  * @required Template code.
  */
-export async function sendRecoveryEmail({
+export async function sendResetPasswordEmail({
 	to,
 	subject,
 	htmlContent,
 }: {
-	to: [
-		{
-			email: string
-			name: string
-		},
-	]
+	to: [{ email: string }]
 	subject: string
 	htmlContent: string
 }) {
@@ -21,7 +16,7 @@ export async function sendRecoveryEmail({
 		body: JSON.stringify({
 			sender: {
 				name: 'Stripe Stack',
-				email: 'stripe-stack@mail.com',
+				email: 'localhost@mail.com',
 			},
 			to,
 			subject,

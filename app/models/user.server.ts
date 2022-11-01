@@ -13,10 +13,13 @@ export const createSocialUser = async (
 	return db.user.create({ data: user })
 }
 
-export const createEmailUser = async (
-	user: Pick<User, 'email' | 'name' | 'avatar'>,
-	password: Password['hash'],
-) => {
+export const createEmailUser = async ({
+	user,
+	password,
+}: {
+	user: Pick<User, 'email' | 'name' | 'avatar'>
+	password: Password['hash']
+}) => {
 	return db.user.create({
 		data: {
 			...user,
@@ -33,13 +36,14 @@ export const deleteUser = async (id: User['id']) => {
 	return db.user.delete({ where: { id } })
 }
 
-export const resetUserPassword = async (
-	email: User['email'],
-	password: Password['hash'],
-) => {
-	if (typeof email === 'string') {
-		const hashedPassword = await bcrypt.hash(password, 10)
-
+export const resetUserPassword = async ({
+	email,
+	hashedPassword,
+}: {
+	email: User['email']
+	hashedPassword: Password['hash']
+}) => {
+	if (typeof email === 'string')
 		return db.user.update({
 			where: { email },
 			data: {
@@ -50,7 +54,6 @@ export const resetUserPassword = async (
 				},
 			},
 		})
-	}
 }
 
 /**
@@ -64,6 +67,13 @@ export const getUserByIdIncludingSubscription = async (id: User['id']) => {
 			include: {
 				subscription: true,
 			},
+		})
+}
+
+export const getUserByEmail = async (email: User['email']) => {
+	if (typeof email === 'string')
+		return db.user.findUnique({
+			where: { email },
 		})
 }
 

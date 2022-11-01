@@ -7,10 +7,10 @@ import { authenticator } from '~/services/auth/config.server'
  */
 export const loader = async ({ request, params }: LoaderArgs) =>
 	await authenticator.authenticate(params.provider as string, request, {
-		successRedirect: '/',
+		successRedirect: '/account',
 		failureRedirect: '/login',
 	})
 
-export default function ProviderCallbackRoute() {
+export default function AuthProviderCallbackRoute() {
 	return <div>Whops! You should have been redirected.</div>
 }

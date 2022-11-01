@@ -1,8 +1,8 @@
 import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
 
 /**
- * Utils.
- * @required Template code.
+ * Init.
  */
 const ENCRYPTION_KEY = crypto.scryptSync(
 	process.env.ENCRYPTION_SECRET,
@@ -13,6 +13,9 @@ const ENCRYPTION_KEY = crypto.scryptSync(
 const ALGORITHM = 'aes-256-ctr'
 const IV_LENGTH = 16
 
+/**
+ * Utils.
+ */
 export const encrypt = (text: string) => {
 	const iv = crypto.randomBytes(IV_LENGTH)
 	const cipher = crypto.createCipheriv(ALGORITHM, ENCRYPTION_KEY, iv)
@@ -33,3 +36,10 @@ export const decrypt = (text: string) => {
 	])
 	return decrypted.toString()
 }
+
+export const hashPassword = (password: string) => bcrypt.hash(password, 10)
+
+export const validateHashPassword = (
+	inputPassword: string,
+	dbPassword: string,
+) => bcrypt.compare(inputPassword, dbPassword)

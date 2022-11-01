@@ -4,8 +4,8 @@ import { json, redirect } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
-import { getUserByEmailIncludingPassword } from '~/models/user.server'
-import { validateHashPassword } from '~/services/auth/utils.server'
+import { getUserByEmail, createEmailUser } from '~/models/user.server'
+import { hashPassword } from '~/services/auth/utils.server'
 
 import { conform, parse, useFieldset, useForm } from '@conform-to/react'
 import { formatError } from '@conform-to/zod'
@@ -15,17 +15,24 @@ import { z } from 'zod'
  * Zod - Schema.
  * @required Template code.
  */
-const LoginFormSchema = z.object({
-	email: z.string().min(1, 'Email is required.').email('Email is invalid.'),
-	password: z.string().min(1, 'Password is required.'),
-})
+const RegisterFormSchema = z
+	.object({
+		name: z.string().min(1, 'Name is required.'),
+		email: z.string().min(1, 'Email is required.').email('Email is invalid.'),
+		password: z.string().min(1, 'Password is required.'),
+		confirmPassword: z.string().min(1, 'Confirm password is required.'),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: 'Passwords does not match.',
+		path: ['confirmPassword'],
+	})
 
 /**
  * Remix - Meta.
  */
 export const meta: MetaFunction = () => {
 	return {
-		title: 'Stripe Stack - Log In with Email',
+		title: 'Stripe Stack - Sign Up with Email',
 	}
 }
 
@@ -35,7 +42,7 @@ export const meta: MetaFunction = () => {
  */
 export const action = async ({ request }: ActionArgs) => {
 	const formData = await request.formData()
-	const submission = parse<z.infer<typeof LoginFormSchema>>(formData)
+	const submission = parse<z.infer<typeof RegisterFormSchema>>(formData)
 
 	try {
 		switch (submission.type) {
@@ -44,32 +51,40 @@ export const action = async ({ request }: ActionArgs) => {
 				/**
 				 * Validates `submission` data.
 				 */
-				const { email, password } = LoginFormSchema.parse(submission.value)
+				const { name, email, password, confirmPassword } =
+					RegisterFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
 					/**
 					 * Checks for user existence in database.
 					 */
-					const dbUser = await getUserByEmailIncludingPassword(email)
-					if (!dbUser || !dbUser.password) throw new Error('User not found.')
+					const dbUser = await getUserByEmail(email)
+					if (dbUser && dbUser.email === email)
+						submission.error.push(['email', 'Email is already in use.'])
 
 					/**
-					 * Validates provided credentials with database ones.
+					 * Hashes password.
 					 */
-					const isValid = await validateHashPassword(
-						password,
-						dbUser.password.hash,
-					)
-					if (!isValid)
-						throw new Error(
-							'Incorrect password. Please try again or select "Forgot your password?" to change it.',
-						)
+					const hashedPassword = await hashPassword(password)
 
 					/**
-					 * Sets user as Auth Session.
+					 * Creates and stores a new user in database.
+					 */
+					const newUser = await createEmailUser({
+						user: {
+							name,
+							email,
+							avatar: `https://ui-avatars.com/api/?name=${name}`,
+						},
+						password: hashedPassword,
+					})
+					if (!newUser) throw new Error('Unable to create a new User.')
+
+					/**
+					 * Sets newly created user as Auth Session.
 					 */
 					const session = await getSession(request.headers.get('cookie'))
-					session.set(authenticator.sessionKey, dbUser)
+					session.set(authenticator.sessionKey, newUser)
 
 					/**
 					 * Redirects to 'x' commiting newly updated Session.
@@ -98,9 +113,9 @@ export const action = async ({ request }: ActionArgs) => {
 	})
 }
 
-export default function LoginEmailRoute() {
+export default function LoginRegisterRoute() {
 	const state = useActionData<typeof action>()
-	const form = useForm<z.infer<typeof LoginFormSchema>>({
+	const form = useForm<z.infer<typeof RegisterFormSchema>>({
 		// Enables server-side validation mode.
 		mode: 'server-validation',
 
@@ -111,10 +126,13 @@ export default function LoginEmailRoute() {
 		state,
 	})
 
-	const { email, password } = useFieldset(form.ref, form.config)
+	const { name, email, password, confirmPassword } = useFieldset(
+		form.ref,
+		form.config,
+	)
 
 	return (
-		<div className="flex w-full max-w-md flex-col">
+		<div className="relative flex w-full max-w-md flex-col">
 			<Form method="post" {...form.props} autoComplete="off">
 				<fieldset>
 					{/* Displays Form error message. */}
@@ -125,6 +143,20 @@ export default function LoginEmailRoute() {
 							{form.error}
 						</legend>
 					)}
+
+					{/* Name. */}
+					<label className="font-semibold text-gray-800 dark:text-gray-100">
+						<div>Name</div>
+						<div className="mb-1" />
+
+						<input
+							{...conform.input(name.config)}
+							className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
+            	px-4 text-base font-semibold text-black transition dark:text-white"
+						/>
+						<div className="text-violet-500">{name.error}</div>
+					</label>
+					<div className="mb-3" />
 
 					{/* Email. */}
 					<label className="font-semibold text-gray-800 dark:text-gray-100">
@@ -152,6 +184,19 @@ export default function LoginEmailRoute() {
 						/>
 						<div className="text-violet-500">{password.error}</div>
 					</label>
+
+					{/* Confirm Password. */}
+					<label className="font-semibold text-gray-800 dark:text-gray-100">
+						<div>Confirm Password</div>
+						<div className="mb-1" />
+
+						<input
+							{...conform.input(confirmPassword.config, { type: 'password' })}
+							className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
+            	px-4 text-base font-semibold text-black transition dark:text-white"
+						/>
+						<div className="text-violet-500">{confirmPassword.error}</div>
+					</label>
 				</fieldset>
 				<div className="mb-3" />
 
@@ -172,17 +217,11 @@ export default function LoginEmailRoute() {
 			</Form>
 			<div className="mb-4" />
 
-			<div className="flex flex-row justify-between">
+			<div className="flex flex-row justify-end">
 				<Link
 					className="font-semibold text-gray-800 hover:opacity-60 dark:text-gray-100"
-					to="/login/request">
-					Forgot password?
-				</Link>
-
-				<Link
-					className="font-semibold text-gray-800 hover:opacity-60 dark:text-gray-100"
-					to="/login/register">
-					Create account
+					to="/login/email">
+					Already have an account?
 				</Link>
 			</div>
 		</div>

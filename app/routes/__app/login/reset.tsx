@@ -1,32 +1,66 @@
-import type { MetaFunction, ActionArgs } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node'
 
 import { json, redirect } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 import { getUserByEmailIncludingPassword } from '~/models/user.server'
-import { validateHashPassword } from '~/services/auth/utils.server'
+import { resetUserPassword } from '~/models/user.server'
+import { hashPassword } from '~/services/auth/utils.server'
 
 import { conform, parse, useFieldset, useForm } from '@conform-to/react'
 import { formatError } from '@conform-to/zod'
 import { z } from 'zod'
 
+import { RESET_PASSWORD_SESSION_KEY } from './request'
+
 /**
  * Zod - Schema.
  * @required Template code.
  */
-const LoginFormSchema = z.object({
-	email: z.string().min(1, 'Email is required.').email('Email is invalid.'),
-	password: z.string().min(1, 'Password is required.'),
-})
+const ResetFormSchema = z
+	.object({
+		password: z.string().min(1, 'Password is required.'),
+		confirmPassword: z.string().min(1, 'Confirm password is required.'),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: 'Passwords does not match.',
+		path: ['confirmPassword'],
+	})
 
 /**
  * Remix - Meta.
  */
 export const meta: MetaFunction = () => {
 	return {
-		title: 'Stripe Stack - Log In with Email',
+		title: 'Stripe Stack - Reset Password',
 	}
+}
+
+/**
+ * Remix - Loader.
+ * @required Template code.
+ */
+export const loader = async ({ request }: LoaderArgs) => {
+	/**
+	 * Gets values from Session.
+	 */
+	const session = await getSession(request.headers.get('Cookie'))
+	const resetPasswordEmail = session.get(RESET_PASSWORD_SESSION_KEY)
+
+	/**
+	 * Requires `RESET_PASSWORD_SESSION_KEY` to be in Session.
+	 * This validates that user has been successfully redirected from Email.
+	 */
+	if (!resetPasswordEmail) return redirect('/login')
+
+	/**
+	 * Returns a JSON Response commiting Session.
+	 */
+	return json({
+		headers: {
+			'Set-Cookie': await commitSession(session),
+		},
+	})
 }
 
 /**
@@ -35,7 +69,7 @@ export const meta: MetaFunction = () => {
  */
 export const action = async ({ request }: ActionArgs) => {
 	const formData = await request.formData()
-	const submission = parse<z.infer<typeof LoginFormSchema>>(formData)
+	const submission = parse<z.infer<typeof ResetFormSchema>>(formData)
 
 	try {
 		switch (submission.type) {
@@ -44,38 +78,46 @@ export const action = async ({ request }: ActionArgs) => {
 				/**
 				 * Validates `submission` data.
 				 */
-				const { email, password } = LoginFormSchema.parse(submission.value)
+				const { password, confirmPassword } = ResetFormSchema.parse(
+					submission.value,
+				)
 
 				if (submission.type === 'submit') {
+					/**
+					 * Gets values from Session.
+					 */
+					const session = await getSession(request.headers.get('Cookie'))
+
+					const email = session.get(RESET_PASSWORD_SESSION_KEY)
+					if (!email) return redirect('/login')
+
 					/**
 					 * Checks for user existence in database.
 					 */
 					const dbUser = await getUserByEmailIncludingPassword(email)
-					if (!dbUser || !dbUser.password) throw new Error('User not found.')
+					if (!dbUser || !dbUser?.email || !dbUser.password)
+						return redirect('/login')
 
 					/**
-					 * Validates provided credentials with database ones.
+					 * Hashes newly password.
 					 */
-					const isValid = await validateHashPassword(
-						password,
-						dbUser.password.hash,
-					)
-					if (!isValid)
-						throw new Error(
-							'Incorrect password. Please try again or select "Forgot your password?" to change it.',
-						)
+					const hashedPassword = await hashPassword(password)
 
 					/**
-					 * Sets user as Auth Session.
+					 * Resets user password.
 					 */
-					const session = await getSession(request.headers.get('cookie'))
-					session.set(authenticator.sessionKey, dbUser)
+					await resetUserPassword({ email, hashedPassword })
+
+					/**
+					 * Cleanup Session.
+					 */
+					session.unset(RESET_PASSWORD_SESSION_KEY)
 
 					/**
 					 * Redirects to 'x' commiting newly updated Session.
 					 */
-					return redirect('/account', {
-						headers: { 'Set-Cookie': await commitSession(session, {}) },
+					return redirect('/login/email', {
+						headers: { 'Set-Cookie': await commitSession(session) },
 					})
 				}
 			}
@@ -90,17 +132,13 @@ export const action = async ({ request }: ActionArgs) => {
 	 */
 	return json({
 		...submission,
-
-		value: {
-			// Never send password back to the client.
-			email: submission.value.email,
-		},
+		value: {},
 	})
 }
 
-export default function LoginEmailRoute() {
+export default function LoginResetRoute() {
 	const state = useActionData<typeof action>()
-	const form = useForm<z.infer<typeof LoginFormSchema>>({
+	const form = useForm<z.infer<typeof ResetFormSchema>>({
 		// Enables server-side validation mode.
 		mode: 'server-validation',
 
@@ -111,7 +149,7 @@ export default function LoginEmailRoute() {
 		state,
 	})
 
-	const { email, password } = useFieldset(form.ref, form.config)
+	const { password, confirmPassword } = useFieldset(form.ref, form.config)
 
 	return (
 		<div className="flex w-full max-w-md flex-col">
@@ -126,20 +164,6 @@ export default function LoginEmailRoute() {
 						</legend>
 					)}
 
-					{/* Email. */}
-					<label className="font-semibold text-gray-800 dark:text-gray-100">
-						<div>Email</div>
-						<div className="mb-1" />
-
-						<input
-							{...conform.input(email.config)}
-							className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
-            	px-4 text-base font-semibold text-black transition dark:text-white"
-						/>
-						<div className="text-violet-500">{email.error}</div>
-					</label>
-					<div className="mb-3" />
-
 					{/* Password. */}
 					<label className="font-semibold text-gray-800 dark:text-gray-100">
 						<div>Password</div>
@@ -151,6 +175,19 @@ export default function LoginEmailRoute() {
             	px-4 text-base font-semibold text-black transition dark:text-white"
 						/>
 						<div className="text-violet-500">{password.error}</div>
+					</label>
+
+					{/* Confirm Password. */}
+					<label className="font-semibold text-gray-800 dark:text-gray-100">
+						<div>Confirm Password</div>
+						<div className="mb-1" />
+
+						<input
+							{...conform.input(confirmPassword.config, { type: 'password' })}
+							className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
+            	px-4 text-base font-semibold text-black transition dark:text-white"
+						/>
+						<div className="text-violet-500">{confirmPassword.error}</div>
 					</label>
 				</fieldset>
 				<div className="mb-3" />
@@ -167,22 +204,16 @@ export default function LoginEmailRoute() {
 						<path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.7-8 5.334L4 8.7V6.297l8 5.333 8-5.333V8.7z" />
 					</svg>
 
-					<span>Continue</span>
+					<span>Reset password</span>
 				</button>
 			</Form>
 			<div className="mb-4" />
 
-			<div className="flex flex-row justify-between">
+			<div className="flex flex-row justify-end">
 				<Link
 					className="font-semibold text-gray-800 hover:opacity-60 dark:text-gray-100"
-					to="/login/request">
-					Forgot password?
-				</Link>
-
-				<Link
-					className="font-semibold text-gray-800 hover:opacity-60 dark:text-gray-100"
-					to="/login/register">
-					Create account
+					to="/login/email">
+					Already have an account?
 				</Link>
 			</div>
 		</div>

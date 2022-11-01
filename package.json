@@ -48,6 +48,8 @@
 		"/public/build"
 	],
 	"dependencies": {
+		"@conform-to/react": "^0.4.0",
+		"@conform-to/zod": "^0.4.0",
 		"@prisma/client": "^4.3.1",
 		"@remix-run/node": "*",
 		"@remix-run/react": "*",
@@ -61,7 +63,8 @@
 		"remix-auth-socials": "^1.0.2",
 		"remix-auth-twitter": "^0.1.0",
 		"remix-themes": "^1.1.6",
-		"stripe": "^10.6.0"
+		"stripe": "^10.6.0",
+		"zod": "^3.19.1"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.27.1",
