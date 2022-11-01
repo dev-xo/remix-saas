@@ -5,6 +5,8 @@ import { RemixServer } from '@remix-run/react'
 import { renderToPipeableStream } from 'react-dom/server'
 import { getGlobalEnvs } from './utils/env.server'
 
+import isbot from 'isbot'
+
 /**
  * Global Shared Envs.
  */
@@ -18,13 +20,17 @@ export default function handleRequest(
 	responseHeaders: Headers,
 	remixContext: EntryContext,
 ) {
+	const callbackName = isbot(request.headers.get('user-agent'))
+		? 'onAllReady'
+		: 'onShellReady'
+
 	return new Promise((resolve, reject) => {
 		let didError = false
 
 		const { pipe, abort } = renderToPipeableStream(
 			<RemixServer context={remixContext} url={request.url} />,
 			{
-				onShellReady: () => {
+				[callbackName]: () => {
 					const body = new PassThrough()
 
 					responseHeaders.set('Content-Type', 'text/html')
@@ -38,13 +44,12 @@ export default function handleRequest(
 
 					pipe(body)
 				},
-
-				onShellError: (err) => {
+				onShellError: (err: unknown) => {
 					reject(err)
 				},
-
-				onError: (error) => {
+				onError: (error: unknown) => {
 					didError = true
+
 					console.error(error)
 				},
 			},
