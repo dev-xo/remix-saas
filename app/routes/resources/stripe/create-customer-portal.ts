@@ -8,13 +8,16 @@ import { createStripeCustomerPortalSession } from '~/services/stripe/utils.serve
  * @required Template code.
  */
 export const action = async ({ request }: ActionArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	// Checks for Customer ID into Auth Session.
-	// On success: Redirects to Stripe Customer Portal.
+	/**
+	 * On `customerId`, redirects to Stripe Customer Portal.
+	 */
 	if (user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCustomerPortalSession(
@@ -26,6 +29,8 @@ export const action = async ({ request }: ActionArgs) => {
 			return redirect(stripeRedirectUrl)
 	}
 
-	// Whops!
+	/**
+	 * Whops!
+	 */
 	return json({}, { status: 400 })
 }

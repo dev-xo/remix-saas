@@ -13,25 +13,34 @@ import {
  * @required Template code.
  */
 export const action = async ({ request }: ActionArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	// Checks for Subscription ID existence into Auth Session.
+	/**
+	 * On `subscriptionId`, updates Auth Session accordingly.
+	 */
 	if (user.subscription?.subscriptionId) {
 		const subscriptionId = user.subscription?.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
 		if (subscription && subscription?.status === 'active') {
-			// Gets values from `formData`.
+			/**
+			 * Gets values from `formData`.
+			 */
 			const formData = await request.formData()
 			const { newPlanId } = Object.fromEntries(formData)
 
 			if (typeof newPlanId === 'string') {
-				// Updates current Subscription Plan.
-				// More info about Proration:
-				// https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
+				/**
+				 * Updates current subscription plan.
+				 *
+				 * More info about Proration:
+				 * https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
+				 */
 				await updateStripeSubscription(subscriptionId, {
 					proration_behavior: 'always_invoice',
 					items: [
@@ -42,7 +51,6 @@ export const action = async ({ request }: ActionArgs) => {
 					],
 				})
 
-				// On Update Stripe Subscription success: Updates Auth Session accordingly.
 				let session = await getSession(request.headers.get('Cookie'))
 
 				session.set(authenticator.sessionKey, {
@@ -50,8 +58,6 @@ export const action = async ({ request }: ActionArgs) => {
 					subscription: { ...user.subscription, planId: newPlanId },
 				} as AuthSession)
 
-				// Sets a value in the session that is only valid until the next session.get().
-				// Used to enhance UI experience.
 				session.flash('HAS_SUCCESSFULLY_UPDATED_PLAN', true)
 
 				return redirect('/account', {

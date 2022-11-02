@@ -18,31 +18,39 @@ type LoaderData = {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	// Early exit, avoiding Session updates.
+	/**
+	 * Early exit, avoiding Session updates.
+	 */
 	if (user.subscription?.subscriptionId) return redirect('/account')
 
-	// Checks for user existence in database.
+	/**
+	 * Checks for user existence in database.
+	 */
 	const dbUser = await getUserByIdIncludingSubscription(user.id)
 	if (!dbUser) throw new Error('User not found in database.')
 
-	// Parses a Cookie and returns its associated Session.
-	// Gets flash values from Session.
+	/**
+	 * Gets flash values from Session.
+	 */
 	const session = await getSession(request.headers.get('Cookie'))
 	const skipSubscriptionCheck = session.get('SKIP_SUBSCRIPTION_CHECK') || false
 
-	// On Subscription ID existence: Updates Auth Session accordingly.
+	/**
+	 * On `subscriptionId`, updates Auth Session accordingly.
+	 */
 	if (dbUser.subscription?.subscriptionId) {
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
 		} as AuthSession)
 
-		// Sets a flash value in Session, used to enhance UI experience.
 		session.flash('HAS_SUCCESSFULLY_SUBSCRIBED', true)
 
 		return redirect('/account', {
@@ -52,13 +60,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 		})
 	}
 
-	// If Subscription ID has not been found,
-	// sets a flash value in Session, allowing the cycle to repeat.
+	/**
+	 * If previous check has been skiped:
+	 * - Sets a flash value in Session, allowing the cycle to repeat.
+	 */
 	if (skipSubscriptionCheck === false) {
-		// Sets a flash value in Session, used to enhance UI experience.
 		session.flash('SKIP_SUBSCRIPTION_CHECK', true)
 
-		// Updates Auth Session with newly created Checkout values.
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
@@ -77,8 +85,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 		)
 	}
 
-	// Return default values.
-	// Subscription existence has not been able to be verified.
+	/**
+	 * Returns a JSON Response commiting newly update Session.
+	 */
 	return json<LoaderData>(
 		{
 			hasSkippedSubscriptionCheck: true,
@@ -97,12 +106,12 @@ export default function CheckoutRoute() {
 		useLoaderData<typeof loader>()
 	const submit = useSubmit()
 
-	// This effect will allow Stripe Webhook to update our database,
-	// giving it a few seconds to accomplish it.
+	/**
+	 * This effect will allow Stripe Webhook to update our database,
+	 * giving it a few seconds to accomplish it.
+	 */
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)
-			// Feel free to update the seconds a user will have to wait,
-			// until the Subscriptions arrives into database.
 			setTimeout(() => submit(null, { method: 'get' }), 8000)
 	}, [hasSkippedSubscriptionCheck, submit])
 

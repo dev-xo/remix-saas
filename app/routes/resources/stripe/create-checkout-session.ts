@@ -13,17 +13,23 @@ import {
  * @required Template code.
  */
 export const action = async ({ request }: ActionArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	// Gets values from `formData`.
+	/**
+	 * Gets values from `formData`.
+	 */
 	const formData = await request.formData()
 	const { planId } = Object.fromEntries(formData)
 
-	// Checks for Subscription Customer into Auth Session.
-	// On success: Redirects to checkout with Customer already set.
+	/**
+	 * On `customerId` in Auth Session:
+	 * - Redirects to checkout with Customer already set.
+	 */
 	if (user.subscription?.customerId) {
 		const customerId = user.subscription.customerId
 		const stripeRedirectUrl = await createStripeCheckoutSession(
@@ -36,9 +42,11 @@ export const action = async ({ request }: ActionArgs) => {
 			return redirect(stripeRedirectUrl)
 	}
 
-	// Checks for Subscription Customer into database.
-	// On success: Redirects to checkout with Customer already set.
 	if (!user.subscription?.customerId) {
+		/**
+		 * On `customerId` in database:
+		 * - Redirects to checkout with Customer already set.
+		 */
 		const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 		if (dbUser && dbUser.subscription?.customerId) {
@@ -53,10 +61,12 @@ export const action = async ({ request }: ActionArgs) => {
 				return redirect(stripeRedirectUrl)
 		}
 
-		// If Subscription Customer has not been found in any of the previous checks:
-		// - Creates a new Stripe Customer.
-		// - Stores newly created Stripe Customer into database.
-		// - Redirects to checkout with Customer already set.
+		/**
+		 * If `customerId` has not been found in any of the previous checks:
+		 * - Creates a new Stripe Customer.
+		 * - Stores newly created Customer into database.
+		 * - Redirects to checkout with Customer already set.
+		 */
 		const newStripeCustomer = await createStripeCustomer({
 			email: user.email ? user.email : '',
 			name: user.name ? user.name : undefined,
@@ -90,6 +100,8 @@ export const action = async ({ request }: ActionArgs) => {
 			return redirect(stripeRedirectUrl)
 	}
 
-	// Whops!
+	/**
+	 * Whops!
+	 */
 	return json({}, { status: 400 })
 }
