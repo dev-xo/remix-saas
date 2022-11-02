@@ -1,6 +1,9 @@
 import { createCookieSessionStorage } from '@remix-run/node'
 import { createThemeSessionResolver } from 'remix-themes'
 
+/* if (!process.env.SESSION_SECRET)
+	throw new Error('Environment variable: SESSION_SECRET its required.') */
+
 /**
  * Session.
  * @required Template code.

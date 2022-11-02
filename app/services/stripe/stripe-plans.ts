@@ -35,12 +35,3 @@ export const STRIPE_PLANS: StripePlans = [
 		planDescription: 'Infinite Cookies per Day!',
 	},
 ]
-
-/**
- * Helpers.
- * Gets a value from `STRIPE_PLANS` based on `planId`.
- */
-export const getValueFromStripePlans = (
-	planId: StripePlan['planId'],
-	value: keyof StripePlan,
-) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]

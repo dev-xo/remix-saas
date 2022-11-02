@@ -7,7 +7,7 @@ import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 
 import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
-import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
+import { getValueFromStripePlans } from '~/services/stripe/utils.server'
 import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
 import { DeleteUserButton } from '~/components/DeleteUserButton'

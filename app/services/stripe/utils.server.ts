@@ -1,6 +1,10 @@
-import type { Subscription } from '@prisma/client'
-import { getDomainUrl } from '~/utils/misc.server'
 import Stripe from 'stripe'
+
+import type { Subscription } from '@prisma/client'
+import type { StripePlan } from './stripe-plans'
+
+import { getDomainUrl } from '~/utils/misc.server'
+import { STRIPE_PLANS } from './stripe-plans'
 
 /**
  * Utils.
@@ -102,3 +106,11 @@ export const createStripeCustomerPortalSession = async (
 	// Returns newly created Stripe Customer Portal Session URL.
 	return session.url
 }
+
+/**
+ * Gets a value from `STRIPE_PLANS` based on `planId`.
+ */
+export const getValueFromStripePlans = (
+	planId: StripePlan['planId'],
+	value: keyof StripePlan,
+) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]

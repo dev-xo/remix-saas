@@ -1,5 +1,5 @@
 import type { StripePlan } from '~/services/stripe/stripe-plans'
-import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
+import { getValueFromStripePlans } from '~/services/stripe/utils.server'
 import { useFetcher } from '@remix-run/react'
 
 type ComponentProps = {
