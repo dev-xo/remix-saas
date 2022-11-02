@@ -69,6 +69,8 @@ export const action = async ({ request }: ActionArgs) => {
 		}
 	}
 
-	// Whops!
+	/**
+	 * Whops!
+	 */
 	return json({}, { status: 400 })
 }

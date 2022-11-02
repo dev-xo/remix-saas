@@ -40,6 +40,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 		})
 	}
 
-	// Whops!
+	/**
+	 * Whops!
+	 */
 	return redirect('/')
 }

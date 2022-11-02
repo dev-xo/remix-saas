@@ -11,26 +11,36 @@ import { deleteUser } from '~/models/user.server'
  * @required Template code.
  */
 export const action = async ({ request }: ActionArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
 	})
 
-	// Checks for user existence in database.
+	/**
+	 * Checks for user existence in database.
+	 */
 	const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 	if (dbUser) {
-		// Deletes current Stripe Customer.
+		/**
+		 * Deletes current Stripe Customer.
+		 */
 		if (dbUser.subscription?.subscriptionId) {
 			const customerId = dbUser.subscription.customerId
 			await deleteStripeCustomer(customerId)
 		}
 
-		// Deletes current User from database.
+		/**
+		 * Deletes current User from database.
+		 */
 		const userId = dbUser.id
 		await deleteUser(userId)
 
-		// Destroys Auth Session and redirects with updated headers.
+		/**
+		 * Redirects to 'x' destroying current Auth Session.
+		 */
 		let session = await getSession(request.headers.get('Cookie'))
 
 		return redirect('/', {
@@ -40,6 +50,8 @@ export const action = async ({ request }: ActionArgs) => {
 		})
 	}
 
-	// Whops!
+	/**
+	 * Whops!
+	 */
 	return json({}, { status: 400 })
 }
