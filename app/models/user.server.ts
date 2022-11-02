@@ -60,13 +60,12 @@ export const resetUserPassword = async ({
  * @required Template code.
  */
 export const getUserByIdIncludingSubscription = async (id: User['id']) => {
-	if (typeof id === 'string')
-		return db.user.findUnique({
-			where: { id },
-			include: {
-				subscription: true,
-			},
-		})
+	return db.user.findUnique({
+		where: { id },
+		include: {
+			subscription: true,
+		},
+	})
 }
 
 export const getUserByEmail = async (email: User['email']) => {
