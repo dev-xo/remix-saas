@@ -5,8 +5,9 @@ import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { STRIPE_PLANS } from '~/services/stripe/stripe-plans'
-import { CreateCheckoutButton } from '~/components/Stripe/CreateCheckoutButton'
-import { UpdatePlanButton } from '~/components/Stripe/UpdatePlanButton'
+
+import { CreateCheckoutButton } from '~/components/CreateCheckoutButton'
+import { UpdatePlanButton } from '~/components/UpdatePlanButton'
 
 /**
  * Remix - Meta.

@@ -1,12 +1,12 @@
 import { Link } from '@remix-run/react'
 import { SocialsProvider } from 'remix-auth-socials'
-import { LoginSocialsForm } from '~/components/Authentication/LoginSocialsForm'
+import { SocialButton } from '~/components/SocialButton'
 
 export default function LoginRoute() {
 	return (
 		<div className="flex w-full max-w-md flex-col">
 			{/* Google. */}
-			<LoginSocialsForm provider={SocialsProvider.GOOGLE}>
+			<SocialButton provider={SocialsProvider.GOOGLE}>
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl 
 					bg-[#4285f4] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
@@ -19,11 +19,11 @@ export default function LoginRoute() {
 
 					<span>Continue with Google</span>
 				</button>
-			</LoginSocialsForm>
+			</SocialButton>
 			<div className="mb-1" />
 
 			{/* Twitter. */}
-			<LoginSocialsForm provider="twitter">
+			<SocialButton provider="twitter">
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
 					bg-[#1da1f2] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
@@ -36,11 +36,11 @@ export default function LoginRoute() {
 
 					<span>Continue with Twitter</span>
 				</button>
-			</LoginSocialsForm>
+			</SocialButton>
 			<div className="mb-1" />
 
 			{/* Discord. */}
-			<LoginSocialsForm provider={SocialsProvider.DISCORD}>
+			<SocialButton provider={SocialsProvider.DISCORD}>
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
 					bg-[#7289da] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
@@ -53,11 +53,11 @@ export default function LoginRoute() {
 
 					<span>Continue with Discord</span>
 				</button>
-			</LoginSocialsForm>
+			</SocialButton>
 			<div className="mb-1" />
 
 			{/* Github. */}
-			<LoginSocialsForm provider={SocialsProvider.GITHUB}>
+			<SocialButton provider={SocialsProvider.GITHUB}>
 				<button
 					className="relative flex h-16 w-full flex-row items-center justify-center rounded-xl
 					bg-[#2b3137] text-base font-bold text-white shadow-md transition hover:scale-105 active:scale-100">
@@ -74,7 +74,7 @@ export default function LoginRoute() {
 
 					<span>Continue with Github</span>
 				</button>
-			</LoginSocialsForm>
+			</SocialButton>
 			<div className="mb-1" />
 
 			{/* Email. */}

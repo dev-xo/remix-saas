@@ -1,7 +1,7 @@
 import type { AuthSession } from '~/services/auth/session.server'
 import { Link } from '@remix-run/react'
 import { Theme, useTheme } from 'remix-themes'
-import { LogoutButton } from '~/components/Authentication/LogoutButton'
+import { LogoutButton } from '~/components/LogoutButton'
 
 type ComponentProps = {
 	user: AuthSession | null

@@ -10,8 +10,8 @@ import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
 import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
 import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
-import { DeleteUserButton } from '~/components/User/DeleteUserButton'
-import { CreateCustomerPortalButton } from '~/components/Stripe/CreateCustomerPortalButton'
+import { DeleteUserButton } from '~/components/DeleteUserButton'
+import { CreateCustomerPortalButton } from '~/components/CreateCustomerPortalButton'
 
 /**
  * Remix - Meta.
