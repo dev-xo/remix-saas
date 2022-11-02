@@ -2,20 +2,20 @@
  * Utils.
  * @required Template code.
  */
-export interface StripePlanInterface {
+export interface StripePlan {
 	planId: string
 	planName: string
 	planPriceAmount: number
 	planDescription: string
 }
 
-export interface StripePlansInterface extends Array<StripePlanInterface> {}
+export interface StripePlans extends Array<StripePlan> {}
 
 /**
  * Stripe Plans.
  * Add Stripe `priceIds` into `.env` file and manage them on here.
  */
-export const STRIPE_PLANS: StripePlansInterface = [
+export const STRIPE_PLANS: StripePlans = [
 	{
 		planId: ENV.PLAN_1_PRICE_ID,
 		planName: 'Basic',
@@ -41,6 +41,6 @@ export const STRIPE_PLANS: StripePlansInterface = [
  * Gets a value from `STRIPE_PLANS` based on `planId`.
  */
 export const getValueFromStripePlans = (
-	planId: StripePlanInterface['planId'],
-	value: keyof StripePlanInterface,
+	planId: StripePlan['planId'],
+	value: keyof StripePlan,
 ) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]

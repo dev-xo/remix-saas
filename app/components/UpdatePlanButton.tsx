@@ -1,10 +1,10 @@
-import type { StripePlanInterface } from '~/services/stripe/stripe-plans'
+import type { StripePlan } from '~/services/stripe/stripe-plans'
 import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
 import { useFetcher } from '@remix-run/react'
 
 type ComponentProps = {
-	planId: StripePlanInterface['planId']
-	purchasedPlanId: StripePlanInterface['planId']
+	planId: StripePlan['planId']
+	purchasedPlanId: StripePlan['planId']
 }
 
 export const UpdatePlanButton = ({

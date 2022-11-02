@@ -1,9 +1,9 @@
-import type { StripePlanInterface } from '~/services/stripe/stripe-plans'
+import type { StripePlan } from '~/services/stripe/stripe-plans'
 import { useFetcher } from '@remix-run/react'
 
 type ComponentProps = {
-	planId: StripePlanInterface['planId']
-	planName: StripePlanInterface['planName']
+	planId: StripePlan['planId']
+	planName: StripePlan['planName']
 }
 
 export const CreateCheckoutButton = ({ planId, planName }: ComponentProps) => {
