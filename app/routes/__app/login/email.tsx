@@ -4,7 +4,7 @@ import { json, redirect } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
-import { getUserByEmailIncludingPassword } from '~/models/user.server'
+import { getUserByEmailIncludingSubscriptionAndPassword } from '~/models/user.server'
 import { validateHashPassword } from '~/services/auth/utils.server'
 
 import { conform, parse, useFieldset, useForm } from '@conform-to/react'
@@ -50,7 +50,9 @@ export const action = async ({ request }: ActionArgs) => {
 					/**
 					 * Checks for user existence in database.
 					 */
-					const dbUser = await getUserByEmailIncludingPassword(email)
+					const dbUser = await getUserByEmailIncludingSubscriptionAndPassword(
+						email,
+					)
 					if (!dbUser || !dbUser.password) throw new Error('User not found.')
 
 					/**
