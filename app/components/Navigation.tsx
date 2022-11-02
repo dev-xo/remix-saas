@@ -44,8 +44,8 @@ export const Navigation = ({ user }: ComponentProps) => {
 					<div className="ml-3" />
 					<span
 						className="hidden max-h-6 flex-row items-center rounded-md border-[1px] border-gray-300 px-2
-						text-lg font-semibold text-gray-500 dark:border-gray-600 dark:text-gray-300 sm:flex">
-						2.0
+						text-base font-bold text-gray-500 dark:border-gray-600 dark:text-gray-300 sm:flex">
+						2.1
 					</span>
 				</div>
 			</Link>

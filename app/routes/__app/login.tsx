@@ -42,7 +42,7 @@ export default function LoginRoute() {
 	}
 
 	return (
-		<div className="flex h-full w-full flex-col items-center justify-center px-6">
+		<div className="relative bottom-6 flex h-full w-full flex-col items-center justify-center px-8">
 			{/* Headers. */}
 			<div className="flex w-full max-w-md flex-col">
 				<h5 className="text-left text-3xl font-bold text-gray-800 dark:text-gray-100">
@@ -56,7 +56,7 @@ export default function LoginRoute() {
 
 			{/* Outlet. */}
 			<Outlet />
-			<div className="mb-4" />
+			<div className="mb-6" />
 
 			{/* Example Privacy Message. */}
 			<p className="max-w-md text-center text-xs font-semibold text-gray-500 dark:text-gray-400">
