@@ -1,6 +1,6 @@
 /**
- * This should be used any time the redirect path is user-provided.
- * This avoids open-redirect vulnerabilities.
+ * Utils
+ * @required Template code.
  */
 export const safeRedirect = (
 	to: FormDataEntryValue | string | null | undefined,

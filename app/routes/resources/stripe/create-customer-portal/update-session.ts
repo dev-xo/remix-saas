@@ -15,7 +15,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 		failureRedirect: '/',
 	})
 
-	// Checks for User existence in database.
+	// Checks for user existence in database.
 	const dbUser = (await getUserByIdIncludingSubscription(
 		user.id,
 	)) as AuthSession

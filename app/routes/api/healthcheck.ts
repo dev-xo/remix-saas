@@ -5,9 +5,8 @@ import { db } from '~/utils/db.server'
  * Remix - Loader.
  * @required Template code.
  *
- * Connects to database with the intent to make a simple query.
- * Also tries a HEAD request to our domain. On success, our app is healthy and running.
- * Learn more: https://fly.io/docs/reference/configuration/#services-http_checks
+ * Learn more about Fly.io Healthcheck:
+ * https://fly.io/docs/reference/configuration/#services-http_checks
  */
 export const loader = async ({ request }: LoaderArgs) => {
 	const host =

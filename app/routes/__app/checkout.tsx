@@ -26,7 +26,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	// Early exit, avoiding Session updates.
 	if (user.subscription?.subscriptionId) return redirect('/account')
 
-	// Checks for User existence in database.
+	// Checks for user existence in database.
 	const dbUser = await getUserByIdIncludingSubscription(user.id)
 	if (!dbUser) throw new Error('User not found in database.')
 

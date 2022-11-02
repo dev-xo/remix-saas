@@ -1,6 +1,10 @@
 import dayjs from 'dayjs'
 import IsSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 
+/**
+ * Utils
+ * @required Template code.
+ */
 export const formatUnixDate = (unixDate: number) => {
 	if (typeof unixDate === 'number')
 		return dayjs.unix(unixDate).format('DD/MM/YYYY HH:mm')

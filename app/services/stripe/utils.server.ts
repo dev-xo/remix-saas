@@ -66,7 +66,9 @@ export const createStripeCheckoutSession = async (
 	if (!customerId || !priceId)
 		throw new Error('Stripe `customerId` or `priceId` are undefined.')
 
-	// Creates a Checkout Session object.
+	/**
+	 * Creates a Checkout Session object.
+	 */
 	const session = await stripe.checkout.sessions.create({
 		customer: customerId,
 		line_items: [{ price: priceId, quantity: 1 }],
@@ -79,7 +81,9 @@ export const createStripeCheckoutSession = async (
 	if (!session?.url)
 		throw new Error('Unable to create a new Stripe Checkout Session.')
 
-	// Returns newly created Stripe Checkout Session URL.
+	/**
+	 * Returns newly created Checkout Session as URL.
+	 */
 	return session.url
 }
 
@@ -92,7 +96,9 @@ export const createStripeCustomerPortalSession = async (
 ) => {
 	if (!customerId) throw new Error('`customerId` is undefined.')
 
-	// Creates a Customer Portal Session object.
+	/**
+	 * Creates a Customer Portal Session object.
+	 */
 	const session = await stripe.billingPortal.sessions.create({
 		customer: customerId,
 		return_url: `${getDomainUrl(
@@ -103,7 +109,9 @@ export const createStripeCustomerPortalSession = async (
 	if (!session?.url)
 		throw new Error('Unable to create a new Stripe Customer Portal Session.')
 
-	// Returns newly created Stripe Customer Portal Session URL.
+	/**
+	 * Returns newly created Customer Portal Session as URL.
+	 */
 	return session.url
 }
 

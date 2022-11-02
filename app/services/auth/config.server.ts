@@ -36,12 +36,16 @@ authenticator.use(
 			prompt: 'consent',
 		},
 		async ({ profile }) => {
-			// Checks for User existence in database.
+			/**
+			 * Checks for user existence in database.
+			 */
 			const user = await getUserByIdIncludingSubscription(profile.id)
 
-			// If User has not been found:
-			// - Creates and stores a new User in database.
-			// - Returns newly created User as Auth Session.
+			/**
+			 * If user has not been found:
+			 * - Creates and stores a new user in database.
+			 * - Returns newly created user as Auth Session.
+			 */
 			if (!user) {
 				const newUser = await createSocialUser({
 					id: profile.id,
@@ -55,7 +59,9 @@ authenticator.use(
 				return newUser
 			}
 
-			// Returns user from database as Auth Session.
+			/**
+			 * Returns user from database as Auth Session.
+			 */
 			return user
 		},
 	),
@@ -72,12 +78,16 @@ authenticator.use(
 			callbackURL: `${HOST_URL}/auth/${SocialsProvider.GITHUB}/callback`,
 		},
 		async ({ profile }) => {
-			// Checks for User existence in database.
+			/**
+			 * Checks for user existence in database.
+			 */
 			const user = await getUserByIdIncludingSubscription(profile.id)
 
-			// If User has not been found:
-			// - Creates and stores a new User in database.
-			// - Returns newly created User as Auth Session.
+			/**
+			 * If user has not been found:
+			 * - Creates and stores a new user in database.
+			 * - Returns newly created user as Auth Session.
+			 */
 			if (!user) {
 				const newUser = await createSocialUser({
 					id: profile.id,
@@ -91,7 +101,9 @@ authenticator.use(
 				return newUser
 			}
 
-			// Returns user from database as Auth Session.
+			/**
+			 * Returns user from database as Auth Session.
+			 */
 			return user
 		},
 	),
@@ -109,12 +121,16 @@ authenticator.use(
 			scope: ['identify', 'email'],
 		},
 		async ({ profile }) => {
-			// Checks for User existence in database.
+			/**
+			 * Checks for user existence in database.
+			 */
 			const user = await getUserByIdIncludingSubscription(profile.id)
 
-			// If User has not been found:
-			// - Creates and stores a new User in database.
-			// - Returns newly created User as Auth Session.
+			/**
+			 * If user has not been found:
+			 * - Creates and stores a new user in database.
+			 * - Returns newly created user as Auth Session.
+			 */
 			if (!user) {
 				const newUser = await createSocialUser({
 					id: profile.id,
@@ -130,7 +146,9 @@ authenticator.use(
 				return newUser
 			}
 
-			// Returns user from database as Auth Session.
+			/**
+			 * Returns user from database as Auth Session.
+			 */
 			return user
 		},
 	),
@@ -148,12 +166,16 @@ authenticator.use(
 			includeEmail: true,
 		},
 		async ({ accessToken, accessTokenSecret, profile }) => {
-			// Checks for User existence in database.
+			/**
+			 * Checks for user existence in database.
+			 */
 			const user = await getUserByIdIncludingSubscription(profile.id_str)
 
-			// If User has not been found:
-			// - Creates and stores a new User in database.
-			// - Returns newly created User as Auth Session.
+			/**
+			 * If user has not been found:
+			 * - Creates and stores a new user in database.
+			 * - Returns newly created user as Auth Session.
+			 */
 			if (!user) {
 				const newUser = await createSocialUser({
 					id: profile.id_str,
@@ -167,7 +189,9 @@ authenticator.use(
 				return newUser
 			}
 
-			// Returns user from database as Auth Session.
+			/**
+			 * Returns user from database as Auth Session.
+			 */
 			return user
 		},
 	),

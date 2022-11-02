@@ -34,13 +34,16 @@ type LoaderData = {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
 	})
 
-	// Parses a Cookie and returns its associated Session.
-	// Gets flash values from Session.
+	/**
+	 * Gets flash values from Session.
+	 */
 	const session = await getSession(request.headers.get('Cookie'))
 
 	const hasSuccessfullySubscribed =
@@ -49,8 +52,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 	const hasSuccessfullyUpdatedPlan =
 		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null
 
-	// Checks for Subscription expiration.
-	// If expried: Updates Auth Session accordingly.
+	/**
+	 * Checks for subscription expiration.
+	 * If expired, updates Auth Session accordingly.
+	 */
 	if (
 		user.subscription?.subscriptionId &&
 		user.subscription?.currentPeriodEnd
@@ -79,13 +84,17 @@ export const loader = async ({ request }: LoaderArgs) => {
 		}
 	}
 
-	// Retrieves current Subscription plan. (If any)
+	/**
+	 * Retrieves current subscription plan (If any).
+	 */
 	const purchasedPlanName =
 		(user.subscription?.planId &&
 			getValueFromStripePlans(user.subscription.planId, 'planName')) ||
 		null
 
-	// Returns a JSON Response and resets flashing Session variables.
+	/**
+	 * Returns a JSON Response commiting newly update Session.
+	 */
 	return json<LoaderData>(
 		{
 			user,

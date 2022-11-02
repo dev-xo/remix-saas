@@ -1,3 +1,7 @@
+/**
+ * Utils
+ * @required Template code.
+ */
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {

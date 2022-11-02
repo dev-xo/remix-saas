@@ -10,16 +10,21 @@ import { getUserByIdIncludingSubscription } from '~/models/user.server'
  * @required Template code.
  */
 export const loader = async ({ request }: LoaderArgs) => {
-	// Checks for Auth Session.
+	/**
+	 * Checks for Auth Session.
+	 */
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	// Checks for User existence in database.
+	/**
+	 * Checks for user existence in database.
+	 */
 	const dbUser = await getUserByIdIncludingSubscription(user.id)
 
-	// Checks for Subscription ID existence.
-	// Updates Auth Session, with newly created Customer ID.
+	/**
+	 * On `customerId` existence, updates Auth Session accordingly.
+	 */
 	if (dbUser && dbUser.subscription?.customerId) {
 		let session = await getSession(request.headers.get('Cookie'))
 

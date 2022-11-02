@@ -34,8 +34,10 @@ export const action = async ({ request }: ActionArgs) => {
 	let event = undefined
 
 	try {
+		/**
+		 * Constructs and verifies the signature of an Event.
+		 */
 		if (typeof signature === 'string') {
-			// Constructs and verifies the signature of an Event.
 			event = stripe.webhooks.constructEvent(
 				payload,
 				signature,
@@ -54,9 +56,6 @@ export const action = async ({ request }: ActionArgs) => {
 		/**
 		 * This event occurs when a Checkout Session
 		 * has been successfully completed.
-		 *
-		 * Initializes Subscription Model
-		 * based on the object received from the Event.
 		 */
 		case 'checkout.session.completed': {
 			const session = event.data.object
@@ -68,7 +67,9 @@ export const action = async ({ request }: ActionArgs) => {
 				typeof customerId === 'string' &&
 				typeof subscriptionId === 'string'
 			) {
-				// Retrieves newly created Stripe Subscription.
+				/**
+				 * Retrieves newly created Stripe Subscription.
+				 */
 				const subscription = await retrieveStripeSubscription(subscriptionId)
 
 				if (subscription) {
@@ -94,11 +95,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 		/**
 		 * This event occurs whenever a subscription changes.
-		 * (E.G: Switching plans, or changing
-		 * the status from trial to active).
-		 *
-		 * Updates Subscription Model
-		 * based on the object received from the Event.
+		 * (E.G: Switching plans, or changing the status from trial to active).
 		 */
 		case 'customer.subscription.updated': {
 			const subscription = event.data.object
@@ -134,8 +131,10 @@ export const action = async ({ request }: ActionArgs) => {
 			const customerId = subscription.customer
 
 			if (typeof customerId === 'string') {
-				// Checks for Customer existence into database.
-				// On failure: Update will be skiped.
+				/**
+				 * Checks for customer existence into database.
+				 * On failure, update will be skiped.
+				 */
 				const dbCustomerId = await getSubscriptionByCustomerId(customerId)
 				if (!dbCustomerId?.customerId) return json({}, { status: 200 })
 
@@ -153,7 +152,8 @@ export const action = async ({ request }: ActionArgs) => {
 		}
 	}
 
-	// Possible status returns: 200 | 404
-	// No reason to throw an Error, we are just handling 'x' Events.
+	/**
+	 * Possible status returns: 200 | 404.
+	 */
 	return json({}, { status: 200 })
 }

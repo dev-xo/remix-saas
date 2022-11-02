@@ -6,8 +6,9 @@ import { authenticator } from '~/services/auth/config.server'
  * Remix - Action.
  * @required Template code.
  */
-export const action = async ({ request }: ActionArgs) =>
-	await authenticator.logout(request, { redirectTo: '/' })
+export const action = async ({ request }: ActionArgs) => {
+	return await authenticator.logout(request, { redirectTo: '/' })
+}
 
 /**
  * Remix - Loader.

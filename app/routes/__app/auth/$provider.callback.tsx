@@ -5,11 +5,12 @@ import { authenticator } from '~/services/auth/config.server'
  * Remix - Loader.
  * @required Template code.
  */
-export const loader = async ({ request, params }: LoaderArgs) =>
-	await authenticator.authenticate(params.provider as string, request, {
+export const loader = async ({ request, params }: LoaderArgs) => {
+	return await authenticator.authenticate(params.provider as string, request, {
 		successRedirect: '/account',
 		failureRedirect: '/login',
 	})
+}
 
 export default function AuthProviderCallbackRoute() {
 	return <div>Whops! You should have been redirected.</div>

@@ -16,7 +16,7 @@ export const action = async ({ request }: ActionArgs) => {
 		failureRedirect: '/login',
 	})
 
-	// Checks for User existence in database.
+	// Checks for user existence in database.
 	const dbUser = await getUserByIdIncludingSubscription(user.id)
 
 	if (dbUser) {

@@ -75,6 +75,16 @@ export const getUserByEmail = async (email: User['email']) => {
 		})
 }
 
+export const getUserByEmailIncludingPassword = async (email: User['email']) => {
+	if (typeof email === 'string')
+		return db.user.findUnique({
+			where: { email },
+			include: {
+				password: true,
+			},
+		})
+}
+
 export const getUserByEmailIncludingSubscriptionAndPassword = async (
 	email: User['email'],
 ) => {
@@ -83,16 +93,6 @@ export const getUserByEmailIncludingSubscriptionAndPassword = async (
 			where: { email },
 			include: {
 				subscription: true,
-				password: true,
-			},
-		})
-}
-
-export const getUserByEmailIncludingPassword = async (email: User['email']) => {
-	if (typeof email === 'string')
-		return db.user.findUnique({
-			where: { email },
-			include: {
 				password: true,
 			},
 		})

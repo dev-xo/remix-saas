@@ -5,9 +5,6 @@ export interface AuthSession extends User {
 	subscription?: Subscription
 }
 
-/* if (!process.env.SESSION_SECRET)
-	throw new Error('Environment variable: SESSION_SECRET its required.') */
-
 /**
  * Session.
  * @required Template code.
