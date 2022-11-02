@@ -182,13 +182,7 @@ export const action = async ({ request }: ActionArgs) => {
 	 * Sends submission state back to the client.
 	 */
 	return json(
-		{
-			...submission,
-			value: {
-				// Never send password back to the client.
-				email: submission.value.email,
-			},
-		},
+		{ ...submission },
 		{
 			headers: {
 				'Set-Cookie': await commitSession(session),

@@ -51,8 +51,9 @@ export const action = async ({ request }: ActionArgs) => {
 				/**
 				 * Validates `submission` data.
 				 */
-				const { name, email, password, confirmPassword } =
-					RegisterFormSchema.parse(submission.value)
+				const { name, email, password } = RegisterFormSchema.parse(
+					submission.value,
+				)
 
 				if (submission.type === 'submit') {
 					/**

@@ -78,9 +78,7 @@ export const action = async ({ request }: ActionArgs) => {
 				/**
 				 * Validates `submission` data.
 				 */
-				const { password, confirmPassword } = ResetFormSchema.parse(
-					submission.value,
-				)
+				const { password } = ResetFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
 					/**
