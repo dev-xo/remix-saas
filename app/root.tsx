@@ -1,9 +1,5 @@
-import type {
-	LinksFunction,
-	LoaderArgs,
-	MetaFunction,
-	ErrorBoundaryComponent,
-} from '@remix-run/node'
+import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node'
+
 import {
 	Links,
 	LiveReload,
@@ -13,6 +9,7 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react'
+
 import { ThemeProvider, PreventFlashOnWrongTheme, useTheme } from 'remix-themes'
 import { themeSessionResolver } from '~/services/theme/session.server'
 import { getGlobalEnvs } from './utils/env.server'
@@ -64,32 +61,7 @@ export const meta: MetaFunction = () => {
  */
 export const loader = async ({ request }: LoaderArgs) => {
 	const { getTheme } = await themeSessionResolver(request)
-	return { theme: getTheme(), ENV: getGlobalEnvs() }
-}
-
-/**
- * Remix - Error Boundary.
- */
-export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-	console.error(error)
-	return (
-		<html>
-			<head>
-				<title>Oh no!</title>
-				<Meta />
-				<Links />
-			</head>
-			<body className="flex h-screen flex-col items-center justify-center">
-				{/* Add here the UI you want your users to see. */}
-				<h1 className="text-center text-3xl font-semibold">
-					Whops.
-					<br />
-					Something went wrong!
-				</h1>
-				<Scripts />
-			</body>
-		</html>
-	)
+	return { ssrTheme: getTheme(), ENV: getGlobalEnvs() }
 }
 
 /**
@@ -97,7 +69,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
  * @required Template code.
  */
 function App() {
-	const { theme: ssrTheme, ENV } = useLoaderData<typeof loader>()
+	const { ssrTheme, ENV } = useLoaderData<typeof loader>()
 	const [theme] = useTheme()
 
 	return (
@@ -130,11 +102,11 @@ function App() {
  * @required Template code.
  */
 export default function AppWithProviders() {
-	const data = useLoaderData()
+	const { ssrTheme } = useLoaderData<typeof loader>()
 
 	return (
 		<ThemeProvider
-			specifiedTheme={data.theme}
+			specifiedTheme={ssrTheme}
 			themeAction="/resources/theme/update-theme">
 			<App />
 		</ThemeProvider>
