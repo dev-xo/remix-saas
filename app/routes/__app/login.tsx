@@ -32,14 +32,14 @@ export default function LoginRoute() {
 
 	const subHeaderText = () => {
 		switch (location.pathname) {
+			case '/login':
+				return 'Continue with your preferred authentication method'
 			case '/login/email':
 				return 'Log In with Email'
-			case '/login/forgot-password':
+			case '/login/request':
 				return 'Forgot your password?'
-			case '/login/reset-password':
+			case '/login/reset':
 				return 'Reset your password'
-			default:
-				return 'Login with Email'
 		}
 	}
 
