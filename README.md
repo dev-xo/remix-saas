@@ -37,14 +37,14 @@ Stripe Stack has been built on top of [Barebones Stack](https://github.com/dev-x
 
 - Authentication Ready with [Remix-Auth](https://www.npmjs.com/package/remix-auth) that includes: [Socials Strategies](https://www.npmjs.com/package/remix-auth-socials) and [Form Strategy.](https://github.com/sergiodxa/remix-auth-form)
 - [Stripe Subscriptions](https://stripe.com/docs/billing/subscriptions/overview) with support for [Multiple Plans](#), [Upgrade / Downgrade](https://stripe.com/docs/billing/subscriptions/change) and [Customer Portal.](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal)
-- Forms validation Client and Server side with [Conform.](https://conform.guide/)
+- Forms validation for Client and Server side with [Conform.](https://conform.guide/)
 - Support for Javascript developers with continuous updates over time based on `remix.init`.
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ## Quickstart
 
-Stripe Stack has support for multiple database based on Prisma. The installer will prompt a selector allowing you to choose the database your project will run on. Deployment files will be updated matching the required criteria to successfully deploy to Fly.io
+Stripe Stack has support for multiple databases based on Prisma. The installer will prompt a selector allowing you to choose the database your project will run on. Deployment files will be updated matching the required criteria to successfully deploy to Fly.io.
 
 To get started, run the following commands in your console:
 
@@ -52,14 +52,14 @@ To get started, run the following commands in your console:
 # Initialize template in your workspace:
 npx create-remix@latest --template dev-xo/stripe-stack
 
-# You will be prompted to select the database your project will run on.
+# Select the database your project will run on:
 # ...
 
 # Start dev server:
 npm run dev
 ```
 
-> Notes: Important❗️: Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. This template uses `remix.init` to configure itself and prepare your environment.
+> Important❗️: Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. This template uses `remix.init` to configure itself and prepare your environment.
 
 ## Getting Started
 
@@ -67,15 +67,16 @@ The following section will be splitted into three quick threads: **Live Demo**, 
 
 ## Live Demo
 
-Template's Demo has been built to be really simple to test, being able to show all its provided features. Here is the workflow we can follow to test it:
+Template demo has been built to be really simple to test, being able to display all its provided features. Here is a simple workflow you can follow to give it a try:
 
 1. Log in with your preferred authentication method.
-2. Select a Subscription Plan.
-3. Fill Stripe Checkout inputs with default development values. _(Check Notes)_
+2. Select a subscription plan.
+3. Fill Stripe checkout inputs with default development values. _(Check Notes)_
+4. You should be redirected back to the app with selected plan already set.
 
-Done! We should be redirected back to the app with selected Stripe Plan already set.
+Done!
 
-> Notes: Stripe test mode uses the following number: `4242` as valid values for Card Information. Type it as much times as you can on each available input to successfully complete Checkout step.
+> Notes: Stripe test mode uses the following number: `4242` as valid value for Card Information. Type it as much times as you can on each available input to successfully complete the checkout step.
 
 ## Development
 
@@ -89,64 +90,53 @@ Code that is necessary for the template to work as expected, has been marked as 
 
 ### Prisma Migrations
 
-If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to accomplish this, feel free to remove the folder inside `/prisma` called `/migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
-
-### Folder Structure
-
-Let's review some of template's important folders:
-
-    ├── models          # Stores database interactions.
-    ├── services        # Stores sessions, configs, utils and template initializers.
-      ├──                 This folder could also be called "lib" or "modules".
-
-    ├── routes
-      ├── api           # Stores Stripe Webhook Endpoint, and any realted API call.
-      ├── resources     # Stores app logic, redirects and session updates.
+If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to accomplish this, you will need to remove the folder inside `/prisma` called `/migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
 
 ### Authentication
 
-Stripe Stack provides Social and Form Authentication.
+Stripe Stack provides Social and Form Authentication methods.
 
 ### Social Authentication
 
-To start using Social Authentication, we'll need to get the secret API Keys from the following Providers. Below here you can find all template's Providers OAuth Documentations.
+To start using Social Authentication, we'll need to get the secret API Keys from the following providers. Below here you can find all template's providers OAuth Documentations.
 
 - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
 - [Twitter OAuth](https://developer.twitter.com/en/docs/authentication/overview)
 - [Github OAuth](https://docs.github.com/es/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 - [Discord OAuth](https://discord.com/developers/docs/topics/oauth2)
 
-Usually Social Providers will ask you for a `Callback URI / Redirect URL`. An example of a Callback URI for this template will look like the following one: `https://my-deployed-app.fly/auth/provider/callback`.
+Usually this Providers will require a `Callback URI / Redirect URL`. An example of a Callback URI for this template looks like the following one: `https://my-deployed-app.fly/auth/provider/callback`.
 
-Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`. Remember to set your Provider API Keys into template's `.env` file.
+Replace `/provider` with the one you are trying to setup. Available providers are: `google`, `twitter`, `github` and `discord`. Remember to set your provider API Keys into template's `.env` file.
 
-### Email / Password Authentication
+### Form Authentication
 
-Using this method is pretty straightforward. The only thing we have to know is that in order to allow the user recover its password, we'll need to use an Email Service.
+Using this method is pretty straightforward. The only thing you have to know is that, in order to allow the user recover its password, we'll need to use an Email Service.
 
-This template uses [Sendinblue](https://www.sendinblue.com), an Email Service that does not require Credit Card for registration, either use. It's limited to 300 Emails per day, but it's good enough for development propouses.
+This template uses [Sendinblue](https://www.sendinblue.com), a free email service that does not require Credit Card for registration, either use. It's limited to 300 emails per day, but it's good enough for development propouses.
 
 Let's see how we can set up this service:
 
 1. Create an account at [Sendinblue](https://www.sendinblue.com).
-2. Go to Menu, and click on `SMTP & API`.
+2. Go to navigation menu and click on `SMTP & API`.
 3. Create and Copy the provided API Key.
+4. Paste the provided API Key into template `.env` file as `EMAIL_PROVIDER_API_KEY`.
 
-Done! Paste it into template's `.env` file as `EMAIL_PROVIDER_API_KEY`.
+Done!
 
 ### Stripe Webhook - Development
 
-In order to start receiving Stripe Events to our Webhook Endpoint, we'll have to install [Stripe CLI.](https://stripe.com/docs/stripe-cli) Once installed, keep the following command running on the background:
+In order to start receiving Stripe Events to our Webhook Endpoint, you will have to install [Stripe CLI.](https://stripe.com/docs/stripe-cli) Once installed, keep the following command running on the background:
 
 ```sh
 stripe listen --forward-to localhost:3000/api/webhook
 ```
 
-The above command will provide us with a `Webhook Signing Secret` that has to be set in template's `.env` as `DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET`.
+The above command will provide a `Webhook Signing Secret` that has to be set in template `.env` file as `DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET`.
 
 ### Stripe Products
 
-From [Stripe Products Dashboard](https://dashboard.stripe.com/test/products), create as many products as you want. Remember to update their secret API Keys in template's `.env` as well as the product descriptions from `/services/stripe/stripe-plans`.
+From [Stripe Dashboard](https://dashboard.stripe.com/test/products), create as many products as you want. Remember to update their secret API Keys in template `.env` as well as the product descriptions from `/services/stripe/stripe-plans`.
 
 ## Production
 
@@ -154,40 +144,40 @@ From [Stripe Products Dashboard](https://dashboard.stripe.com/test/products), cr
 
 In order to start receiving Stripe Events to our deployed app, we'll need to setup our Production Webhook:
 
-1. Visit [Stripe Dashboard Webhooks](https://dashboard.stripe.com/test/webhooks)
+1. Visit [Stripe Dashboard.](https://dashboard.stripe.com/test/webhooks)
 2. Create a new Webhook Endpoint.
-3. Set your deployed app Webhook Endpoint URL into `Endpoint URL` input. _(Check Notes)_
-4. Reveal the `Signing Secret` value that has been provided from Stripe Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` in template's `.env` file.
+3. Set your deployed app Webhook URL into `Endpoint URL` input. _(Check Notes)_
+4. Reveal the `Signing Secret` value that has been provided from Stripe Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` into template `.env` file.
+
+Done!
 
 > Notes: This is an example of a Deployed Webhook Endpoint URL: https://my-deployed-app.fly.dev/api/webhook
 
 ## Deployment
 
-Stripe Stack has support for SQLite and PostgreSQL. In order to keep a better track and an easier maintenance of each deployment documentation, we moved each one to its own file.
+Stripe Stack has support for SQLite and PostgreSQL databases. In order to keep a better track and an easier maintenance of each deployment documentation, we moved each one to its own file.
 
-Check [SQLite DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) or [PostgreSQL DEPLOYMENT.md](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/POSTGRESQL-DEPLOYMENT.md) to get your app to production.
+Check [SQLite DEPLOYMENT](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/SQLITE-DEPLOYMENT.md) or [PostgreSQL DEPLOYMENT](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/POSTGRESQL-DEPLOYMENT.md) in order to get your app to production.
 
 ## GitHub Actions
 
-We use GitHub Actions for continuous integration and deployment. Anything that gets into the `main` branch will be deployed to production after running tests, build, etc. Anything in the `dev` branch will be deployed to staging.
+GitHub Actions are used for continuous integration and deployment. Anything that gets into the `main` branch will be deployed to production after running tests, build, etc. Anything in the `dev` branch will be deployed to staging.
 
 ## Testing
 
 ### Playwright
 
-We use Playwright for End-to-End tests. You'll find those in the `tests/e2e` directory. As you make changes, add to an existing file or create a new file in the `tests/e2e` directory to test your changes.
-
-To run these tests in development, run `npm run test:e2e:dev`.
+We use Playwright for our End-to-End tests. You'll find those in `tests/e2e` directory. To run your tests in development use `npm run test:e2e:dev`.
 
 ### Vitest
 
-For lower level tests of utilities and individual components, we use `vitest`. We have DOM-specific assertion helpers via [`@testing-library/jest-dom`](https://testing-library.com/jest-dom).
+For lower level tests of utilities and individual components, we use `vitest`. We have DOM specific assertion helpers via [`@testing-library/jest-dom`](https://testing-library.com/jest-dom).
 
-To run these tests in development, run `npm run test` or `npm run test:cov` to get a detailed summary of your tests.
+To run these tests in development use `npm run test` or `npm run test:cov` to get a detailed summary of your tests.
 
 ### Type Checking
 
-This project uses TypeScript. It's recommended to get TypeScript set up for your editor to get a really great in-editor experience with type checking and auto-complete. To run type checking across the whole project, run `npm run typecheck`.
+This template uses TypeScript. It's recommended to get TypeScript set up for your editor to get a really great in-editor experience with type checking and auto-complete. To run type checking across the whole project use `npm run typecheck`.
 
 ### Linting
 
@@ -195,7 +185,7 @@ This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 
 ### Formatting
 
-We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
+We use [Prettier](https://prettier.io/) for auto-formatting. It's recommended to install an editor plugin to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
 
 This template has pre-configured prettier settings on `.package-json`. Feel free to update each value with your preferred work style.
 
@@ -209,7 +199,7 @@ Contributions are Welcome! Jump in and help us improve this Community Template o
 ## Support
 
 If you find this template useful, support it with a [Star ⭐](https://github.com/dev-xo/stripe-stack)<br />
-It helps the repository grow and gives us motivation to keep working on it. Thanks you!
+It helps the repository grow and gives me motivation to keep working on it. Thanks you!
 
 ### Acknowledgments
 
