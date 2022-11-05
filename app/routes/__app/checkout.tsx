@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 
 import { useEffect } from 'react'
@@ -12,6 +12,15 @@ import {
 	HAS_SKIPPED_SUBSCRIPTION_CHECK,
 	HAS_SUCCESSFULLY_SUBSCRIBED,
 } from '~/services/stripe/constants.server'
+
+/**
+ * Remix - Meta.
+ */
+export const meta: MetaFunction = () => {
+	return {
+		title: 'Stripe Stack - Checkout',
+	}
+}
 
 /**
  * Remix - Loader.

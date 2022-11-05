@@ -31,11 +31,11 @@ export const meta: MetaFunction = () => {
 		viewport: 'width=device-width, initial-scale=1',
 		charset: 'utf-8',
 		title: 'Remix - Stripe Stack',
-		description:
-			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io ',
+		description: `A Stripe focused Remix Stack that integrates User Subscriptions, 
+		Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io`,
 		keywords:
-			'remix,stripe,create-remix,remix-stack,typescript,sqlite,postgresql,prisma,tailwindcss,fly.io',
-		'og:title': 'Remix Stripe Stack',
+			'remix, stripe, create-remix, remix-stack, typescript, sqlite, postgresql, prisma, tailwindcss, fly.io',
+		'og:title': 'Remix - Stripe Stack',
 		'og:type': 'website',
 		'og:url': 'https://stripe-stack.fly.dev',
 		'og:image':
@@ -43,15 +43,15 @@ export const meta: MetaFunction = () => {
 		'og:card': 'summary_large_image',
 		'og:creator': '@DanielKanem',
 		'og:site': 'https://stripe-stack.fly.dev',
-		'og:description':
-			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io ',
+		'og:description': `A Stripe focused Remix Stack that integrates User Subscriptions, 
+		Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io`,
 		'twitter:image':
 			'https://raw.githubusercontent.com/dev-xo/dev-xo/main/stripe-stack/assets/images/Stripe-Thumbnail.png',
 		'twitter:card': 'summary_large_image',
 		'twitter:creator': '@DanielKanem',
-		'twitter:title': 'Remix Stripe Stack',
-		'twitter:description':
-			'A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io',
+		'twitter:title': 'Remix - Stripe Stack',
+		'twitter:description': `A Stripe focused Remix Stack that integrates User Subscriptions, 
+		Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io`,
 	}
 }
 
