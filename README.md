@@ -92,7 +92,7 @@ If your database choice was PostgreSQL, you will need to run Prisma migrations w
 
 ### Package Manager
 
-If you are using `PNPM` Package Manager, probably you will have to deal with some Prisma imports issue. Feel free to have a search on google about this topic.
+If you are using `PNPM` Package Manager, probably you will have to deal with some `Prisma` module imports issues. Feel free to have a search on google about this topic.
 
 We strongly recommend using `npm` or `yarn` instead.
 
