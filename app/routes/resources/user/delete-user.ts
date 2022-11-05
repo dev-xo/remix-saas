@@ -27,7 +27,7 @@ export const action = async ({ request }: ActionArgs) => {
 		/**
 		 * Deletes current Stripe Customer.
 		 */
-		if (dbUser.subscription?.subscriptionId) {
+		if (dbUser.subscription?.customerId) {
 			const customerId = dbUser.subscription.customerId
 			await deleteStripeCustomer(customerId)
 		}
