@@ -22,9 +22,9 @@ const queryTokenParam = 'token'
 const queryTokenType = 'forgot-password'
 
 /**
-	* Zod - Schema.
-	@required Template code.
-	*/
+ * Zod - Schema.
+ * @required Template code.
+ */
 const RequestFormSchema = z.object({
 	email: z.string().min(1, 'Email is required.').email('Email is invalid.'),
 })

@@ -33,7 +33,7 @@ export const action = async ({ request }: ActionArgs) => {
 		}
 
 		/**
-		 * Deletes current User from database.
+		 * Deletes current user from database.
 		 */
 		const userId = dbUser.id
 		await deleteUser(userId)
