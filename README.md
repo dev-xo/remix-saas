@@ -74,8 +74,6 @@ Template demo has been built to be really simple to test, being able to display 
 3. Fill Stripe checkout inputs with default development values. _(Check Notes)_
 4. You should be redirected back to the app with selected plan already set.
 
-Done!
-
 > Notes: Stripe test mode uses the following number: `4242` as valid value for Card Information. Type it as much times as you can on each available input to successfully complete the checkout step.
 
 ## Development
@@ -91,6 +89,12 @@ Code that is necessary for the template to work as expected, has been marked as 
 ### Prisma Migrations
 
 If your database choice was PostgreSQL, you will need to run Prisma migrations with your Postgres client running on the background. In order to accomplish this, you will need to remove the folder inside `/prisma` called `/migrations`, and run `npx prisma migrate dev --name init` to properly setup them.
+
+### Package Manager
+
+If you are using `PNPM` Package Manager, probably you will have to deal with some Prisma imports issue. Feel free to have a search on google about this topic.
+
+We strongly recommend using `npm` or `yarn` instead.
 
 ### Authentication
 
@@ -122,8 +126,6 @@ Let's see how we can set up this service:
 3. Create and Copy the provided API Key.
 4. Paste the provided API Key into template `.env` file as `EMAIL_PROVIDER_API_KEY`.
 
-Done!
-
 ### Stripe Webhook - Development
 
 In order to start receiving Stripe Events to our Webhook Endpoint, you will have to install [Stripe CLI.](https://stripe.com/docs/stripe-cli) Once installed, keep the following command running on the background:
@@ -148,8 +150,6 @@ In order to start receiving Stripe Events to our deployed app, we'll need to set
 2. Create a new Webhook Endpoint.
 3. Set your deployed app Webhook URL into `Endpoint URL` input. _(Check Notes)_
 4. Reveal the `Signing Secret` value that has been provided from Stripe Webhook page and set it as `PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET` into template `.env` file.
-
-Done!
 
 > Notes: This is an example of a Deployed Webhook Endpoint URL: https://my-deployed-app.fly.dev/api/webhook
 
