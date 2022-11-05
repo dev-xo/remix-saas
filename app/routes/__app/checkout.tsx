@@ -8,6 +8,11 @@ import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 import { getUserByIdIncludingSubscription } from '~/models/user.server'
 
+import {
+	HAS_SKIPPED_SUBSCRIPTION_CHECK,
+	HAS_SUCCESSFULLY_SUBSCRIBED,
+} from '~/services/stripe/constants.server'
+
 /**
  * Remix - Loader.
  * @required Template code.
@@ -26,9 +31,11 @@ export const loader = async ({ request }: LoaderArgs) => {
 	})
 
 	/**
-	 * Early exit, avoiding Session updates.
+	 * Gets flash values from Session.
 	 */
-	if (user.subscription?.subscriptionId) return redirect('/account')
+	const session = await getSession(request.headers.get('Cookie'))
+	const skipSubscriptionCheck =
+		session.get(HAS_SKIPPED_SUBSCRIPTION_CHECK) || false
 
 	/**
 	 * Checks for user existence in database.
@@ -37,10 +44,25 @@ export const loader = async ({ request }: LoaderArgs) => {
 	if (!dbUser) throw new Error('User not found in database.')
 
 	/**
-	 * Gets flash values from Session.
+	 * Gets params from URL.
 	 */
-	const session = await getSession(request.headers.get('Cookie'))
-	const skipSubscriptionCheck = session.get('SKIP_SUBSCRIPTION_CHECK') || false
+	const url = new URL(request.url)
+	const cancelPayment = url.searchParams.get('cancel')
+
+	/**
+	 * Updates Auth Session with latest database data.
+	 *
+	 * Used to set `customerId` in Session,
+	 * avoiding duplicate Stripe Customer creation.
+	 */
+	if (cancelPayment) {
+		session.set(authenticator.sessionKey, {
+			...user,
+			subscription: { ...dbUser.subscription },
+		} as AuthSession)
+
+		return redirect('/plans')
+	}
 
 	/**
 	 * On `subscriptionId`, updates Auth Session accordingly.
@@ -51,7 +73,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 			subscription: { ...dbUser.subscription },
 		} as AuthSession)
 
-		session.flash('HAS_SUCCESSFULLY_SUBSCRIBED', true)
+		session.flash(HAS_SUCCESSFULLY_SUBSCRIBED, true)
 
 		return redirect('/account', {
 			headers: {
@@ -65,12 +87,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	 * - Sets a flash value in Session, allowing the cycle to repeat.
 	 */
 	if (skipSubscriptionCheck === false) {
-		session.flash('SKIP_SUBSCRIPTION_CHECK', true)
-
-		session.set(authenticator.sessionKey, {
-			...user,
-			subscription: { ...dbUser.subscription },
-		} as AuthSession)
+		session.flash(HAS_SKIPPED_SUBSCRIPTION_CHECK, true)
 
 		return json<LoaderData>(
 			{
@@ -121,7 +138,7 @@ export default function CheckoutRoute() {
 				<div className="flex flex-col items-center">
 					<svg
 						className="h-16 w-16 animate-spin fill-gray-600 transition hover:scale-110
-						hover:fill-gray-900 active:scale-100 dark:fill-gray-400 dark:hover:fill-gray-100"
+            hover:fill-gray-900 active:scale-100 dark:fill-gray-400 dark:hover:fill-gray-100"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24">
 						<path d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z" />
@@ -138,7 +155,7 @@ export default function CheckoutRoute() {
 				<div className="flex max-w-lg flex-col items-center">
 					<svg
 						className="h-16 w-16 fill-gray-600 transition hover:scale-110
-						hover:fill-gray-900 active:scale-100 dark:fill-gray-400 dark:hover:fill-gray-100"
+            hover:fill-gray-900 active:scale-100 dark:fill-gray-400 dark:hover:fill-gray-100"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24">
 						<path d="M20.995 6.9a.998.998 0 0 0-.548-.795l-8-4a1 1 0 0 0-.895 0l-8 4a1.002 1.002 0 0 0-.547.795c-.011.107-.961 10.767 8.589 15.014a.987.987 0 0 0 .812 0c9.55-4.247 8.6-14.906 8.589-15.014zM12 19.897C5.231 16.625 4.911 9.642 4.966 7.635L12 4.118l7.029 3.515c.037 1.989-.328 9.018-7.029 12.264z" />
