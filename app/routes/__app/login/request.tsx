@@ -12,12 +12,12 @@ import { conform, parse, useFieldset, useForm } from '@conform-to/react'
 import { formatError } from '@conform-to/zod'
 import { z } from 'zod'
 
+import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server'
+import { HAS_SUCCESSFULLY_SEND_EMAIL } from '~/services/email/constants.server'
+
 /**
  * Init - Constants.
- * @required Template code.
  */
-export const RESET_PASSWORD_SESSION_KEY = 'RESET_PASSWORD_SESSION_KEY'
-export const HAS_SUCCESSFULLY_SEND_EMAIL = 'HAS_SUCCESSFULLY_SEND_EMAIL'
 const queryTokenParam = 'token'
 const queryTokenType = 'forgot-password'
 

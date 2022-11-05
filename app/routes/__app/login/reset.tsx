@@ -11,7 +11,7 @@ import { conform, parse, useFieldset, useForm } from '@conform-to/react'
 import { formatError } from '@conform-to/zod'
 import { z } from 'zod'
 
-import { RESET_PASSWORD_SESSION_KEY } from './request'
+import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server'
 
 /**
  * Zod - Schema.
@@ -45,13 +45,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 	 * Gets values from Session.
 	 */
 	const session = await getSession(request.headers.get('Cookie'))
-	const resetPasswordEmail = session.get(RESET_PASSWORD_SESSION_KEY)
+	const resetPasswordSessionKey = session.get(RESET_PASSWORD_SESSION_KEY)
 
 	/**
 	 * Requires `RESET_PASSWORD_SESSION_KEY` to be in Session.
 	 * This validates that user has been successfully redirected from Email.
 	 */
-	if (!resetPasswordEmail) return redirect('/login')
+	if (!resetPasswordSessionKey) return redirect('/login')
 
 	/**
 	 * Returns a JSON Response commiting Session.
