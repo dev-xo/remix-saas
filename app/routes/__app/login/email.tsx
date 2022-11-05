@@ -7,8 +7,14 @@ import { getSession, commitSession } from '~/services/auth/session.server'
 import { getUserByEmailIncludingSubscriptionAndPassword } from '~/models/user.server'
 import { validateHashPassword } from '~/services/auth/utils.server'
 
-import { conform, parse, useFieldset, useForm } from '@conform-to/react'
-import { formatError } from '@conform-to/zod'
+import {
+	conform,
+	parse,
+	useFieldset,
+	useForm,
+	hasError,
+} from '@conform-to/react'
+import { formatError, validate } from '@conform-to/zod'
 import { z } from 'zod'
 
 /**
@@ -111,6 +117,17 @@ export default function LoginEmailRoute() {
 
 		// Syncs the result of last submission.
 		state,
+
+		// Validate `formData` based on Zod Schema.
+		onValidate({ formData }) {
+			return validate(formData, LoginFormSchema)
+		},
+		// Submits only if validation has successfully passed.
+		onSubmit(event, { submission }) {
+			if (submission.type === 'validate' && hasError(submission.error)) {
+				event.preventDefault()
+			}
+		},
 	})
 
 	const { email, password } = useFieldset(form.ref, form.config)

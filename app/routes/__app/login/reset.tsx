@@ -7,8 +7,14 @@ import { getUserByEmailIncludingPassword } from '~/models/user.server'
 import { resetUserPassword } from '~/models/user.server'
 import { hashPassword } from '~/services/auth/utils.server'
 
-import { conform, parse, useFieldset, useForm } from '@conform-to/react'
-import { formatError } from '@conform-to/zod'
+import {
+	conform,
+	parse,
+	useFieldset,
+	useForm,
+	hasError,
+} from '@conform-to/react'
+import { formatError, validate } from '@conform-to/zod'
 import { z } from 'zod'
 
 import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server'
@@ -145,6 +151,17 @@ export default function LoginResetRoute() {
 
 		// Syncs the result of last submission.
 		state,
+
+		// Validate `formData` based on Zod Schema.
+		onValidate({ formData }) {
+			return validate(formData, ResetFormSchema)
+		},
+		// Submits only if validation has successfully passed.
+		onSubmit(event, { submission }) {
+			if (submission.type === 'validate' && hasError(submission.error)) {
+				event.preventDefault()
+			}
+		},
 	})
 
 	const { password, confirmPassword } = useFieldset(form.ref, form.config)
