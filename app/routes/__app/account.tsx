@@ -118,9 +118,6 @@ export default function AccountRoute() {
 		purchasedPlanName,
 	} = useLoaderData<typeof loader>()
 
-	// TODO: Remove console.
-	console.log(user)
-
 	return (
 		<div className="m-12 mx-auto flex h-full w-full max-w-4xl flex-col px-6 sm:flex-row">
 			{/* User Account. */}
