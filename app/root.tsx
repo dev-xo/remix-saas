@@ -1,4 +1,9 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node'
+import type {
+	LinksFunction,
+	LoaderArgs,
+	MetaFunction,
+	ErrorBoundaryComponent,
+} from '@remix-run/node'
 
 import {
 	Links,
@@ -62,6 +67,28 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderArgs) => {
 	const { getTheme } = await themeSessionResolver(request)
 	return { ssrTheme: getTheme(), ENV: getGlobalEnvs() }
+}
+
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+	console.error(error)
+	return (
+		<html>
+			<head>
+				<title>Oh no!</title>
+				<Meta />
+				<Links />
+			</head>
+			<body className="flex h-screen flex-col items-center justify-center">
+				{/* Add here the UI you want your users to see. */}
+				<h1 className="text-center text-3xl font-semibold">
+					Whops. Something went wrong!
+				</h1>
+				<div className="mb-3" />
+				<p>Please, check your client console.</p>
+				<Scripts />
+			</body>
+		</html>
+	)
 }
 
 /**
