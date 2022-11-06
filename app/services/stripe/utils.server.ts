@@ -114,11 +114,3 @@ export const createStripeCustomerPortalSession = async (
 	 */
 	return session.url
 }
-
-/**
- * Gets a value from `STRIPE_PLANS` based on `planId`.
- */
-export const getValueFromStripePlans = (
-	planId: StripePlan['planId'],
-	value: keyof StripePlan,
-) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]

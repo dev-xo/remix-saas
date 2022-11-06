@@ -3,10 +3,13 @@ import type { AuthSession } from '~/services/auth/session.server'
 import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
+
 import {
 	retrieveStripeSubscription,
 	updateStripeSubscription,
 } from '~/services/stripe/utils.server'
+
+import { HAS_SUCCESSFULLY_UPDATED_PLAN } from '~/services/stripe/constants.server'
 
 /**
  * Remix - Action.
@@ -58,7 +61,7 @@ export const action = async ({ request }: ActionArgs) => {
 					subscription: { ...user.subscription, planId: newPlanId },
 				} as AuthSession)
 
-				session.flash('HAS_SUCCESSFULLY_UPDATED_PLAN', true)
+				session.flash(HAS_SUCCESSFULLY_UPDATED_PLAN, true)
 
 				return redirect('/account', {
 					headers: {

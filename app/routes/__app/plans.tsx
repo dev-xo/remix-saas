@@ -163,7 +163,7 @@ export default function PlansRoute() {
 							)}
 
 							{/* Renders `UpdatePlanButton` component. */}
-							{user?.subscription?.planId && (
+							{user.subscription?.planId && (
 								<UpdatePlanButton
 									planId={plan.planId}
 									purchasedPlanId={user.subscription.planId}

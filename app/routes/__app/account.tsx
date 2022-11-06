@@ -7,11 +7,14 @@ import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 
 import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
-import { getValueFromStripePlans } from '~/services/stripe/utils.server'
+import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
 import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
 import { DeleteUserButton } from '~/components/DeleteUserButton'
 import { CreateCustomerPortalButton } from '~/components/CreateCustomerPortalButton'
+
+import { HAS_SUCCESSFULLY_SUBSCRIBED } from '~/services/stripe/constants.server'
+import { HAS_SUCCESSFULLY_UPDATED_PLAN } from '~/services/stripe/constants.server'
 
 /**
  * Remix - Meta.
@@ -47,10 +50,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 	const session = await getSession(request.headers.get('Cookie'))
 
 	const hasSuccessfullySubscribed =
-		session.get('HAS_SUCCESSFULLY_SUBSCRIBED') || null
+		session.get(HAS_SUCCESSFULLY_SUBSCRIBED) || null
 
 	const hasSuccessfullyUpdatedPlan =
-		session.get('HAS_SUCCESSFULLY_UPDATED_PLAN') || null
+		session.get(HAS_SUCCESSFULLY_UPDATED_PLAN) || null
 
 	/**
 	 * Checks for subscription expiration.
