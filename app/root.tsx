@@ -69,6 +69,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 	return { ssrTheme: getTheme(), ENV: getGlobalEnvs() }
 }
 
+/**
+ * Remix - Error Boundary.
+ */
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 	console.error(error)
 	return (

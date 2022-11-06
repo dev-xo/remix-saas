@@ -21,6 +21,10 @@ export const CreateCheckoutButton = ({ planId, planName }: ComponentProps) => {
 		}
 	}
 
+	/**
+	 * Returns a Form button.
+	 * As button `value`, we'll provide desired `planId` for Stripe Checkout.
+	 */
 	return (
 		<fetcher.Form
 			action="/resources/stripe/create-checkout-session"
