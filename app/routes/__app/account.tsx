@@ -68,8 +68,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 			const subscription = await retrieveStripeSubscription(subscriptionId)
 
 			if (subscription && subscription.status === 'canceled') {
-				let session = await getSession(request.headers.get('Cookie'))
-
 				session.set(authenticator.sessionKey, {
 					...user,
 					subscription: { customerId: user.subscription.customerId },
