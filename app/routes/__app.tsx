@@ -48,7 +48,10 @@ export default function AppRoute() {
 			{/* Background Gradient. */}
 			<div className={setRadialGradientBasedOnTheme}></div>
 
+			{/* Navigation Component. */}
 			<Navigation user={user} />
+
+			{/* Outlet. */}
 			<Outlet />
 
 			{/* Footer. */}

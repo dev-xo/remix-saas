@@ -8,6 +8,8 @@ import { encrypt, decrypt } from '~/services/auth/utils.server'
 import { sendResetPasswordEmail } from '~/services/email/utils.server'
 import { getDomainUrl } from '~/utils/misc.server'
 
+import { z } from 'zod'
+import { formatError, validate } from '@conform-to/zod'
 import {
 	conform,
 	parse,
@@ -15,8 +17,6 @@ import {
 	useForm,
 	hasError,
 } from '@conform-to/react'
-import { formatError, validate } from '@conform-to/zod'
-import { z } from 'zod'
 
 import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server'
 import { HAS_SUCCESSFULLY_SEND_EMAIL } from '~/services/email/constants.server'
@@ -46,14 +46,12 @@ export const meta: MetaFunction = () => {
 /**
  * Remix - Loader.
  */
-type LoaderData = {
-	hasSuccessfullySendEmail: boolean | null
-}
 export const loader = async ({ request }: LoaderArgs) => {
 	/**
 	 * Gets values from Session.
 	 */
 	const session = await getSession(request.headers.get('Cookie'))
+
 	const hasSuccessfullySendEmail =
 		session.get(HAS_SUCCESSFULLY_SEND_EMAIL) || false
 
@@ -81,7 +79,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email)
 
 			/**
-			 * Redirects to 'x' commiting newly updated Session.
+			 * Redirects commiting newly updated Session.
 			 */
 			return redirect('/login/reset', {
 				headers: {
@@ -94,7 +92,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	/**
 	 * Default return.
 	 */
-	return json<LoaderData>(
+	return json(
 		{ hasSuccessfullySendEmail },
 		{
 			headers: {
@@ -206,21 +204,31 @@ export default function LoginRequestRoute() {
 
 	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof RequestFormSchema>>({
-		// Enables server-side validation mode.
+		/**
+		 * Enables server-side validation mode.
+		 */
 		mode: 'server-validation',
 
-		// Begins validation on blur.
+		/**
+		 * Begins validation on blur.
+		 */
 		initialReport: 'onBlur',
 
-		// Syncs the result of last submission.
+		/**
+		 * Syncs the result of last submission.
+		 */
 		state,
 
-		// Validate `formData` based on Zod Schema.
+		/**
+		 * Validate `formData` based on Zod Schema.
+		 */
 		onValidate({ formData }) {
 			return validate(formData, RequestFormSchema)
 		},
 
-		// Submits only if validation has successfully passed.
+		/**
+		 * Submits only if validation has successfully passed.
+		 */
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
 				event.preventDefault()
@@ -228,6 +236,9 @@ export default function LoginRequestRoute() {
 		},
 	})
 
+	/**
+	 * Returns all the information about the fieldset.
+	 */
 	const { email } = useFieldset(form.ref, form.config)
 
 	return (

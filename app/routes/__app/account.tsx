@@ -58,7 +58,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 	/**
 	 * Checks for subscription expiration.
-	 * If expired, updates Auth Session accordingly.
 	 */
 	if (
 		user.subscription?.subscriptionId &&
@@ -68,6 +67,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 		const currentPeriodEnd = user.subscription.currentPeriodEnd
 		const hasSubscriptionExpired = hasDateExpired(currentPeriodEnd)
 
+		/**
+		 * On subscription expired, updates Auth Session accordingly.
+		 */
 		if (hasSubscriptionExpired) {
 			const subscription = await retrieveStripeSubscription(subscriptionId)
 
@@ -296,7 +298,7 @@ export default function AccountRoute() {
 				</Link>
 				<div className="mb-3" />
 
-				{/* On Customer, Renders `CreateCustomerPortalButton` component. */}
+				{/* CreateCustomerPortalButton Component. */}
 				{user.subscription?.customerId && <CreateCustomerPortalButton />}
 
 				{/* Displays Checkout Success Message. */}

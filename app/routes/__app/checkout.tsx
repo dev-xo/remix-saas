@@ -42,6 +42,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	 * Gets flash values from Session.
 	 */
 	const session = await getSession(request.headers.get('Cookie'))
+
 	const skipSubscriptionCheck =
 		session.get(HAS_SKIPPED_SUBSCRIPTION_CHECK) || false
 
@@ -96,8 +97,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	}
 
 	/**
-	 * If previous check has been skiped:
-	 * - Sets a flash value in Session, allowing the cycle to repeat.
+	 * Sets a flash value in Session, allowing the cycle to repeat.
 	 */
 	if (skipSubscriptionCheck === false) {
 		session.flash(HAS_SKIPPED_SUBSCRIPTION_CHECK, true)
@@ -137,8 +137,7 @@ export default function CheckoutRoute() {
 	const submit = useSubmit()
 
 	/**
-	 * This effect will allow Stripe Webhook to update our database,
-	 * giving it a few seconds to accomplish it.
+	 * This effect will wait for Stripe Webhook to update database.
 	 */
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)

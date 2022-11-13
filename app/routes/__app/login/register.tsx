@@ -7,6 +7,8 @@ import { getSession, commitSession } from '~/services/auth/session.server'
 import { getUserByEmail, createEmailUser } from '~/models/user.server'
 import { hashPassword } from '~/services/auth/utils.server'
 
+import { z } from 'zod'
+import { formatError, validate } from '@conform-to/zod'
 import {
 	conform,
 	parse,
@@ -14,8 +16,6 @@ import {
 	useForm,
 	hasError,
 } from '@conform-to/react'
-import { formatError, validate } from '@conform-to/zod'
-import { z } from 'zod'
 
 /**
  * Zod - Schema.
@@ -122,21 +122,31 @@ export const action = async ({ request }: ActionArgs) => {
 export default function LoginRegisterRoute() {
 	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof RegisterFormSchema>>({
-		// Enables server-side validation mode.
+		/**
+		 * Enables server-side validation mode.
+		 */
 		mode: 'server-validation',
 
-		// Begins validation on blur.
+		/**
+		 * Begins validation on blur.
+		 */
 		initialReport: 'onBlur',
 
-		// Syncs the result of last submission.
+		/**
+		 * Syncs the result of last submission.
+		 */
 		state,
 
-		// Validate `formData` based on Zod Schema.
+		/**
+		 * Validate `formData` based on Zod Schema.
+		 */
 		onValidate({ formData }) {
 			return validate(formData, RegisterFormSchema)
 		},
 
-		// Submits only if validation has successfully passed.
+		/**
+		 * Submits only if validation has successfully passed.
+		 */
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
 				event.preventDefault()
@@ -144,6 +154,9 @@ export default function LoginRegisterRoute() {
 		},
 	})
 
+	/**
+	 * Returns all the information about the fieldset.
+	 */
 	const { name, email, password, confirmPassword } = useFieldset(
 		form.ref,
 		form.config,

@@ -3,7 +3,6 @@ import { db } from '~/utils/db.server'
 
 /**
  * Remix - Loader.
- * @required Template code.
  *
  * Learn more about Fly.io Healthcheck:
  * https://fly.io/docs/reference/configuration/#services-http_checks

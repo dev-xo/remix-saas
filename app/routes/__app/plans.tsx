@@ -1,5 +1,4 @@
 import type { MetaFunction, LoaderArgs } from '@remix-run/node'
-import type { AuthSession } from '~/services/auth/session.server'
 
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
@@ -21,10 +20,6 @@ export const meta: MetaFunction = () => {
 /**
  * Remix - Loader.
  */
-type LoaderData = {
-	user: Awaited<AuthSession>
-}
-
 export const loader = async ({ request }: LoaderArgs) => {
 	/**
 	 * Checks for Auth Session.
@@ -33,7 +28,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 		failureRedirect: '/login',
 	})
 
-	return json<LoaderData>({ user })
+	return json({ user })
 }
 
 export default function PlansRoute() {
@@ -153,7 +148,7 @@ export default function PlansRoute() {
 							</p>
 							<div className="m-3" />
 
-							{/* Renders `CreateCheckoutButton` component. */}
+							{/* CreateCheckoutButton Component. */}
 							{!user.subscription?.subscriptionId && (
 								<CreateCheckoutButton
 									planId={plan.planId}
@@ -161,7 +156,7 @@ export default function PlansRoute() {
 								/>
 							)}
 
-							{/* Renders `UpdatePlanButton` component. */}
+							{/* UpdatePlanButto Component. */}
 							{user.subscription?.planId && (
 								<UpdatePlanButton
 									planId={plan.planId}

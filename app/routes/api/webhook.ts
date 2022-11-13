@@ -66,9 +66,6 @@ export const action = async ({ request }: ActionArgs) => {
 				typeof customerId === 'string' &&
 				typeof subscriptionId === 'string'
 			) {
-				/**
-				 * Retrieves newly created Stripe Subscription.
-				 */
 				const subscription = await retrieveStripeSubscription(subscriptionId)
 
 				if (subscription) {
@@ -130,10 +127,6 @@ export const action = async ({ request }: ActionArgs) => {
 			const customerId = subscription.customer
 
 			if (typeof customerId === 'string') {
-				/**
-				 * Checks for customer existence into database.
-				 * On failure, update will be skiped.
-				 */
 				const dbCustomerId = await getSubscriptionByCustomerId(customerId)
 				if (!dbCustomerId?.customerId) return json({}, { status: 200 })
 
