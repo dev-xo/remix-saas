@@ -4,19 +4,22 @@
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
-			// BASE
+			// Base.
 			NODE_ENV: 'development' | 'production' | 'test'
 			SESSION_SECRET: string
 			ENCRYPTION_SECRET: string
 
-			// BASE URLs
+			// Base URLs.
 			DEV_HOST_URL: string
 			PROD_HOST_URL: string
 
-			// EMAIL PROVIDER
+			// Database.
+			DATABASE_URL: string
+
+			// [Optional] Email Provider.
 			EMAIL_PROVIDER_API_KEY: string
 
-			// AUTH
+			// [Optional] Auth Clients.
 			GOOGLE_CLIENT_ID: string
 			GOOGLE_CLIENT_SECRET: string
 
@@ -29,30 +32,21 @@ declare global {
 			DISCORD_CLIENT_ID: string
 			DISCORD_CLIENT_SECRET: string
 
-			// STRIPE
+			// Stripe.
 			STRIPE_PUBLIC_API_KEY: string
 			STRIPE_SECRET_API_KEY: string
 
-			// STRIPE PLANS
+			// Stripe Plans.
 			PLAN_1_PRICE_ID: string
 			PLAN_2_PRICE_ID: string
 			PLAN_3_PRICE_ID: string
 
-			// STRIPE WEBHOOK
+			// Stripe Webhook.
 			DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET: string
 			PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET: string
 		}
 	}
 }
-
-declare global {
-	var ENV: ENV
-	interface Window {
-		ENV: ENV
-	}
-}
-
-type ENV = ReturnType<typeof getGlobalEnvs>
 
 /**
  * Global Shared Envs.
@@ -64,3 +58,13 @@ export const getGlobalEnvs = () => {
 		PLAN_3_PRICE_ID: process.env.PLAN_3_PRICE_ID,
 	}
 }
+
+declare global {
+	var ENV: ENV
+
+	interface Window {
+		ENV: ENV
+	}
+}
+
+type ENV = ReturnType<typeof getGlobalEnvs>
