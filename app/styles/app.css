@@ -1,0 +1,110 @@
+/*
+* This file will initialize tailwinds.css
+* Docs: https://tailwindcss.com/docs/guides/remix
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+::-moz-selection {
+	color: #fff;
+	background: #7b61ff;
+}
+
+::selection {
+	color: #fff;
+	background: #7b61ff;
+}
+
+@keyframes pulse {
+	from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+		transform: scale3d(1.2, 1.2, 1.2);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+.pulse {
+	animation-name: pulse;
+	animation-duration: 4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.float {
+	animation-name: float;
+	animation-duration: 6s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+.radial-gradient {
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	z-index: -1;
+}
+
+.gradient-light {
+	animation: pulse 4s linear infinite;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(204, 194, 255, 0.8) 100%
+	);
+}
+
+.gradient-light-dimmed {
+	animation: pulse 4s linear infinite;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(204, 194, 255, 0.5) 100%
+	);
+}
+
+.gradient-dark {
+	animation: pulse 4s linear infinite;
+	background: rgb(9, 9, 9);
+	background: linear-gradient(
+		90deg,
+		rgba(50, 41, 105, 0.2) 0%,
+		rgba(50, 41, 105, 0.8) 100%
+	);
+}
+
+.gradient-dark-dimmed {
+	animation: pulse 4s linear infinite;
+	background: rgb(9, 9, 9);
+	background: linear-gradient(
+		90deg,
+		rgba(9, 9, 9, 1) 0%,
+		rgba(50, 41, 105, 0.5) 100%
+	);
+}
