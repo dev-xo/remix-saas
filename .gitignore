@@ -27,8 +27,8 @@ node_modules
 /prisma/data.db
 /prisma/data.db-journal
 
-# Tailwind CSS.
-/app/styles/tailwind.css
-
 # Docker PostgreSQL.
 postgres-data
+
+# Tailwind CSS.
+/app/styles/tailwind.css
