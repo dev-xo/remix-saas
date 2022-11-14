@@ -29,3 +29,6 @@ node_modules
 
 # Tailwind CSS.
 /app/styles/tailwind.css
+
+# Docker PostgreSQL.
+postgres-data
