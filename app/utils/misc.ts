@@ -10,15 +10,10 @@ export const formatUnixDate = (unixDate: number) => {
 }
 
 export const hasDateExpired = (date: number) => {
-	/**
-	 * Extends DayJS module.
-	 */
+	// Extends DayJS module.
 	dayjs.extend(IsSameOrAfter)
 
-	/**
-	 * Compares 'today' date with `date` parameter.
-	 * Returns a boolean.
-	 */
+	// Compares 'today' date with `date` parameter.
 	if (typeof date === 'number') {
 		const dateToUnix = dayjs.unix(date)
 		const hasExpired = dayjs().isSameOrAfter(dateToUnix, 'm')

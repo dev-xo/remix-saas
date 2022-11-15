@@ -11,9 +11,7 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 const seed = async () => {
-	/**
-	 * Mocks testing Playwright user.
-	 */
+	// Mocks testing Playwright user.
 	const playwrightUser: Pick<User, 'name' | 'email' | 'avatar'> = {
 		name: 'Playwright',
 		email: 'playwright@test.com',
@@ -21,9 +19,7 @@ const seed = async () => {
 	}
 	const playwrightUserPassword = 'password'
 
-	/**
-	 * Creates and stores a new user in database.
-	 */
+	// Creates and stores a new user in database.
 	const newPlaywrightUser = await db.user.create({
 		data: {
 			...playwrightUser,

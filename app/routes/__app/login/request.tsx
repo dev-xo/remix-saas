@@ -47,40 +47,28 @@ export const meta: MetaFunction = () => {
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
-	/**
-	 * Gets values from Session.
-	 */
+	// Gets values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
 	const hasSuccessfullySendEmail =
 		session.get(HAS_SUCCESSFULLY_SEND_EMAIL) || false
 
-	/**
-	 * Gets `token` param value from URL.
-	 */
+	// Gets `token` param value from URL.
 	const resetPasswordToken = new URL(request.url).searchParams.get(
 		queryTokenParam,
 	)
 
 	if (resetPasswordToken) {
-		/**
-		 * Decrypts URL `token`.
-		 */
+		// Decrypts URL `token`.
 		const token = JSON.parse(decrypt(resetPasswordToken))
 
-		/**
-		 * Validates token.
-		 */
+		// Validates token.
 		if (token.type === queryTokenType && token.payload?.email) {
-			/**
-			 * Sets a new value in Session.
-			 * Used on `/login/reset` route.
-			 */
+			// Sets a new value in Session.
+			// Used on `/login/reset` route.
 			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email)
 
-			/**
-			 * Redirects commiting newly updated Session.
-			 */
+			// Redirects commiting newly updated Session.
 			return redirect('/login/reset', {
 				headers: {
 					'Set-Cookie': await commitSession(session),
@@ -89,9 +77,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 		} else return redirect('/login/email')
 	}
 
-	/**
-	 * Default return.
-	 */
 	return json(
 		{ hasSuccessfullySendEmail },
 		{
@@ -109,51 +94,37 @@ export const action = async ({ request }: ActionArgs) => {
 	const formData = await request.formData()
 	const submission = parse<z.infer<typeof RequestFormSchema>>(formData)
 
-	/**
-	 * Gets values from Session.
-	 */
+	// Gets values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
 	try {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
-				/**
-				 * Validates `submission` data.
-				 */
+				// Validates `submission` data.
 				const { email } = RequestFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
-					/**
-					 * Checks for user existence in database.
-					 */
+					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
 						email,
 					})
 					if (!dbUser || !dbUser.email) throw new Error('User not found.')
 
-					/**
-					 * Encrypts `email`.
-					 */
+					// Encrypts `email`.
 					const resetPasswordToken = encrypt(
 						JSON.stringify({ type: queryTokenType, payload: { email } }),
 					)
 
-					/**
-					 * Creates a new URL that points to the current route.
-					 */
+					// Creates a new URL that points to the current route.
 					const resetPasswordUrl = new URL(
 						`${getDomainUrl(request)}/login/request`,
 					)
 
-					/**
-					 * Updates newly created URL including encrypted password.
-					 */
+					// Updates newly created URL including encrypted password.
 					resetPasswordUrl.searchParams.set(queryTokenParam, resetPasswordToken)
 
-					/**
-					 * Sends user an email with newly created URL.
-					 */
+					// Sends user an email with newly created URL.
 					const responseEmail = await sendResetPasswordEmail({
 						to: [{ email: dbUser.email }],
 						subject: `Stripe Stack - Password Reset`,
@@ -175,9 +146,7 @@ export const action = async ({ request }: ActionArgs) => {
 							'Whops! There was an error trying to send you a recovery email.',
 						)
 
-					/**
-					 * Sets a new value in Session, used to enhance UI experience.
-					 */
+					// Sets a new value in Session, used to enhance UI experience.
 					session.flash(HAS_SUCCESSFULLY_SEND_EMAIL, true)
 				}
 			}
@@ -186,9 +155,7 @@ export const action = async ({ request }: ActionArgs) => {
 		submission.error.push(...formatError(error))
 	}
 
-	/**
-	 * Sends submission state back to the client.
-	 */
+	// Sends submission state back to the client.
 	return json(
 		{ ...submission },
 		{
@@ -204,31 +171,21 @@ export default function LoginRequestRoute() {
 
 	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof RequestFormSchema>>({
-		/**
-		 * Enables server-side validation mode.
-		 */
+		// Enables server-side validation mode.
 		mode: 'server-validation',
 
-		/**
-		 * Begins validation on blur.
-		 */
+		// Begins validation on blur.
 		initialReport: 'onBlur',
 
-		/**
-		 * Syncs the result of last submission.
-		 */
+		// Syncs the result of last submission.
 		state,
 
-		/**
-		 * Validate `formData` based on Zod Schema.
-		 */
+		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
 			return validate(formData, RequestFormSchema)
 		},
 
-		/**
-		 * Submits only if validation has successfully passed.
-		 */
+		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
 				event.preventDefault()
@@ -236,9 +193,7 @@ export default function LoginRequestRoute() {
 		},
 	})
 
-	/**
-	 * Returns all the information about the fieldset.
-	 */
+	// Returns all the information about the fieldset.
 	const { email } = useFieldset(form.ref, form.config)
 
 	return (

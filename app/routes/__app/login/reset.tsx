@@ -45,21 +45,15 @@ export const meta: MetaFunction = () => {
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
-	/**
-	 * Gets values from Session.
-	 */
+	// Gets values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 	const resetPasswordSessionKey = session.get(RESET_PASSWORD_SESSION_KEY)
 
-	/**
-	 * Requires `RESET_PASSWORD_SESSION_KEY` to be in Session.
-	 * This validates that user has been successfully redirected from Email.
-	 */
+	// Requires `RESET_PASSWORD_SESSION_KEY` to be in Session.
+	// This validates that user has been successfully redirected from Email.
 	if (!resetPasswordSessionKey) return redirect('/login')
 
-	/**
-	 * Returns a JSON Response commiting Session.
-	 */
+	// Returns a JSON Response commiting Session.
 	return json({
 		headers: {
 			'Set-Cookie': await commitSession(session),
@@ -78,23 +72,17 @@ export const action = async ({ request }: ActionArgs) => {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
-				/**
-				 * Validates `submission` data.
-				 */
+				// Validates `submission` data.
 				const { password } = ResetFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
-					/**
-					 * Gets values from Session.
-					 */
+					// Gets values from Session.
 					const session = await getSession(request.headers.get('Cookie'))
 
 					const email = session.get(RESET_PASSWORD_SESSION_KEY)
 					if (!email) return redirect('/login')
 
-					/**
-					 * Checks for user existence in database.
-					 */
+					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
 						email,
 						include: {
@@ -104,24 +92,16 @@ export const action = async ({ request }: ActionArgs) => {
 					if (!dbUser || !dbUser?.email || !dbUser.password)
 						return redirect('/login')
 
-					/**
-					 * Hashes newly password.
-					 */
+					// Hashes newly password.
 					const hashedPassword = await hashPassword(password)
 
-					/**
-					 * Resets user password.
-					 */
+					// Resets user password.
 					await updateUserPassword({ email, hashedPassword })
 
-					/**
-					 * Cleanup Session.
-					 */
+					// Cleanup Session.
 					session.unset(RESET_PASSWORD_SESSION_KEY)
 
-					/**
-					 * Redirects commiting newly updated Session.
-					 */
+					// Redirects commiting newly updated Session.
 					return redirect('/login/email', {
 						headers: { 'Set-Cookie': await commitSession(session) },
 					})
@@ -132,9 +112,7 @@ export const action = async ({ request }: ActionArgs) => {
 		submission.error.push(...formatError(error))
 	}
 
-	/**
-	 * Sends submission state back to the client.
-	 */
+	// Sends submission state back to the client.
 	return json({
 		...submission,
 		value: {},
@@ -144,31 +122,21 @@ export const action = async ({ request }: ActionArgs) => {
 export default function LoginResetRoute() {
 	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof ResetFormSchema>>({
-		/**
-		 * Enables server-side validation mode.
-		 */
+		// Enables server-side validation mode.
 		mode: 'server-validation',
 
-		/**
-		 * Begins validation on blur.
-		 */
+		// Begins validation on blur.
 		initialReport: 'onBlur',
 
-		/**
-		 * Syncs the result of last submission.
-		 */
+		// Syncs the result of last submission.
 		state,
 
-		/**
-		 * Validate `formData` based on Zod Schema.
-		 */
+		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
 			return validate(formData, ResetFormSchema)
 		},
 
-		/**
-		 * Submits only if validation has successfully passed.
-		 */
+		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
 				event.preventDefault()
@@ -176,9 +144,7 @@ export default function LoginResetRoute() {
 		},
 	})
 
-	/**
-	 * Returns all the information about the fieldset.
-	 */
+	// Returns all the information about the fieldset.
 	const { password, confirmPassword } = useFieldset(form.ref, form.config)
 
 	return (

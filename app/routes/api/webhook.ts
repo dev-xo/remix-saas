@@ -33,9 +33,7 @@ export const action = async ({ request }: ActionArgs) => {
 	let event = undefined
 
 	try {
-		/**
-		 * Constructs and verifies the signature of an Event.
-		 */
+		// Constructs and verifies the signature of an Event.
 		if (typeof signature === 'string') {
 			event = stripe.webhooks.constructEvent(
 				payload,
@@ -48,14 +46,10 @@ export const action = async ({ request }: ActionArgs) => {
 		return json({}, { status: 500 })
 	}
 
-	/**
-	 * Webhook Events.
-	 */
+	// Webhook Events.
 	switch (event?.type) {
-		/**
-		 * This event occurs when a Checkout Session
-		 * has been successfully completed.
-		 */
+		// This event occurs when a Checkout Session
+		// has been successfully completed.
 		case 'checkout.session.completed': {
 			const session = event.data.object
 			const customerId = session.customer
@@ -89,10 +83,8 @@ export const action = async ({ request }: ActionArgs) => {
 			return json({}, { status: 200 })
 		}
 
-		/**
-		 * This event occurs whenever a subscription changes.
-		 * (E.G: Switching plans, or changing the status from trial to active).
-		 */
+		// This event occurs whenever a subscription changes.
+		// (E.G: Switching plans, or changing the status from trial to active).
 		case 'customer.subscription.updated': {
 			const subscription = event.data.object
 
@@ -118,10 +110,8 @@ export const action = async ({ request }: ActionArgs) => {
 			return json({}, { status: 200 })
 		}
 
-		/**
-		 * Occurs whenever a customer’s subscription ends.
-		 * Cleans up Subscription Model.
-		 */
+		// Occurs whenever a customer’s subscription ends.
+		// Cleans up Subscription Model.
 		case 'customer.subscription.deleted': {
 			const subscription = event.data.object
 			const customerId = subscription.customer
@@ -144,8 +134,6 @@ export const action = async ({ request }: ActionArgs) => {
 		}
 	}
 
-	/**
-	 * Possible status returns: 200 | 404.
-	 */
+	// Possible status returns: 200 | 404.
 	return json({}, { status: 200 })
 }

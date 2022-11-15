@@ -11,16 +11,12 @@ import { deleteUser } from '~/models/user.server'
  * Remix - Action.
  */
 export const action = async ({ request }: ActionArgs) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
 	})
 
-	/**
-	 * Checks for user existence in database.
-	 */
+	// Checks for user existence in database.
 	const dbUser = await getUserById({
 		id: user.id,
 		include: {
@@ -29,23 +25,17 @@ export const action = async ({ request }: ActionArgs) => {
 	})
 
 	if (dbUser) {
-		/**
-		 * Deletes current Stripe Customer.
-		 */
+		// Deletes current Stripe Customer.
 		if (dbUser.subscription?.customerId) {
 			const customerId = dbUser.subscription.customerId
 			await deleteStripeCustomer(customerId)
 		}
 
-		/**
-		 * Deletes current user from database.
-		 */
+		// Deletes current user from database.
 		const userId = dbUser.id
 		await deleteUser(userId)
 
-		/**
-		 * Redirects to 'x' destroying current Auth Session.
-		 */
+		// Redirects to 'x' destroying current Auth Session.
 		let session = await getSession(request.headers.get('Cookie'))
 
 		return redirect('/', {
@@ -55,8 +45,6 @@ export const action = async ({ request }: ActionArgs) => {
 		})
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return json({}, { status: 400 })
 }

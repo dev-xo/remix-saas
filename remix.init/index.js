@@ -152,9 +152,7 @@ const initEnvFile = async (rootDirectory) => {
  * Replaces default project name for the one provided by `DIR_NAME`.
  */
 const updateProjectNameFromRiles = async (rootDirectory, APP_NAME) => {
-	/**
-	 * Paths.
-	 */
+	// Paths.
 	const FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
 	const README_PATH = path.join(rootDirectory, 'README.md')
 
@@ -163,18 +161,14 @@ const updateProjectNameFromRiles = async (rootDirectory, APP_NAME) => {
 		fs.readFile(README_PATH, 'utf-8'),
 	])
 
-	/**
-	 * Replaces Fly.toml file.
-	 */
+	// Replaces Fly.toml file.
 	const newFlyToml = toml.parse(flyToml)
 	newFlyToml.app = newFlyToml.app.replace(
 		DEFAULT_PROJECT_NAME_MATCHER,
 		APP_NAME,
 	)
 
-	/**
-	 * Replaces README.md file.
-	 */
+	// Replaces README.md file.
 	const newReadme = readme.replace(DEFAULT_PROJECT_NAME_MATCHER, APP_NAME)
 
 	await Promise.all([
@@ -203,9 +197,7 @@ const replaceDockerLockFile = async (rootDirectory, pm) => {
  * Prepares environment for a PostgreSQL Deploy at Fly.io.
  */
 const initPostgresDeployEnvironment = async (rootDirectory) => {
-	/**
-	 * Prisma Paths.
-	 */
+	// Prisma Paths.
 	const SQLITE_PRISMA_SCHEMA_PATH = path.join(
 		rootDirectory,
 		'prisma',
@@ -230,9 +222,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'migrations',
 	)
 
-	/**
-	 * Github Workflow Paths.
-	 */
+	// Github Workflow Paths.
 	const SQLITE_DEPLOY_WORKFLOW_PATH = path.join(
 		rootDirectory,
 		'.github',
@@ -247,9 +237,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'deploy.yml',
 	)
 
-	/**
-	 * Deploy File Paths.
-	 */
+	// Deploy File Paths.
 	const SQLITE_DOCKERFILE_PATH = path.join(rootDirectory, 'Dockerfile')
 	const SQLITE_FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
 
@@ -276,7 +264,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 	)
 	const START_SH_PATH = path.join(rootDirectory, 'start.sh')
 
-	/** Env File Paths. */
+	// Env File Paths.
 	const SQLITE_ENV_EXAMPLE_PATH = path.join(rootDirectory, '.env.example')
 	const POSTGRES_ENV_EXAMPLE_PATH = path.join(
 		rootDirectory,
@@ -286,15 +274,11 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 		'.env.example',
 	)
 
-	/**
-	 * Matches & Replacers.
-	 */
+	// Matches & Replacers.
 	const PRISMA_SQLITE_MATCHER = 'sqlite'
 	const PRISMA_POSTGRES_REPLACER = 'postgresql'
 
-	/**
-	 * Inits Inquirer.
-	 */
+	// Inits Inquirer.
 	const dbChoice = await inquirer
 		.prompt([
 			{
@@ -309,9 +293,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 			const dbAnswer = answers.database
 
 			if (dbAnswer === POSTGRESQL_DB) {
-				/**
-				 * Replaces Prisma files.
-				 */
+				// Replaces Prisma files.
 				const prismaSchema = await fs.readFile(
 					SQLITE_PRISMA_SCHEMA_PATH,
 					'utf-8',
@@ -331,18 +313,14 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 					SQLITE_PRISMA_MIGRATIONS_PATH,
 				)
 
-				/**
-				 * Replaces Github workflows.
-				 */
+				// Replaces Github workflows.
 				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
 				await fs.rename(
 					POSTGRES_DEPLOY_WORKFLOW_PATH,
 					SQLITE_DEPLOY_WORKFLOW_PATH,
 				)
 
-				/**
-				 * Replaces deploy files.
-				 */
+				// Replaces deploy files.
 				await fs.rename(POSTGRES_DOCKERFILE_PATH, SQLITE_DOCKERFILE_PATH)
 				await fs.rename(POSTGRES_FLY_TOML_PATH, SQLITE_FLY_TOML_PATH)
 				await fs.rename(
@@ -350,15 +328,11 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
 					path.join(rootDirectory, 'docker-compose.yml'),
 				)
 
-				/**
-				 * Replaces .env.example file.
-				 */
+				// Replaces .env.example file.
 				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
 				await fs.rename(POSTGRES_ENV_EXAMPLE_PATH, SQLITE_ENV_EXAMPLE_PATH)
 
-				/**
-				 * Removes `start.sh`.
-				 */
+				// Removes `start.sh`.
 				await fs.unlink(START_SH_PATH)
 			}
 
@@ -379,54 +353,36 @@ const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
 	const DIR_NAME = path.basename(rootDirectory)
 	const APP_NAME = DIR_NAME.replace(/[^a-zA-Z0-9-_]/g, '-')
 
-	/**
-	 * Returns commands for the package manager used in workspace.
-	 */
+	// Returns commands for the package manager used in workspace.
 	const pm = getPackageManagerCommand(packageManager)
 
-	/**
-	 * Cleans up all Typescript references from the project.
-	 */
+	// Cleans up all Typescript references from the project.
 	if (!isTypeScript)
 		await Promise.all([cleanupTypescriptWorkflow(rootDirectory)])
 
-	/**
-	 * Prepares environment for a PostgreSQL Deploy at Fly.io
-	 */
+	// Prepares environment for a PostgreSQL Deploy at Fly.io
 	const dbChoice = await initPostgresDeployEnvironment(rootDirectory)
 
 	await Promise.all([
-		/**
-		 * Updates package.json.
-		 */
+		// Updates package.json.
 		updatePackageJson(rootDirectory, isTypeScript, APP_NAME),
 
-		/**
-		 * Creates a new `.env` file, based on `.env.example`.
-		 */
+		// Creates a new `.env` file, based on `.env.example`.
 		initEnvFile(rootDirectory),
 
-		/**
-		 * Replaces default project name for the one provided by `DIR_NAME`.
-		 */
+		// Replaces default project name for the one provided by `DIR_NAME`.
 		updateProjectNameFromRiles(rootDirectory, APP_NAME),
 
-		/**
-		 * Updates `Dockerfile` based on the package manager used in workspace.
-		 */
+		// Updates `Dockerfile` based on the package manager used in workspace.
 		replaceDockerLockFile(rootDirectory, pm),
 	])
 
-	/**
-	 * Seeds database.
-	 * PostgreSQL choice, requires manual database seeding.
-	 */
+	// Seeds database.
+	// PostgreSQL choice, requires manual database seeding.
 	dbChoice !== POSTGRESQL_DB &&
 		execSync(pm.run('setup'), { cwd: rootDirectory, stdio: 'inherit' })
 
-	/**
-	 * Formats entire project.
-	 */
+	// Formats entire project.
 	execSync(pm.run('format', '--loglevel warn'), {
 		cwd: rootDirectory,
 		stdio: 'inherit',

@@ -45,15 +45,11 @@ export const action = async ({ request }: ActionArgs) => {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
-				/**
-				 * Validates `submission` data.
-				 */
+				// Validates `submission` data.
 				const { email, password } = LoginFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
-					/**
-					 * Checks for user existence in database.
-					 */
+					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
 						email,
 						include: {
@@ -63,9 +59,7 @@ export const action = async ({ request }: ActionArgs) => {
 					})
 					if (!dbUser || !dbUser.password) throw new Error('User not found.')
 
-					/**
-					 * Validates provided credentials with database ones.
-					 */
+					// Validates provided credentials with database ones.
 					const isPasswordValid = await validateHashPassword(
 						password,
 						dbUser.password.hash,
@@ -75,15 +69,11 @@ export const action = async ({ request }: ActionArgs) => {
 							'Incorrect password. Please try again or select "Forgot password" to change it.',
 						)
 
-					/**
-					 * Sets user as Auth Session.
-					 */
+					// Sets user as Auth Session.
 					const session = await getSession(request.headers.get('cookie'))
 					session.set(authenticator.sessionKey, dbUser)
 
-					/**
-					 * Redirects commiting newly updated Session.
-					 */
+					// Redirects commiting newly updated Session.
 					return redirect('/account', {
 						headers: { 'Set-Cookie': await commitSession(session, {}) },
 					})
@@ -94,14 +84,12 @@ export const action = async ({ request }: ActionArgs) => {
 		submission.error.push(...formatError(error))
 	}
 
-	/**
-	 * Sends submission state back to the client.
-	 * Never send password back to the client.
-	 */
+	// Sends submission state back to the client.
 	return json({
 		...submission,
 
 		value: {
+			// Never send password back to the client.
 			email: submission.value.email,
 		},
 	})
@@ -110,31 +98,21 @@ export const action = async ({ request }: ActionArgs) => {
 export default function LoginEmailRoute() {
 	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof LoginFormSchema>>({
-		/**
-		 * Enables server-side validation mode.
-		 */
+		// Enables server-side validation mode.
 		mode: 'server-validation',
 
-		/**
-		 * Begins validation on blur.
-		 */
+		// Begins validation on blur.
 		initialReport: 'onBlur',
 
-		/**
-		 * Syncs the result of last submission.
-		 */
+		// Syncs the result of last submission.
 		state,
 
-		/**
-		 * Validate `formData` based on Zod Schema.
-		 */
+		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
 			return validate(formData, LoginFormSchema)
 		},
 
-		/**
-		 * Submits only if validation has successfully passed.
-		 */
+		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
 				event.preventDefault()
@@ -142,9 +120,7 @@ export default function LoginEmailRoute() {
 		},
 	})
 
-	/**
-	 * Returns all the information about the fieldset.
-	 */
+	// Returns all the information about the fieldset.
 	const { email, password } = useFieldset(form.ref, form.config)
 
 	return (

@@ -38,10 +38,8 @@ export const UpdatePlanButton = ({
 	if (!stripePlanName || !stripePlanPriceAmount || !purchasedPlanPriceAmount)
 		return null
 
-	/**
-	 * Returns current plan button.
-	 */
 	if (stripePlanPriceAmount === purchasedPlanPriceAmount) {
+		// Returns current plan button.
 		return (
 			<button
 				className={`${buttonBackgroundClassName()} flex h-9 flex-row items-center justify-center rounded-xl
@@ -51,9 +49,7 @@ export const UpdatePlanButton = ({
 		)
 	}
 
-	/**
-	 * As button `value`, we'll provide newly desired `planId`.
-	 */
+	// As button `value`, we'll provide newly desired `planId`.
 	return (
 		<fetcher.Form
 			action="/resources/stripe/update-subscription-plan"

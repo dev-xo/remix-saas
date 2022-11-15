@@ -16,34 +16,25 @@ import { HAS_SUCCESSFULLY_UPDATED_PLAN } from '~/services/stripe/constants.serve
  * Remix - Action.
  */
 export const action = async ({ request }: ActionArgs) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	/**
-	 * On `subscriptionId`, updates Auth Session accordingly.
-	 */
+	// On `subscriptionId`, updates Auth Session accordingly.
 	if (user.subscription?.subscriptionId) {
 		const subscriptionId = user.subscription?.subscriptionId
 		const subscription = await retrieveStripeSubscription(subscriptionId)
 
 		if (subscription && subscription?.status === 'active') {
-			/**
-			 * Gets values from `formData`.
-			 */
+			// Gets values from `formData`.
 			const formData = await request.formData()
 			const { newPlanId } = Object.fromEntries(formData)
 
 			if (typeof newPlanId === 'string') {
-				/**
-				 * Updates current subscription plan.
-				 *
-				 * More info about Proration:
-				 * https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
-				 */
+				// Updates current subscription plan.
+				// More info about Proration:
+				// https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#changing
 				await updateStripeSubscription(subscriptionId, {
 					proration_behavior: 'always_invoice',
 					items: [
@@ -72,8 +63,6 @@ export const action = async ({ request }: ActionArgs) => {
 		}
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return json({}, { status: 400 })
 }

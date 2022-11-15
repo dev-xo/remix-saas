@@ -49,10 +49,10 @@ export const Navigation = ({ user }: ComponentProps) => {
 					</span>
 				</div>
 			</Link>
-
 			<div className="ml-0 sm:ml-6" />
+
+			{/* Theme Switcher. */}
 			<div className="flex w-full flex-row items-center justify-start">
-				{/* Theme Switcher. */}
 				<button
 					className="group flex flex-row items-center transition hover:scale-110 active:scale-100"
 					onClick={handleOnClickTheme}>

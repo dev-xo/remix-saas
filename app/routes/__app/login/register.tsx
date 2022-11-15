@@ -52,31 +52,23 @@ export const action = async ({ request }: ActionArgs) => {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
-				/**
-				 * Validates `submission` data.
-				 */
+				// Validates `submission` data.
 				const { name, email, password } = RegisterFormSchema.parse(
 					submission.value,
 				)
 
 				if (submission.type === 'submit') {
-					/**
-					 * Checks for user existence in database.
-					 */
+					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
 						email,
 					})
 					if (dbUser && dbUser.email === email)
 						submission.error.push(['email', 'Email is already in use.'])
 
-					/**
-					 * Hashes password.
-					 */
+					// Hashes password.
 					const hashedPassword = await hashPassword(password)
 
-					/**
-					 * Creates and stores a new user in database.
-					 */
+					// Creates and stores a new user in database.
 					const newUser = await createEmailUser({
 						user: {
 							name,
@@ -87,15 +79,11 @@ export const action = async ({ request }: ActionArgs) => {
 					})
 					if (!newUser) throw new Error('Unable to create a new User.')
 
-					/**
-					 * Sets newly created user as Auth Session.
-					 */
+					// Sets newly created user as Auth Session.
 					const session = await getSession(request.headers.get('cookie'))
 					session.set(authenticator.sessionKey, newUser)
 
-					/**
-					 * Redirects commiting newly updated Session.
-					 */
+					// Redirects commiting newly updated Session.
 					return redirect('/account', {
 						headers: { 'Set-Cookie': await commitSession(session, {}) },
 					})
@@ -106,14 +94,12 @@ export const action = async ({ request }: ActionArgs) => {
 		submission.error.push(...formatError(error))
 	}
 
-	/**
-	 * Sends submission state back to the client.
-	 * Never send password back to the client.
-	 */
+	// Sends submission state back to the client.
 	return json({
 		...submission,
 
 		value: {
+			// Never send password back to the client.
 			email: submission.value.email,
 		},
 	})
@@ -122,31 +108,21 @@ export const action = async ({ request }: ActionArgs) => {
 export default function LoginRegisterRoute() {
 	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof RegisterFormSchema>>({
-		/**
-		 * Enables server-side validation mode.
-		 */
+		// Enables server-side validation mode.
 		mode: 'server-validation',
 
-		/**
-		 * Begins validation on blur.
-		 */
+		// Begins validation on blur.
 		initialReport: 'onBlur',
 
-		/**
-		 * Syncs the result of last submission.
-		 */
+		// Syncs the result of last submission.
 		state,
 
-		/**
-		 * Validate `formData` based on Zod Schema.
-		 */
+		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
 			return validate(formData, RegisterFormSchema)
 		},
 
-		/**
-		 * Submits only if validation has successfully passed.
-		 */
+		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
 				event.preventDefault()
@@ -154,9 +130,7 @@ export default function LoginRegisterRoute() {
 		},
 	})
 
-	/**
-	 * Returns all the information about the fieldset.
-	 */
+	// Returns all the information about the fieldset.
 	const { name, email, password, confirmPassword } = useFieldset(
 		form.ref,
 		form.config,

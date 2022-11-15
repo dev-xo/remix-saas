@@ -31,24 +31,18 @@ type LoaderData = {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	/**
-	 * Gets flash values from Session.
-	 */
+	// Gets flash values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
 	const skipSubscriptionCheck =
 		session.get(HAS_SKIPPED_SUBSCRIPTION_CHECK) || false
 
-	/**
-	 * Checks for user existence in database.
-	 */
+	// Checks for user existence in database.
 	const dbUser = await getUserById({
 		id: user.id,
 		include: {
@@ -57,19 +51,14 @@ export const loader = async ({ request }: LoaderArgs) => {
 	})
 	if (!dbUser) throw new Error('User not found in database.')
 
-	/**
-	 * Gets params from URL.
-	 */
+	// Gets params from URL.
 	const url = new URL(request.url)
 	const cancelPayment = url.searchParams.get('cancel')
 
-	/**
-	 * Updates Auth Session with latest database data.
-	 *
-	 * Used to set `customerId` in Session,
-	 * avoiding duplicate Stripe Customer creation.
-	 */
 	if (cancelPayment) {
+		// Updates Auth Session with latest database data.
+		// Used to set `customerId` in Session,
+		// avoiding duplicate Stripe Customer creation.
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
@@ -78,9 +67,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 		return redirect('/plans')
 	}
 
-	/**
-	 * On `subscriptionId`, updates Auth Session accordingly.
-	 */
+	// On `subscriptionId`, updates Auth Session accordingly.
 	if (dbUser.subscription?.subscriptionId) {
 		session.set(authenticator.sessionKey, {
 			...user,
@@ -96,9 +83,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 		})
 	}
 
-	/**
-	 * Sets a flash value in Session, allowing the cycle to repeat.
-	 */
+	// Sets a flash value in Session, allowing the cycle to repeat.
 	if (skipSubscriptionCheck === false) {
 		session.flash(HAS_SKIPPED_SUBSCRIPTION_CHECK, true)
 
@@ -115,9 +100,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 		)
 	}
 
-	/**
-	 * Returns a JSON Response commiting newly update Session.
-	 */
+	// Returns a JSON Response commiting newly update Session.
 	return json<LoaderData>(
 		{
 			hasSkippedSubscriptionCheck: true,
@@ -136,9 +119,7 @@ export default function CheckoutRoute() {
 		useLoaderData<typeof loader>()
 	const submit = useSubmit()
 
-	/**
-	 * This effect will wait for Stripe Webhook to update database.
-	 */
+	// This effect will wait for Stripe Webhook to update database.
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)
 			setTimeout(() => submit(null, { method: 'get' }), 8000)

@@ -10,16 +10,12 @@ import { getUserById } from '~/models/user.server'
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
 
-	/**
-	 * Checks for user existence in database.
-	 */
+	// Checks for user existence in database.
 	const dbUser = await getUserById({
 		id: user.id,
 		include: {
@@ -27,9 +23,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 		},
 	})
 
-	/**
-	 * On `subscriptionId`, updates Auth Session accordingly.
-	 */
+	// On `subscriptionId`, updates Auth Session accordingly.
 	if (dbUser && dbUser.subscription?.subscriptionId) {
 		let session = await getSession(request.headers.get('Cookie'))
 
@@ -45,8 +39,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 		})
 	}
 
-	/**
-	 * Whops!
-	 */
+	// Whops!
 	return redirect('/')
 }

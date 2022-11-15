@@ -21,9 +21,7 @@ export const meta: MetaFunction = () => {
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
-	/**
-	 * Checks for Auth Session.
-	 */
+	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
 	})
