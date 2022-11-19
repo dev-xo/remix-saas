@@ -1,12 +1,12 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node';
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { authenticator } from '~/services/auth/config.server';
-import { STRIPE_PLANS } from '~/services/stripe/stripe-plans';
+import { json } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
+import { STRIPE_PLANS } from '~/services/stripe/stripe-plans'
 
-import { CreateCheckoutButton } from '~/components/CreateCheckoutButton';
-import { UpdatePlanButton } from '~/components/UpdatePlanButton';
+import { CreateCheckoutButton } from '~/components/CreateCheckoutButton'
+import { UpdatePlanButton } from '~/components/UpdatePlanButton'
 
 /**
  * Remix - Meta.
@@ -14,8 +14,8 @@ import { UpdatePlanButton } from '~/components/UpdatePlanButton';
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Plans',
-	};
-};
+	}
+}
 
 /**
  * Remix - Loader.
@@ -24,13 +24,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',
-	});
+	})
 
-	return json({ user });
-};
+	return json({ user })
+}
 
 export default function PlansRoute() {
-	const { user } = useLoaderData<typeof loader>();
+	const { user } = useLoaderData<typeof loader>()
 
 	return (
 		<div className="m-12 mx-auto flex h-auto w-full max-w-7xl flex-col items-center px-6 sm:h-full">
@@ -162,9 +162,9 @@ export default function PlansRoute() {
 								/>
 							)}
 						</div>
-					);
+					)
 				})}
 			</div>
 		</div>
-	);
+	)
 }

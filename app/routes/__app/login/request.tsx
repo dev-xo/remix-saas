@@ -1,38 +1,38 @@
-import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node';
+import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node'
 
-import { json, redirect } from '@remix-run/node';
-import { Form, Link, useLoaderData, useActionData } from '@remix-run/react';
-import { getSession, commitSession } from '~/services/auth/session.server';
-import { getUserByEmail } from '~/models/user.server';
-import { encrypt, decrypt } from '~/services/auth/utils.server';
-import { sendResetPasswordEmail } from '~/services/email/utils.server';
-import { getDomainUrl } from '~/utils/misc.server';
+import { json, redirect } from '@remix-run/node'
+import { Form, Link, useLoaderData, useActionData } from '@remix-run/react'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { getUserByEmail } from '~/models/user.server'
+import { encrypt, decrypt } from '~/services/auth/utils.server'
+import { sendResetPasswordEmail } from '~/services/email/utils.server'
+import { getDomainUrl } from '~/utils/misc.server'
 
-import { z } from 'zod';
-import { formatError, validate } from '@conform-to/zod';
+import { z } from 'zod'
+import { formatError, validate } from '@conform-to/zod'
 import {
 	conform,
 	parse,
 	useFieldset,
 	useForm,
 	hasError,
-} from '@conform-to/react';
+} from '@conform-to/react'
 
-import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server';
-import { HAS_SUCCESSFULLY_SEND_EMAIL } from '~/services/email/constants.server';
+import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server'
+import { HAS_SUCCESSFULLY_SEND_EMAIL } from '~/services/email/constants.server'
 
 /**
  * Init - Constants.
  */
-const queryTokenParam = 'token';
-const queryTokenType = 'forgot-password';
+const queryTokenParam = 'token'
+const queryTokenType = 'forgot-password'
 
 /**
  * Zod - Schema.
  */
 const RequestFormSchema = z.object({
 	email: z.string().min(1, 'Email is required.').email('Email is invalid.'),
-});
+})
 
 /**
  * Remix - Meta.
@@ -40,41 +40,41 @@ const RequestFormSchema = z.object({
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Forgot Password',
-	};
-};
+	}
+}
 
 /**
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
 	// Gets values from Session.
-	const session = await getSession(request.headers.get('Cookie'));
+	const session = await getSession(request.headers.get('Cookie'))
 
 	const hasSuccessfullySendEmail =
-		session.get(HAS_SUCCESSFULLY_SEND_EMAIL) || false;
+		session.get(HAS_SUCCESSFULLY_SEND_EMAIL) || false
 
 	// Gets `token` param value from URL.
 	const resetPasswordToken = new URL(request.url).searchParams.get(
 		queryTokenParam,
-	);
+	)
 
 	if (resetPasswordToken) {
 		// Decrypts URL `token`.
-		const token = JSON.parse(decrypt(resetPasswordToken));
+		const token = JSON.parse(decrypt(resetPasswordToken))
 
 		// Validates token.
 		if (token.type === queryTokenType && token.payload?.email) {
 			// Sets a new value in Session.
 			// Used on `/login/reset` route.
-			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email);
+			session.set(RESET_PASSWORD_SESSION_KEY, token.payload.email)
 
 			// Redirects commiting newly updated Session.
 			return redirect('/login/reset', {
 				headers: {
 					'Set-Cookie': await commitSession(session),
 				},
-			});
-		} else return redirect('/login/email');
+			})
+		} else return redirect('/login/email')
 	}
 
 	return json(
@@ -84,48 +84,45 @@ export const loader = async ({ request }: LoaderArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	);
-};
+	)
+}
 
 /**
  * Remix - Action.
  */
 export const action = async ({ request }: ActionArgs) => {
-	const formData = await request.formData();
-	const submission = parse<z.infer<typeof RequestFormSchema>>(formData);
+	const formData = await request.formData()
+	const submission = parse<z.infer<typeof RequestFormSchema>>(formData)
 
 	// Gets values from Session.
-	const session = await getSession(request.headers.get('Cookie'));
+	const session = await getSession(request.headers.get('Cookie'))
 
 	try {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
 				// Validates `submission` data.
-				const { email } = RequestFormSchema.parse(submission.value);
+				const { email } = RequestFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
 					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
 						email,
-					});
-					if (!dbUser || !dbUser.email) throw new Error('User not found.');
+					})
+					if (!dbUser || !dbUser.email) throw new Error('User not found.')
 
 					// Encrypts `email`.
 					const resetPasswordToken = encrypt(
 						JSON.stringify({ type: queryTokenType, payload: { email } }),
-					);
+					)
 
 					// Creates a new URL that points to the current route.
 					const resetPasswordUrl = new URL(
 						`${getDomainUrl(request)}/login/request`,
-					);
+					)
 
 					// Updates newly created URL including encrypted password.
-					resetPasswordUrl.searchParams.set(
-						queryTokenParam,
-						resetPasswordToken,
-					);
+					resetPasswordUrl.searchParams.set(queryTokenParam, resetPasswordToken)
 
 					// Sends user an email with newly created URL.
 					const responseEmail = await sendResetPasswordEmail({
@@ -143,19 +140,19 @@ export const action = async ({ request }: ActionArgs) => {
               </body>
             </html>
             `,
-					});
+					})
 					if (!responseEmail)
 						throw new Error(
 							'Whops! There was an error trying to send you a recovery email.',
-						);
+						)
 
 					// Sets a new value in Session, used to enhance UI experience.
-					session.flash(HAS_SUCCESSFULLY_SEND_EMAIL, true);
+					session.flash(HAS_SUCCESSFULLY_SEND_EMAIL, true)
 				}
 			}
 		}
 	} catch (error) {
-		submission.error.push(...formatError(error));
+		submission.error.push(...formatError(error))
 	}
 
 	// Sends submission state back to the client.
@@ -166,13 +163,13 @@ export const action = async ({ request }: ActionArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	);
-};
+	)
+}
 
 export default function LoginRequestRoute() {
-	const { hasSuccessfullySendEmail } = useLoaderData<typeof loader>();
+	const { hasSuccessfullySendEmail } = useLoaderData<typeof loader>()
 
-	const state = useActionData<typeof action>();
+	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof RequestFormSchema>>({
 		// Enables server-side validation mode.
 		mode: 'server-validation',
@@ -185,19 +182,19 @@ export default function LoginRequestRoute() {
 
 		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
-			return validate(formData, RequestFormSchema);
+			return validate(formData, RequestFormSchema)
 		},
 
 		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
-				event.preventDefault();
+				event.preventDefault()
 			}
 		},
-	});
+	})
 
 	// Returns all the information about the fieldset.
-	const { email } = useFieldset(form.ref, form.config);
+	const { email } = useFieldset(form.ref, form.config)
 
 	return (
 		<div className="flex w-full max-w-md flex-col">
@@ -263,5 +260,5 @@ export default function LoginRequestRoute() {
 				</Link>
 			</div>
 		</div>
-	);
+	)
 }

@@ -3,7 +3,7 @@ import type {
 	LoaderArgs,
 	MetaFunction,
 	ErrorBoundaryComponent,
-} from '@remix-run/node';
+} from '@remix-run/node'
 
 import {
 	Links,
@@ -13,24 +13,20 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useLoaderData,
-} from '@remix-run/react';
+} from '@remix-run/react'
 
-import {
-	ThemeProvider,
-	PreventFlashOnWrongTheme,
-	useTheme,
-} from 'remix-themes';
-import { themeSessionResolver } from '~/services/theme/session.server';
-import { getGlobalEnvs } from '~/utils/env.server';
+import { ThemeProvider, PreventFlashOnWrongTheme, useTheme } from 'remix-themes'
+import { themeSessionResolver } from '~/services/theme/session.server'
+import { getGlobalEnvs } from '~/utils/env.server'
 
-import tailwindStylesheetUrl from './styles/tailwind.css';
+import tailwindStylesheetUrl from './styles/tailwind.css'
 
 /**
  * Remix - Links.
  */
 export const links: LinksFunction = () => {
-	return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }];
-};
+	return [{ rel: 'stylesheet', href: tailwindStylesheetUrl }]
+}
 
 /**
  * Remix - Meta.
@@ -61,22 +57,22 @@ export const meta: MetaFunction = () => {
 		'twitter:title': 'Remix - Stripe Stack',
 		'twitter:description': `A Stripe focused Remix Stack that integrates User Subscriptions, 
 		Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io`,
-	};
-};
+	}
+}
 
 /**
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
-	const { getTheme } = await themeSessionResolver(request);
-	return { ssrTheme: getTheme(), ENV: getGlobalEnvs() };
-};
+	const { getTheme } = await themeSessionResolver(request)
+	return { ssrTheme: getTheme(), ENV: getGlobalEnvs() }
+}
 
 /**
  * Remix - Error Boundary.
  */
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-	console.error(error);
+	console.error(error)
 	return (
 		<html>
 			<head>
@@ -94,15 +90,15 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 				<Scripts />
 			</body>
 		</html>
-	);
-};
+	)
+}
 
 /**
  * App.
  */
 function App() {
-	const { ssrTheme, ENV } = useLoaderData<typeof loader>();
-	const [theme] = useTheme();
+	const { ssrTheme, ENV } = useLoaderData<typeof loader>()
+	const [theme] = useTheme()
 
 	return (
 		<html lang="en" className={theme ?? ''}>
@@ -126,14 +122,14 @@ function App() {
 				{process.env.NODE_ENV === 'development' && <LiveReload />}
 			</body>
 		</html>
-	);
+	)
 }
 
 /**
  * App Root.
  */
 export default function AppWithProviders() {
-	const { ssrTheme } = useLoaderData<typeof loader>();
+	const { ssrTheme } = useLoaderData<typeof loader>()
 
 	return (
 		<ThemeProvider
@@ -141,5 +137,5 @@ export default function AppWithProviders() {
 			themeAction="/resources/theme/update-theme">
 			<App />
 		</ThemeProvider>
-	);
+	)
 }

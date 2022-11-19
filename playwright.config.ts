@@ -1,5 +1,5 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
-import { devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test'
+import { devices } from '@playwright/test'
 
 /**
  * Playwright Environment Variables.
@@ -122,6 +122,6 @@ const config: PlaywrightTestConfig = {
 		command: 'cross-env PORT=8811 npm run dev',
 		port: 8811,
 	},
-};
+}
 
-export default config;
+export default config

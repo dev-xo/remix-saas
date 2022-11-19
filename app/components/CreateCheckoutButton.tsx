@@ -1,25 +1,25 @@
-import type { StripePlan } from '~/services/stripe/stripe-plans';
-import { useFetcher } from '@remix-run/react';
+import type { StripePlan } from '~/services/stripe/stripe-plans'
+import { useFetcher } from '@remix-run/react'
 
 type ComponentProps = {
-	planId: StripePlan['planId'];
-	planName: StripePlan['planName'];
-};
+	planId: StripePlan['planId']
+	planName: StripePlan['planName']
+}
 
 export const CreateCheckoutButton = ({ planId, planName }: ComponentProps) => {
-	const fetcher = useFetcher();
-	const isLoading = fetcher.state !== 'idle';
+	const fetcher = useFetcher()
+	const isLoading = fetcher.state !== 'idle'
 
 	const buttonBackgroundClassName = () => {
 		switch (planName) {
 			case 'Basic':
-				return 'bg-green-700 hover:bg-green-500';
+				return 'bg-green-700 hover:bg-green-500'
 			case 'Creative':
-				return 'bg-sky-700 hover:bg-sky-500';
+				return 'bg-sky-700 hover:bg-sky-500'
 			case 'PRO':
-				return 'bg-purple-700 hover:bg-purple-500';
+				return 'bg-purple-700 hover:bg-purple-500'
 		}
-	};
+	}
 
 	// As button `value`, we'll provide desired `planId` for Stripe Checkout.
 	return (
@@ -34,5 +34,5 @@ export const CreateCheckoutButton = ({ planId, planName }: ComponentProps) => {
 				<span>{isLoading ? 'Redirecting ...' : `Get ${planName}`}</span>
 			</button>
 		</fetcher.Form>
-	);
-};
+	)
+}

@@ -1,21 +1,21 @@
-import type { MetaFunction, ActionArgs } from '@remix-run/node';
+import type { MetaFunction, ActionArgs } from '@remix-run/node'
 
-import { json, redirect } from '@remix-run/node';
-import { Form, Link, useActionData } from '@remix-run/react';
-import { authenticator } from '~/services/auth/config.server';
-import { getSession, commitSession } from '~/services/auth/session.server';
-import { getUserByEmail, createEmailUser } from '~/models/user.server';
-import { hashPassword } from '~/services/auth/utils.server';
+import { json, redirect } from '@remix-run/node'
+import { Form, Link, useActionData } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { getUserByEmail, createEmailUser } from '~/models/user.server'
+import { hashPassword } from '~/services/auth/utils.server'
 
-import { z } from 'zod';
-import { formatError, validate } from '@conform-to/zod';
+import { z } from 'zod'
+import { formatError, validate } from '@conform-to/zod'
 import {
 	conform,
 	parse,
 	useFieldset,
 	useForm,
 	hasError,
-} from '@conform-to/react';
+} from '@conform-to/react'
 
 /**
  * Zod - Schema.
@@ -30,7 +30,7 @@ const RegisterFormSchema = z
 	.refine((data) => data.password === data.confirmPassword, {
 		message: 'Passwords does not match.',
 		path: ['confirmPassword'],
-	});
+	})
 
 /**
  * Remix - Meta.
@@ -38,15 +38,15 @@ const RegisterFormSchema = z
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Sign Up with Email',
-	};
-};
+	}
+}
 
 /**
  * Remix - Action.
  */
 export const action = async ({ request }: ActionArgs) => {
-	const formData = await request.formData();
-	const submission = parse<z.infer<typeof RegisterFormSchema>>(formData);
+	const formData = await request.formData()
+	const submission = parse<z.infer<typeof RegisterFormSchema>>(formData)
 
 	try {
 		switch (submission.type) {
@@ -55,18 +55,18 @@ export const action = async ({ request }: ActionArgs) => {
 				// Validates `submission` data.
 				const { name, email, password } = RegisterFormSchema.parse(
 					submission.value,
-				);
+				)
 
 				if (submission.type === 'submit') {
 					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
 						email,
-					});
+					})
 					if (dbUser && dbUser.email === email)
-						submission.error.push(['email', 'Email is already in use.']);
+						submission.error.push(['email', 'Email is already in use.'])
 
 					// Hashes password.
-					const hashedPassword = await hashPassword(password);
+					const hashedPassword = await hashPassword(password)
 
 					// Creates and stores a new user in database.
 					const newUser = await createEmailUser({
@@ -76,22 +76,22 @@ export const action = async ({ request }: ActionArgs) => {
 							avatar: `https://ui-avatars.com/api/?name=${name}`,
 						},
 						hashedPassword: hashedPassword,
-					});
-					if (!newUser) throw new Error('Unable to create a new User.');
+					})
+					if (!newUser) throw new Error('Unable to create a new User.')
 
 					// Sets newly created user as Auth Session.
-					const session = await getSession(request.headers.get('cookie'));
-					session.set(authenticator.sessionKey, newUser);
+					const session = await getSession(request.headers.get('cookie'))
+					session.set(authenticator.sessionKey, newUser)
 
 					// Redirects commiting newly updated Session.
 					return redirect('/account', {
 						headers: { 'Set-Cookie': await commitSession(session, {}) },
-					});
+					})
 				}
 			}
 		}
 	} catch (error) {
-		submission.error.push(...formatError(error));
+		submission.error.push(...formatError(error))
 	}
 
 	// Sends submission state back to the client.
@@ -102,11 +102,11 @@ export const action = async ({ request }: ActionArgs) => {
 			// Never send password back to the client.
 			email: submission.value.email,
 		},
-	});
-};
+	})
+}
 
 export default function LoginRegisterRoute() {
-	const state = useActionData<typeof action>();
+	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof RegisterFormSchema>>({
 		// Enables server-side validation mode.
 		mode: 'server-validation',
@@ -119,22 +119,22 @@ export default function LoginRegisterRoute() {
 
 		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
-			return validate(formData, RegisterFormSchema);
+			return validate(formData, RegisterFormSchema)
 		},
 
 		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
-				event.preventDefault();
+				event.preventDefault()
 			}
 		},
-	});
+	})
 
 	// Returns all the information about the fieldset.
 	const { name, email, password, confirmPassword } = useFieldset(
 		form.ref,
 		form.config,
-	);
+	)
 
 	return (
 		<div className="relative flex w-full max-w-md flex-col">
@@ -233,5 +233,5 @@ export default function LoginRegisterRoute() {
 				</Link>
 			</div>
 		</div>
-	);
+	)
 }
