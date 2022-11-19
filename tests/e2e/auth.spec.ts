@@ -109,9 +109,7 @@ test.describe('Login - Register with Email', () => {
 			.getByRole('textbox', { name: 'Password' })
 			.fill(fakeUserPassword);
 		await page.getByRole('textbox', { name: 'Password' }).press('Tab');
-		await page
-			.getByRole('textbox', { name: 'Confirm Password' })
-			.fill(fakeUserPassword);
+		await page.getByLabel('Confirm Password').fill(fakeUserPassword);
 		await page.getByRole('button', { name: 'Continue' }).click();
 
 		await expect(page).toHaveURL('/account');
