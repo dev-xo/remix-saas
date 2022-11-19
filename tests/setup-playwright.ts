@@ -1,5 +1,5 @@
-import type { FullConfig } from '@playwright/test'
-import { request } from '@playwright/test'
+import type { FullConfig } from '@playwright/test';
+import { request } from '@playwright/test';
 
 /**
  * Playwright Setup.
@@ -10,17 +10,17 @@ import { request } from '@playwright/test'
  */
 async function globalSetup(config: FullConfig) {
 	// Creates a new context, and does a POST request to '/login/email' route.
-	const requestContext = await request.newContext()
+	const requestContext = await request.newContext();
 	await requestContext.post('http://localhost:8811/login/email', {
 		form: {
 			email: 'playwright@test.com',
 			password: 'password',
 		},
-	})
+	});
 
 	// Saves signed-in state to './tests/auth-storage.json'.
-	await requestContext.storageState({ path: './tests/auth-storage.json' })
-	await requestContext.dispose()
+	await requestContext.storageState({ path: './tests/auth-storage.json' });
+	await requestContext.dispose();
 }
 
-export default globalSetup
+export default globalSetup;

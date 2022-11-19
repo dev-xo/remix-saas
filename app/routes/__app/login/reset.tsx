@@ -1,23 +1,23 @@
-import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node'
+import type { MetaFunction, LoaderArgs, ActionArgs } from '@remix-run/node';
 
-import { json, redirect } from '@remix-run/node'
-import { Form, Link, useActionData } from '@remix-run/react'
-import { getSession, commitSession } from '~/services/auth/session.server'
-import { getUserByEmail } from '~/models/user.server'
-import { updateUserPassword } from '~/models/user.server'
-import { hashPassword } from '~/services/auth/utils.server'
+import { json, redirect } from '@remix-run/node';
+import { Form, Link, useActionData } from '@remix-run/react';
+import { getSession, commitSession } from '~/services/auth/session.server';
+import { getUserByEmail } from '~/models/user.server';
+import { updateUserPassword } from '~/models/user.server';
+import { hashPassword } from '~/services/auth/utils.server';
 
-import { z } from 'zod'
-import { formatError, validate } from '@conform-to/zod'
+import { z } from 'zod';
+import { formatError, validate } from '@conform-to/zod';
 import {
 	conform,
 	parse,
 	useFieldset,
 	useForm,
 	hasError,
-} from '@conform-to/react'
+} from '@conform-to/react';
 
-import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server'
+import { RESET_PASSWORD_SESSION_KEY } from '~/services/auth/constants.server';
 
 /**
  * Zod - Schema.
@@ -30,7 +30,7 @@ const ResetFormSchema = z
 	.refine((data) => data.password === data.confirmPassword, {
 		message: 'Passwords does not match.',
 		path: ['confirmPassword'],
-	})
+	});
 
 /**
  * Remix - Meta.
@@ -38,49 +38,49 @@ const ResetFormSchema = z
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Reset Password',
-	}
-}
+	};
+};
 
 /**
  * Remix - Loader.
  */
 export const loader = async ({ request }: LoaderArgs) => {
 	// Gets values from Session.
-	const session = await getSession(request.headers.get('Cookie'))
-	const resetPasswordSessionKey = session.get(RESET_PASSWORD_SESSION_KEY)
+	const session = await getSession(request.headers.get('Cookie'));
+	const resetPasswordSessionKey = session.get(RESET_PASSWORD_SESSION_KEY);
 
 	// Requires `RESET_PASSWORD_SESSION_KEY` to be in Session.
 	// This validates that user has been successfully redirected from Email.
-	if (!resetPasswordSessionKey) return redirect('/login')
+	if (!resetPasswordSessionKey) return redirect('/login');
 
 	// Returns a JSON Response commiting Session.
 	return json({
 		headers: {
 			'Set-Cookie': await commitSession(session),
 		},
-	})
-}
+	});
+};
 
 /**
  * Remix - Action.
  */
 export const action = async ({ request }: ActionArgs) => {
-	const formData = await request.formData()
-	const submission = parse<z.infer<typeof ResetFormSchema>>(formData)
+	const formData = await request.formData();
+	const submission = parse<z.infer<typeof ResetFormSchema>>(formData);
 
 	try {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
 				// Validates `submission` data.
-				const { password } = ResetFormSchema.parse(submission.value)
+				const { password } = ResetFormSchema.parse(submission.value);
 
 				if (submission.type === 'submit') {
 					// Gets values from Session.
-					const session = await getSession(request.headers.get('Cookie'))
+					const session = await getSession(request.headers.get('Cookie'));
 
-					const email = session.get(RESET_PASSWORD_SESSION_KEY)
-					if (!email) return redirect('/login')
+					const email = session.get(RESET_PASSWORD_SESSION_KEY);
+					if (!email) return redirect('/login');
 
 					// Checks for user existence in database.
 					const dbUser = await getUserByEmail({
@@ -88,39 +88,39 @@ export const action = async ({ request }: ActionArgs) => {
 						include: {
 							password: true,
 						},
-					})
+					});
 					if (!dbUser || !dbUser?.email || !dbUser.password)
-						return redirect('/login')
+						return redirect('/login');
 
 					// Hashes newly password.
-					const hashedPassword = await hashPassword(password)
+					const hashedPassword = await hashPassword(password);
 
 					// Resets user password.
-					await updateUserPassword({ email, hashedPassword })
+					await updateUserPassword({ email, hashedPassword });
 
 					// Cleanup Session.
-					session.unset(RESET_PASSWORD_SESSION_KEY)
+					session.unset(RESET_PASSWORD_SESSION_KEY);
 
 					// Redirects commiting newly updated Session.
 					return redirect('/login/email', {
 						headers: { 'Set-Cookie': await commitSession(session) },
-					})
+					});
 				}
 			}
 		}
 	} catch (error) {
-		submission.error.push(...formatError(error))
+		submission.error.push(...formatError(error));
 	}
 
 	// Sends submission state back to the client.
 	return json({
 		...submission,
 		value: {},
-	})
-}
+	});
+};
 
 export default function LoginResetRoute() {
-	const state = useActionData<typeof action>()
+	const state = useActionData<typeof action>();
 	const form = useForm<z.infer<typeof ResetFormSchema>>({
 		// Enables server-side validation mode.
 		mode: 'server-validation',
@@ -133,19 +133,19 @@ export default function LoginResetRoute() {
 
 		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
-			return validate(formData, ResetFormSchema)
+			return validate(formData, ResetFormSchema);
 		},
 
 		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
-				event.preventDefault()
+				event.preventDefault();
 			}
 		},
-	})
+	});
 
 	// Returns all the information about the fieldset.
-	const { password, confirmPassword } = useFieldset(form.ref, form.config)
+	const { password, confirmPassword } = useFieldset(form.ref, form.config);
 
 	return (
 		<div className="flex w-full max-w-md flex-col">
@@ -213,5 +213,5 @@ export default function LoginResetRoute() {
 				</Link>
 			</div>
 		</div>
-	)
+	);
 }

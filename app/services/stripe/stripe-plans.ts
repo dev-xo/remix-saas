@@ -2,10 +2,10 @@
  * Utils.
  */
 export interface StripePlan {
-	planId: string
-	planName: string
-	planPriceAmount: number
-	planDescription: string
+	planId: string;
+	planName: string;
+	planPriceAmount: number;
+	planDescription: string;
 }
 
 export interface StripePlans extends Array<StripePlan> {}
@@ -33,7 +33,7 @@ export const STRIPE_PLANS: StripePlans = [
 		planPriceAmount: 0.9,
 		planDescription: 'Infinite Cookies per Day!',
 	},
-]
+];
 
 /**
  * Gets a value from `STRIPE_PLANS` based on `planId`.
@@ -41,4 +41,4 @@ export const STRIPE_PLANS: StripePlans = [
 export const getValueFromStripePlans = (
 	planId: StripePlan['planId'],
 	value: keyof StripePlan,
-) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]
+) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value];

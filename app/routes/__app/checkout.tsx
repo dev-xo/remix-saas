@@ -1,17 +1,17 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node'
-import type { AuthSession } from '~/services/auth/session.server'
+import type { MetaFunction, LoaderArgs } from '@remix-run/node';
+import type { AuthSession } from '~/services/auth/session.server';
 
-import { useEffect } from 'react'
-import { redirect, json } from '@remix-run/node'
-import { useLoaderData, useSubmit } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
-import { getSession, commitSession } from '~/services/auth/session.server'
-import { getUserById } from '~/models/user.server'
+import { useEffect } from 'react';
+import { redirect, json } from '@remix-run/node';
+import { useLoaderData, useSubmit } from '@remix-run/react';
+import { authenticator } from '~/services/auth/config.server';
+import { getSession, commitSession } from '~/services/auth/session.server';
+import { getUserById } from '~/models/user.server';
 
 import {
 	HAS_SKIPPED_SUBSCRIPTION_CHECK,
 	HAS_SUCCESSFULLY_SUBSCRIBED,
-} from '~/services/stripe/constants.server'
+} from '~/services/stripe/constants.server';
 
 /**
  * Remix - Meta.
@@ -19,28 +19,28 @@ import {
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Checkout',
-	}
-}
+	};
+};
 
 /**
  * Remix - Loader.
  */
 type LoaderData = {
-	hasSkippedSubscriptionCheck: boolean | false
-	hasSuccessfullySubscribed: boolean | false
-}
+	hasSkippedSubscriptionCheck: boolean | false;
+	hasSuccessfullySubscribed: boolean | false;
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
-	})
+	});
 
 	// Gets flash values from Session.
-	const session = await getSession(request.headers.get('Cookie'))
+	const session = await getSession(request.headers.get('Cookie'));
 
 	const skipSubscriptionCheck =
-		session.get(HAS_SKIPPED_SUBSCRIPTION_CHECK) || false
+		session.get(HAS_SKIPPED_SUBSCRIPTION_CHECK) || false;
 
 	// Checks for user existence in database.
 	const dbUser = await getUserById({
@@ -48,12 +48,12 @@ export const loader = async ({ request }: LoaderArgs) => {
 		include: {
 			subscription: true,
 		},
-	})
-	if (!dbUser) throw new Error('User not found in database.')
+	});
+	if (!dbUser) throw new Error('User not found in database.');
 
 	// Gets params from URL.
-	const url = new URL(request.url)
-	const cancelPayment = url.searchParams.get('cancel')
+	const url = new URL(request.url);
+	const cancelPayment = url.searchParams.get('cancel');
 
 	if (cancelPayment) {
 		// Updates Auth Session with latest database data.
@@ -62,9 +62,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
-		} as AuthSession)
+		} as AuthSession);
 
-		return redirect('/plans')
+		return redirect('/plans');
 	}
 
 	// On `subscriptionId`, updates Auth Session accordingly.
@@ -72,20 +72,20 @@ export const loader = async ({ request }: LoaderArgs) => {
 		session.set(authenticator.sessionKey, {
 			...user,
 			subscription: { ...dbUser.subscription },
-		} as AuthSession)
+		} as AuthSession);
 
-		session.flash(HAS_SUCCESSFULLY_SUBSCRIBED, true)
+		session.flash(HAS_SUCCESSFULLY_SUBSCRIBED, true);
 
 		return redirect('/account', {
 			headers: {
 				'Set-Cookie': await commitSession(session),
 			},
-		})
+		});
 	}
 
 	// Sets a flash value in Session, allowing the cycle to repeat.
 	if (skipSubscriptionCheck === false) {
-		session.flash(HAS_SKIPPED_SUBSCRIPTION_CHECK, true)
+		session.flash(HAS_SKIPPED_SUBSCRIPTION_CHECK, true);
 
 		return json<LoaderData>(
 			{
@@ -97,7 +97,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 					'Set-Cookie': await commitSession(session),
 				},
 			},
-		)
+		);
 	}
 
 	// Returns a JSON Response commiting newly update Session.
@@ -111,19 +111,19 @@ export const loader = async ({ request }: LoaderArgs) => {
 				'Set-Cookie': await commitSession(session),
 			},
 		},
-	)
-}
+	);
+};
 
 export default function CheckoutRoute() {
 	const { hasSkippedSubscriptionCheck, hasSuccessfullySubscribed } =
-		useLoaderData<typeof loader>()
-	const submit = useSubmit()
+		useLoaderData<typeof loader>();
+	const submit = useSubmit();
 
 	// This effect will wait for Stripe Webhook to update database.
 	useEffect(() => {
 		if (hasSkippedSubscriptionCheck === false)
-			setTimeout(() => submit(null, { method: 'get' }), 8000)
-	}, [hasSkippedSubscriptionCheck, submit])
+			setTimeout(() => submit(null, { method: 'get' }), 8000);
+	}, [hasSkippedSubscriptionCheck, submit]);
 
 	return (
 		<div className="flex h-full w-full flex-col items-center justify-center px-6">
@@ -169,5 +169,5 @@ export default function CheckoutRoute() {
 				</div>
 			)}
 		</div>
-	)
+	);
 }
