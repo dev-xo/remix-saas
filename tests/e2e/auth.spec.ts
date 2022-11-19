@@ -105,11 +105,9 @@ test.describe('Login - Register with Email', () => {
 		await page.getByLabel('Name').press('Tab');
 		await page.getByLabel('Email').fill(fakeUser.email);
 		await page.getByLabel('Email').press('Tab');
-		await page
-			.getByRole('textbox', { name: 'Password' })
-			.fill(fakeUserPassword);
-		await page.getByRole('textbox', { name: 'Password' }).press('Tab');
-		await page.getByLabel('Confirm Password').fill(fakeUserPassword);
+		await page.getByTestId('password').fill(fakeUserPassword);
+		await page.getByTestId('password').press('Tab');
+		await page.getByTestId('confirm-password').fill(fakeUserPassword);
 		await page.getByRole('button', { name: 'Continue' }).click();
 
 		await expect(page).toHaveURL('/account');

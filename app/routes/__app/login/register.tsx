@@ -184,6 +184,7 @@ export default function LoginRegisterRoute() {
 
 						<input
 							{...conform.input(password.config, { type: 'password' })}
+							data-testid="password"
 							className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
             	px-4 text-base font-semibold text-black transition dark:text-white"
 						/>
@@ -198,6 +199,7 @@ export default function LoginRegisterRoute() {
 
 						<input
 							{...conform.input(confirmPassword.config, { type: 'password' })}
+							data-testid="confirm-password"
 							className="flex h-16 w-full rounded-xl border-2 border-gray-500 bg-transparent
             	px-4 text-base font-semibold text-black transition dark:text-white"
 						/>
