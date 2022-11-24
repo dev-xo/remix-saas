@@ -1,8 +1,8 @@
 export interface StripePlan {
-	planId: string
-	planName: string
-	planPriceAmount: number
-	planDescription: string
+	planId: string;
+	planName: string;
+	planPriceAmount: number;
+	planDescription: string;
 }
 
 export interface StripePlans extends Array<StripePlan> {}
@@ -30,7 +30,7 @@ export const STRIPE_PLANS: StripePlans = [
 		planPriceAmount: 0.9,
 		planDescription: 'Infinite Cookies per Day!',
 	},
-]
+];
 
 /**
  * Gets a value from `STRIPE_PLANS` based on `planId`.
@@ -39,5 +39,5 @@ export function getValueFromStripePlans(
 	planId: StripePlan['planId'],
 	value: keyof StripePlan,
 ) {
-	return STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]
+	return STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value];
 }

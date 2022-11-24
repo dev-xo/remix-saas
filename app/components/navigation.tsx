@@ -1,15 +1,15 @@
-import type { AuthSession } from '~/services/auth/session.server'
-import { Link, Form } from '@remix-run/react'
-import { Theme, useTheme } from 'remix-themes'
+import type { AuthSession } from '~/services/auth/session.server';
+import { Link, Form } from '@remix-run/react';
+import { Theme, useTheme } from 'remix-themes';
 
 type ComponentProps = {
-	user: AuthSession | null
-}
+	user: AuthSession | null;
+};
 
 export const Navigation = ({ user }: ComponentProps) => {
-	const [theme, setTheme] = useTheme()
+	const [theme, setTheme] = useTheme();
 	const handleOnClickTheme = () =>
-		setTheme((prev) => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK))
+		setTheme((prev) => (prev === Theme.DARK ? Theme.LIGHT : Theme.DARK));
 
 	return (
 		<nav className="z-20 flex w-full flex-row items-center py-6 px-8">
@@ -96,5 +96,5 @@ export const Navigation = ({ user }: ComponentProps) => {
 				</Form>
 			)}
 		</nav>
-	)
-}
+	);
+};

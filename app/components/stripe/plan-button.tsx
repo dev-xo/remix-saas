@@ -1,39 +1,39 @@
-import type { StripePlan } from '~/services/stripe/plans'
-import { getValueFromStripePlans } from '~/services/stripe/plans'
-import { useFetcher } from '@remix-run/react'
+import type { StripePlan } from '~/services/stripe/plans';
+import { getValueFromStripePlans } from '~/services/stripe/plans';
+import { useFetcher } from '@remix-run/react';
 
 type ComponentProps = {
-	planId: StripePlan['planId']
-	purchasedPlanId: StripePlan['planId']
-}
+	planId: StripePlan['planId'];
+	purchasedPlanId: StripePlan['planId'];
+};
 
 export const PlanButton = ({ planId, purchasedPlanId }: ComponentProps) => {
-	const fetcher = useFetcher()
-	const isLoading = fetcher.state !== 'idle'
+	const fetcher = useFetcher();
+	const isLoading = fetcher.state !== 'idle';
 
-	const stripePlanName = getValueFromStripePlans(planId, 'planName')
+	const stripePlanName = getValueFromStripePlans(planId, 'planName');
 	const stripePlanPriceAmount = getValueFromStripePlans(
 		planId,
 		'planPriceAmount',
-	)
+	);
 	const purchasedPlanPriceAmount = getValueFromStripePlans(
 		purchasedPlanId,
 		'planPriceAmount',
-	)
+	);
 
 	const buttonBackgroundClassName = () => {
 		switch (stripePlanName) {
 			case 'Basic':
-				return 'bg-green-700 hover:bg-green-500'
+				return 'bg-green-700 hover:bg-green-500';
 			case 'Creative':
-				return 'bg-sky-700 hover:bg-sky-500'
+				return 'bg-sky-700 hover:bg-sky-500';
 			case 'PRO':
-				return 'bg-purple-700 hover:bg-purple-500'
+				return 'bg-purple-700 hover:bg-purple-500';
 		}
-	}
+	};
 
 	if (!stripePlanName || !stripePlanPriceAmount || !purchasedPlanPriceAmount)
-		return null
+		return null;
 
 	if (stripePlanPriceAmount === purchasedPlanPriceAmount) {
 		// Returns current plan button.
@@ -43,7 +43,7 @@ export const PlanButton = ({ planId, purchasedPlanId }: ComponentProps) => {
 				px-12 text-base font-bold text-white transition hover:scale-105 active:scale-100`}>
 				<span>Curent Plan</span>
 			</button>
-		)
+		);
 	}
 
 	// As button `value`, we'll provide newly desired `planId`.
@@ -65,5 +65,5 @@ export const PlanButton = ({ planId, purchasedPlanId }: ComponentProps) => {
 				</span>
 			</button>
 		</fetcher.Form>
-	)
-}
+	);
+};

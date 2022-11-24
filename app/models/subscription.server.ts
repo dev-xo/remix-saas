@@ -1,5 +1,5 @@
-import type { Subscription } from '@prisma/client'
-import { db } from '~/utils/db.server'
+import type { Subscription } from '@prisma/client';
+import { db } from '~/utils/db.server';
 
 /**
  * Mutations.
@@ -7,7 +7,7 @@ import { db } from '~/utils/db.server'
 export async function createSubscription(
 	subscription: Omit<Subscription, 'id'>,
 ) {
-	return db.subscription.create({ data: subscription })
+	return db.subscription.create({ data: subscription });
 }
 
 export async function updateSubscription(
@@ -18,7 +18,7 @@ export async function updateSubscription(
 		return db.subscription.update({
 			where: { customerId },
 			data: { ...subscription },
-		})
+		});
 }
 
 /**
@@ -28,5 +28,5 @@ export async function getSubscriptionByCustomerId(
 	customerId: Subscription['customerId'],
 ) {
 	if (typeof customerId === 'string')
-		return db.subscription.findUnique({ where: { customerId } })
+		return db.subscription.findUnique({ where: { customerId } });
 }

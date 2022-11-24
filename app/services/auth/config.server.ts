@@ -1,29 +1,29 @@
-import type { AuthSession } from '~/services/auth/session.server'
+import type { AuthSession } from '~/services/auth/session.server';
 
-import { Authenticator } from 'remix-auth'
-import { TwitterStrategy } from 'remix-auth-twitter'
+import { Authenticator } from 'remix-auth';
+import { TwitterStrategy } from 'remix-auth-twitter';
 import {
 	SocialsProvider,
 	GoogleStrategy,
 	GitHubStrategy,
 	DiscordStrategy,
-} from 'remix-auth-socials'
+} from 'remix-auth-socials';
 
-import { sessionStorage } from '~/services/auth/session.server'
-import { getUserById } from '~/models/user.server'
-import { createSocialUser } from '~/models/user.server'
+import { sessionStorage } from '~/services/auth/session.server';
+import { getUserById } from '~/models/user.server';
+import { createSocialUser } from '~/models/user.server';
 
 /**
  * Inits Authenticator.
  */
 export let authenticator = new Authenticator<AuthSession>(sessionStorage, {
 	sessionErrorKey: 'AUTH_SESSION_ERROR_KEY',
-})
+});
 
 const HOST_URL =
 	process.env.NODE_ENV === 'development'
 		? process.env.DEV_HOST_URL
-		: process.env.PROD_HOST_URL
+		: process.env.PROD_HOST_URL;
 
 /**
  * Strategies - Google.
@@ -43,7 +43,7 @@ authenticator.use(
 				include: {
 					subscription: true,
 				},
-			})
+			});
 
 			if (!user) {
 				// Creates and stores a new user in database.
@@ -52,19 +52,19 @@ authenticator.use(
 					name: profile.displayName,
 					email: profile._json.email,
 					avatar: profile._json.picture,
-				})
+				});
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.')
+					throw new Error('There was an Error trying to create a new User.');
 
 				// Returns newly created user as Auth Session.
-				return newUser
+				return newUser;
 			}
 
 			// Returns user from database as Auth Session.
-			return user
+			return user;
 		},
 	),
-)
+);
 
 /**
  * Strategies - Github.
@@ -83,7 +83,7 @@ authenticator.use(
 				include: {
 					subscription: true,
 				},
-			})
+			});
 
 			if (!user) {
 				// Creates and stores a new user in database.
@@ -92,19 +92,19 @@ authenticator.use(
 					name: profile.displayName,
 					email: profile._json.email,
 					avatar: profile._json.avatar_url,
-				})
+				});
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.')
+					throw new Error('There was an Error trying to create a new User.');
 
 				// Returns newly created user as Auth Session.
-				return newUser
+				return newUser;
 			}
 
 			// Returns user from database as Auth Session.
-			return user
+			return user;
 		},
 	),
-)
+);
 
 /**
  * Strategies - Discord.
@@ -124,7 +124,7 @@ authenticator.use(
 				include: {
 					subscription: true,
 				},
-			})
+			});
 
 			if (!user) {
 				// Creates and stores a new user in database.
@@ -135,19 +135,19 @@ authenticator.use(
 					avatar: profile.__json.avatar
 						? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.__json.avatar}.png`
 						: '',
-				})
+				});
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.')
+					throw new Error('There was an Error trying to create a new User.');
 
 				// Returns newly created user as Auth Session.
-				return newUser
+				return newUser;
 			}
 
 			// Returns user from database as Auth Session.
-			return user
+			return user;
 		},
 	),
-)
+);
 
 /**
  * Strategies - Twitter.
@@ -167,7 +167,7 @@ authenticator.use(
 				include: {
 					subscription: true,
 				},
-			})
+			});
 
 			if (!user) {
 				// Creates and stores a new user in database.
@@ -176,16 +176,16 @@ authenticator.use(
 					name: profile.name,
 					email: profile.email ? profile.email : '',
 					avatar: profile.profile_image_url,
-				})
+				});
 				if (!newUser)
-					throw new Error('There was an Error trying to create a new User.')
+					throw new Error('There was an Error trying to create a new User.');
 
 				// Returns newly created user as Auth Session.
-				return newUser
+				return newUser;
 			}
 
 			// Returns user from database as Auth Session.
-			return user
+			return user;
 		},
 	),
-)
+);

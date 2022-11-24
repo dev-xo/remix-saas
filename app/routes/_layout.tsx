@@ -1,35 +1,35 @@
-import type { LoaderArgs } from '@remix-run/node'
-import type { AuthSession } from '~/services/auth/session.server'
+import type { LoaderArgs } from '@remix-run/node';
+import type { AuthSession } from '~/services/auth/session.server';
 
-import { redirect, json } from '@remix-run/node'
-import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
-import { useTheme } from 'remix-themes'
+import { redirect, json } from '@remix-run/node';
+import { Outlet, useLoaderData, useLocation } from '@remix-run/react';
+import { authenticator } from '~/services/auth/config.server';
+import { useTheme } from 'remix-themes';
 
-import { Navigation } from '~/components/navigation'
+import { Navigation } from '~/components/navigation';
 
 /**
  * Remix - Loader.
  */
 type LoaderData = {
-	user: Awaited<AuthSession> | null
-}
+	user: Awaited<AuthSession> | null;
+};
 
 export async function loader({ request }: LoaderArgs) {
 	// Checks for Auth Session.
-	const user = await authenticator.isAuthenticated(request)
+	const user = await authenticator.isAuthenticated(request);
 
 	// On Auth Session, redirects to `/account`.
-	const url = new URL(request.url)
-	if (user && url.pathname === '/') return redirect('/account')
+	const url = new URL(request.url);
+	if (user && url.pathname === '/') return redirect('/account');
 
-	return json<LoaderData>({ user })
+	return json<LoaderData>({ user });
 }
 
 export default function AppRoute() {
-	const { user } = useLoaderData() as LoaderData
-	const [theme] = useTheme()
-	const location = useLocation()
+	const { user } = useLoaderData() as LoaderData;
+	const [theme] = useTheme();
+	const location = useLocation();
 
 	const setRadialGradientBasedOnTheme =
 		theme === 'light'
@@ -38,7 +38,7 @@ export default function AppRoute() {
 				: 'radial-gradient gradient-light-dimmed'
 			: location && location.pathname === '/'
 			? 'radial-gradient gradient-dark'
-			: 'radial-gradient gradient-dark-dimmed'
+			: 'radial-gradient gradient-dark-dimmed';
 
 	return (
 		<div className="flex h-screen flex-col">
@@ -93,5 +93,5 @@ export default function AppRoute() {
 				</footer>
 			)}
 		</div>
-	)
+	);
 }
