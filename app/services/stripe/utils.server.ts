@@ -9,40 +9,40 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_API_KEY, {
 	apiVersion: '2022-08-01',
 })
 
-export const createStripeCustomer = async (
+export async function createStripeCustomer(
 	customer: Stripe.CustomerCreateParams,
-) => {
+) {
 	return stripe.customers.create(customer)
 }
 
-export const deleteStripeCustomer = async (
+export async function deleteStripeCustomer(
 	customerId: Subscription['customerId'],
-) => {
+) {
 	if (typeof customerId === 'string') return stripe.customers.del(customerId)
 }
 
-export const updateStripeSubscription = async (
+export async function updateStripeSubscription(
 	subscriptionId: Subscription['subscriptionId'],
 	params: Stripe.SubscriptionUpdateParams = {},
-) => {
+) {
 	if (typeof subscriptionId === 'string')
 		return stripe.subscriptions.update(subscriptionId, {
 			...params,
 		})
 }
 
-export const retrieveStripeSubscription = async (
+export async function retrieveStripeSubscription(
 	subscriptionId: Subscription['subscriptionId'],
-) => {
+) {
 	if (typeof subscriptionId === 'string')
 		return stripe.subscriptions.retrieve(subscriptionId)
 }
 
-export const createStripeCheckoutSession = async (
+export async function createStripeCheckoutSession(
 	request: Request,
 	customerId: Subscription['customerId'],
 	priceId: Subscription['planId'],
-) => {
+) {
 	if (!customerId || !priceId)
 		throw new Error('Stripe `customerId` or `priceId` are undefined.')
 
@@ -63,10 +63,10 @@ export const createStripeCheckoutSession = async (
 	return session.url
 }
 
-export const createStripeCustomerPortalSession = async (
+export async function createStripeCustomerPortalSession(
 	request: Request,
 	customerId: Subscription['customerId'],
-) => {
+) {
 	if (!customerId) throw new Error('`customerId` is undefined.')
 
 	// Creates a Customer Portal Session object.

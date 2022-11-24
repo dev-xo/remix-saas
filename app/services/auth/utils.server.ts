@@ -16,14 +16,14 @@ const IV_LENGTH = 16
 /**
  * Utils.
  */
-export const encrypt = (text: string) => {
+export function encrypt(text: string) {
 	const iv = crypto.randomBytes(IV_LENGTH)
 	const cipher = crypto.createCipheriv(ALGORITHM, ENCRYPTION_KEY, iv)
 	const encrypted = Buffer.concat([cipher.update(text), cipher.final()])
 	return `${iv.toString('hex')}:${encrypted.toString('hex')}`
 }
 
-export const decrypt = (text: string) => {
+export function decrypt(text: string) {
 	const [ivPart, encryptedPart] = text.split(':')
 	if (!ivPart || !encryptedPart) throw new Error('Invalid text.')
 
@@ -37,12 +37,17 @@ export const decrypt = (text: string) => {
 	return decrypted.toString()
 }
 
-export const hashPassword = (password: string) => bcrypt.hash(password, 10)
+export function hashPassword(password: string) {
+	return bcrypt.hash(password, 10)
+}
 
-export const hashSyncPassword = (password: string) =>
-	bcrypt.hashSync(password, 10)
+export function hashSyncPassword(password: string) {
+	return bcrypt.hashSync(password, 10)
+}
 
-export const validateHashPassword = (
+export function validateHashPassword(
 	inputPassword: string,
 	comparedPassword: string,
-) => bcrypt.compare(inputPassword, comparedPassword)
+) {
+	return bcrypt.compare(inputPassword, comparedPassword)
+}

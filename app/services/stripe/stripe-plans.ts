@@ -38,7 +38,9 @@ export const STRIPE_PLANS: StripePlans = [
 /**
  * Gets a value from `STRIPE_PLANS` based on `planId`.
  */
-export const getValueFromStripePlans = (
+export function getValueFromStripePlans(
 	planId: StripePlan['planId'],
 	value: keyof StripePlan,
-) => STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]
+) {
+	return STRIPE_PLANS.find((plan) => plan.planId === planId)?.[value]
+}
