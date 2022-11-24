@@ -1,6 +1,3 @@
-/**
- * Utils.
- */
 export interface StripePlan {
 	planId: string
 	planName: string

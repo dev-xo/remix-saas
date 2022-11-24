@@ -138,7 +138,7 @@ The above command will provide a `Webhook Signing Secret` that has to be set in 
 
 ### Stripe Products
 
-From [Stripe Dashboard](https://dashboard.stripe.com/test/products), create as many products as you want. Remember to update their secret API Keys in template `.env` as well as the product descriptions from `/services/stripe/stripe-plans`.
+From [Stripe Dashboard](https://dashboard.stripe.com/test/products), create as many products as you want. Remember to update their secret API Keys in template `.env` as well as the product descriptions from `/services/stripe/plans`.
 
 ## Production
 
