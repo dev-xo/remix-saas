@@ -7,10 +7,7 @@ type ComponentProps = {
 	purchasedPlanId: StripePlan['planId']
 }
 
-export const UpdatePlanButton = ({
-	planId,
-	purchasedPlanId,
-}: ComponentProps) => {
+export const PlanButton = ({ planId, purchasedPlanId }: ComponentProps) => {
 	const fetcher = useFetcher()
 	const isLoading = fetcher.state !== 'idle'
 

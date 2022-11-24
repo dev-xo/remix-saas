@@ -6,7 +6,7 @@ type ComponentProps = {
 	planName: StripePlan['planName']
 }
 
-export const CreateCheckoutButton = ({ planId, planName }: ComponentProps) => {
+export const CheckoutButton = ({ planId, planName }: ComponentProps) => {
 	const fetcher = useFetcher()
 	const isLoading = fetcher.state !== 'idle'
 

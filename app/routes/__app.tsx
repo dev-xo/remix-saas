@@ -5,7 +5,8 @@ import { redirect, json } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { useTheme } from 'remix-themes'
-import { Navigation } from '~/components/Navigation'
+
+import { Navigation } from '~/components/navigation'
 
 /**
  * Remix - Loader.

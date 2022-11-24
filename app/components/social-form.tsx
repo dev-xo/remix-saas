@@ -6,7 +6,7 @@ type ComponentProps = {
 	children: React.ReactNode
 }
 
-export const SocialButton = ({ provider, children }: ComponentProps) => {
+export const SocialForm = ({ provider, children }: ComponentProps) => {
 	return (
 		<Form action={`/auth/${provider}`} method="post">
 			{children}

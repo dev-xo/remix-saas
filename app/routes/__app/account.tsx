@@ -2,7 +2,7 @@ import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 
 import { redirect, json } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, Form, useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 
@@ -10,8 +10,7 @@ import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
 import { getValueFromStripePlans } from '~/services/stripe/stripe-plans'
 import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
-import { DeleteUserButton } from '~/components/DeleteUserButton'
-import { CreateCustomerPortalButton } from '~/components/CreateCustomerPortalButton'
+import { CustomerPortalButton } from '~/components/stripe/customer-portal-button'
 
 import {
 	HAS_SUCCESSFULLY_SUBSCRIBED,
@@ -144,8 +143,14 @@ export default function AccountRoute() {
 				</div>
 				<div className="mb-3" />
 
-				{/* Renders `DeleteUserButton` button component. */}
-				<DeleteUserButton />
+				{/* Delete User Form Button. */}
+				<Form action="/resources/user/delete-user" method="post">
+					<button
+						className="flex h-9 flex-row items-center justify-center rounded-xl bg-red-500 
+						px-6 text-base font-bold text-white transition hover:scale-105 active:scale-100">
+						<span>Delete Account</span>
+					</button>
+				</Form>
 			</div>
 			<div className="mb-8" />
 
@@ -286,8 +291,8 @@ export default function AccountRoute() {
 				</Link>
 				<div className="mb-3" />
 
-				{/* CreateCustomerPortalButton Component. */}
-				{user.subscription?.customerId && <CreateCustomerPortalButton />}
+				{/* CustomerPortalButton Component. */}
+				{user.subscription?.customerId && <CustomerPortalButton />}
 
 				{/* Displays Checkout Success Message. */}
 				{hasSuccessfullySubscribed && (

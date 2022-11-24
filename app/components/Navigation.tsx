@@ -1,7 +1,6 @@
 import type { AuthSession } from '~/services/auth/session.server'
-import { Link } from '@remix-run/react'
+import { Link, Form } from '@remix-run/react'
 import { Theme, useTheme } from 'remix-themes'
-import { LogoutButton } from '~/components/LogoutButton'
 
 type ComponentProps = {
 	user: AuthSession | null
@@ -86,8 +85,16 @@ export const Navigation = ({ user }: ComponentProps) => {
 				</button>
 			</div>
 
-			{/* Logout. */}
-			{user && <LogoutButton />}
+			{/* Log Out Form Button. */}
+			{user && (
+				<Form action="/logout" method="post">
+					<button
+						className="flex h-9 flex-row items-center justify-center rounded-xl bg-gray-500 
+						px-6 text-base font-bold text-white transition hover:scale-105 active:scale-100">
+						<span>Logout</span>
+					</button>
+				</Form>
+			)}
 		</nav>
 	)
 }

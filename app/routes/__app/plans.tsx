@@ -5,8 +5,8 @@ import { useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
 import { STRIPE_PLANS } from '~/services/stripe/stripe-plans'
 
-import { CreateCheckoutButton } from '~/components/CreateCheckoutButton'
-import { UpdatePlanButton } from '~/components/UpdatePlanButton'
+import { CheckoutButton } from '~/components/stripe/checkout-button'
+import { PlanButton } from '~/components/stripe/plan-button'
 
 /**
  * Remix - Meta.
@@ -146,17 +146,14 @@ export default function PlansRoute() {
 							</p>
 							<div className="m-3" />
 
-							{/* CreateCheckoutButton Component. */}
+							{/* CheckoutButton Component. */}
 							{!user.subscription?.subscriptionId && (
-								<CreateCheckoutButton
-									planId={plan.planId}
-									planName={plan.planName}
-								/>
+								<CheckoutButton planId={plan.planId} planName={plan.planName} />
 							)}
 
-							{/* UpdatePlanButto Component. */}
+							{/* PlanButton Component. */}
 							{user.subscription?.planId && (
-								<UpdatePlanButton
+								<PlanButton
 									planId={plan.planId}
 									purchasedPlanId={user.subscription.planId}
 								/>

@@ -1,6 +1,6 @@
 import { useFetcher } from '@remix-run/react'
 
-export const CreateCustomerPortalButton = () => {
+export const CustomerPortalButton = () => {
 	const fetcher = useFetcher()
 	const isLoading = fetcher.state !== 'idle'
 
