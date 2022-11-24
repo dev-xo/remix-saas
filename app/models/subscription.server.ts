@@ -4,33 +4,29 @@ import { db } from '~/utils/db.server'
 /**
  * Mutations.
  */
-export const createSubscription = async (
+export async function createSubscription(
 	subscription: Omit<Subscription, 'id'>,
-) => {
+) {
 	return db.subscription.create({ data: subscription })
 }
 
-export const updateSubscription = async (
+export async function updateSubscription(
 	customerId: Subscription['customerId'],
 	subscription: Partial<Subscription>,
-) => {
-	if (typeof customerId !== 'string')
-		throw new Error('Typeof customerId should be a string.')
-
-	return db.subscription.update({
-		where: { customerId },
-		data: { ...subscription },
-	})
+) {
+	if (typeof customerId === 'string')
+		return db.subscription.update({
+			where: { customerId },
+			data: { ...subscription },
+		})
 }
 
 /**
  * Queries.
  */
-export const getSubscriptionByCustomerId = async (
+export async function getSubscriptionByCustomerId(
 	customerId: Subscription['customerId'],
-) => {
-	if (typeof customerId !== 'string')
-		throw new Error('Typeof customerId should be a string.')
-
-	return db.subscription.findUnique({ where: { customerId } })
+) {
+	if (typeof customerId === 'string')
+		return db.subscription.findUnique({ where: { customerId } })
 }
