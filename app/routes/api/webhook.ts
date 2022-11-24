@@ -1,27 +1,21 @@
 /// <reference types="stripe-event-types" />
 
 import type { ActionArgs } from '@remix-run/node'
+import type Stripe from 'stripe'
+
 import { json } from '@remix-run/node'
 import {
 	updateSubscription,
 	getSubscriptionByCustomerId,
 } from '~/models/subscription.server'
-import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
-import Stripe from 'stripe'
 
-/**
- * Init Environment.
- */
-const STRIPE_SECRET_API_KEY = process.env.STRIPE_SECRET_API_KEY
+import { stripe } from '~/services/stripe/utils.server'
+import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
 
 const WEBHOOK_ENDPOINT_SECRET =
 	process.env.NODE_ENV === 'development'
 		? process.env.DEV_STRIPE_WEBHOOK_ENDPOINT_SECRET
 		: process.env.PROD_STRIPE_WEBHOOK_ENDPOINT_SECRET
-
-const stripe = new Stripe(STRIPE_SECRET_API_KEY, {
-	apiVersion: '2022-08-01',
-})
 
 /**
  * Remix - Action.
@@ -33,8 +27,8 @@ export async function action({ request }: ActionArgs) {
 	let event = undefined
 
 	try {
-		// Constructs and verifies the signature of an Event.
 		if (typeof signature === 'string') {
+			// Constructs and verifies the signature of an Event.
 			event = stripe.webhooks.constructEvent(
 				payload,
 				signature,

@@ -3,7 +3,7 @@ import type { MetaFunction, LoaderArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { authenticator } from '~/services/auth/config.server'
-import { STRIPE_PLANS } from '~/services/stripe/stripe-plans'
+import { STRIPE_PLANS } from '~/services/stripe/plans'
 
 import { CheckoutButton } from '~/components/stripe/checkout-button'
 import { PlanButton } from '~/components/stripe/plan-button'

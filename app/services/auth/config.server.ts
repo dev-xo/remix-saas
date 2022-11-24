@@ -1,18 +1,20 @@
 import type { AuthSession } from '~/services/auth/session.server'
 
 import { Authenticator } from 'remix-auth'
-import { SocialsProvider } from 'remix-auth-socials'
-import { GoogleStrategy } from 'remix-auth-socials'
-import { GitHubStrategy } from 'remix-auth-socials'
-import { DiscordStrategy } from 'remix-auth-socials'
 import { TwitterStrategy } from 'remix-auth-twitter'
-import { sessionStorage } from '~/services/auth/session.server'
+import {
+	SocialsProvider,
+	GoogleStrategy,
+	GitHubStrategy,
+	DiscordStrategy,
+} from 'remix-auth-socials'
 
+import { sessionStorage } from '~/services/auth/session.server'
 import { getUserById } from '~/models/user.server'
 import { createSocialUser } from '~/models/user.server'
 
 /**
- * Init.
+ * Inits Authenticator.
  */
 export let authenticator = new Authenticator<AuthSession>(sessionStorage, {
 	sessionErrorKey: 'AUTH_SESSION_ERROR_KEY',
@@ -43,10 +45,8 @@ authenticator.use(
 				},
 			})
 
-			// If user has not been found:
-			// - Creates and stores a new user in database.
-			// - Returns newly created user as Auth Session.
 			if (!user) {
+				// Creates and stores a new user in database.
 				const newUser = await createSocialUser({
 					id: profile.id,
 					name: profile.displayName,
@@ -56,6 +56,7 @@ authenticator.use(
 				if (!newUser)
 					throw new Error('There was an Error trying to create a new User.')
 
+				// Returns newly created user as Auth Session.
 				return newUser
 			}
 
@@ -84,10 +85,8 @@ authenticator.use(
 				},
 			})
 
-			// If user has not been found:
-			// - Creates and stores a new user in database.
-			// - Returns newly created user as Auth Session.
 			if (!user) {
+				// Creates and stores a new user in database.
 				const newUser = await createSocialUser({
 					id: profile.id,
 					name: profile.displayName,
@@ -97,6 +96,7 @@ authenticator.use(
 				if (!newUser)
 					throw new Error('There was an Error trying to create a new User.')
 
+				// Returns newly created user as Auth Session.
 				return newUser
 			}
 
@@ -126,10 +126,8 @@ authenticator.use(
 				},
 			})
 
-			// If user has not been found:
-			// - Creates and stores a new user in database.
-			// - Returns newly created user as Auth Session.
 			if (!user) {
+				// Creates and stores a new user in database.
 				const newUser = await createSocialUser({
 					id: profile.id,
 					name: profile.displayName,
@@ -141,6 +139,7 @@ authenticator.use(
 				if (!newUser)
 					throw new Error('There was an Error trying to create a new User.')
 
+				// Returns newly created user as Auth Session.
 				return newUser
 			}
 
@@ -170,10 +169,8 @@ authenticator.use(
 				},
 			})
 
-			// If user has not been found:
-			// - Creates and stores a new user in database.
-			// - Returns newly created user as Auth Session.
 			if (!user) {
+				// Creates and stores a new user in database.
 				const newUser = await createSocialUser({
 					id: profile.id_str,
 					name: profile.name,
@@ -183,6 +180,7 @@ authenticator.use(
 				if (!newUser)
 					throw new Error('There was an Error trying to create a new User.')
 
+				// Returns newly created user as Auth Session.
 				return newUser
 			}
 

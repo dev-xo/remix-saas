@@ -2,11 +2,9 @@ import type { Subscription } from '@prisma/client'
 import { getDomainUrl } from '~/utils/misc.server'
 import Stripe from 'stripe'
 
-/**
- * Utils.
- */
-const stripe = new Stripe(process.env.STRIPE_SECRET_API_KEY, {
+export const stripe = new Stripe(process.env.STRIPE_SECRET_API_KEY, {
 	apiVersion: '2022-08-01',
+	typescript: true,
 })
 
 export async function createStripeCustomer(
