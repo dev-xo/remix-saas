@@ -6,9 +6,9 @@ export async function sendResetPasswordEmail({
 	subject,
 	htmlContent,
 }: {
-	to: [{ email: string }];
-	subject: string;
-	htmlContent: string;
+	to: [{ email: string }]
+	subject: string
+	htmlContent: string
 }) {
 	return fetch(`https://api.sendinblue.com/v3/smtp/email`, {
 		method: 'post',
@@ -26,5 +26,5 @@ export async function sendResetPasswordEmail({
 			'Api-Key': process.env.EMAIL_PROVIDER_API_KEY,
 			'Content-Type': 'application/json',
 		},
-	});
+	})
 }

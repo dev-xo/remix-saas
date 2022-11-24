@@ -1,8 +1,8 @@
-import { useFetcher } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react'
 
 export const CustomerPortalButton = () => {
-	const fetcher = useFetcher();
-	const isLoading = fetcher.state !== 'idle';
+	const fetcher = useFetcher()
+	const isLoading = fetcher.state !== 'idle'
 
 	return (
 		<fetcher.Form action="/stripe/create-customer-portal" method="post">
@@ -12,5 +12,5 @@ export const CustomerPortalButton = () => {
 				<span>{isLoading ? 'Redirecting ...' : 'Customer Portal'}</span>
 			</button>
 		</fetcher.Form>
-	);
-};
+	)
+}

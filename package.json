@@ -29,7 +29,7 @@
 	"prettier": {
 		"tabWidth": 2,
 		"printWidth": 80,
-		"semi": true,
+		"semi": false,
 		"useTabs": true,
 		"bracketSpacing": true,
 		"bracketSameLine": true,

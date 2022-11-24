@@ -1,6 +1,6 @@
-import { RemixBrowser } from '@remix-run/react';
-import { startTransition, StrictMode } from 'react';
-import { hydrateRoot } from 'react-dom/client';
+import { RemixBrowser } from '@remix-run/react'
+import { startTransition, StrictMode } from 'react'
+import { hydrateRoot } from 'react-dom/client'
 
 function hydrate() {
 	startTransition(() => {
@@ -9,14 +9,14 @@ function hydrate() {
 			<StrictMode>
 				<RemixBrowser />
 			</StrictMode>,
-		);
-	});
+		)
+	})
 }
 
 if (window.requestIdleCallback) {
-	window.requestIdleCallback(hydrate);
+	window.requestIdleCallback(hydrate)
 } else {
 	// Safari doesn't support `requestIdleCallback`.
 	// @see: https://caniuse.com/requestidlecallback
-	window.setTimeout(hydrate, 1);
+	window.setTimeout(hydrate, 1)
 }

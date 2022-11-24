@@ -1,21 +1,21 @@
-import type { MetaFunction, ActionArgs } from '@remix-run/node';
+import type { MetaFunction, ActionArgs } from '@remix-run/node'
 
-import { json, redirect } from '@remix-run/node';
-import { Form, Link, useActionData } from '@remix-run/react';
-import { authenticator } from '~/services/auth/config.server';
-import { getSession, commitSession } from '~/services/auth/session.server';
-import { getUserByEmail } from '~/models/user.server';
-import { validateHashPassword } from '~/services/auth/utils.server';
+import { json, redirect } from '@remix-run/node'
+import { Form, Link, useActionData } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
+import { getSession, commitSession } from '~/services/auth/session.server'
+import { getUserByEmail } from '~/models/user.server'
+import { validateHashPassword } from '~/services/auth/utils.server'
 
-import { z } from 'zod';
-import { formatError, validate } from '@conform-to/zod';
+import { z } from 'zod'
+import { formatError, validate } from '@conform-to/zod'
 import {
 	conform,
 	parse,
 	useFieldset,
 	useForm,
 	hasError,
-} from '@conform-to/react';
+} from '@conform-to/react'
 
 /**
  * Zod - Schema.
@@ -23,7 +23,7 @@ import {
 const LoginFormSchema = z.object({
 	email: z.string().min(1, 'Email is required.').email('Email is invalid.'),
 	password: z.string().min(1, 'Password is required.'),
-});
+})
 
 /**
  * Remix - Meta.
@@ -31,22 +31,22 @@ const LoginFormSchema = z.object({
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Log In with Email',
-	};
-};
+	}
+}
 
 /**
  * Remix - Action.
  */
 export async function action({ request }: ActionArgs) {
-	const formData = await request.formData();
-	const submission = parse<z.infer<typeof LoginFormSchema>>(formData);
+	const formData = await request.formData()
+	const submission = parse<z.infer<typeof LoginFormSchema>>(formData)
 
 	try {
 		switch (submission.type) {
 			case 'validate':
 			case 'submit': {
 				// Validates `submission` data.
-				const { email, password } = LoginFormSchema.parse(submission.value);
+				const { email, password } = LoginFormSchema.parse(submission.value)
 
 				if (submission.type === 'submit') {
 					// Checks for user existence in database.
@@ -56,32 +56,32 @@ export async function action({ request }: ActionArgs) {
 							password: true,
 							subscription: true,
 						},
-					});
-					if (!dbUser || !dbUser.password) throw new Error('User not found.');
+					})
+					if (!dbUser || !dbUser.password) throw new Error('User not found.')
 
 					// Validates provided credentials with database ones.
 					const isPasswordValid = await validateHashPassword(
 						password,
 						dbUser.password.hash,
-					);
+					)
 					if (!isPasswordValid)
 						throw new Error(
 							'Incorrect password. Please try again or select "Forgot password" to change it.',
-						);
+						)
 
 					// Sets user as Auth Session.
-					const session = await getSession(request.headers.get('cookie'));
-					session.set(authenticator.sessionKey, dbUser);
+					const session = await getSession(request.headers.get('cookie'))
+					session.set(authenticator.sessionKey, dbUser)
 
 					// Redirects commiting newly updated Session.
 					return redirect('/account', {
 						headers: { 'Set-Cookie': await commitSession(session, {}) },
-					});
+					})
 				}
 			}
 		}
 	} catch (error) {
-		submission.error.push(...formatError(error));
+		submission.error.push(...formatError(error))
 	}
 
 	// Sends submission state back to the client.
@@ -92,11 +92,11 @@ export async function action({ request }: ActionArgs) {
 			// Never send password back to the client.
 			email: submission.value.email,
 		},
-	});
+	})
 }
 
 export default function LoginEmailRoute() {
-	const state = useActionData<typeof action>();
+	const state = useActionData<typeof action>()
 	const form = useForm<z.infer<typeof LoginFormSchema>>({
 		// Enables server-side validation mode.
 		mode: 'server-validation',
@@ -109,19 +109,19 @@ export default function LoginEmailRoute() {
 
 		// Validate `formData` based on Zod Schema.
 		onValidate({ formData }) {
-			return validate(formData, LoginFormSchema);
+			return validate(formData, LoginFormSchema)
 		},
 
 		// Submits only if validation has successfully passed.
 		onSubmit(event, { submission }) {
 			if (submission.type === 'validate' && hasError(submission.error)) {
-				event.preventDefault();
+				event.preventDefault()
 			}
 		},
-	});
+	})
 
 	// Returns all the information about the fieldset.
-	const { email, password } = useFieldset(form.ref, form.config);
+	const { email, password } = useFieldset(form.ref, form.config)
 
 	return (
 		<div className="flex w-full max-w-md flex-col">
@@ -196,5 +196,5 @@ export default function LoginEmailRoute() {
 				</Link>
 			</div>
 		</div>
-	);
+	)
 }

@@ -1,7 +1,7 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { Outlet, useLocation } from '@remix-run/react';
-import { authenticator } from '~/services/auth/config.server';
+import type { MetaFunction, LoaderArgs } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Outlet, useLocation } from '@remix-run/react'
+import { authenticator } from '~/services/auth/config.server'
 
 /**
  * Remix - Meta.
@@ -9,8 +9,8 @@ import { authenticator } from '~/services/auth/config.server';
 export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Log In',
-	};
-};
+	}
+}
 
 /**
  * Remix - Loader.
@@ -19,28 +19,28 @@ export async function loader({ request }: LoaderArgs) {
 	// Checks for Auth Session.
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',
-	});
+	})
 
-	return json({});
+	return json({})
 }
 
 export default function LoginRoute() {
-	const location = useLocation();
+	const location = useLocation()
 
 	const subHeaderText = () => {
 		switch (location.pathname) {
 			case '/login':
-				return 'Continue with your preferred authentication method';
+				return 'Continue with your preferred authentication method'
 			case '/login/email':
-				return 'Log In with Email';
+				return 'Log In with Email'
 			case '/login/register':
-				return 'Create a new account';
+				return 'Create a new account'
 			case '/login/request':
-				return 'Forgot your password?';
+				return 'Forgot your password?'
 			case '/login/reset':
-				return 'Reset your password';
+				return 'Reset your password'
 		}
-	};
+	}
 
 	return (
 		<div className="relative bottom-6 flex h-full w-full flex-col items-center justify-center px-8">
@@ -65,5 +65,5 @@ export default function LoginRoute() {
 				you can use it in the way you like.
 			</p>
 		</div>
-	);
+	)
 }
