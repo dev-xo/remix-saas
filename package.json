@@ -64,7 +64,7 @@
 		"remix-auth-socials": "^1.0.2",
 		"remix-auth-twitter": "^0.1.0",
 		"remix-themes": "^1.1.6",
-		"stripe": "^10.6.0",
+		"stripe": "^11.1.0",
 		"zod": "^3.19.1"
 	},
 	"devDependencies": {
