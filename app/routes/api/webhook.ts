@@ -26,7 +26,7 @@ const stripe = new Stripe(STRIPE_SECRET_API_KEY, {
 /**
  * Remix - Action.
  */
-export const action = async ({ request }: ActionArgs) => {
+export async function action({ request }: ActionArgs) {
 	const payload = await request.text()
 	const signature = request.headers.get('stripe-signature')
 

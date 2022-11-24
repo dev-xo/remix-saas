@@ -4,7 +4,7 @@ import { authenticator } from '~/services/auth/config.server'
 /**
  * Remix - Action.
  */
-export const action = async ({ request, params }: ActionArgs) => {
+export async function action({ request, params }: ActionArgs) {
 	return await authenticator.authenticate(params.provider as string, request, {
 		successRedirect: '/account',
 		failureRedirect: '/login',

@@ -37,7 +37,7 @@ export const meta: MetaFunction = () => {
 /**
  * Remix - Action.
  */
-export const action = async ({ request }: ActionArgs) => {
+export async function action({ request }: ActionArgs) {
 	const formData = await request.formData()
 	const submission = parse<z.infer<typeof LoginFormSchema>>(formData)
 

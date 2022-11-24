@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node'
+import type { LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 
 import { redirect, json } from '@remix-run/node'
@@ -15,7 +15,7 @@ type LoaderData = {
 	user: Awaited<AuthSession> | null
 }
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request)
 

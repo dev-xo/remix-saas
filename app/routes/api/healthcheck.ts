@@ -7,7 +7,7 @@ import { db } from '~/utils/db.server'
  * Learn more about Fly.io Healthcheck:
  * https://fly.io/docs/reference/configuration/#services-http_checks
  */
-export const loader = async ({ request }: LoaderArgs) => {
+export async function loader({ request }: LoaderArgs) {
 	const host =
 		request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
 

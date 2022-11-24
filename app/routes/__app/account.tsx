@@ -36,7 +36,7 @@ type LoaderData = {
 	purchasedPlanName: string | number | null
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export async function loader({ request }: LoaderArgs) {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/login',

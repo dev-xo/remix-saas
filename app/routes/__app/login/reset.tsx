@@ -44,7 +44,7 @@ export const meta: MetaFunction = () => {
 /**
  * Remix - Loader.
  */
-export const loader = async ({ request }: LoaderArgs) => {
+export async function loader({ request }: LoaderArgs) {
 	// Gets values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 	const resetPasswordSessionKey = session.get(RESET_PASSWORD_SESSION_KEY)
@@ -64,7 +64,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 /**
  * Remix - Action.
  */
-export const action = async ({ request }: ActionArgs) => {
+export async function action({ request }: ActionArgs) {
 	const formData = await request.formData()
 	const submission = parse<z.infer<typeof ResetFormSchema>>(formData)
 

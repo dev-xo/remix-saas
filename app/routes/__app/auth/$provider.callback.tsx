@@ -4,7 +4,7 @@ import { authenticator } from '~/services/auth/config.server'
 /**
  * Remix - Loader.
  */
-export const loader = async ({ request, params }: LoaderArgs) => {
+export async function loader({ request, params }: LoaderArgs) {
 	return await authenticator.authenticate(params.provider as string, request, {
 		successRedirect: '/account',
 		failureRedirect: '/login',

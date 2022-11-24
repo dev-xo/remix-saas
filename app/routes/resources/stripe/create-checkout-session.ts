@@ -12,7 +12,7 @@ import {
 /**
  * Remix - Action.
  */
-export const action = async ({ request }: ActionArgs) => {
+export async function action({ request }: ActionArgs) {
 	// Checks for Auth Session.
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
