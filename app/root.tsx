@@ -63,7 +63,7 @@ export const meta: MetaFunction = () => {
 /**
  * Remix - Loader.
  */
-export const loader = async ({ request }: LoaderArgs) => {
+export async function loader({ request }: LoaderArgs) {
 	const { getTheme } = await themeSessionResolver(request)
 	return { ssrTheme: getTheme(), ENV: getGlobalEnvs() }
 }

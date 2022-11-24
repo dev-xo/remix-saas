@@ -1,10 +1,10 @@
 /**
  * Utils
  */
-export const safeRedirect = (
+export function safeRedirect(
 	to: FormDataEntryValue | string | null | undefined,
 	defaultRedirect = '/',
-) => {
+) {
 	if (
 		!to ||
 		typeof to !== 'string' ||
@@ -17,7 +17,7 @@ export const safeRedirect = (
 	return to
 }
 
-export const getDomainUrl = (request: Request) => {
+export function getDomainUrl(request: Request) {
 	const host =
 		request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
 	if (!host) throw new Error('Could not determine domain URL.')

@@ -4,12 +4,12 @@ import IsSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 /**
  * Utils
  */
-export const formatUnixDate = (unixDate: number) => {
+export function formatUnixDate(unixDate: number) {
 	if (typeof unixDate === 'number')
 		return dayjs.unix(unixDate).format('DD/MM/YYYY HH:mm')
 }
 
-export const hasDateExpired = (date: number) => {
+export function hasDateExpired(date: number) {
 	// Extends DayJS module.
 	dayjs.extend(IsSameOrAfter)
 

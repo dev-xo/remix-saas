@@ -48,17 +48,6 @@ declare global {
 	}
 }
 
-/**
- * Global Shared Envs.
- */
-export const getGlobalEnvs = () => {
-	return {
-		PLAN_1_PRICE_ID: process.env.PLAN_1_PRICE_ID,
-		PLAN_2_PRICE_ID: process.env.PLAN_2_PRICE_ID,
-		PLAN_3_PRICE_ID: process.env.PLAN_3_PRICE_ID,
-	}
-}
-
 declare global {
 	var ENV: ENV
 
@@ -68,3 +57,14 @@ declare global {
 }
 
 type ENV = ReturnType<typeof getGlobalEnvs>
+
+/**
+ * Global Shared Envs.
+ */
+export function getGlobalEnvs() {
+	return {
+		PLAN_1_PRICE_ID: process.env.PLAN_1_PRICE_ID,
+		PLAN_2_PRICE_ID: process.env.PLAN_2_PRICE_ID,
+		PLAN_3_PRICE_ID: process.env.PLAN_3_PRICE_ID,
+	}
+}
