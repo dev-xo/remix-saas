@@ -25,19 +25,24 @@ const DEFAULT_PROJECT_NAME_MATCHER = /stripe-stack/gim
 /**
  * Helpers.
  */
-const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-const getRandomString = (length) => crypto.randomBytes(length).toString('hex')
+function escapeRegExp(string) {
+	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+function getRandomString(length) {
+	return crypto.randomBytes(length).toString('hex')
+}
 
 /**
  * Returns the version of the package manager used in the workspace.
  */
-const getPackageManagerVersion = (packageManager) =>
-	execSync(`${packageManager} --version`).toString('utf-8').trim()
+function getPackageManagerVersion(packageManager) {
+	return execSync(`${packageManager} --version`).toString('utf-8').trim()
+}
 
 /**
  * Returns commands for the package manager used in workspace.
  */
-const getPackageManagerCommand = (packageManager) => {
+function getPackageManagerCommand(packageManager) {
 	return {
 		npm: () => ({
 			exec: 'npx',
@@ -69,17 +74,18 @@ const getPackageManagerCommand = (packageManager) => {
 /**
  * Filters out unused dependencies.
  */
-const removeUnusedDependencies = (dependencies, unusedDependencies) =>
-	Object.fromEntries(
+function removeUnusedDependencies(dependencies, unusedDependencies) {
+	return Object.fromEntries(
 		Object.entries(dependencies).filter(
 			([key]) => !unusedDependencies.includes(key),
 		),
 	)
+}
 
 /**
  * Cleans up Typescript references from Github workflows.
  */
-const cleanupTypescriptWorkflow = async (rootDirectory) => {
+async function cleanupTypescriptWorkflow(rootDirectory) {
 	const DEPLOY_WORKFLOW_PATH = path.join(
 		rootDirectory,
 		'.github',
@@ -101,7 +107,7 @@ const cleanupTypescriptWorkflow = async (rootDirectory) => {
 /**
  * Updates package.json.
  */
-const updatePackageJson = async (rootDirectory, isTypeScript, APP_NAME) => {
+async function updatePackageJson(rootDirectory, isTypeScript, APP_NAME) {
 	const packageJson = await PackageJson.load(rootDirectory)
 
 	const {
@@ -135,7 +141,7 @@ const updatePackageJson = async (rootDirectory, isTypeScript, APP_NAME) => {
  * Creates a new `.env` file, based on `.env.example`.
  * Also removes `.env.example`.
  */
-const initEnvFile = async (rootDirectory) => {
+async function initEnvFile(rootDirectory) {
 	const NEW_ENV_PATH = path.join(rootDirectory, '.env')
 	const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
 
@@ -151,7 +157,7 @@ const initEnvFile = async (rootDirectory) => {
 /**
  * Replaces default project name for the one provided by `DIR_NAME`.
  */
-const updateProjectNameFromRiles = async (rootDirectory, APP_NAME) => {
+async function updateProjectNameFromRiles(rootDirectory, APP_NAME) {
 	// Paths.
 	const FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
 	const README_PATH = path.join(rootDirectory, 'README.md')
@@ -180,7 +186,7 @@ const updateProjectNameFromRiles = async (rootDirectory, APP_NAME) => {
 /**
  * Updates `Dockerfile` based on the package manager used in workspace.
  */
-const replaceDockerLockFile = async (rootDirectory, pm) => {
+async function replaceDockerLockFile(rootDirectory, pm) {
 	const DOCKERFILE_PATH = path.join(rootDirectory, 'Dockerfile')
 
 	const dockerfile = await fs.readFile(DOCKERFILE_PATH, 'utf-8')
@@ -196,7 +202,7 @@ const replaceDockerLockFile = async (rootDirectory, pm) => {
 /**
  * Prepares environment for a PostgreSQL Deploy at Fly.io.
  */
-const initPostgresDeployEnvironment = async (rootDirectory) => {
+async function initPostgresDeployEnvironment(rootDirectory) {
 	// Prisma Paths.
 	const SQLITE_PRISMA_SCHEMA_PATH = path.join(
 		rootDirectory,
@@ -349,7 +355,7 @@ const initPostgresDeployEnvironment = async (rootDirectory) => {
  * Main function.
  * Runs after the project has been generated.
  */
-const main = async ({ rootDirectory, packageManager, isTypeScript }) => {
+async function main({ rootDirectory, packageManager, isTypeScript }) {
 	const DIR_NAME = path.basename(rootDirectory)
 	const APP_NAME = DIR_NAME.replace(/[^a-zA-Z0-9-_]/g, '-')
 
