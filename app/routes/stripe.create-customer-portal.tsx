@@ -1,10 +1,11 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { LoaderArgs, ActionArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 
-import { redirect } from '@remix-run/node'
+import { redirect, json } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 import { getUserById } from '~/models/user.server'
+import { createStripeCustomerPortalSession } from '~/services/stripe/utils.server'
 
 /**
  * Remix - Loader.
@@ -41,4 +42,29 @@ export async function loader({ request }: LoaderArgs) {
 
 	// Whops!
 	return redirect('/')
+}
+
+/**
+ * Remix - Action.
+ */
+export async function action({ request }: ActionArgs) {
+	// Checks for Auth Session.
+	const user = await authenticator.isAuthenticated(request, {
+		failureRedirect: '/',
+	})
+
+	// On `customerId`, redirects to Stripe Customer Portal.
+	if (user.subscription?.customerId) {
+		const customerId = user.subscription.customerId
+		const stripeRedirectUrl = await createStripeCustomerPortalSession(
+			request,
+			customerId,
+		)
+
+		if (typeof stripeRedirectUrl === 'string')
+			return redirect(stripeRedirectUrl)
+	}
+
+	// Whops!
+	return json({}, { status: 400 })
 }

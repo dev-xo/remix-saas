@@ -1,12 +1,21 @@
-import type { MetaFunction, LoaderArgs } from '@remix-run/node'
+import type { MetaFunction, ActionArgs, LoaderArgs } from '@remix-run/node'
 import type { AuthSession } from '~/services/auth/session.server'
 
 import { redirect, json } from '@remix-run/node'
 import { Link, Form, useLoaderData } from '@remix-run/react'
-import { authenticator } from '~/services/auth/config.server'
-import { getSession, commitSession } from '~/services/auth/session.server'
 
-import { retrieveStripeSubscription } from '~/services/stripe/utils.server'
+import { authenticator } from '~/services/auth/config.server'
+import {
+	getSession,
+	commitSession,
+	destroySession,
+} from '~/services/auth/session.server'
+
+import { getUserById, deleteUser } from '~/models/user.server'
+import {
+	retrieveStripeSubscription,
+	deleteStripeCustomer,
+} from '~/services/stripe/utils.server'
 import { getValueFromStripePlans } from '~/services/stripe/plans'
 import { formatUnixDate, hasDateExpired } from '~/utils/misc'
 
@@ -24,6 +33,56 @@ export const meta: MetaFunction = () => {
 	return {
 		title: 'Stripe Stack - Account',
 	}
+}
+
+/**
+ * Remix - Action.
+ */
+export async function action({ request, params }: ActionArgs) {
+	// Checks for Auth Session.
+	const user = await authenticator.isAuthenticated(request, {
+		failureRedirect: '/login',
+	})
+
+	// Gets values from `formData`.
+	const formData = await request.formData()
+	const { _action } = Object.fromEntries(formData)
+
+	switch (_action) {
+		case 'delete_user': {
+			// Checks for user existence in database.
+			const dbUser = await getUserById({
+				id: user.id,
+				include: {
+					subscription: true,
+				},
+			})
+
+			if (dbUser) {
+				// Deletes current Stripe Customer.
+				if (dbUser.subscription?.customerId) {
+					const customerId = dbUser.subscription.customerId
+					await deleteStripeCustomer(customerId)
+				}
+
+				// Deletes current user from database.
+				const userId = dbUser.id
+				await deleteUser(userId)
+
+				// Redirects destroying current Session.
+				let session = await getSession(request.headers.get('Cookie'))
+
+				return redirect('/', {
+					headers: {
+						'Set-Cookie': await destroySession(session),
+					},
+				})
+			}
+		}
+	}
+
+	// Whops!
+	return json({}, { status: 400 })
 }
 
 /**
@@ -144,8 +203,10 @@ export default function AccountRoute() {
 				<div className="mb-3" />
 
 				{/* Delete User Form Button. */}
-				<Form action="/resources/user/delete-user" method="post">
+				<Form method="post">
 					<button
+						name="_action"
+						value="delete_user"
 						className="flex h-9 flex-row items-center justify-center rounded-xl bg-red-500 
 						px-6 text-base font-bold text-white transition hover:scale-105 active:scale-100">
 						<span>Delete Account</span>

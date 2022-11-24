@@ -132,9 +132,7 @@ export default function AppWithProviders() {
 	const { ssrTheme } = useLoaderData<typeof loader>()
 
 	return (
-		<ThemeProvider
-			specifiedTheme={ssrTheme}
-			themeAction="/resources/theme/update-theme">
+		<ThemeProvider specifiedTheme={ssrTheme} themeAction="/theme/update-theme">
 			<App />
 		</ThemeProvider>
 	)

@@ -48,9 +48,7 @@ export const PlanButton = ({ planId, purchasedPlanId }: ComponentProps) => {
 
 	// As button `value`, we'll provide newly desired `planId`.
 	return (
-		<fetcher.Form
-			action="/resources/stripe/update-subscription-plan"
-			method="post">
+		<fetcher.Form action="/stripe/update-subscription-plan" method="post">
 			<button
 				name="newPlanId"
 				value={planId}

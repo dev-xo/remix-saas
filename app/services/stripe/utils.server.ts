@@ -70,9 +70,7 @@ export async function createStripeCustomerPortalSession(
 	// Creates a Customer Portal Session object.
 	const session = await stripe.billingPortal.sessions.create({
 		customer: customerId,
-		return_url: `${getDomainUrl(
-			request,
-		)}/resources/stripe/create-customer-portal/update-session`,
+		return_url: `${getDomainUrl(request)}/stripe/create-customer-portal`,
 	})
 
 	if (!session?.url)
