@@ -112,7 +112,7 @@ export async function action({ request }: ActionArgs) {
 
 			if (typeof customerId === 'string') {
 				const dbCustomerId = await getSubscriptionByCustomerId(customerId)
-				if (!dbCustomerId?.customerId) return json({}, { status: 200 })
+				if (!dbCustomerId?.customerId) return json({}, { status: 404 })
 
 				await updateSubscription(customerId, {
 					subscriptionId: null,
