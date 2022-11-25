@@ -320,7 +320,7 @@ async function initPostgresDeployEnvironment(rootDirectory) {
 				)
 
 				// Replaces Github workflows.
-				// await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
+				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
 				await fs.rename(
 					POSTGRES_DEPLOY_WORKFLOW_PATH,
 					SQLITE_DEPLOY_WORKFLOW_PATH,
@@ -335,7 +335,6 @@ async function initPostgresDeployEnvironment(rootDirectory) {
 				)
 
 				// Replaces .env.example file.
-				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
 				await fs.rename(POSTGRES_ENV_EXAMPLE_PATH, SQLITE_ENV_EXAMPLE_PATH)
 
 				// Removes `start.sh`.
