@@ -320,7 +320,7 @@ async function initPostgresDeployEnvironment(rootDirectory) {
 				)
 
 				// Replaces Github workflows.
-				await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
+				// await fs.unlink(SQLITE_DEPLOY_WORKFLOW_PATH)
 				await fs.rename(
 					POSTGRES_DEPLOY_WORKFLOW_PATH,
 					SQLITE_DEPLOY_WORKFLOW_PATH,
