@@ -1,10 +1,6 @@
+import type { getGlobalEnvs } from '~/lib/utils'
+
 declare global {
-	var ENV: ENV
-
-	interface Window {
-		ENV: ENV
-	}
-
 	namespace NodeJS {
 		interface ProcessEnv {
 			// Base.
@@ -51,12 +47,12 @@ declare global {
 	}
 }
 
-type ENV = ReturnType<typeof getGlobalEnvs>
+declare global {
+	var ENV: ENV
 
-export function getGlobalEnvs() {
-	return {
-		PLAN_1_PRICE_ID: process.env.PLAN_1_PRICE_ID,
-		PLAN_2_PRICE_ID: process.env.PLAN_2_PRICE_ID,
-		PLAN_3_PRICE_ID: process.env.PLAN_3_PRICE_ID,
+	interface Window {
+		ENV: ENV
 	}
 }
+
+type ENV = ReturnType<typeof getGlobalEnvs>
