@@ -36,8 +36,8 @@ export async function sendResetPasswordEmail({
 	resetPasswordUrl: string | URL
 }) {
 	const sender = {
-		name: 'lnk.',
-		email: 'lnk@localhost.com',
+		name: 'Stripe Stack',
+		email: 'stripe-stack@localhost.com',
 	}
 	const subject = `Stripe Stack - Reset your password.`
 	const htmlContent = `
