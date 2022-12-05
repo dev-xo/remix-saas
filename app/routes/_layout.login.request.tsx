@@ -7,7 +7,7 @@ import { Form, Link, useLoaderData, useActionData } from '@remix-run/react'
 import { getSession, commitSession } from '~/lib/auth/session.server'
 import { getUserByEmail } from '~/lib/models/user'
 import { decrypt, encrypt } from '~/lib/auth/utils.server'
-import { sendResetPasswordEmail } from '~/lib/email/utils'
+import { sendResetPasswordEmail } from '~/lib/email/utils.server'
 import { getDomainUrl } from '~/lib/utils'
 import { AUTH_KEYS, EMAIL_KEYS, MISC_KEYS } from '~/lib/constants'
 
