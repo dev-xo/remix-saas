@@ -175,13 +175,6 @@ We use [Prettier](https://prettier.io/) for auto-formatting. It's recommended to
 
 This template has pre-configured prettier settings on `.package-json`. Feel free to update each value with your preferred work style.
 
-## Contributing
-
-Contributions are Welcome! Jump in and help us improve this Community Template over time!
-
-- [Contributing Guide](https://github.com/dev-xo/dev-xo/blob/main/stripe-stack/docs/CONTRIBUTING.md) Docs.
-- [Public Project Roadmap](https://github.com/users/dev-xo/projects/5) Check template's TODOs, fixes and updates.
-
 ## Support
 
 If you find this template useful, support it with a [Star ⭐](https://github.com/dev-xo/stripe-stack)<br />
