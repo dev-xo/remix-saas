@@ -7,7 +7,7 @@ export interface AuthSession extends User {
 
 export const sessionStorage = createCookieSessionStorage({
 	cookie: {
-		name: '__auth',
+		name: '_session',
 		sameSite: 'lax',
 		path: '/',
 		httpOnly: true,
