@@ -1,4 +1,4 @@
-import type { ActionArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 
 import { json, redirect } from '@remix-run/node'
 import { authenticator } from '~/lib/auth/config.server'
@@ -9,7 +9,7 @@ import {
 	createStripeCustomer,
 } from '~/lib/stripe/utils'
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: DataFunctionArgs) {
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})

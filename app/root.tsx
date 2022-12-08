@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction, LoaderArgs } from '@remix-run/node'
+import type { LinksFunction, MetaFunction, DataFunctionArgs } from '@remix-run/node'
 
 import {
 	Links,
@@ -46,7 +46,7 @@ export const meta: MetaFunction = () => {
 	}
 }
 
-export function loader({ request }: LoaderArgs) {
+export function loader({ request }: DataFunctionArgs) {
 	return { ENV: getGlobalEnvs() }
 }
 

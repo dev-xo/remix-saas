@@ -1,4 +1,4 @@
-import type { LoaderArgs, ActionArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import type { z } from 'zod'
 
 import { json, redirect } from '@remix-run/node'
@@ -15,7 +15,7 @@ import { formatError, validate } from '@conform-to/zod'
 import { conform, parse, useFieldset, useForm, hasError } from '@conform-to/react'
 import { RequestFormSchema } from '~/lib/auth/validations'
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: DataFunctionArgs) {
 	// Gets values from Session.
 	const session = await getSession(request.headers.get('Cookie'))
 
@@ -57,7 +57,7 @@ export async function loader({ request }: LoaderArgs) {
 	)
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: DataFunctionArgs) {
 	const formData = await request.formData()
 	const submission = parse<z.infer<typeof RequestFormSchema>>(formData)
 

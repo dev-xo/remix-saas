@@ -1,4 +1,4 @@
-import type { LoaderArgs, ActionArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import type { AuthSession } from '~/lib/auth/session.server'
 
 import { json, redirect } from '@remix-run/node'
@@ -7,7 +7,7 @@ import { getSession, commitSession } from '~/lib/auth/session.server'
 import { getUserById } from '~/lib/models/user'
 import { createStripeCustomerPortalSession } from '~/lib/stripe/utils'
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: DataFunctionArgs) {
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})
@@ -40,7 +40,7 @@ export async function loader({ request }: LoaderArgs) {
 	return redirect('/')
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: DataFunctionArgs) {
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})

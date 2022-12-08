@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import type { AuthSession } from '~/lib/auth/session.server'
 
 import { json } from '@remix-run/node'
@@ -13,7 +13,7 @@ interface LoaderData {
 	user: AuthSession | null
 }
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: DataFunctionArgs) {
 	const user = await authenticator.isAuthenticated(request)
 	return json<LoaderData>({ user })
 }

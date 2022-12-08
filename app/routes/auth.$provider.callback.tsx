@@ -1,7 +1,7 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import { authenticator } from '~/lib/auth/config.server'
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: DataFunctionArgs) {
 	return await authenticator.authenticate(params.provider as string, request, {
 		successRedirect: '/account',
 		failureRedirect: '/login',

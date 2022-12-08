@@ -1,4 +1,4 @@
-import type { ActionArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import type { AuthSession } from '~/lib/auth/session.server'
 
 import { json, redirect } from '@remix-run/node'
@@ -10,7 +10,7 @@ import {
 	updateStripeSubscription,
 } from '~/lib/stripe/utils'
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: DataFunctionArgs) {
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: '/',
 	})

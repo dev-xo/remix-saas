@@ -1,9 +1,9 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Outlet, useLocation } from '@remix-run/react'
 import { authenticator } from '~/lib/auth/config.server'
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: DataFunctionArgs) {
 	await authenticator.isAuthenticated(request, {
 		successRedirect: '/account',
 	})

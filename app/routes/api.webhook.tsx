@@ -1,4 +1,4 @@
-import type { ActionArgs } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import type Stripe from 'stripe'
 
 import { json } from '@remix-run/node'
@@ -9,7 +9,7 @@ import {
 	updateSubscription,
 } from '~/lib/models/subscription'
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: DataFunctionArgs) {
 	let event = undefined
 
 	const payload = await request.text()
