@@ -217,7 +217,7 @@ authenticator.use(
 authenticator.use(
 	new FormStrategy(async ({ form, context }) => {
 		// Force casting type to UserSession.
-		// This is because user has no values yet.
+		// This is required by the `Authenticator` type in this case.
 		let user = {} as UserSession
 
 		const email = form.get('email')
@@ -228,6 +228,9 @@ authenticator.use(
 		}
 
 		switch (context && context.action) {
+			/**
+			 * Login context.
+			 */
 			case AUTH_KEYS.IS_LOGIN_CONTEXT: {
 				// Checks for user existence in database.
 				const dbUser = await getUserByEmail({
@@ -250,6 +253,9 @@ authenticator.use(
 				return (user = dbUser)
 			}
 
+			/**
+			 * Register context.
+			 */
 			case AUTH_KEYS.IS_REGISTER_CONTEXT: {
 				const name = form.get('name')
 				if (typeof name !== 'string') throw new Error('Invalid name.')
