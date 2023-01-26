@@ -49,7 +49,7 @@
 	],
 	"dependencies": {
 		"@conform-to/react": "^0.4.0",
-		"@conform-to/zod": "^0.4.0",
+		"@conform-to/zod": "^0.5.1",
 		"@prisma/client": "^4.8.0",
 		"@remix-run/node": "*",
 		"@remix-run/react": "*",
