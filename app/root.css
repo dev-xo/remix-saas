@@ -1,0 +1,122 @@
+/*
+* This file will initialize TailwindCSS.
+* Docs: https://tailwindcss.com/docs/guides/remix
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+* Custom Body.
+*/
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #e5e7eb;
+  background-color: #0d1117;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+/*
+* Custom Scrollbar.
+*/
+:root {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+/*
+* Custom Selection Background.
+*/
+::-moz-selection {
+  color: #fff;
+  background: #7b61ff;
+}
+
+::selection {
+  color: #fff;
+  background: #7b61ff;
+}
+
+/*
+* Custom Background.
+*/
+.blobs {
+  z-index: -1;
+  max-width: 640px;
+  background-image: radial-gradient(at 27% 37%, #000 0, transparent 0),
+    radial-gradient(at 97% 21%, #8b5cf6 0, transparent 50%),
+    radial-gradient(at 52% 99%, #6f16ff 0, transparent 50%),
+    radial-gradient(at 10% 29%, #8b5cf6 0, transparent 50%),
+    radial-gradient(at 97% 96%, #000 0, transparent 50%),
+    radial-gradient(at 33% 50%, #000 0, transparent 50%),
+    radial-gradient(at 79% 53%, #000 0, transparent 50%);
+  position: absolute;
+  content: '';
+  width: 50%;
+  height: 50%;
+  filter: blur(100px) saturate(150%);
+  top: 25%;
+  opacity: 0.4;
+}
+
+/*
+* Animations.
+*/
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.2, 1.2, 1.2);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.float {
+  animation-name: float;
+  animation-duration: 6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
