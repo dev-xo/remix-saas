@@ -1,0 +1,7 @@
+# Required file for `remix.init`.
+# We do not want to push our packages into github repository.
+node_modules
+
+/build
+/public/build
+.env

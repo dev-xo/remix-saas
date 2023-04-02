@@ -1,0 +1,62 @@
+{
+  "name": "stripe-stack-dev",
+  "author": "https://github.com/dev-xo",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev",
+    "start": "remix-serve build",
+    "format": "prettier --write .",
+    "typecheck": "tsc -b",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "test:e2e:dev": "playwright test",
+    "test:e2e:run": "cross-env CI=true playwright test",
+    "test:e2e:install": "npx playwright install chromium --with-deps",
+    "pretest:e2e:run": "npm run build",
+    "validate": "npm run lint && npm run typecheck && npm run test:e2e:run",
+    "seed:build": "tsc --project ./tsconfig.seed.json && tsc-alias -p ./tsconfig.seed.json"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.12.0",
+    "@remix-run/node": "^1.15.0",
+    "@remix-run/react": "^1.15.0",
+    "@remix-run/serve": "^1.15.0",
+    "dayjs": "^1.11.7",
+    "isbot": "^3.6.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remix-auth": "^3.4.0",
+    "remix-auth-otp": "^2.2.1",
+    "remix-auth-socials": "^2.0.5",
+    "remix-utils": "^6.0.0",
+    "stripe": "^11.17.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.32.1",
+    "@remix-run/dev": "^1.15.0",
+    "@remix-run/eslint-config": "^1.15.0",
+    "@types/eslint": "^8.37.0",
+    "@types/react": "^18.0.31",
+    "@types/react-dom": "^18.0.11",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.7",
+    "prettier-plugin-tailwindcss": "^0.2.6",
+    "prisma": "^4.12.0",
+    "remix-flat-routes": "^0.5.8",
+    "stripe-event-types": "^2.3.0",
+    "tailwindcss": "^3.3.1",
+    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.5",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^4.9.5"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "prisma": {
+    "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
+  }
+}
