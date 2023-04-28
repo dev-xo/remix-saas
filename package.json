@@ -30,7 +30,7 @@
     "remix-auth-otp": "^2.2.1",
     "remix-auth-socials": "^2.0.5",
     "remix-utils": "^6.0.0",
-    "stripe": "^11.17.0"
+    "stripe": "^12.3.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.32.1",
