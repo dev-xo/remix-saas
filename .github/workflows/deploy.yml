@@ -179,7 +179,7 @@ jobs:
 
       - name: Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: superfly/flyctl-actions@1.3
+        uses: superfly/flyctl-actions@1.4
         with:
           args: 'deploy --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}'
         env:
