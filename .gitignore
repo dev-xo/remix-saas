@@ -1,0 +1,28 @@
+# Package Managers.
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+pnpm-lock.yml
+node_modules
+
+# Editor Configs.
+.idea
+.vscode
+.DS_Store
+
+# Miscelaneous.
+/.cache
+/build
+/public/build
+.env
+
+# Tests.
+/coverage
+
+# Prisma.
+/prisma/data.db
+/prisma/data.db-journal
+/prisma/migrations
+
+# Docker PostgreSQL.
+postgres-data

@@ -1,0 +1,102 @@
+// Prisma Schema.
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Disclaimer: This is a Stripe demo schema.
+// It can be used in production, but you will have to adapt it to your own needs.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ...
+// Authentication Related Models.
+// ...
+
+model Otp {
+  id       String  @id @default(cuid())
+  code     String  @unique
+  active   Boolean @default(false)
+  attempts Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id           String        @unique @default(cuid())
+  email        String        @unique
+  name         String?
+  customerId   String?       @unique
+  subscription Subscription?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+// ...
+// Subscription Related Models.
+// ...
+
+// Plans are used to describe and group our Stripe Products.
+model Plan {
+  id            String         @id @unique
+  name          String
+  description   String?
+  active        Boolean?       @default(true)
+  limits        PlanLimit?
+  prices        Price[]
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Plan limits are used to describe the limits available to a plan.
+model PlanLimit {
+  id     String @id @default(cuid())
+  plan   Plan   @relation(fields: [planId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  planId String @unique
+
+  // Here you can define your own limits.
+  // For example, you could have a limit on the number of items a user can create.
+  maxItems Int @default(0)
+}
+
+// Prices are used to identify our plan prices.
+model Price {
+  id            String         @id @unique // Managed by Stripe - (Price ID)
+  plan          Plan           @relation(fields: [planId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  planId        String
+  amount        Int
+  currency      String
+  interval      String
+  active        Boolean        @default(true)
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Subscriptions are used to identify our customers subscriptions.
+model Subscription {
+  id                 String  @id @unique // Managed by Stripe - (Subscription ID)
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId             String  @unique
+  plan               Plan    @relation(fields: [planId], references: [id])
+  planId             String
+  price              Price   @relation(fields: [priceId], references: [id])
+  priceId            String
+  interval           String
+  status             String
+  currentPeriodStart Int
+  currentPeriodEnd   Int
+  cancelAtPeriodEnd  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
