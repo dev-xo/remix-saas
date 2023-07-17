@@ -44,7 +44,7 @@
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.2.8",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^4.16.2",
     "remix-flat-routes": "^0.5.10",
     "stripe-event-types": "^2.4.0",
