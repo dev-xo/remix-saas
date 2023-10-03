@@ -84,7 +84,8 @@ export async function action({ request }: DataFunctionArgs) {
         if (!user) throw new Error('User not found.')
 
         // Cancel free subscription if user has a paid one.
-        const subscriptionsList = await stripe.subscriptions.list({ limit: 3 })
+        // TODO: This will be removed / updated in the next big release.
+        /* const subscriptionsList = await stripe.subscriptions.list({ limit: 3 })
         const freeSubscription = subscriptionsList.data
           .map((subscription) => {
             return subscription.items.data.find(
@@ -95,7 +96,7 @@ export async function action({ request }: DataFunctionArgs) {
 
         if (freeSubscription[0]) {
           await stripe.subscriptions.del(freeSubscription[0].subscription)
-        }
+        } */
 
         // Update database subscription.
         await updateSubscriptionByUserId(user.id, {
