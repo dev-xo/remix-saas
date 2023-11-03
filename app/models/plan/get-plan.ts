@@ -1,5 +1,5 @@
 import type { Prisma, Plan } from '@prisma/client'
-import { db } from '~/utils/db'
+import { db } from '~/utils/db.server'
 
 export async function getPlanById(id: Plan['id'], include?: Prisma.PlanInclude) {
   return db.plan.findUnique({

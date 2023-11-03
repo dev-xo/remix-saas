@@ -8,7 +8,7 @@ import { sessionStorage } from '~/services/auth/session.server'
 import { getUserByEmail } from '~/models/user/get-user'
 import { createUser } from '~/models/user/create-user'
 
-import { db } from '~/utils/db'
+import { db } from '~/utils/db.server'
 import { HOST_URL } from '~/utils/http'
 import { sendEmail } from '~/services/email/config.server'
 
