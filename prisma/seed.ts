@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { db } from '~/utils/db'
+import { db } from '~/utils/db.server'
 
 import { getAllPlans } from '~/models/plan/get-plan'
 import { PRICING_PLANS } from '~/services/stripe/plans'

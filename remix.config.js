@@ -11,11 +11,11 @@ module.exports = {
 
   // Future Features.
   future: {
+    v2_dev: true,
     v2_meta: false,
     v2_errorBoundary: true,
     v2_routeConvention: true,
     v2_normalizeFormMethod: true,
-    unstable_dev: true,
   },
 
   // Flat Routes.

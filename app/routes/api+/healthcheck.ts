@@ -1,5 +1,5 @@
 import type { DataFunctionArgs } from '@remix-run/node'
-import { db } from '~/utils/db'
+import { db } from '~/utils/db.server'
 
 /**
  * Learn more about Fly.io Health Check:
