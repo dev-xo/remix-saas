@@ -1,7 +1,7 @@
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 
-export async function action({ request, params }: DataFunctionArgs) {
+export async function action({ params, request }: ActionFunctionArgs) {
   if (typeof params.provider !== 'string') throw new Error('Invalid provider.')
 
   return await authenticator.authenticate(params.provider, request, {

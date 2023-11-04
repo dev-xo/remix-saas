@@ -1,5 +1,4 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 
@@ -12,7 +11,7 @@ import { PlanId } from '~/services/stripe/plans'
 import { createStripeSubscription } from '~/services/stripe/api/create-subscription'
 import { getDefaultCurrency } from '~/utils/locales'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
   })

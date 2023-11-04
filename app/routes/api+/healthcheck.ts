@@ -1,11 +1,11 @@
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { db } from '~/utils/db.server'
 
 /**
  * Learn more about Fly.io Health Check:
  * https://fly.io/docs/reference/configuration/#services-http_checks
  */
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const host = request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
 
   try {

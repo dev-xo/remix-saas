@@ -1,4 +1,4 @@
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import type { User } from '@prisma/client'
 
 import { redirect, json } from '@remix-run/node'
@@ -12,7 +12,7 @@ type LoaderData = {
   user: User | null
 }
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request)
 
   // Force redirect to /account on authenticated user.

@@ -1,4 +1,4 @@
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import type { User, Subscription } from '@prisma/client'
 
 import { json, redirect } from '@remix-run/node'
@@ -17,7 +17,7 @@ type LoaderData = {
   subscription: Omit<Subscription, 'createdAt' | 'updatedAt'>
 }
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
   })

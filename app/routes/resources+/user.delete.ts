@@ -1,5 +1,4 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, destroySession } from '~/services/auth/session.server'
@@ -8,12 +7,12 @@ import { getUserById } from '~/models/user/get-user'
 import { deleteUserById } from '~/models/user/delete-user'
 import { deleteStripeCustomer } from '~/services/stripe/api/delete-customer'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   await authenticator.isAuthenticated(request, { failureRedirect: '/login' })
   return redirect('/account')
 }
 
-export async function action({ request }: DataFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const userSession = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
   })

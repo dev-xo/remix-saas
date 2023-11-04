@@ -1,7 +1,7 @@
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { authenticator } from '~/services/auth/config.server'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   await authenticator.authenticate('OTP', request, {
     successRedirect: '/account',
     failureRedirect: '/login',
