@@ -11,7 +11,7 @@ module.exports = {
 
   // Future Features.
   future: {
-    v2_meta: false,
+    v2_meta: true,
     v2_errorBoundary: true,
     v2_routeConvention: true,
     v2_normalizeFormMethod: true,
