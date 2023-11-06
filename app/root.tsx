@@ -1,5 +1,4 @@
 import type { LinksFunction } from '@remix-run/node'
-import type { LinksFunction, DataFunctionArgs } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -18,7 +17,6 @@ export const links: LinksFunction = () => {
 }
 
 export function loader() {
-export function loader({ request }: DataFunctionArgs) {
   return { ENV: getSharedEnvs() }
 }
 

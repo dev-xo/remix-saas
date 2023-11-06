@@ -25,11 +25,6 @@
     "autoprefixer": "^10.4.16",
     "dayjs": "^1.11.10",
     "intl-parse-accept-language": "^1.0.0",
-    "@remix-run/node": "^1.19.3",
-    "@remix-run/react": "^1.19.3",
-    "@remix-run/serve": "^1.19.3",
-    "autoprefixer": "^10.4.16",
-    "dayjs": "^1.11.10",
     "isbot": "^3.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -43,8 +38,6 @@
     "@playwright/test": "^1.39.0",
     "@remix-run/dev": "^2.2.0",
     "@remix-run/eslint-config": "^2.2.0",
-    "@remix-run/dev": "^1.19.3",
-    "@remix-run/eslint-config": "^1.19.3",
     "@types/eslint": "^8.44.6",
     "@types/react": "^18.2.34",
     "@types/react-dom": "^18.2.14",
@@ -64,7 +57,6 @@
   },
   "engines": {
     "node": ">=18.0.0"
-    "node": ">=16.0.0"
   },
   "prisma": {
     "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
