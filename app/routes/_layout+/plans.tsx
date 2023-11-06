@@ -1,8 +1,7 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-
-import { useState } from 'react'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
+import { useState } from 'react'
 
 import { authenticator } from '~/services/auth/config.server'
 import { getSubscriptionByUserId } from '~/models/subscription/get-subscription'
@@ -11,7 +10,7 @@ import { getDefaultCurrency } from '~/utils/locales'
 import { PlanId, Interval, Currency, PRICING_PLANS } from '~/services/stripe/plans'
 import { CheckoutButton } from '~/components/stripe/checkout-button'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request)
   const subscription = session?.id ? await getSubscriptionByUserId(session.id) : null
 

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "start": "remix-serve build",
+    "start": "remix-serve ./build/index.js",
     "format": "prettier --write .",
     "typecheck": "tsc",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
@@ -19,6 +19,12 @@
   },
   "dependencies": {
     "@prisma/client": "^4.16.2",
+    "@remix-run/node": "^2.2.0",
+    "@remix-run/react": "^2.2.0",
+    "@remix-run/serve": "^2.2.0",
+    "autoprefixer": "^10.4.16",
+    "dayjs": "^1.11.10",
+    "intl-parse-accept-language": "^1.0.0",
     "@remix-run/node": "^1.19.3",
     "@remix-run/react": "^1.19.3",
     "@remix-run/serve": "^1.19.3",
@@ -30,11 +36,13 @@
     "remix-auth": "^3.6.0",
     "remix-auth-otp": "^2.3.0",
     "remix-auth-socials": "^2.0.5",
-    "remix-utils": "^6.6.0",
+    "remix-utils": "^7.1.0",
     "stripe": "^11.18.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.39.0",
+    "@remix-run/dev": "^2.2.0",
+    "@remix-run/eslint-config": "^2.2.0",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
     "@types/eslint": "^8.44.6",
@@ -52,9 +60,10 @@
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.2.2"
   },
   "engines": {
+    "node": ">=18.0.0"
     "node": ">=16.0.0"
   },
   "prisma": {

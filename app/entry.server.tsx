@@ -1,7 +1,12 @@
-import type { EntryContext } from '@remix-run/node'
+/**
+ * By default, Remix will handle generating the HTTP Response for you.
+ * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
+ * For more information, see https://remix.run/docs/en/main/file-conventions/entry.server
+ */
 
-import { PassThrough } from 'stream'
-import { Response } from '@remix-run/node'
+import { PassThrough } from 'node:stream'
+import type { EntryContext } from '@remix-run/node'
+import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from '@remix-run/react'
 import { renderToPipeableStream } from 'react-dom/server'
 import { getSharedEnvs } from './utils/envs'
@@ -35,7 +40,7 @@ function handleBotRequest(
   return new Promise((resolve, reject) => {
     let didError = false
 
-    const { pipe, abort } = renderToPipeableStream(
+    const { abort, pipe } = renderToPipeableStream(
       <RemixServer context={remixContext} url={request.url} />,
       {
         onAllReady() {
@@ -44,7 +49,7 @@ function handleBotRequest(
           responseHeaders.set('Content-Type', 'text/html')
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),
@@ -76,7 +81,7 @@ function handleBrowserRequest(
   return new Promise((resolve, reject) => {
     let didError = false
 
-    const { pipe, abort } = renderToPipeableStream(
+    const { abort, pipe } = renderToPipeableStream(
       <RemixServer context={remixContext} url={request.url} />,
       {
         onShellReady() {
@@ -85,7 +90,7 @@ function handleBrowserRequest(
           responseHeaders.set('Content-Type', 'text/html')
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),

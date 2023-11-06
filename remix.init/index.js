@@ -2,17 +2,16 @@
  * Remix Init.
  * @author https://github.com/dev-xo
  */
-const { execSync } = require('child_process')
-const fs = require('fs/promises')
-const path = require('path')
-const rimraf = require('rimraf')
-const inquirer = require('inquirer')
-const crypto = require('crypto')
+const { execSync } = require('node:child_process')
+const crypto = require('node:crypto')
+const fs = require('node:fs/promises')
+const path = require('node:path')
 
 const toml = require('@iarna/toml')
-const YAML = require('yaml')
-const semver = require('semver')
 const PackageJson = require('@npmcli/package-json')
+const inquirer = require('inquirer')
+const rimraf = require('rimraf')
+const semver = require('semver')
 
 /**
  * Constants.
@@ -72,62 +71,13 @@ function getPackageManagerCommand(packageManager) {
 }
 
 /**
- * Filters out unused dependencies.
- */
-function removeUnusedDependencies(dependencies, unusedDependencies) {
-  return Object.fromEntries(
-    Object.entries(dependencies).filter(([key]) => !unusedDependencies.includes(key)),
-  )
-}
-
-/**
- * Cleans up Typescript references from GitHub workflows.
- */
-async function cleanupTypescriptWorkflow(rootDirectory) {
-  const DEPLOY_WORKFLOW_PATH = path.join(
-    rootDirectory,
-    '.github',
-    'workflows',
-    'deploy.yml',
-  )
-
-  const deployWorkflow = await fs.readFile(DEPLOY_WORKFLOW_PATH, 'utf-8')
-  const parsedWorkflow = YAML.parse(deployWorkflow)
-
-  delete parsedWorkflow.jobs.typecheck
-  parsedWorkflow.jobs.deploy.needs = parsedWorkflow.jobs.deploy.needs.filter(
-    (need) => need !== 'typecheck',
-  )
-
-  await fs.writeFile(DEPLOY_WORKFLOW_PATH, YAML.stringify(parsedWorkflow))
-}
-
-/**
  * Updates package.json.
  */
-async function updatePackageJson(rootDirectory, isTypeScript, APP_NAME) {
+async function updatePackageJson(rootDirectory, APP_NAME) {
   const packageJson = await PackageJson.load(rootDirectory)
-
-  const {
-    devDependencies,
-    prisma: { seed: prismaSeed, ...prisma },
-    scripts: { typecheck, validate, ...scripts },
-  } = packageJson.content
 
   packageJson.update({
     name: APP_NAME,
-    devDependencies: isTypeScript
-      ? devDependencies
-      : removeUnusedDependencies(devDependencies, ['ts-node']),
-    prisma: isTypeScript
-      ? { seed: prismaSeed, ...prisma }
-      : {
-          seed: prismaSeed.replace('ts-node', 'node').replace('seed.ts', 'seed.js'),
-          ...prisma,
-        },
-    scripts: isTypeScript
-      ? { ...scripts, typecheck, validate }
-      : { ...scripts, validate: validate.replace(' typecheck', '') },
   })
 
   await packageJson.save()
@@ -311,22 +261,19 @@ async function initDeployEnvironment(rootDirectory) {
  * Main function.
  * Runs after the project has been generated.
  */
-async function main({ rootDirectory, packageManager, isTypeScript }) {
+async function main({ rootDirectory, packageManager }) {
   const DIR_NAME = path.basename(rootDirectory)
   const APP_NAME = DIR_NAME.replace(/[^a-zA-Z0-9-_]/g, '-')
 
   // Returns commands for the package manager used in workspace.
   const pm = getPackageManagerCommand(packageManager)
 
-  // Cleans up all Typescript references from the project.
-  if (!isTypeScript) await Promise.all([cleanupTypescriptWorkflow(rootDirectory)])
-
   // Prepares environment for deployment at Fly.io.
   await initDeployEnvironment(rootDirectory)
 
   await Promise.all([
     // Updates package.json.
-    updatePackageJson(rootDirectory, isTypeScript, APP_NAME),
+    updatePackageJson(rootDirectory, APP_NAME),
 
     // Creates a new `.env` file, based on `.env.example`.
     initEnvFile(rootDirectory),

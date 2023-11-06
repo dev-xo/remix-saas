@@ -1,12 +1,11 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 
 import { authenticator } from '~/services/auth/config.server'
 import { getSession, commitSession } from '~/services/auth/session.server'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const userSession = await authenticator.isAuthenticated(request, {
     successRedirect: '/account',
   })
@@ -28,7 +27,7 @@ export async function loader({ request }: DataFunctionArgs) {
   )
 }
 
-export async function action({ request }: DataFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   await authenticator.authenticate('OTP', request, {
     successRedirect: '/login/email',
     failureRedirect: '/login/email',

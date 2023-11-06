@@ -1,13 +1,10 @@
-/**
- * @type {import('@remix-run/dev').AppConfig}
- */
 const { flatRoutes } = require('remix-flat-routes')
 
+/** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  postcss: true,
-  tailwind: true,
-  serverModuleFormat: 'cjs',
   ignoredRouteFiles: ['**/.*'],
+  serverDependenciesToBundle: [/^remix-utils.*/],
+  serverModuleFormat: 'cjs',
 
   // Future Features.
   future: {
@@ -18,9 +15,6 @@ module.exports = {
     v2_routeConvention: true,
     v2_normalizeFormMethod: true,
   },
-
-  // Flat Routes.
-  routes: async (defineRoutes) => {
-    return flatRoutes('routes', defineRoutes)
-  },
+  
+  routes: async (defineRoutes) => flatRoutes('routes', defineRoutes),
 }

@@ -2,14 +2,13 @@
 // More info: https://bit.ly/3KlNXLs
 /// <reference types="stripe-event-types" />
 
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import type { Stripe } from 'stripe'
 
-import { json } from '@remix-run/node'
 import { stripe } from '~/services/stripe/config.server'
 import { PlanId } from '~/services/stripe/plans'
 import { retrieveStripeSubscription } from '~/services/stripe/api/retrieve-subscription'
-
 import { getUserByCustomerId } from '~/models/user/get-user'
 import { getSubscriptionById } from '~/models/subscription/get-subscription'
 import { updateSubscriptionByUserId } from '~/models/subscription/update-subscription'
@@ -43,7 +42,7 @@ async function getStripeEvent(request: Request) {
   }
 }
 
-export async function action({ request }: DataFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const event = await getStripeEvent(request)
 
   try {

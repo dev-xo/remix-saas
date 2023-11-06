@@ -1,3 +1,4 @@
+import type { LinksFunction } from '@remix-run/node'
 import type { LinksFunction, DataFunctionArgs } from '@remix-run/node'
 import {
   Links,
@@ -16,6 +17,7 @@ export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: TailwindCSS }]
 }
 
+export function loader() {
 export function loader({ request }: DataFunctionArgs) {
   return { ENV: getSharedEnvs() }
 }

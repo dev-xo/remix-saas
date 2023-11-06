@@ -1,5 +1,4 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { json, redirect } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 
@@ -7,7 +6,7 @@ import { authenticator } from '~/services/auth/config.server'
 import { getUserById } from '~/models/user/get-user'
 import { updateUserById } from '~/models/user/update-user'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
   })
@@ -19,7 +18,7 @@ export async function loader({ request }: DataFunctionArgs) {
   return json({})
 }
 
-export async function action({ request }: DataFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const session = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
   })

@@ -1,15 +1,14 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-
-import { useState } from 'react'
-import { Link, useLoaderData, useSubmit } from '@remix-run/react'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { redirect, json } from '@remix-run/node'
-import { authenticator } from '~/services/auth/config.server'
+import { Link, useLoaderData, useSubmit } from '@remix-run/react'
+import { useState } from 'react'
 
-import { PlanId } from '~/services/stripe/plans'
 import { getSubscriptionByUserId } from '~/models/subscription/get-subscription'
+import { authenticator } from '~/services/auth/config.server'
+import { PlanId } from '~/services/stripe/plans'
 import { useInterval } from '~/utils/hooks'
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
   })
