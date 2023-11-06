@@ -1,16 +1,14 @@
 {
-	"name": "remix-init",
-	"author": "https://github.com/dev-xo",
-	"private": true,
-	"main": "index.js",
-	"license": "MIT",
-	"dependencies": {
-		"rimraf": "^3.0.2",
-		"@iarna/toml": "^2.2.5",
-		"semver": "^7.5.4",
-		"@npmcli/package-json": "^5.0.0"
-		"yaml": "^2.3.4",
-		"semver": "^7.5.4",
-		"@npmcli/package-json": "^2.0.0"
-	}
+  "name": "remix-init",
+  "author": "https://github.com/dev-xo",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "rimraf": "^3.0.2",
+    "@iarna/toml": "^2.2.5",
+    "semver": "^7.5.4",
+    "inquirer": "^9.2.11",
+    "@npmcli/package-json": "^5.0.0"
+  }
 }
