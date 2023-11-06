@@ -8,7 +8,7 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "format": "prettier --write .",
-    "typecheck": "tsc -b",
+    "typecheck": "tsc",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "test:e2e:dev": "playwright test",
     "test:e2e:run": "cross-env CI=true playwright test",
