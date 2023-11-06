@@ -1,10 +1,15 @@
 name: 🚀 Deploy
+
 on:
   push:
     branches:
       - main
       - dev
-  pull_request: {}
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   actions: write
@@ -15,46 +20,40 @@ jobs:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout Repository
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          cache: npm
+          cache-dependency-path: ./package.json
+          node-version: 18
 
-      - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+      - name: 📥 Install deps
+        run: npm install
 
-      - name: Run Lint
+      - name: 🔬 Lint
         run: npm run lint
 
   typecheck:
     name: ʦ TypeScript
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout Repository
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          cache: npm
+          cache-dependency-path: ./package.json
+          node-version: 18
 
-      - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+      - name: 📥 Install deps
+        run: npm install
 
-      - name: Run Typechecking
+      - name: 🔎 Type check
         run: npm run typecheck --if-present
 
   playwright:
@@ -62,32 +61,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout Repository
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: Copy Environment Variables
-        run: cp .env.example .env
-
-      - name: Setup Node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          cache: npm
+          cache-dependency-path: ./package.json
+          node-version: 18
 
-      - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+      - name: 📥 Install deps
+        run: npm install
+
+      - name: 🏄 Copy test env vars
+        run: cp .env.example .env
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Setup Database
+      - name: 🛠 Setup Database
         run: npx prisma migrate reset --force --skip-seed
 
-      - name: Build
+      - name: ⚙️ Build
         run: npm run build
 
       - name: Run Playwright Tests
@@ -101,86 +97,29 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-  build:
-    name: 🐳 Build
-    # Only build / deploy main branch on pushes.
-    if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Read App Name
-        uses: SebRollen/toml-action@v1.0.2
-        id: app_name
-        with:
-          file: 'fly.toml'
-          field: 'app'
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: v0.9.1
-
-      - name: Cache Docker Layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: Fly Registry Auth
-        uses: docker/login-action@v2
-        with:
-          registry: registry.fly.io
-          username: x
-          password: ${{ secrets.FLY_API_TOKEN }}
-
-      - name: Docker build
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
-          build-args: |
-            COMMIT_SHA=${{ github.sha }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
-
-      - name: Move Cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
   deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, playwright, build]
-    # Only build / deploy main branch on pushes.
+    needs: [lint, typecheck, playwright]
+    # Only build / deploy main/dev branch on pushes.
     if: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') && github.event_name == 'push' }}
 
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout Repository
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: Read App Name
+      - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
         with:
-          file: 'fly.toml'
-          field: 'app'
+          file: fly.toml
+          field: app
 
-      - name: Deploy Production
+      - name: 🎈 Setup Fly
+        uses: superfly/flyctl-actions/setup-flyctl@v1.4
+
+      - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: superfly/flyctl-actions@1.3
-        with:
-          args: 'deploy --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}'
+        run: flyctl deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }} --app ${{ steps.app_name.outputs.value }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
