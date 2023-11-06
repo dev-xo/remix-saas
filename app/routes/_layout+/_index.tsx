@@ -1,7 +1,7 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/node";
 import { Link } from '@remix-run/react'
 
-export const meta: MetaFunction = () => [
+export const meta: V2_MetaFunction = () => [
   { title: 'Stripe Stack - Remix' },
   { description: `A Stripe focused Remix Stack that integrates User Subscriptions, Authentication and Testing. Driven by Prisma ORM. Deploys to Fly.io` },
   { keywords: 'remix, stripe, remix-stack, typescript, sqlite, postgresql, prisma, tailwindcss, fly.io' },

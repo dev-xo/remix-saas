@@ -9,5 +9,8 @@
 		"@iarna/toml": "^2.2.5",
 		"semver": "^7.5.4",
 		"@npmcli/package-json": "^5.0.0"
+		"yaml": "^2.3.4",
+		"semver": "^7.5.4",
+		"@npmcli/package-json": "^2.0.0"
 	}
 }
