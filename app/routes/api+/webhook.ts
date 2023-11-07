@@ -83,7 +83,9 @@ export async function action({ request }: ActionFunctionArgs) {
         if (!user) throw new Error('User not found.')
 
         // Cancel free subscription if user has a paid one.
-        const subscriptionsList = await stripe.subscriptions.list({ customer: customerId })
+        const subscriptionsList = await stripe.subscriptions.list({
+          customer: customerId,
+        })
         const freeSubscriptions = subscriptionsList.data
           .map((subscription) => {
             return subscription.items.data.find(
