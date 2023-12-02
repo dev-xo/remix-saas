@@ -54,7 +54,7 @@ Here's a simple workflow you can follow to test the template:
 2. Log in with your preferred authentication method.
 3. Select a Subscription Plan and fill the Stripe Checkout inputs with its test values. _Check Notes._
 
-> **Note**
+> [!NOTE]
 > Stripe test mode uses the following number: `4242` as valid values for Card Information.
 > Type it as much times as you can on each available input to successfully complete the checkout step.
 
@@ -80,7 +80,7 @@ npx create-remix@latest --template dev-xo/stripe-stack
 # Done! 💿 Please, keep reading the documentation to Get Started.
 ```
 
-> **Note**
+> [!NOTE]
 > Cloning the repository instead of initializing it with the above commands, will result in a inappropriate experience. Stripe Stack uses `remix.init` to configure itself and prepare your environment.
 
 ## Environment
@@ -109,7 +109,7 @@ stripe listen --forward-to localhost:3000/api/webhook
 
 This should give you a Webhook Secret Key. Copy and paste it into your `.env` file as `DEV_STRIPE_WEBHOOK_ENDPOINT`.
 
-> **Note**
+> [!IMPORTANT]
 > This command should be running in your console while developing.
 
 ## Database
