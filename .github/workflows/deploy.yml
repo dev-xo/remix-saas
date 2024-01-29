@@ -109,7 +109,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 👀 Read app name
-        uses: SebRollen/toml-action@v1.0.2
+        uses: SebRollen/toml-action@v1.2.0
         id: app_name
         with:
           file: fly.toml
