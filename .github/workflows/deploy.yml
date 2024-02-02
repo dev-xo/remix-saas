@@ -116,7 +116,7 @@ jobs:
           field: app
 
       - name: 🎈 Setup Fly
-        uses: superfly/flyctl-actions/setup-flyctl@v1.4
+        uses: superfly/flyctl-actions/setup-flyctl@1.5
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
