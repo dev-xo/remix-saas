@@ -65,9 +65,6 @@ Here's a simple workflow you can follow to test the template:
 
 Before starting our development or even deploying our template, we'll require to setup a few things _(not many, I promise!)_ in order to have a smooth experience.
 
-> [!IMPORTANT]
-> Remix SaaS is a Starter Kit that will help you to kickstart your next SaaS project. It's not a full-fledged SaaS application, but a foundation that you can build upon.
-
 # Initialization
 
 To get started, you can initialize the template into your workspace by running the following command:
@@ -86,7 +83,7 @@ Let's take a look at the required environment variables:
 
 # Email
 
-In order to send emails, we opted to use [Resend](https://resend.com/), a simple and easy-to-use email service for developers.
+In order to send emails, Remix SaaS uses [Resend](https://resend.com/), a simple and easy-to-use email service for developers.
 
 - You can get your API Key by visiting the [Resend Dashboard](https://resend.com/api-keys).
 
