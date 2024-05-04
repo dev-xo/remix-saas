@@ -35,6 +35,7 @@ A list of features that Remix SaaS provides out of the box:
 - 📋 **Conform**: Type-Safe Form Validation based on Web Fundamentals.
 - 📥 **File Uploads**: Profile Picture Uploads with Prisma.
 - 🌐 **I18N**: Internationalization for your App.
+- 🧰 **Remix Development Tools**: Enhanced Development Experience.
 - ⚙️ **Github Actions**: Automate CI/CD Workflows.
 
 We've been looking into keeping Remix SaaS as simple as possible, while providing a solid foundation for your next SaaS project.
