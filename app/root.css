@@ -1,0 +1,138 @@
+/*
+* TailwindCSS & ShadCN.
+* @see https://tailwindcss.com/docs/guides/remix
+* @see https://ui.shadcn.com
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0, 0%, 98%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+    --muted-grid: rgba(0, 0, 0, 0.1);
+  }
+
+  .dark {
+    --background: 0, 0%, 0%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --muted-grid: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+body {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: system-ui, sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  cursor: pointer;
+  @apply transition duration-200 active:opacity-60;
+}
+
+button {
+  cursor: pointer;
+  @apply transition duration-200 active:scale-[0.98];
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+::selection {
+  color: hsl(var(--secondary-foreground));
+  background-color: hsl(var(--accent));
+}
+
+/*
+* Remix Development Tools
+*/
+.rdt-fixed:first-child {
+  height: 32px !important;
+  width: 32px !important;
+  margin: 16px !important;
+}
+
+.rdt-fixed:first-child svg {
+  height: 32px !important;
+  width: 32px !important;
+}
+
+.rdt-fixed:first-child svg rect {
+  opacity: 0 !important;
+}
+
+.rdt-fixed:first-child svg path {
+  &:nth-child(2) {
+    fill: hsl(var(--primary)) !important;
+  }
+  &:nth-child(3) {
+    display: none !important;
+  }
+  &:nth-child(4) {
+    display: none !important;
+  }
+}
+
+/*
+* Misc
+*/
+.base-grid {
+  @apply will-change-auto;
+
+  background-size: 30px 30px;
+  background-image: linear-gradient(90deg, var(--muted-grid) 1px, transparent 0),
+    linear-gradient(180deg, var(--muted-grid) 1px, transparent 0);
+}

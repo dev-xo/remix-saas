@@ -1,0 +1,119 @@
+// Prisma Schema.
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// · · · · · · · · · · · · · · · · · · · · 
+// User Models
+// · · · · · · · · · · · · · · · · · · · · 
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  username     String?       @unique
+  image        UserImage?
+  customerId   String?       @unique
+  subscription Subscription?
+  roles        Role[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model UserImage {
+  id          String  @id @default(cuid())
+  altText     String?
+  contentType String
+  blob        Bytes
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// · · · · · · · · · · · · · · · · · · · · 
+// Role-Based Access Models
+// Implementation based on github.com/epicweb-dev/epic-stack
+// · · · · · · · · · · · · · · · · · · · · 
+
+model Role {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  description String       @default("")
+  users       User[]
+  permissions Permission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permission {
+  id          String @id @default(cuid())
+  entity      String // E.g. user, admin.
+  action      String // E.g. create, read, update, delete
+  access      String // E.g. own or any
+  description String @default("")
+  roles       Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([action, entity, access])
+}
+
+// · · · · · · · · · · · · · · · · · · · · 
+// Subscription Models
+// · · · · · · · · · · · · · · · · · · · · 
+
+model Plan {
+  id            String         @id @unique
+  name          String
+  description   String?
+  prices        Price[]
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Price {
+  id     String @id @unique
+  plan   Plan   @relation(fields: [planId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  planId String
+
+  amount        Int
+  currency      String
+  interval      String
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id     String @id @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  plan               Plan    @relation(fields: [planId], references: [id])
+  planId             String
+  price              Price   @relation(fields: [priceId], references: [id])
+  priceId            String
+  interval           String
+  status             String
+  currentPeriodStart Int
+  currentPeriodEnd   Int
+  cancelAtPeriodEnd  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
