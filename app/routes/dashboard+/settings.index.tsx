@@ -209,7 +209,7 @@ export default function DashboardSettings() {
           <div className="flex flex-col gap-2">
             <h2 className="text-xl font-medium text-primary">Your Username</h2>
             <p className="text-sm font-normal text-primary/60">
-              This is a Demo App, you will not be charged.
+              Update your username. This will be displayed on your profile.
             </p>
           </div>
           <Input
