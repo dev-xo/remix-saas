@@ -20,7 +20,7 @@ In order to speed up development, the OTP code will also be displayed in the ter
 
 Email authentication, either by code or magic links, is a common way to authenticate users in web applications. Remix SaaS provides a simple way to authenticate users with their email address.
 
-We are using [Resend](https://resend.com) to send emails to users. Resend is a simple email service for developers that allows you to send emails from your app.
+We are using `remix-auth-totp` and [Resend](https://resend.com) to handle email authentication.
 
 - You can get your API Key by visiting the [Resend Dashboard](https://resend.com/api-keys).
 
