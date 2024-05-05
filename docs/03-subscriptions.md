@@ -13,7 +13,7 @@ First of all, you'll need to create a Stripe Account and get your API Keys. This
 
 Remix SaaS defines a few Subscription Plans in the `/modules/stripe/plans` file. You can customize these plans to fit your needs.
 
-- Remember to migrate your database to seed the plans or any other changes you've made.
+- Remember to migrate/seed your database to update the plans or any other changes you've made.
 
 In order to use the Subscription System, Remix SaaS will create a Customer in Stripe and subscribe it to a Free Plan by default.
 
@@ -32,7 +32,7 @@ Yes, you can test Subscriptions in Remix SaaS by using the following Stripe Test
 - `4242 4242 4242 4242` (Visa)
 - `5555 5555 5555 4444` (Mastercard)
 
-Remember that in order to test Subscriptions and handle events, you'll need to use the Stripe CLI by running the following command:
+Remember that in order to test Subscriptions and handle events, you'll need to use the [Stripe CLI.](https://stripe.com/docs/stripe-cli) by running the following command:
 
 ```sh
 stripe listen --forward-to localhost:3000/api/webhook
@@ -43,6 +43,9 @@ stripe listen --forward-to localhost:3000/api/webhook
 Yes, you can customize Subscriptions in Remix SaaS by editing the following files:
 
 - `/modules/stripe/plans`: Define your Subscription Plans.
+
+> [!NOTE]
+> Any changes made to the Subscription Plans will require you to migrate/seed your database in order to update the plans. That also includes "Deleting Stripe Test Data" and "Re-Seeding the Database".
 
 ## Can we use another Payment Provider instead of Stripe?
 
