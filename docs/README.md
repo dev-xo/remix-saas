@@ -8,12 +8,12 @@ The goal of Remix SaaS is to provide a lightweight, feature-rich, and production
 # List of Contents
 
 - [Live Demo](https://remix-saas.fly.dev) - Live Demo of Remix SaaS showcasing all its features.
-- [Introduction](./01-introduction.md) - Simple introduction to Remix SaaS (Recommended Read).
+- [Introduction](./guide/01-introduction.md) - Simple introduction to Remix SaaS (Recommended Read).
 - [Getting Started](https://github.com/dev-xo/remix-saas/tree/main/docs#getting-started) - Quick Start guide to get Remix SaaS up and running.
-- [Deployment](./09-deployment.md) - Step-by-step guide on how to deploy your Remix SaaS App
+- [Deployment](./guide/09-deployment.md) - Step-by-step guide on how to deploy your Remix SaaS App
   to production.
 
-Please, check the `/docs` folder in order to learn more about Remix SaaS.
+Please, check the `/guide` docs folder in order to learn more about Remix SaaS.
 
 # Features
 
@@ -134,7 +134,7 @@ You should be able to access your app at 🎉 [http://localhost:3000](http://loc
 
 # Deployment
 
-Deployment and some other docs are available in the [Deployment](./09-deployment.md) section.
+Deployment and some other docs are available in the [Deployment](./guide/09-deployment.md) section.
 
 # Support
 
