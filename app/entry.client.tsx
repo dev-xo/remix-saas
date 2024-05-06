@@ -9,18 +9,16 @@ import * as i18n from '#app/modules/i18n/i18n'
 
 async function main() {
   await i18next
-    .use(initReactI18next) // Tell i18next to use the react-i18next plugin
-    .use(I18nextBrowserLanguageDetector) // Setup a client-side language detector
+    .use(initReactI18next) // Initialize `react-i18next`.
+    .use(I18nextBrowserLanguageDetector) // Setup client-side language detector.
     .init({
       ...i18n,
       ns: getInitialNamespaces(),
       detection: {
-        // Here only enable htmlTag detection, we'll detect the language only
-        // server-side with remix-i18next, by using the `<html lang>` attribute
-        // we can communicate to the client the language detected server-side
+        // Enable HTML tag detection only by detecting the language server-side.
+        // Using `<html lang>` attribute to communicate the detected language to the client.
         order: ['htmlTag'],
-        // Because we only use htmlTag, there's no reason to cache the language
-        // on the browser, so we disable it
+        // Since we solely utilize htmlTag, browser language caching is unnecessary.
         caches: [],
       },
     })
