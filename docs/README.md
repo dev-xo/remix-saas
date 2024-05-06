@@ -13,7 +13,7 @@ The goal of Remix SaaS is to provide a lightweight, feature-rich, and production
 - [Deployment](./guide/09-deployment.md) - Step-by-step guide on how to deploy your Remix SaaS App
   to production.
 
-Please, check the `/guide` docs folder in order to learn more about Remix SaaS.
+Please, check the [Guide](./guide) docs in order to learn more about Remix SaaS.
 
 # Features
 
