@@ -140,7 +140,6 @@ async function seed() {
       },
       invoice_history: { enabled: true },
       payment_method_update: { enabled: true },
-      subscription_pause: { enabled: false },
       subscription_cancel: { enabled: true },
       subscription_update: {
         enabled: true,
