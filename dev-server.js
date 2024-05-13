@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === 'production') {
     env: {
       ...process.env,
     },
-    // https://github.com/sindresorhus/execa/issues/433
     windowsHide: false,
   })
 }
