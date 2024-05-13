@@ -53,7 +53,7 @@ app.use(
         // Controls allowed endpoints for fetch, XHR, WebSockets, etc.
         'connect-src': [NODE_ENV === 'development' ? 'ws:' : null, "'self'"].filter(
           Boolean,
-        ) as string[], // why assertion? because typescript is fool and cannot infer the type properly when using `filter`
+        ) as string[],
         // Defines which origins can serve fonts to your site.
         'font-src': ["'self'"],
         // Specifies origins allowed to be embedded as frames.
@@ -158,8 +158,8 @@ app.all(
 
     build: viteDevServer
       ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
-       // @ts-ignore this should exist before running the server but it may not exist just yet
-      : await import('./build/server/index.js'),
+      : // @ts-ignore this should exist before running the server but it may not exist just yet
+        await import('./build/server/index.js'),
   }),
 )
 
