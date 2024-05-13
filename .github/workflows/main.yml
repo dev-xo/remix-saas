@@ -27,7 +27,7 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 8
           run_install: true
@@ -51,7 +51,7 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 8
           run_install: true
@@ -75,7 +75,7 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 8
           run_install: true
