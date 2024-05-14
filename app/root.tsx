@@ -26,6 +26,8 @@ import { Toaster } from '#app/components/ui/sonner'
 import { ClientHintCheck } from '#app/components/misc/client-hints'
 import { GenericErrorBoundary } from '#app/components/misc/error-boundary'
 import i18nServer, { localeCookie } from '#app/modules/i18n/i18n.server'
+import { siteConfig } from '#app/lib/brand/config'
+
 
 import RootCSS from './root.css?url'
 
@@ -33,10 +35,10 @@ export const handle = { i18n: ['translation'] }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
-    { title: data ? 'Remix SaaS - Starter Kit' : 'Error | Remix SaaS' },
+    { title: data ? `${siteConfig.siteTitle}` : `Error | ${siteConfig.siteTitle}` },
     {
       name: 'description',
-      content: `Launch in days with a modern Production-Ready Stack.`,
+      content: siteConfig.siteDescription,
     },
   ]
 }
