@@ -55,7 +55,7 @@ fly secrets set SESSION_SECRET="" ENCRYPTION_SECRET="" PROD_HOST_URL="https://my
 
 Some `.env` variables, like `GITHUB_CLIENT_ID` has been skipped, in order to keep the deployment process as simple as possible.
 
-5. After setting the Envs, ensure your app has successfully seeded the Stripe Plans _(you can check that from Fly Metrics Dashboard)_ and comment out the seed script from `docker-entrypoint.js`. Lastly run `fly deploy` again.
+5. After setting the Envs, ensure your app has successfully seeded the Stripe Plans _(you can check that from your Fly App Live Logs)_ and comment out the seed script from `docker-entrypoint.js`. Lastly run `fly deploy` again.
 
 ```ts
 // Comment me out after the first deployment ❗.
