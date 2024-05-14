@@ -19,6 +19,7 @@ import { checkHoneypot } from '#app/utils/honeypot.server'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
 import { Input } from '#app/components/ui/input'
 import { Button } from '#app/components/ui/button'
+import { siteConfig } from '#app/lib/brand/config'
 
 export const ROUTE_PATH = '/auth/verify' as const
 
@@ -27,7 +28,7 @@ export const VerifyLoginSchema = z.object({
 })
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Verify' }]
+  return [{ title: `${siteConfig.siteTitle} - Verify` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
