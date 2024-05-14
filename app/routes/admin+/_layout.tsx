@@ -8,11 +8,12 @@ import { cn } from '#app/utils/misc.js'
 import { buttonVariants } from '#app/components/ui/button'
 import { Navigation } from '#app/components/navigation'
 import { Header } from '#app/components/header'
+import { siteConfig } from '#app/lib/brand/config'
 
 export const ROUTE_PATH = '/admin' as const
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Admin' }]
+  return [{ title: `${siteConfig.siteTitle} - Admin` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
