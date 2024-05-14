@@ -9,9 +9,10 @@ import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Button, buttonVariants } from '#app/components/ui/button'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
 import ShadowPNG from '#public/images/shadow.png'
+import { siteConfig } from '#app/lib/brand/config'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Starter Kit' }]
+  return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -122,7 +123,7 @@ export default function Index() {
                 />
               </svg>
             </span>
-            Remix SaaS
+            {siteConfig.siteTitle}
           </Button>
           <h1 className="text-center text-6xl font-bold leading-tight text-primary md:text-7xl lg:leading-tight">
             Production Ready
