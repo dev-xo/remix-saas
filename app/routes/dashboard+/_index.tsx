@@ -6,9 +6,10 @@ import { requireUser } from '#app/modules/auth/auth.server'
 import { prisma } from '#app/utils/db.server'
 import { cn } from '#app/utils/misc.js'
 import { buttonVariants } from '#app/components/ui/button'
+import { siteConfig } from '#app/lib/brand/config'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Dashboard' }]
+  return [{ title: `${siteConfig.siteTitle} - Dashboard` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {

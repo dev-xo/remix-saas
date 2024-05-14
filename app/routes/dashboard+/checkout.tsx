@@ -9,11 +9,12 @@ import { prisma } from '#app/utils/db.server'
 import { useInterval } from '#app/utils/hooks/use-interval'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
 import { buttonVariants } from '#app/components/ui/button'
+import { siteConfig } from '#app/lib/brand/config'
 
 export const ROUTE_PATH = '/dashboard/checkout'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Checkout' }]
+  return [{ title: `${siteConfig.siteTitle} - Checkout` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
