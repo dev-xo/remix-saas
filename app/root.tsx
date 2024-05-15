@@ -21,13 +21,12 @@ import { getToastSession } from '#app/utils/toast.server'
 import { csrf } from '#app/utils/csrf.server'
 import { honeypot } from '#app/utils/honeypot.server'
 import { combineHeaders, getDomainUrl } from '#app/utils/misc.server'
+import { siteConfig } from '#app/utils/constants/brand'
 import { useToast } from '#app/components/toaster'
 import { Toaster } from '#app/components/ui/sonner'
 import { ClientHintCheck } from '#app/components/misc/client-hints'
 import { GenericErrorBoundary } from '#app/components/misc/error-boundary'
 import i18nServer, { localeCookie } from '#app/modules/i18n/i18n.server'
-import { siteConfig } from '#app/lib/brand/config'
-
 
 import RootCSS from './root.css?url'
 

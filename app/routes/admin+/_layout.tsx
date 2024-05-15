@@ -5,10 +5,10 @@ import { ShoppingBasket, ExternalLink } from 'lucide-react'
 import { requireUserWithRole } from '#app/utils/permissions.server'
 import { prisma } from '#app/utils/db.server'
 import { cn } from '#app/utils/misc.js'
+import { siteConfig } from '#app/utils/constants/brand'
 import { buttonVariants } from '#app/components/ui/button'
 import { Navigation } from '#app/components/navigation'
 import { Header } from '#app/components/header'
-import { siteConfig } from '#app/lib/brand/config'
 
 export const ROUTE_PATH = '/admin' as const
 

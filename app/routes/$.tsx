@@ -1,10 +1,10 @@
 import type { MetaFunction } from '@remix-run/node'
 import { Link } from '@remix-run/react'
 import { HelpCircle, ExternalLink } from 'lucide-react'
+import { siteConfig } from '#app/utils/constants/brand'
 import { GenericErrorBoundary } from '#app/components/misc/error-boundary'
 import { buttonVariants } from '#app/components/ui/button'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
-import { siteConfig } from '#app/lib/brand/config'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - 404 Not Found!` }]

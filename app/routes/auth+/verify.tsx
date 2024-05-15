@@ -16,10 +16,10 @@ import { authenticator } from '#app/modules/auth/auth.server'
 import { getSession, commitSession } from '#app/modules/auth/auth-session.server'
 import { validateCSRF } from '#app/utils/csrf.server'
 import { checkHoneypot } from '#app/utils/honeypot.server'
+import { siteConfig } from '#app/utils/constants/brand'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
 import { Input } from '#app/components/ui/input'
 import { Button } from '#app/components/ui/button'
-import { siteConfig } from '#app/lib/brand/config'
 
 export const ROUTE_PATH = '/auth/verify' as const
 
