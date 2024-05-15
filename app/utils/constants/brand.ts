@@ -1,3 +1,7 @@
+/**
+ * Brand Constants
+ * Add your brand details here.
+ */
 export const siteConfig = {
   siteTitle: 'Remix SaaS',
   siteDescription:
