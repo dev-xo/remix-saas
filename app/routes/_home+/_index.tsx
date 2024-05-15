@@ -5,13 +5,14 @@ import { Star } from 'lucide-react'
 import { authenticator } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
 import { useTheme } from '#app/utils/hooks/use-theme.js'
+import { siteConfig } from '#app/utils/constants/brand'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Button, buttonVariants } from '#app/components/ui/button'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
 import ShadowPNG from '#public/images/shadow.png'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Starter Kit' }]
+  return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -122,7 +123,7 @@ export default function Index() {
                 />
               </svg>
             </span>
-            Remix SaaS
+            {siteConfig.siteTitle}
           </Button>
           <h1 className="text-center text-6xl font-bold leading-tight text-primary md:text-7xl lg:leading-tight">
             Production Ready

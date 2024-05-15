@@ -18,6 +18,7 @@ import { getSession, commitSession } from '#app/modules/auth/auth-session.server
 import { validateCSRF } from '#app/utils/csrf.server'
 import { checkHoneypot } from '#app/utils/honeypot.server'
 import { useIsPending } from '#app/utils/misc'
+import { siteConfig } from '#app/utils/constants/brand'
 import { Input } from '#app/components/ui/input'
 import { Button } from '#app/components/ui/button'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
@@ -30,7 +31,7 @@ export const LoginSchema = z.object({
 })
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Remix SaaS - Login' }]
+  return [{ title: `${siteConfig.siteTitle} - Login` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
