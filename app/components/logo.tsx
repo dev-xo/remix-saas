@@ -7,7 +7,7 @@ type LogoProps = {
   [key: string]: unknown | undefined
 }
 
-export default function Logo({ width, height, className, ...args }: LogoProps) {
+export function Logo({ width, height, className, ...args }: LogoProps) {
   return (
     <svg
       {...args}
