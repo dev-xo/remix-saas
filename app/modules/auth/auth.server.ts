@@ -24,7 +24,7 @@ authenticator.use(
       sendTOTP: async ({ email, code, magicLink }) => {
         if (process.env.NODE_ENV === 'development') {
           // Development Only: Log the TOTP code.
-          console.log('TOTP Code:', code)
+          console.log('[ Dev-Only ] TOTP Code:', code)
 
           // Email is not sent for admin users.
           if (email.startsWith('admin')) {
