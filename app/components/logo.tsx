@@ -12,7 +12,7 @@ export default function Logo({ width, height, className, ...args }: LogoProps) {
       width={width ?? 40}
       height={height ?? 40}
       xmlns="http://www.w3.org/2000/svg"
-      className={`h-10 w-10 text-primary ${className}`}
+      className={`text-primary ${className}`}
       viewBox="0 0 24 24"
       fill="none">
       <path
