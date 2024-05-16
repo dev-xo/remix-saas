@@ -4,6 +4,7 @@ type LogoProps = {
   width?: number
   height?: number
   className?: string
+  [key: string]: unknown | undefined
 }
 
 export default function Logo({ width, height, className, ...args }: LogoProps) {
