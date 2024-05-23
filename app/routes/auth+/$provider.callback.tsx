@@ -9,7 +9,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   if (typeof params.provider !== 'string') throw new Error('Invalid provider.')
 
   return authenticator.authenticate(params.provider, request, {
-    successRedirect: LOGIN_PATH,
-    failureRedirect: DASHBOARD_PATH,
+    successRedirect: DASHBOARD_PATH,
+    failureRedirect: LOGIN_PATH,
   })
 }
