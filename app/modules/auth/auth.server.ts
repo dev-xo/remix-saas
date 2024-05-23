@@ -78,8 +78,9 @@ authenticator.use(
       callbackURL: `${HOST_URL}/auth/github/callback`,
     },
     async ({ profile }) => {
+      const email = profile._json.email || profile.emails[0].value;
       let user = await prisma.user.findUnique({
-        where: { email: profile._json.email },
+        where: { email },
         include: {
           image: { select: { id: true } },
           roles: { select: { name: true } },
@@ -90,7 +91,7 @@ authenticator.use(
         user = await prisma.user.create({
           data: {
             roles: { connect: [{ name: 'user' }] },
-            email: profile._json.email,
+            email,
           },
           include: {
             image: { select: { id: true } },
