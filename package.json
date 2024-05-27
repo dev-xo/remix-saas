@@ -30,7 +30,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@react-email/components": "^0.0.7",
-    "@react-email/render": "^0.0.7",
+    "@react-email/render": "^0.0.15",
     "@remix-run/express": "^2.9.1",
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.1",
