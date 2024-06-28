@@ -1,16 +1,26 @@
 import en from '#app/modules/i18n/locales/en'
 import es from '#app/modules/i18n/locales/es'
 
-// List of languages your application supports.
-export const supportedLngs = ['es', 'en']
+const languages = ['es', 'en'] as const
 
-// Fallback language will be used if the user language is not in the supportedLngs.
-export const fallbackLng = 'en'
+// List of languages your application supports.
+export const supportedLangs = [...languages]
+
+// Fallback language will be used if the user language is not in the supportedLangs.
+export const fallbackLang = 'en'
 
 // Default namespace of i18next is "translation", but you can customize it here.
 export const defaultNS = 'translation'
 
-export const resources = {
+// Translation files we created, with 'translation' as the default namespace.
+// We'll use these to include the translations in the bundle, instead of loading them on-demand.
+export type Languages = (typeof supportedLangs)[number]
+
+export type Resource = {
+  translation: typeof en
+}
+
+export const resources: Record<Languages, Resource> = {
   en: { translation: en },
   es: { translation: es },
 }

@@ -56,6 +56,7 @@ export default async function handleRequest(
     ...i18n,
     lng,
     ns,
+    resources: i18n.resources,
   })
 
   return new Promise((resolve, reject) => {

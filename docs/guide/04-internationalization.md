@@ -22,7 +22,7 @@ Remix SaaS provides a `LanguageSwitcher` Component that can be used to switch be
 
 ## What is the default language?
 
-The default language Remix SaaS uses is `en`. You can change this by editing the `fallbackLng` variable in the `i18n` configuration file.
+The default language Remix SaaS uses is `en`. You can change this by editing the `fallbackLang` variable in the `i18n` configuration file.
 
 ## Contributing
 
