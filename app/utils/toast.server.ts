@@ -31,25 +31,25 @@ export type Toast = z.infer<typeof ToastSchema>
 export type ToastInput = z.input<typeof ToastSchema>
 
 export async function getToastSession(request: Request) {
-  const sessionUser = await toastSessionStorage.getSession(request.headers.get('Cookie'))
-  const result = ToastSchema.safeParse(sessionUser.get(TOAST_SESSION_FLASH_KEY))
+  const session = await toastSessionStorage.getSession(request.headers.get('Cookie'))
+  const result = ToastSchema.safeParse(session.get(TOAST_SESSION_FLASH_KEY))
   const toast = result.success ? result.data : null
 
   return {
     toast,
     headers: toast
       ? new Headers({
-          'Set-Cookie': await toastSessionStorage.commitSession(sessionUser),
+          'Set-Cookie': await toastSessionStorage.commitSession(session),
         })
       : null,
   }
 }
 
 export async function createToastHeaders(toastInput: ToastInput) {
-  const sessionUser = await toastSessionStorage.getSession()
+  const session = await toastSessionStorage.getSession()
   const toast = ToastSchema.parse(toastInput)
-  sessionUser.flash(TOAST_SESSION_FLASH_KEY, toast)
-  const cookie = await toastSessionStorage.commitSession(sessionUser)
+  session.flash(TOAST_SESSION_FLASH_KEY, toast)
+  const cookie = await toastSessionStorage.commitSession(session)
   return new Headers({ 'Set-Cookie': cookie })
 }
 
