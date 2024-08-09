@@ -44,16 +44,16 @@ app.use((_, res, next) => {
 
 app.use(
   helmet({
+    referrerPolicy: { policy: 'same-origin' },
+    crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
-      referrerPolicy: { policy: 'same-origin' },
-      crossOriginEmbedderPolicy: false,
       // ❗Important: Remove `reportOnly` to enforce CSP. (Development only).
       reportOnly: true,
       directives: {
         // Controls allowed endpoints for fetch, XHR, WebSockets, etc.
         'connect-src': [NODE_ENV === 'development' ? 'ws:' : null, "'self'"].filter(
           Boolean,
-        ),
+        ) as string[],
         // Defines which origins can serve fonts to your site.
         'font-src': ["'self'"],
         // Specifies origins allowed to be embedded as frames.
@@ -64,9 +64,11 @@ app.use(
         'script-src': [
           "'strict-dynamic'",
           "'self'",
+          // @ts-expect-error
           (_, res) => `'nonce-${res.locals.cspNonce}'`,
         ],
         // Controls allowed sources for inline JavaScript event handlers.
+        // @ts-expect-error
         'script-src-attr': [(_, res) => `'nonce-${res.locals.cspNonce}'`],
         // Enforces that requests are made over HTTPS.
         'upgrade-insecure-requests': null,
@@ -156,7 +158,8 @@ app.all(
 
     build: viteDevServer
       ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
-      : await import('./build/server/index.js'),
+      : // @ts-ignore this should exist before running the server but it may not exist just yet
+        await import('./build/server/index.js'),
   }),
 )
 
