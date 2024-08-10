@@ -73,12 +73,12 @@ authenticator.use(
 authenticator.use(
   new GitHubStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID || '',
+      clientId: process.env.GITHUB_CLIENT_ID || '',
       clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-      callbackURL: `${HOST_URL}/auth/github/callback`,
+      redirectURI: `${HOST_URL}/auth/github/callback`,
     },
     async ({ profile }) => {
-      const email = profile._json.email || profile.emails[0].value;
+      const email = profile._json.email || profile.emails[0].value
       let user = await prisma.user.findUnique({
         where: { email },
         include: {
