@@ -55,8 +55,6 @@ export function AuthEmail({ code, magicLink }: AuthEmailOptions) {
           {magicLink && (
             <Section style={{ padding: '8px 0px' }}>
               <Button
-                pY={11}
-                pX={23}
                 style={{
                   display: 'block',
                   color: '#fff',
