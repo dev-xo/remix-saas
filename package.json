@@ -11,8 +11,8 @@
   },
   "scripts": {
     "build": "remix vite:build",
-    "dev": "node ./server.mjs",
-    "start": "cross-env NODE_ENV=production node ./server.mjs",
+    "dev": "node ./dev-server.js",
+    "start": "cross-env NODE_ENV=production node ./build/server",
     "lint": "eslint .",
     "typecheck": "tsc",
     "format": "prettier --write .",
@@ -79,6 +79,7 @@
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "execa": "^9.0.2",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.6.1",
