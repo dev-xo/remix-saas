@@ -30,6 +30,15 @@ Social Logins are a great way to authenticate users in web applications. Remix S
 
 - You can create a new OAuth App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
 
+# Authentication
+
+If you are trying to use github oauth and encounter issue `Missing or invalid 'expires_in' field` with the recent changes of remix auth github you should create a github app instead of github oauth and while creating github app grant email permission. 
+
+Finally created app should look something like this 
+
+![alt text](assets/github_app_optional_features.png)
+
+![alt text](assets/github_app_account_features.png)
 ### Authenticate as Admin
 
 You can authenticate as `admin` by using the following credentials:
