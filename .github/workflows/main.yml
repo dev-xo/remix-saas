@@ -19,7 +19,7 @@ jobs:
         uses: styfle/cancel-workflow-action@0.12.1
 
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node
         uses: actions/setup-node@v4.0.2
@@ -43,7 +43,7 @@ jobs:
         uses: styfle/cancel-workflow-action@0.12.1
 
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node
         uses: actions/setup-node@v4.0.2
@@ -67,7 +67,7 @@ jobs:
         uses: styfle/cancel-workflow-action@0.12.1
 
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.0.2
