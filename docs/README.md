@@ -113,7 +113,7 @@ This should give you a Webhook Secret Key. Copy and paste it into your `.env` fi
 
 Before starting our development, we'll require to setup our Prisma Migrations. Remix SaaS uses Prisma as its ORM, with SQLite as its default database. You can change it to any other database supported by Prisma.
 
-To start our migrations, run the following command in your console:
+To start our migrations and seed the db, run the following commands in your console:
 
 ```sh
 npx prisma migrate dev --name init
@@ -121,6 +121,12 @@ npx prisma migrate dev --name init
 
 > [!NOTE]
 > Resetting migrations will require us to clean our Stripe Data. You can do that by visiting your [Stripe Test Dashboard](https://dashboard.stripe.com/test/developers), scrolling down and clicking on `Delete all test data` button.
+
+Then seed the db by running the following command in your console:
+
+```sh
+npx prisma db seed
+```
 
 # Development Server
 
@@ -131,6 +137,8 @@ npm run dev
 ```
 
 You should be able to access your app at 🎉 [http://localhost:3000](http://localhost:3000).
+
+For the first login read the [Authenticate as Admin](https://github.com/dev-xo/remix-saas/blob/main/docs/guide/02-authentication.md#authenticate-as-admin) documentation.
 
 # Deployment
 
