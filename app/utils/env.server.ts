@@ -10,7 +10,6 @@ const schema = z.object({
   RESEND_API_KEY: z.string(),
   GITHUB_CLIENT_ID: z.string().optional(),
   GITHUB_CLIENT_SECRET: z.string().optional(),
-  STRIPE_PUBLIC_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_ENDPOINT: z.string().optional(),
   HONEYPOT_ENCRYPTION_SEED: z.string().optional(),

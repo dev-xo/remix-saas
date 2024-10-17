@@ -1,5 +1,5 @@
 import { it } from 'vitest'
 
-it('Should pass.', () => {
+it('Smoke test.', () => {
   expect(1 + 1).toBe(2)
 })
