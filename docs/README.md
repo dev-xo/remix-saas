@@ -93,7 +93,7 @@ In order to use Stripe Subscriptions and seed our database, we'll require to get
 
 1. Create a [Stripe Account](https://dashboard.stripe.com/login) or use an existing one.
 2. Visit [API Keys](https://dashboard.stripe.com/test/apikeys) section and copy the `Secret` key.
-3. Paste each one of them into your `.env` file as `STRIPE_PUBLIC_KEY` and `STRIPE_SECRET_KEY` respectively.
+3. Paste your secret key into `.env` file as `STRIPE_SECRET_KEY`.
 
 ## Stripe Webhook
 
