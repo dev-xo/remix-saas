@@ -112,7 +112,7 @@ This should give you a Webhook Secret Key. Copy and paste it into your `.env` fi
 
 Before starting our development, we'll require to setup our Prisma Migrations. Remix SaaS uses Prisma as its ORM, with SQLite as its default database. You can change it to any other database supported by Prisma.
 
-To start our migrations, and seed our Database, run the following command in your console:
+To start your migrations, and seed the Database, run the following command in your console:
 
 ```sh
 npx prisma migrate dev --name init
