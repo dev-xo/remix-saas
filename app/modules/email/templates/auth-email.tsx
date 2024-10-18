@@ -66,7 +66,7 @@ export function AuthEmail({ code, magicLink }: AuthEmailOptions) {
                   backgroundColor: '#5e6ad2',
                 }}
                 href={magicLink}>
-                Login to totp.fly
+                Login to remix-saas.fly
               </Button>
             </Section>
           )}
@@ -87,7 +87,7 @@ export function AuthEmail({ code, magicLink }: AuthEmailOptions) {
           </code>
           <Hr style={{ margin: '20px 0', borderColor: '#cccccc' }} />
           <Text style={{ color: '#8898aa', fontSize: '12px' }}>
-            200 totp.fly.dev - Los Angeles, CA
+            200 remix-saas.fly.dev - Los Angeles, CA
           </Text>
         </Container>
       </Body>

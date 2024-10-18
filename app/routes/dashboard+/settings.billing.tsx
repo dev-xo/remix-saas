@@ -122,8 +122,7 @@ export default function DashboardBilling() {
                 tabIndex={0}
                 role="button"
                 className={`flex w-full select-none items-center rounded-md border border-border hover:border-primary/60 ${
-                  selectedPlanId === plan.id &&
-                  'border-primary/60 ring-1 ring-primary/60 dark:border-primary/20 dark:bg-secondary'
+                  selectedPlanId === plan.id && 'border-primary/60 ring-1 ring-primary/60'
                 }`}
                 onClick={() => setSelectedPlanId(plan.id)}
                 onKeyDown={(e) => {
