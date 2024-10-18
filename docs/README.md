@@ -35,7 +35,6 @@ A list of features that Remix SaaS provides out of the box:
 - 📋 **Conform**: Type-Safe Form Validation based on Web Fundamentals.
 - 📥 **File Uploads**: Profile Picture Uploads with Prisma.
 - 🌐 **I18N**: Internationalization for your App.
-- 🧰 **Remix Development Tools**: Enhanced Development Experience.
 - ⚙️ **Github Actions**: Automate CI/CD Workflows.
 
 We've been looking into keeping Remix SaaS as simple as possible, while providing a solid foundation for your next SaaS project.
@@ -93,8 +92,8 @@ In order to send emails, Remix SaaS uses [Resend](https://resend.com/), a simple
 In order to use Stripe Subscriptions and seed our database, we'll require to get the secret keys from our Stripe Dashboard.
 
 1. Create a [Stripe Account](https://dashboard.stripe.com/login) or use an existing one.
-2. Visit [API Keys](https://dashboard.stripe.com/test/apikeys) section and copy the `Publishable` and `Secret` keys.
-3. Paste each one of them into your `.env` file as `STRIPE_PUBLIC_KEY` and `STRIPE_SECRET_KEY` respectively.
+2. Visit [API Keys](https://dashboard.stripe.com/test/apikeys) section and copy the `Secret` key.
+3. Paste your secret key into `.env` file as `STRIPE_SECRET_KEY`.
 
 ## Stripe Webhook
 
@@ -113,20 +112,14 @@ This should give you a Webhook Secret Key. Copy and paste it into your `.env` fi
 
 Before starting our development, we'll require to setup our Prisma Migrations. Remix SaaS uses Prisma as its ORM, with SQLite as its default database. You can change it to any other database supported by Prisma.
 
-To start our migrations and seed the db, run the following commands in your console:
+To start your migrations, and seed the Database, run the following command in your console:
 
 ```sh
 npx prisma migrate dev --name init
 ```
 
 > [!NOTE]
-> Resetting migrations will require us to clean our Stripe Data. You can do that by visiting your [Stripe Test Dashboard](https://dashboard.stripe.com/test/developers), scrolling down and clicking on `Delete all test data` button.
-
-Then seed the db by running the following command in your console:
-
-```sh
-npx prisma db seed
-```
+> Resetting migrations will require us to clean our Stripe Data. You can do that by visiting your [Stripe Test Dashboard](https://dashboard.stripe.com/test/developers), scrolling down and clicking on `Delete all test data`.
 
 # Development Server
 
@@ -138,7 +131,9 @@ npm run dev
 
 You should be able to access your app at 🎉 [http://localhost:3000](http://localhost:3000).
 
-For the first login read the [Authenticate as Admin](https://github.com/dev-xo/remix-saas/blob/main/docs/guide/02-authentication.md#authenticate-as-admin) documentation.
+## Learn More
+
+Please, make sure to check the rest of the documentation and learn more about Remix SaaS, its features and how to use them. A good starting point is the [Authentication](./guide/02-authentication.md) section, as it covers all the authentication methods, how to authenticate as admin, and more.
 
 # Deployment
 

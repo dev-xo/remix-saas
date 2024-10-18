@@ -47,7 +47,7 @@ fly launch
 4. After Fly CLI finishes the setup, we'll need to provide our `.env` variables as secrets. For that, fill in the following command with your environment variables:
 
 ```sh
-fly secrets set SESSION_SECRET="" ENCRYPTION_SECRET="" PROD_HOST_URL="https://my-app.fly.dev" RESEND_API_KEY="" STRIPE_PUBLIC_KEY="" STRIPE_SECRET_KEY="" STRIPE_WEBHOOK_ENDPOINT="" HONEYPOT_ENCRYPTION_SEED=""
+fly secrets set SESSION_SECRET="" ENCRYPTION_SECRET="" PROD_HOST_URL="https://my-app.fly.dev" RESEND_API_KEY="" STRIPE_SECRET_KEY="" STRIPE_WEBHOOK_ENDPOINT="" HONEYPOT_ENCRYPTION_SEED=""
 ```
 
 > [!NOTE]
