@@ -16,6 +16,7 @@ node_modules
 # Prisma
 /prisma/data.db
 /prisma/data.db-journal
+/prisma/migrations
 
 # Tests
 /coverage

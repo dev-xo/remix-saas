@@ -58,7 +58,7 @@ export default function DashboardCheckout() {
           <div className="flex w-full px-6">
             <div className="w-full border-b border-border" />
           </div>
-          <div className="relative mx-auto flex w-full  flex-col items-center p-6">
+          <div className="relative mx-auto flex w-full flex-col items-center p-6">
             <div className="relative flex w-full flex-col items-center justify-center gap-6 overflow-hidden rounded-lg border border-border bg-secondary px-6 py-24 dark:bg-card">
               <div className="z-10 flex flex-col items-center gap-4">
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-card hover:border-primary/40">
