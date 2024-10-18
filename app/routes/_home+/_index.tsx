@@ -3,6 +3,7 @@ import { Link, useLoaderData } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { Star } from 'lucide-react'
 import { authenticator } from '#app/modules/auth/auth.server'
+import { useEffect, useState } from 'react'
 import { cn } from '#app/utils/misc'
 import { useTheme } from '#app/utils/hooks/use-theme.js'
 import { siteConfig } from '#app/utils/constants/brand'
@@ -25,25 +26,33 @@ export default function Index() {
   const { user } = useLoaderData<typeof loader>()
   const theme = useTheme()
 
+  // UI - Handle Scroll
+  const [hasScrolled, setHasScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="relative flex h-full w-full flex-col bg-card">
       {/* Navigation */}
-      <div className="sticky top-0 z-50 mx-auto flex w-full max-w-screen-lg items-center justify-between p-6 py-3">
+      <nav
+        className={cn(
+          'sticky top-0 z-50 mx-auto flex w-full max-w-screen-lg items-center justify-between p-6 py-3',
+          hasScrolled
+            ? 'top-1.5 rounded-full bg-white/20 backdrop-blur transition-all duration-300 dark:bg-secondary/20'
+            : 'bg-transparent transition-all duration-300',
+        )}>
         <Link to="/" prefetch="intent" className="flex h-10 items-center gap-1">
           <Logo />
         </Link>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-6">
-            <a
-              href="https://github.com/dev-xo/remix-saas/tree/main/docs#welcome-to-%EF%B8%8F-remix-saas-documentation"
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                buttonVariants({ variant: 'link', size: 'sm' }),
-                'group flex gap-3 px-0 text-primary/80 hover:text-primary hover:no-underline',
-              )}>
-              Docs
-            </a>
             <a
               href="https://github.com/dev-xo/remix-saas"
               target="_blank"
@@ -54,12 +63,12 @@ export default function Index() {
               )}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-primary/80"
+                className="h-6 w-6 text-primary/80 transition group-hover:text-primary"
                 viewBox="0 0 24 24"
                 fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
-              <span className="hidden select-none items-center gap-1 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-xs font-medium tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
+              <span className="hidden select-none items-center gap-1 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-xs font-semibold tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 group-hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
                 <Star
                   className="h-3 w-3 text-green-600 dark:text-yellow-100"
                   fill="currentColor"
@@ -72,9 +81,9 @@ export default function Index() {
             href="https://twitter.com/DanielKanem"
             target="_blank"
             rel="noreferrer"
-            className="flex h-9 w-9 items-center justify-center">
+            className="group flex h-9 w-9 items-center justify-center">
             <svg
-              className="h-[18px] w-[18px] text-primary"
+              className="h-5 w-5 text-primary transition group-hover:scale-110"
               strokeLinejoin="round"
               viewBox="0 0 16 16">
               <path
@@ -85,11 +94,11 @@ export default function Index() {
               />
             </svg>
           </a>
-          <Link to={LOGIN_PATH} className={buttonVariants({ size: 'sm' })}>
+          <Link to={LOGIN_PATH} className={cn(buttonVariants({ size: 'sm' }), 'h-8')}>
             {user ? 'Dashboard' : 'Get Started'}
           </Link>
         </div>
-      </div>
+      </nav>
 
       {/* Content */}
       <div className="z-10 mx-auto flex w-full max-w-screen-lg flex-col gap-4 px-6">
@@ -97,12 +106,12 @@ export default function Index() {
           <Button
             variant="outline"
             className={cn(
-              'hidden h-8 rounded-full bg-white/40 px-3 text-sm font-bold backdrop-blur hover:text-primary dark:bg-secondary md:flex',
+              'hidden h-8 rounded-full bg-white/60 px-3 text-sm font-bold ring-1 ring-primary/10 backdrop-blur transition hover:text-primary hover:brightness-110 dark:bg-secondary md:flex',
             )}>
             <span className="flex items-center font-medium text-primary/60">
               Introducing
               <svg
-                className="mx-1 h-[14px] w-[14px] text-primary"
+                className="mx-1.5 h-4 w-4 text-primary"
                 strokeLinejoin="round"
                 viewBox="0 0 16 16">
                 <path
@@ -127,11 +136,6 @@ export default function Index() {
             Open Source.
           </p>
           <div className="mt-2 flex w-full items-center justify-center gap-2">
-            <Link
-              to={LOGIN_PATH}
-              className={cn(buttonVariants({ size: 'sm' }), 'hidden sm:flex')}>
-              Get Started
-            </Link>
             <a
               href="https://github.com/dev-xo/remix-saas/tree/main/docs#welcome-to-%EF%B8%8F-remix-saas-documentation"
               target="_blank"
@@ -145,7 +149,7 @@ export default function Index() {
           </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <h2 className="text-center font-serif text-xl font-medium text-primary/60">
+          <h2 className="text-center font-serif text-2xl font-medium text-primary/60">
             Built for Developers
           </h2>
           <div className="my-8 flex flex-wrap items-center justify-center gap-10 gap-y-8 lg:gap-14">
@@ -426,24 +430,41 @@ export default function Index() {
             Proudly Open Source
           </h1>
           <p className="text-center text-lg text-primary/60">
-            Remix SaaS is a fully Open Source project.
+            Remix SaaS is a fully{' '}
+            <span className="font-semibold text-primary">Open Source</span> project.
             <br />
-            The code is available on GitHub.
+            Code is available on GitHub.
           </p>
-          <a
-            href="https://github.com/dev-xo/remix-saas"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden h-10 select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-green-600 dark:text-yellow-100"
-              viewBox="0 0 24 24"
-              fill="currentColor">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-            Star Us on GitHub
-          </a>
+          <div className="relative flex items-center justify-center">
+            <a
+              href="https://github.com/dev-xo/remix-saas"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden h-10 select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-green-600 dark:text-yellow-100"
+                viewBox="0 0 24 24"
+                fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+              </svg>
+              Star Us on GitHub
+            </a>
+            <a
+              href="https://github.com/dev-xo/remix-saas"
+              target="_blank"
+              rel="noreferrer"
+              className="pointer-events-none absolute z-[-1] hidden h-10 scale-[125%] select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 opacity-40 ring-1 ring-inset ring-green-600/20 blur backdrop-blur-sm dark:bg-yellow-800/40 dark:text-yellow-100 dark:opacity-20 dark:ring-yellow-200/50 md:flex">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-green-600 dark:text-yellow-100"
+                viewBox="0 0 24 24"
+                fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+              </svg>
+              Star Us on GitHub
+            </a>
+          </div>
         </div>
       </div>
 
