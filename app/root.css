@@ -97,36 +97,6 @@ img {
 }
 
 /*
-* Remix Development Tools
-*/
-.rdt-fixed:first-child {
-  height: 32px !important;
-  width: 32px !important;
-  margin: 16px !important;
-}
-
-.rdt-fixed:first-child svg {
-  height: 32px !important;
-  width: 32px !important;
-}
-
-.rdt-fixed:first-child svg rect {
-  opacity: 0 !important;
-}
-
-.rdt-fixed:first-child svg path {
-  &:nth-child(2) {
-    fill: hsl(var(--primary)) !important;
-  }
-  &:nth-child(3) {
-    display: none !important;
-  }
-  &:nth-child(4) {
-    display: none !important;
-  }
-}
-
-/*
 * Misc
 */
 .base-grid {

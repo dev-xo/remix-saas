@@ -1,5 +1,5 @@
 import type { AppLoadContext, EntryContext } from '@remix-run/node'
-import isbot from 'isbot'
+import { isbot } from 'isbot'
 import { PassThrough } from 'node:stream'
 import { RemixServer } from '@remix-run/react'
 import { createReadableStreamFromReadable } from '@remix-run/node'
@@ -61,7 +61,6 @@ export default async function handleRequest(
 
   return new Promise((resolve, reject) => {
     let shellRendered = false
-
     const { pipe, abort } = renderToPipeableStream(
       <NonceProvider value={nonce}>
         <I18nextProvider i18n={instance}>
@@ -94,9 +93,6 @@ export default async function handleRequest(
         },
         onError(error: unknown) {
           responseStatusCode = 500
-          // Log streaming rendering errors from inside the shell.
-          // Don't log errors encountered during initial shell rendering,
-          // since they'll reject and get logged in handleDocumentRequest.
           if (shellRendered) {
             console.error(error)
           }
