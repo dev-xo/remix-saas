@@ -106,10 +106,7 @@ export default function OnboardingUsername() {
 
   return (
     <div className="mx-auto flex h-full w-full max-w-96 flex-col items-center justify-center gap-6">
-      <div className="relative flex flex-col items-center gap-2">
-        <span className="absolute z-[-1] mb-2 scale-[200%] select-none text-6xl opacity-20 blur">
-          👋
-        </span>
+      <div className="flex flex-col items-center gap-2">
         <span className="mb-2 animate-pulse select-none text-6xl">👋</span>
         <h3 className="text-center text-2xl font-medium text-primary">Welcome!</h3>
         <p className="text-center text-base font-normal text-primary/60">

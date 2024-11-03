@@ -18,7 +18,8 @@
     "format": "prettier --write .",
     "validate": "npm run lint && npm run typecheck",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook"
   },
   "dependencies": {
     "@conform-to/react": "1.1.4",

@@ -7,7 +7,7 @@ The goal of Remix SaaS is to provide a lightweight, feature-rich, and production
 
 # List of Contents
 
-- [Live Demo](https://remix-saas.fly.dev) - Live Demo of Remix SaaS showcasing all its features.
+- [Live Demo](https://remix-saas.fly.dev) - Give it a few seconds to load, it's running on a free tier! :)
 - [Introduction](./guide/01-introduction.md) - Simple introduction to Remix SaaS (Recommended Read).
 - [Getting Started](https://github.com/dev-xo/remix-saas/tree/main/docs#getting-started) - Quick Start guide to get Remix SaaS up and running.
 - [Deployment](./guide/09-deployment.md) - Step-by-step guide on how to deploy your Remix SaaS App

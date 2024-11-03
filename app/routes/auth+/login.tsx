@@ -89,7 +89,7 @@ export default function Login() {
           Continue to Remix SaaS
         </h3>
         <p className="text-center text-base font-normal text-primary/60">
-          Welcome back! Please log in to continue.
+          Please log in to continue.
         </p>
       </div>
 
@@ -137,8 +137,8 @@ export default function Login() {
 
       <div className="relative flex w-full items-center justify-center">
         <span className="absolute w-full border-b border-border" />
-        <span className="z-10 bg-card px-2 text-xs font-medium uppercase text-primary/60">
-          Or continue with
+        <span className="z-10 bg-card px-3 text-xs font-medium uppercase text-primary/60">
+          Or
         </span>
       </div>
 

@@ -1,15 +1,16 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { useEffect, useState } from 'react'
 import { Link, useLoaderData } from '@remix-run/react'
 import { json } from '@remix-run/node'
-import { Star } from 'lucide-react'
+import { Star, ArrowRight } from 'lucide-react'
 import { authenticator } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
 import { useTheme } from '#app/utils/hooks/use-theme.js'
 import { siteConfig } from '#app/utils/constants/brand'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Button, buttonVariants } from '#app/components/ui/button'
+import { Separator } from '#app/components/ui/separator'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
+
 import { Logo } from '#app/components/logo'
 import ShadowPNG from '#public/images/shadow.png'
 
@@ -26,27 +27,12 @@ export default function Index() {
   const { user } = useLoaderData<typeof loader>()
   const theme = useTheme()
 
-  // UI - Handle Scroll
-  const [hasScrolled, setHasScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 0)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <div className="relative flex h-full w-full flex-col bg-card">
       {/* Navigation */}
       <nav
         className={cn(
-          'sticky top-0 z-50 mx-auto flex w-full max-w-screen-lg items-center justify-between p-6 py-3',
-          hasScrolled
-            ? 'top-1.5 rounded-full bg-white/20 backdrop-blur transition-all duration-300 dark:bg-secondary/20'
-            : 'bg-transparent transition-all duration-300',
+          'sticky top-1.5 z-50 mx-auto flex w-full max-w-screen-lg items-center justify-between rounded-lg bg-card/20 p-6 py-3 backdrop-blur transition-all duration-300 dark:bg-secondary/20',
         )}>
         <Link to="/" prefetch="intent" className="flex h-10 items-center gap-1">
           <Logo />
@@ -68,12 +54,12 @@ export default function Index() {
                 fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
-              <span className="hidden select-none items-center gap-1 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-xs font-semibold tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 group-hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
+              <span className="hidden select-none items-center gap-1 rounded-full bg-green-500/5 px-2 py-1.5 pr-2.5 text-xs font-semibold tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 group-hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
                 <Star
                   className="h-3 w-3 text-green-600 dark:text-yellow-100"
                   fill="currentColor"
                 />
-                Star Us on GitHub
+                +1.4K Supporters
               </span>
             </a>
           </div>
@@ -102,11 +88,12 @@ export default function Index() {
 
       {/* Content */}
       <div className="z-10 mx-auto flex w-full max-w-screen-lg flex-col gap-4 px-6">
+        {/* Hero */}
         <div className="z-10 flex h-full w-full flex-col items-center justify-center gap-4 p-12 md:p-24">
           <Button
             variant="outline"
             className={cn(
-              'hidden h-8 rounded-full bg-white/60 px-3 text-sm font-bold ring-1 ring-primary/10 backdrop-blur transition hover:text-primary hover:brightness-110 dark:bg-secondary md:flex',
+              'hidden h-8 rounded-full bg-white/60 px-3 text-sm font-bold ring-1 ring-primary/5 backdrop-blur transition hover:text-primary hover:brightness-110 dark:bg-secondary md:flex',
             )}>
             <span className="flex items-center font-medium text-primary/60">
               Introducing
@@ -135,19 +122,22 @@ export default function Index() {
             <br className="hidden lg:inline-block" /> Stripe integration. Vite-powered.
             Open Source.
           </p>
-          <div className="mt-2 flex w-full items-center justify-center gap-2">
-            <a
-              href="https://github.com/dev-xo/remix-saas/tree/main/docs#welcome-to-%EF%B8%8F-remix-saas-documentation"
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                buttonVariants({ size: 'sm', variant: 'outline' }),
-                'hidden dark:bg-secondary dark:hover:opacity-80 sm:flex',
-              )}>
-              Explore Documentation
-            </a>
+          <div className="mx-auto mt-4 flex items-center gap-3">
+            <Link to="/auth/login" tabIndex={-1} className="outline-none">
+              <Button variant="default" className="group h-9 font-semibold">
+                Get Started
+              </Button>
+            </Link>
+            <Link to="/courses" tabIndex={-1} className="outline-none">
+              <Button variant="ghost" className="group h-9 gap-1.5 pr-3 font-semibold">
+                Explore Documentation
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
+
+        {/* Features */}
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <h2 className="text-center font-serif text-2xl font-medium text-primary/60">
             Built for Developers
@@ -415,7 +405,6 @@ export default function Index() {
               Explore Documentation
             </a>
           </div>
-
           <div className="absolute left-0 top-0 z-10 flex flex-col items-center justify-center">
             <span className="absolute h-6 w-[1px] bg-primary/40" />
             <span className="absolute h-[1px] w-6 bg-primary/40" />
@@ -425,47 +414,348 @@ export default function Index() {
             <span className="absolute h-[1px] w-6 bg-primary/40" />
           </div>
         </div>
-        <div className="z-10 flex h-full w-full flex-col items-center justify-center gap-6 p-12">
+
+        {/* Proudly Open Source */}
+        <Separator orientation="horizontal" className="my-12 bg-transparent" />
+        <div className="mx-auto flex max-w-screen-md flex-col gap-6">
           <h1 className="text-center text-4xl font-bold leading-tight text-primary md:text-6xl">
             Proudly Open Source
           </h1>
-          <p className="text-center text-lg text-primary/60">
-            Remix SaaS is a fully{' '}
-            <span className="font-semibold text-primary">Open Source</span> project.
-            <br />
-            Code is available on GitHub.
-          </p>
-          <div className="relative flex items-center justify-center">
-            <a
-              href="https://github.com/dev-xo/remix-saas"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden h-10 select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-green-600 dark:text-yellow-100"
-                viewBox="0 0 24 24"
-                fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          <h2 className="text-center text-3xl font-semibold leading-[1.1] text-primary/40 md:text-4xl">
+            "Built with passion to help developers ship faster. If it helped you, share
+            the love!"
+          </h2>
+          <div className="flex items-center justify-center">
+            <div className="h-16 w-16 max-w-16 animate-pulse dark:invert">
+              <svg viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {' '}
+                <defs>
+                  {' '}
+                  <filter
+                    id="filter"
+                    x="-20%"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                    filterUnits="objectBoundingBox"
+                    primitiveUnits="userSpaceOnUse"
+                    colorInterpolationFilters="linearRGB">
+                    {' '}
+                    <feMorphology
+                      operator="dilate"
+                      radius="20 20"
+                      in="SourceAlpha"
+                      result="morphology"
+                    />{' '}
+                    <feFlood floodColor="#ffffff" floodOpacity={1} result="flood" />{' '}
+                    <feComposite
+                      in="flood"
+                      in2="morphology"
+                      operator="in"
+                      result="composite"
+                    />{' '}
+                    <feMerge result="merge">
+                      {' '}
+                      <feMergeNode in="composite" result="mergeNode" />{' '}
+                      <feMergeNode in="SourceGraphic" result="mergeNode1" />{' '}
+                    </feMerge>
+                  </filter>
+                </defs>{' '}
+                <g id="notion-avatar" filter="url(#filter)">
+                  {' '}
+                  <g id="notion-avatar-face" fill="#ffffff">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/}{' '}
+                    {/* Generator: Sketch 63.1 (92452) - https://sketch.com */}{' '}
+                    <title>Face/ 14</title> <desc>Created with Sketch.</desc>{' '}
+                    <g
+                      id="Face/-14"
+                      stroke="none"
+                      strokeWidth={1}
+                      fillRule="evenodd"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      {' '}
+                      <path
+                        d="M532,379 C664.54834,379 772,486.45166 772,619 C772,642.160109 783.234546,656.244677 777.453024,678.979248 C763.583554,733.517917 758.701879,941.343666 598,909 C539.618945,897.249936 461,880 433,858 C405,836 342.170039,758.772836 320.189513,718.584987 C317.498129,718.859681 314.765451,719 312,719 C267.81722,719 232,683.18278 232,639 C232,599.134956 261.158843,566.080325 299.312086,560.00055 C325.599297,455.979213 419.809919,379 532,379 Z M295.858895,624.545187 L304.141105,655.454813"
+                        id="Path"
+                        stroke="#000000"
+                        strokeWidth={24}
+                      />{' '}
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-nose">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/} <title>Nose/ 10</title>{' '}
+                    <g
+                      id="Nose/-10"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      {' '}
+                      <path
+                        d="M631,694.380659 C660.333333,687.46022 678,677.333333 684,664 C693,644 637.033407,606.392531 660.161467,579"
+                        id="Path"
+                        stroke="#000000"
+                        strokeWidth={16}
+                      />{' '}
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-mouth">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/} <title>Mouth/ 0</title>{' '}
+                    <g
+                      id="Mouth/-0"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      {' '}
+                      <path
+                        d="M549,759 C576.33038,765.666667 599.663714,769 619,769 C638.336286,769 655.002953,765.666667 669,759"
+                        id="Path"
+                        stroke="#000000"
+                        strokeWidth={16}
+                      />{' '}
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-eyes">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/} <title>Eyes/ 10</title>{' '}
+                    <g
+                      id="Eyes/-10"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd">
+                      {' '}
+                      <g id="Group" transform="translate(520.000000, 512.000000)">
+                        {' '}
+                        <g transform="translate(140.000000, 0.000000)">
+                          {' '}
+                          <circle id="Oval" fill="#000000" cx={52} cy={28} r={24} />{' '}
+                          <path
+                            d="M1,16 C24.2727273,8 41.7272727,4 53.3636364,4 C65,4 79.5454545,8 97,16"
+                            id="Path"
+                            stroke="#000000"
+                            strokeWidth={12}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            transform="translate(49.000000, 10.000000) rotate(-4.000000) translate(-49.000000, -10.000000) "
+                          />{' '}
+                        </g>{' '}
+                        <g>
+                          {' '}
+                          <circle
+                            id="Oval"
+                            fill="#000000"
+                            transform="translate(46.000000, 28.000000) scale(-1, 1) translate(-46.000000, -28.000000) "
+                            cx={46}
+                            cy={28}
+                            r={24}
+                          />{' '}
+                          <path
+                            d="M1,16 C24.2727273,8 41.7272727,4 53.3636364,4 C65,4 79.5454545,8 97,16"
+                            id="Path"
+                            stroke="#000000"
+                            strokeWidth={12}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            transform="translate(49.000000, 10.000000) scale(-1, 1) rotate(-4.000000) translate(-49.000000, -10.000000) "
+                          />{' '}
+                        </g>{' '}
+                      </g>{' '}
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-eyebrows">
+                    {' '}
+                    <g id="Eyebrows/ 15">
+                      <g id="Group">
+                        <path
+                          id="Path"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M622.289 506.124C622.289 506.124 622.95 493.517 619.376 491.698C615.802 489.88 558.683 477.099 542.118 478.134C525.552 479.169 502.752 494.15 502.752 494.15C502.752 494.15 526.26 485.069 547.179 487.167C568.098 489.265 622.289 506.124 622.289 506.124Z"
+                          fill="black"
+                          stroke="black"
+                          strokeWidth={4}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          id="Path_2"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M654.711 506.124C654.711 506.124 654.05 493.517 657.624 491.698C661.198 489.88 718.317 477.099 734.882 478.134C751.448 479.169 774.248 494.15 774.248 494.15C774.248 494.15 750.74 485.069 729.821 487.167C708.902 489.265 654.711 506.124 654.711 506.124Z"
+                          fill="black"
+                          stroke="black"
+                          strokeWidth={4}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-glasses">
+                    {' '}
+                    <g id="Glasses/ 12">
+                      <g id="Group">
+                        <path
+                          id="Path"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M805.209 500.217C805.813 491.284 798.652 484 789.699 484H455C446.163 484 439 491.163 439 500V575.76C439 580.706 441.26 585.352 445.249 588.275C465.881 603.396 532.959 650 575.94 650C627.244 650 619.761 588.343 666.321 588.343C712.881 588.343 690.97 650 747.116 640.514C791.7 632.982 802.608 538.717 805.209 500.217Z"
+                          fill="white"
+                          stroke="black"
+                          strokeWidth={12}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <g id="Group_2">
+                          <path
+                            id="Mask"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M783.642 509.995C783.893 505.509 780.3 501.847 775.807 501.847L465 501.847C460.582 501.847 457 505.428 457 509.847V561.349C457 563.759 458.047 566.008 459.946 567.493C474.566 578.927 540.245 628.47 580.546 628.47C611.607 628.47 603.397 573.489 662.087 568.491C720.777 563.492 704.644 623.472 742.954 620.14C775.033 617.35 782.169 536.288 783.642 509.995Z"
+                            fill="black"
+                          />
+                          <mask
+                            id="mask0_0_1157"
+                            style={{ maskType: 'alpha' }}
+                            maskUnits="userSpaceOnUse"
+                            x={457}
+                            y={501}
+                            width={327}
+                            height={128}>
+                            <path
+                              id="Mask_2"
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M783.642 509.995C783.893 505.509 780.3 501.847 775.807 501.847L465 501.847C460.582 501.847 457 505.428 457 509.847V561.349C457 563.759 458.047 566.008 459.946 567.493C474.566 578.927 540.245 628.47 580.546 628.47C611.607 628.47 603.397 573.489 662.087 568.491C720.777 563.492 704.644 623.472 742.954 620.14C775.033 617.35 782.169 536.288 783.642 509.995Z"
+                              fill="white"
+                            />
+                          </mask>
+                          <g mask="url(#mask0_0_1157)">
+                            <path
+                              id="Path_2"
+                              d="M671.808 492.742L781.264 580.828"
+                              stroke="white"
+                              strokeWidth={16}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              id="Path_3"
+                              d="M696.436 478.979L805.892 567.065"
+                              stroke="white"
+                              strokeWidth={8}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                        </g>
+                        <path
+                          id="Path_4"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M439 492.036L284 523V566.875L439 552V492.036Z"
+                          fill="black"
+                          stroke="black"
+                          strokeWidth={12}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-hair">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/}{' '}
+                    <title>Hairstyle/ 11</title>{' '}
+                    <g
+                      id="Hairstyle/-11"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      {' '}
+                      <path
+                        d="M287.145773,564.824988 L328.116663,564.824988 L366,655 C368,609 370.666667,578.666667 374,564 C377.333333,549.333333 386,536 400,524 C404.686858,511.205454 408.020191,498.538788 410,486 C411.979809,473.461212 412.646475,460.794546 412,448 C431.277968,442.027683 448.944635,435.027683 465,427 C481.055365,418.972317 496.055365,409.638984 510,399 C541.018923,414.567133 564.018923,423.900467 579,427 C598.333333,431 625.666667,431 661,427 C677,435 690.333333,444.666667 701,456 C711.666667,467.333333 719.333333,477 724,485 C739.337022,483.068501 749.003689,474.068501 753,458 C758.994467,433.897248 749.308457,421.45399 753,385 C755.461029,360.69734 761.794362,334.364006 772,306 C756.671455,311.760083 745.671455,315.093417 739,316 C713.953321,319.403591 695.432317,316 684,316 C636.89228,316 645,282 615,272 C595,265.333333 574.900668,265.39119 554.702003,272.17357 C537.058392,259.349997 518.824391,250.958807 500,247 C481.175609,243.041193 457.508942,242.041193 429,244 C432.618992,252.559514 429.952325,263.892847 421,278 C407.571512,299.160729 404,300 392,311 C380,322 362,318 347,335 C337,346.333333 333,359.666667 335,375 C327.529566,375.74088 320.196232,377.74088 313,381 C305.803768,384.25912 299.470434,389.592453 294,397 C316.094259,401.247038 325.477218,404.098045 322.148877,405.553022 C298.10323,416.064523 271.638366,440.518688 265,458 C256.983334,479.110894 264.365258,514.719224 287.145773,564.824988 Z"
+                        id="Path"
+                        stroke="#000000"
+                        strokeWidth={12}
+                        fill="#000000"
+                      />{' '}
+                    </g>{' '}
+                  </g>
+                  <g id="notion-avatar-accessories">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/}{' '}
+                    <title>Accessories/ 0</title>{' '}
+                    <g
+                      id="Accessories/-0"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                    />{' '}
+                  </g>
+                  <g id="notion-avatar-details">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/} <title>Details/ 0</title>{' '}
+                    <g
+                      id="Details/-0"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                    />{' '}
+                  </g>
+                  <g id="notion-avatar-beard">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/} <title>Beard/ 0</title>{' '}
+                    <g
+                      id="Beard/-0"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                    />{' '}
+                  </g>
+                  <g id="notion-avatar-halloween">
+                    {' '}
+                    {/*?xml version="1.0" encoding="UTF-8"?*/} <title>halloween/ 0</title>{' '}
+                    <g
+                      id="halloween/-0"
+                      stroke="none"
+                      strokeWidth={1}
+                      fill="none"
+                      fillRule="evenodd"
+                    />
+                  </g>{' '}
+                </g>{' '}
               </svg>
-              Star Us on GitHub
-            </a>
-            <a
-              href="https://github.com/dev-xo/remix-saas"
-              target="_blank"
-              rel="noreferrer"
-              className="pointer-events-none absolute z-[-1] hidden h-10 scale-[125%] select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 opacity-40 ring-1 ring-inset ring-green-600/20 blur backdrop-blur-sm dark:bg-yellow-800/40 dark:text-yellow-100 dark:opacity-20 dark:ring-yellow-200/50 md:flex">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-green-600 dark:text-yellow-100"
-                viewBox="0 0 24 24"
-                fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-              Star Us on GitHub
-            </a>
+            </div>
+            <div className="flex flex-col">
+              <a
+                href="https://twitter.com/DanielKanem"
+                target="_blank"
+                rel="noreferrer"
+                className="text-base font-medium hover:underline">
+                Daniel Kanem
+              </a>
+              <span className="text-sm text-muted-foreground">Remix Saas Creator</span>
+            </div>
           </div>
         </div>
+        <Separator orientation="horizontal" className="my-12 bg-transparent" />
       </div>
 
       {/* Footer */}
