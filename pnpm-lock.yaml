@@ -60,8 +60,8 @@ importers:
         specifier: ^1.7.4
         version: 1.7.5
       cookie:
-        specifier: ^0.6.0
-        version: 0.6.0
+        specifier: ^1.0.1
+        version: 1.0.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -151,8 +151,8 @@ importers:
         specifier: ^1.7.5
         version: 1.7.5
       '@types/cookie':
-        specifier: ^0.6.0
-        version: 0.6.0
+        specifier: ^1.0.0
+        version: 1.0.0
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -2108,6 +2108,10 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
+  '@types/cookie@1.0.0':
+    resolution: {integrity: sha512-mGFXbkDQJ6kAXByHS7QAggRXgols0mAdP4MuXgloGY1tXokvzaFFM4SMqWvf7AH0oafI7zlFJwoGWzmhDqTZ9w==}
+    deprecated: This is a stub types definition. cookie provides its own type definitions, so you do not need this installed.
+
   '@types/cors@2.8.17':
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
 
@@ -2763,6 +2767,10 @@ packages:
   cookie@0.7.1:
     resolution: {integrity: sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==}
     engines: {node: '>= 0.6'}
+
+  cookie@1.0.1:
+    resolution: {integrity: sha512-Xd8lFX4LM9QEEwxQpF9J9NTUh8pmdJO0cyRJhFiDoLTk2eH8FXlRv2IFGYVadZpqI3j8fhNrSdKCeYPxiAhLXw==}
+    engines: {node: '>=18'}
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -7860,6 +7868,10 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
+  '@types/cookie@1.0.0':
+    dependencies:
+      cookie: 0.6.0
+
   '@types/cors@2.8.17':
     dependencies:
       '@types/node': 22.8.7
@@ -8683,6 +8695,8 @@ snapshots:
   cookie@0.6.0: {}
 
   cookie@0.7.1: {}
+
+  cookie@1.0.1: {}
 
   core-util-is@1.0.3: {}
 
