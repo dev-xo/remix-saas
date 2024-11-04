@@ -8,7 +8,6 @@ import { useTheme } from '#app/utils/hooks/use-theme.js'
 import { siteConfig } from '#app/utils/constants/brand'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Button, buttonVariants } from '#app/components/ui/button'
-import { Separator } from '#app/components/ui/separator'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
 
 import { Logo } from '#app/components/logo'
