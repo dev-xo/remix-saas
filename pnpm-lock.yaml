@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@conform-to/react':
-        specifier: 1.1.4
-        version: 1.1.4(react@18.3.1)
+        specifier: 1.2.2
+        version: 1.2.2(react@18.3.1)
       '@conform-to/zod':
         specifier: 1.2.2
         version: 1.2.2(zod@3.23.8)
@@ -409,14 +409,11 @@ packages:
   '@cloudflare/workers-types@4.20241022.0':
     resolution: {integrity: sha512-1zOAw5QIDKItzGatzCrEpfLOB1AuMTwVqKmbw9B9eBfCUGRFNfJYMrJxIwcse9EmKahsQt2GruqU00pY/GyXgg==}
 
-  '@conform-to/dom@1.1.4':
-    resolution: {integrity: sha512-NE763YdEs5nyiM3vBvC7c1mqyeTKRXRFsgS8Fni8DGvRwmbbLzgyF1jTwEmP5B8W0XXIvIPEPogyrm2LyVTFKQ==}
-
   '@conform-to/dom@1.2.2':
     resolution: {integrity: sha512-f05EClpNP31o6lX4LYmmLqgsiTOHdGfY7z2XXK6U6rRp+EtxrkUBdrFlIGsfkf7e9AFO19h3/Cb/cXHVd1k1FA==}
 
-  '@conform-to/react@1.1.4':
-    resolution: {integrity: sha512-RQSat9xnrfu4W/xja9acMSKt/vJWwn2kwec6EausUTkG2WJeuKTcEaEdqA4VZH3PtEK2kK1y/OXzJQGUPwgweQ==}
+  '@conform-to/react@1.2.2':
+    resolution: {integrity: sha512-1JBECb3NKi5/IlexaYLgnAxGJ55MRuO2sEQ10cJfUK2bfltNbTIQnYUDG6pU886A4lda/q6UH/adPsjiB/4Gkg==}
     peerDependencies:
       react: '>=18'
 
@@ -6257,13 +6254,11 @@ snapshots:
   '@cloudflare/workers-types@4.20241022.0':
     optional: true
 
-  '@conform-to/dom@1.1.4': {}
-
   '@conform-to/dom@1.2.2': {}
 
-  '@conform-to/react@1.1.4(react@18.3.1)':
+  '@conform-to/react@1.2.2(react@18.3.1)':
     dependencies:
-      '@conform-to/dom': 1.1.4
+      '@conform-to/dom': 1.2.2
       react: 18.3.1
 
   '@conform-to/zod@1.2.2(zod@3.23.8)':
