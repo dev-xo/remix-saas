@@ -31,21 +31,18 @@ Social Logins are a great way to authenticate users in web applications. Remix S
 You can create a new Github App or OAuth App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
 
 > [!NOTE]
-> Which kind you should use depends on what your app intends to do:
-> - If it will reach out an manipulate a github users repos, then you want a Github App that the user ends up installing into their github account.
-> - If you're just using it for Authentication, then OAuth app 
+> In most cases you just want to create a Github App instead of a OAuth app.
 
 The details you'll want to provide for each Github App (or OAuth App) are: 
 
 - Home page URL: `http://localhost:3000/` 
 - Callback URL: `http://localhost:3000/auth/github/callback`
-- For Github Apps: 
-  - expand `Account Permissions` section
-    - change `Email addresses` to `Read only`
 
 Once created:
 
 - For Github Apps
+  - expand `Account Permissions` section
+    - change `Email addresses` to `Read only`
   - ensure that `Optional Features > User-to-Server token expiration` button is labeled `Opt-out`
 - Copy the `Client ID` and put it in your `.env` under `GITHUB_CLIENT_ID`
 - Click `Generate new client secret`, copy the secrete and put it in your `.env` under `GITHUB_CLIENT_SECRET`
