@@ -28,13 +28,14 @@ We are using `remix-auth-totp` and [Resend](https://resend.com) to handle email 
 
 Social Logins are a great way to authenticate users in web applications. Remix SaaS provides a simple way to authenticate users with their Github account. We are using `remix-auth-github` to handle the authentication process.
 
-You can create a new Github App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
+You can create a new Github App or OAuth App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
 
-In most cases you should prefer to create a Github app instead of a OAuth app; They both support OAuth authentication.
+> [!NOTE]
+> Which kind you should use depends on what your app intends to do:
+> - If it will reach out an manipulate a github users repos, then you want a Github App that the user ends up installing into their github account.
+> - If you're just using it for Authentication, then OAuth app 
 
 The details you'll want to provide for each Github App (or OAuth App) are: 
-
-### Local development
 
 - Home page URL: `http://localhost:3000/` 
 - Callback URL: `http://localhost:3000/auth/github/callback`
@@ -73,7 +74,7 @@ Once created:
 > Home page URL: `https://myappna.me/`
 > Callback URL: `https://myappna.me/auth/github/callback`
 > ```
->
+
 
 ### Authenticate as Admin
 
