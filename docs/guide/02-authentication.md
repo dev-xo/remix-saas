@@ -31,47 +31,40 @@ Social Logins are a great way to authenticate users in web applications. Remix S
 You can create a new Github App or OAuth App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
 
 > [!NOTE]
-> In most cases you just want to create a Github App instead of a OAuth app.
+> In most cases you just want to create a Github App instead of an OAuth app.
 
-The details you'll want to provide for each Github App (or OAuth App) are: 
+The details you'll want to provide for each Github App (or OAuth App) are:
 
-- Home page URL: `http://localhost:3000/` 
+- Home Page URL: `http://localhost:3000/`
 - Callback URL: `http://localhost:3000/auth/github/callback`
 
 Once created:
 
-- For Github Apps
-  - expand `Account Permissions` section
-    - change `Email addresses` to `Read only`
-  - ensure that `Optional Features > User-to-Server token expiration` button is labeled `Opt-out`
+- For Github Apps:
+  - Expand `Account Permissions` section
+    - Change `Email addresses` to `Read only`
+  - Ensure that `Optional Features > User-to-Server token expiration` button is labeled `Opt-out`
 - Copy the `Client ID` and put it in your `.env` under `GITHUB_CLIENT_ID`
-- Click `Generate new client secret`, copy the secrete and put it in your `.env` under `GITHUB_CLIENT_SECRET`
+- Click `Generate new client secret`, copy the secret and put it in your `.env` under `GITHUB_CLIENT_SECRET`
 
 > [!NOTE]
+> It is preferable to create a separate Github App for each deployed environment; for example:
 >
-> It is preferrable to create a separate Github App for each deployed environment; for example:
+> `Local Development`
 >
-> `local development`
 > ```
 > Name: [LOCAL] Your App Name
-> Home page URL: `http://localhost:3000/`
+> Home Page URL: `http://localhost:3000/`
 > Callback URL: `http://localhost:3000/auth/github/callback`
 > ```
 >
-> `qa`
-> ```
-> Name: [QA] Your App Name
-> Home page URL: `https://qa.myappname.companydoma.in/`
-> Callback URL: `https://qa.myappname.companydoma.in/auth/github/callback`
-> ```
+> `Production`
 >
-> `prod`
->```
+> ```
 > Name: Your App Name
-> Home page URL: `https://myappna.me/`
+> Home Page URL: `https://myappna.me/`
 > Callback URL: `https://myappna.me/auth/github/callback`
 > ```
-
 
 ### Authenticate as Admin
 
