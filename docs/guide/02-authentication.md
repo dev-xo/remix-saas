@@ -28,13 +28,43 @@ We are using `remix-auth-totp` and [Resend](https://resend.com) to handle email 
 
 Social Logins are a great way to authenticate users in web applications. Remix SaaS provides a simple way to authenticate users with their Github account. We are using `remix-auth-github` to handle the authentication process.
 
-- You can create a new OAuth App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
+You can create a new Github App or OAuth App by visiting [Github Developer Settings](https://github.com/settings/developers) in order to get your `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` API Keys.
 
-Remix Auth Github v2.0:
+> [!NOTE]
+> In most cases you just want to create a Github App instead of an OAuth app.
 
-- If you encounter the issue `Missing or invalid 'expires_in' field` when using GitHub OAuth with recent changes to `remix-auth-github`, you should create a **GitHub App**, instead of using GitHub OAuth. When creating the GitHub App, make sure to grant email permission.
+The details you'll want to provide for each Github App (or OAuth App) are:
 
-Here's a Pull Request that also includes 2 images to guide you through the process: [PR #323](https://github.com/dev-xo/remix-saas/pull/323/files)
+- Home Page URL: `http://localhost:3000/`
+- Callback URL: `http://localhost:3000/auth/github/callback`
+
+Once created:
+
+- For Github Apps:
+  - Expand `Account Permissions` section
+    - Change `Email addresses` to `Read only`
+  - Ensure that `Optional Features > User-to-Server token expiration` button is labeled `Opt-out`
+- Copy the `Client ID` and put it in your `.env` under `GITHUB_CLIENT_ID`
+- Click `Generate new client secret`, copy the secret and put it in your `.env` under `GITHUB_CLIENT_SECRET`
+
+> [!NOTE]
+> It is preferable to create a separate Github App for each deployed environment; for example:
+>
+> `Local Development`
+>
+> ```
+> Name: [LOCAL] Your App Name
+> Home Page URL: `http://localhost:3000/`
+> Callback URL: `http://localhost:3000/auth/github/callback`
+> ```
+>
+> `Production`
+>
+> ```
+> Name: Your App Name
+> Home Page URL: `https://myappna.me/`
+> Callback URL: `https://myappna.me/auth/github/callback`
+> ```
 
 ### Authenticate as Admin
 
