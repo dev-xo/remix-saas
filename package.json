@@ -34,7 +34,7 @@
     "@react-email/render": "^0.0.17",
     "@remix-run/express": "^2.13.1",
     "@remix-run/node": "^2.13.1",
-    "@remix-run/react": "^2.13.1",
+    "@remix-run/react": "^2.14.0",
     "@remix-run/router": "^1.20.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
