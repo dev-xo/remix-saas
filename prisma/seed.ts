@@ -1,10 +1,10 @@
 import type { Interval } from '#app/modules/stripe/plans'
 import { PrismaClient } from '@prisma/client'
-import { prisma } from '#app/utils/db.server'
 import { stripe } from '#app/modules/stripe/stripe.server'
 import { PRICING_PLANS } from '#app/modules/stripe/plans'
 
-const client = new PrismaClient()
+const prisma = new PrismaClient()
+prisma.$connect()
 
 async function seed() {
   /**
@@ -157,10 +157,11 @@ async function seed() {
 }
 
 seed()
-  .catch((err: unknown) => {
+  .catch(async (err) => {
     console.error(err)
+    await prisma.$disconnect()
     process.exit(1)
   })
-  .finally(async () => {
-    await client.$disconnect()
+  .then(async () => {
+    await prisma.$disconnect()
   })
