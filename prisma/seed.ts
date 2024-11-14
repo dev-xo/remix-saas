@@ -1,10 +1,7 @@
 import type { Interval } from '#app/modules/stripe/plans'
-import { PrismaClient } from '@prisma/client'
 import { stripe } from '#app/modules/stripe/stripe.server'
 import { PRICING_PLANS } from '#app/modules/stripe/plans'
-
-const prisma = new PrismaClient()
-prisma.$connect()
+import { prisma } from '#app/utils/db.server.ts'
 
 async function seed() {
   /**
