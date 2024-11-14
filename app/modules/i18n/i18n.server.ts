@@ -12,8 +12,8 @@ export const localeCookie = createCookie('lng', {
 
 export default new RemixI18Next({
   detection: {
-    supportedLanguages: i18n.supportedLangs,
-    fallbackLanguage: i18n.fallbackLang,
+    supportedLanguages: i18n.supportedLngs,
+    fallbackLanguage: i18n.fallbackLng,
     cookie: localeCookie,
   },
   // Configuration for i18next used when
