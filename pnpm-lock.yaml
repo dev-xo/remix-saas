@@ -48,8 +48,8 @@ importers:
         specifier: ^2.14.0
         version: 2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       '@remix-run/router':
-        specifier: ^1.20.0
-        version: 1.20.0
+        specifier: ^1.21.0
+        version: 1.21.0
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -11529,7 +11529,7 @@ snapshots:
       '@remix-run/deno': 2.13.1(typescript@5.6.3)
       '@remix-run/node': 2.13.1(typescript@5.6.3)
       '@remix-run/react': 2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
-      '@remix-run/router': 1.20.0
+      '@remix-run/router': 1.21.0
       crypto-js: 4.2.0
       intl-parse-accept-language: 1.0.0
       is-ip: 3.1.0
