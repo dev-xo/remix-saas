@@ -57,7 +57,7 @@ async function seed() {
   const products = await stripe.products.list({
     limit: 3,
   })
-  if (products?.data?.length) {
+  if (!products?.data?.length) {
     console.info('🏃‍♂️ Skipping Stripe products creation and seeding.')
     return true
   }
