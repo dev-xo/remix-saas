@@ -52,7 +52,7 @@
     "prisma": "^5.21.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-email": "^2.1.6",
+    "react-email": "^3.0.3",
     "react-i18next": "^15.0.3",
     "remix-auth": "^3.7.0",
     "remix-auth-github": "^2.0.0",
