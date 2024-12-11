@@ -9,6 +9,8 @@ import { siteConfig } from '#app/utils/constants/brand'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Button, buttonVariants } from '#app/components/ui/button'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
+import arcjet from '#app/utils/arcjet.server'
+import { detectBot } from '@arcjet/remix'
 
 import { Logo } from '#app/components/logo'
 import ShadowPNG from '#public/images/shadow.png'
@@ -17,8 +19,37 @@ export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const sessionUser = await authenticator.isAuthenticated(request)
+// Add rules to the base Arcjet instance outside of the handler function
+const aj = arcjet.withRule(
+  detectBot({
+    mode: 'LIVE', // will block requests. Use "DRY_RUN" to log only
+    // configured with a list of bots to allow from
+    // https://arcjet.com/bot-list
+    // blocks all bots except monitoring services and search engines
+    allow: ['CATEGORY:MONITOR', 'CATEGORY:SEARCH_ENGINE'],
+  }),
+)
+
+export async function loader(args: LoaderFunctionArgs) {
+  if (process.env.ARCJET_KEY) {
+    const decision = await aj.protect(args)
+
+    if (decision.isDenied()) {
+      if (decision.reason.isBot()) {
+        // Distinguish between bots and other errors in case you want to show a
+        // custom message
+        throw new Response('Forbidden', {
+          status: 403,
+        })
+      } else {
+        throw new Response('Not allowed', {
+          status: 403,
+        })
+      }
+    }
+  }
+
+  const sessionUser = await authenticator.isAuthenticated(args.request)
   return json({ user: sessionUser } as const)
 }
 
