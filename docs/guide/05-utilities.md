@@ -19,6 +19,27 @@ Hooks are a way to reuse logic across components. They are defined in the `/util
 - `useRequestInfo`: A hook that returns the request information from the `root` loader.
 - `useTheme`: A hook to manage the application theme.
 
+## Security
+
+Remix SaaS includes an optional integration with [Arcjet](https://arcjet.com/), a security as code product that helps secure your application with bot protection, rate limiting, and signup form spam protection.
+
+Arcjet's philosophy is that proper security protections need the full context of the application, which is why security rules and protections should be located alongside the code they are protecting.
+
+Arcjet security as code means you can version control your security rules, track changes through pull requests, and test them locally before deploying to production.
+
+### Configuration
+
+You can enable this integration by [signing up for a free account](https://arcjet.com/) and setting the `ARCJET_KEY` environment variable in the `.env` file.
+
+This will enable:
+
+- Bot protection on the website index. The rules are defined in the loader of `app/routes/_home+/_index.tsx`.
+- Bot protection, rate limiting, email verification and validation on the login form. This will help protect against fraudulent or spam signups. The rules are defined in the action of `app/routes/auth+/login.tsx`.
+
+Both of these use a central client with a base rule to detect common attacks that is applied everywhere the client is used. This is defined in `app/utils/arcjet.server.ts`.
+
+See [the Arcjet documentation](https://docs.arcjet.com) for full details.
+
 ## Permissions and Roles
 
 Utils that help manage permissions and roles are defined in the `/utils/permissions` directory. Some of the utilities that are available are:

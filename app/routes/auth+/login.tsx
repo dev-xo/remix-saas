@@ -5,7 +5,7 @@ import type {
 } from '@remix-run/node'
 import { useRef, useEffect } from 'react'
 import { Form, useLoaderData } from '@remix-run/react'
-import { json } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { useHydrated } from 'remix-utils/use-hydrated'
 import { AuthenticityTokenInput } from 'remix-utils/csrf/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
@@ -23,6 +23,8 @@ import { Input } from '#app/components/ui/input'
 import { Button } from '#app/components/ui/button'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
 import { ROUTE_PATH as AUTH_VERIFY_PATH } from '#app/routes/auth+/verify'
+import arcjet from '#app/utils/arcjet.server'
+import { detectBot, slidingWindow, validateEmail } from '@arcjet/remix'
 
 export const ROUTE_PATH = '/auth/login' as const
 
@@ -33,6 +35,34 @@ export const LoginSchema = z.object({
 export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Login` }]
 }
+
+// Add rules to the base Arcjet instance outside of the handler function
+const aj = arcjet
+  .withRule(
+    detectBot({
+      mode: 'LIVE', // will block requests. Use "DRY_RUN" to log only
+      // configured with a list of bots to allow from
+      // https://arcjet.com/bot-list
+      allow: ['CATEGORY:MONITOR'], // blocks all bots except monitoring services
+    }),
+  )
+  .withRule(
+    // Chain bot protection with rate limiting because a login form shouldn't
+    // be submitted more than a few times a minute
+    slidingWindow({
+      mode: 'LIVE',
+      max: 10, // 10 requests per window
+      interval: '60s', // 60 second sliding window
+    }),
+  )
+  .withRule(
+    // Validate the email address to prevent spam
+    validateEmail({
+      mode: 'LIVE',
+      // block disposable, invalid, and email addresses with no MX records
+      block: ['DISPOSABLE', 'INVALID', 'NO_MX_RECORDS'],
+    }),
+  )
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await authenticator.isAuthenticated(request, {
@@ -50,16 +80,46 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
 }
 
-export async function action({ request }: ActionFunctionArgs) {
-  const url = new URL(request.url)
+export async function action(args: ActionFunctionArgs) {
+  const url = new URL(args.request.url)
   const pathname = url.pathname
 
-  const clonedRequest = request.clone()
+  const clonedRequest = args.request.clone()
   const formData = await clonedRequest.formData()
   await validateCSRF(formData, clonedRequest.headers)
   checkHoneypot(formData)
 
-  await authenticator.authenticate('TOTP', request, {
+  if (process.env.ARCJET_KEY) {
+    const email = formData.get('email') as string
+    const decision = await aj.protect(args, { email })
+
+    let authError: { message: string } | undefined
+
+    if (decision.isDenied()) {
+      if (decision.reason.isBot()) {
+        authError = { message: 'Forbidden' }
+      } else if (decision.reason.isRateLimit()) {
+        authError = { message: 'Too many login attempts - try again shortly' }
+      } else if (decision.reason.isEmail()) {
+        // This is a generic error, but you could be more specific
+        // See https://docs.arcjet.com/email-validation/reference#checking-the-email-type
+        authError = { message: 'Invalid email address' }
+      } else {
+        authError = { message: 'Access denied' }
+      }
+
+      let cookie = await getSession(args.request.headers.get('Cookie'))
+      cookie.set(authenticator.sessionErrorKey, authError)
+
+      return redirect(pathname, {
+        headers: {
+          'Set-Cookie': await commitSession(cookie),
+        },
+      })
+    }
+  }
+
+  await authenticator.authenticate('TOTP', args.request, {
     successRedirect: AUTH_VERIFY_PATH,
     failureRedirect: pathname,
   })
@@ -124,6 +184,11 @@ export default function Login() {
             </span>
           )}
           {!authEmail && authError && (
+            <span className="mb-2 text-sm text-destructive dark:text-destructive-foreground">
+              {authError.message}
+            </span>
+          )}
+          {authError && (
             <span className="mb-2 text-sm text-destructive dark:text-destructive-foreground">
               {authError.message}
             </span>

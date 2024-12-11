@@ -153,9 +153,7 @@ export function ErrorBoundary() {
     <Document nonce={nonce} theme={theme}>
       <GenericErrorBoundary
         statusHandlers={{
-          403: ({ error }) => (
-            <p>You are not allowed to do that: {error?.data.message}</p>
-          ),
+          403: ({ error }) => <p>You are not allowed to do that: {error.data}</p>,
         }}
       />
     </Document>
