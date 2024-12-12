@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet } from '@remix-run/react'
-import { json, redirect } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { authenticator } from '#app/modules/auth/auth.server'
 import { getDomainPathname } from '#app/utils/misc.server'
 import { ROUTE_PATH as HOME_PATH } from '#app/routes/_home+/_layout'
@@ -16,7 +16,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
   const pathname = getDomainPathname(request)
   if (pathname === ROUTE_PATH) return redirect(LOGIN_PATH)
-  return json({})
+  return {}
 }
 
 const QUOTES = [

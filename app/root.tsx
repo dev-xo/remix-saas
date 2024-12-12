@@ -7,8 +7,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  data,
 } from '@remix-run/react'
-import { json } from '@remix-run/node'
 import { useChangeLanguage } from 'remix-i18next/react'
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
@@ -62,7 +62,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { toast, headers: toastHeaders } = await getToastSession(request)
   const [csrfToken, csrfCookieHeader] = await csrf.commitToken()
 
-  return json(
+  return data(
     {
       user,
       locale,

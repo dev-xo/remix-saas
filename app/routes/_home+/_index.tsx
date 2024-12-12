@@ -1,6 +1,5 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { json } from '@remix-run/node'
 import { Star, ArrowRight } from 'lucide-react'
 import { authenticator } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
@@ -19,7 +18,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const sessionUser = await authenticator.isAuthenticated(request)
-  return json({ user: sessionUser } as const)
+  return { user: sessionUser }
 }
 
 export default function Index() {

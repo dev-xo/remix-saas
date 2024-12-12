@@ -1,6 +1,5 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLocation } from '@remix-run/react'
-import { json } from '@remix-run/node'
 import { z } from 'zod'
 import { requireUser } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
@@ -25,7 +24,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await requireUser(request)
-  return json({ user })
+  return { user }
 }
 
 export default function DashboardSettings() {

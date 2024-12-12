@@ -1,5 +1,4 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { json } from '@remix-run/node'
 import { Plus, ExternalLink } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { requireUser } from '#app/modules/auth/auth.server'
@@ -17,7 +16,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const subscription = await prisma.subscription.findUnique({
     where: { userId: user.id },
   })
-  return json({ user, subscription } as const)
+  return { user, subscription }
 }
 
 export default function DashboardIndex() {
