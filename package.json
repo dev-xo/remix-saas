@@ -42,7 +42,7 @@
     "cookie": "^1.0.2",
     "cross-env": "^7.0.3",
     "express": "^4.21.2",
-    "express-rate-limit": "^7.4.1",
+    "express-rate-limit": "^7.5.0",
     "helmet": "^7.2.0",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^8.0.2",
