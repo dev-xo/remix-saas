@@ -6,7 +6,7 @@ import type {
 import type { Interval, Plan } from '#app/modules/stripe/plans'
 import { useState } from 'react'
 import { Form, useLoaderData } from '@remix-run/react'
-import { json, redirect } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { requireSessionUser } from '#app/modules/auth/auth.server'
 import { PLANS, PRICING_PLANS, INTERVALS, CURRENCIES } from '#app/modules/stripe/plans'
 import {
@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
   const currency = getLocaleCurrency(request)
 
-  return json({ subscription, currency } as const)
+  return { subscription, currency }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -56,18 +56,18 @@ export async function action({ request }: ActionFunctionArgs) {
       planInterval,
       request,
     })
-    if (!checkoutUrl) return json({ success: false } as const)
+    if (!checkoutUrl) return { success: false }
     return redirect(checkoutUrl)
   }
   if (intent === INTENTS.SUBSCRIPTION_CREATE_CUSTOMER_PORTAL) {
     const customerPortalUrl = await createCustomerPortal({
       userId: sessionUser.id,
     })
-    if (!customerPortalUrl) return json({ success: false } as const)
+    if (!customerPortalUrl) return { success: false }
     return redirect(customerPortalUrl)
   }
 
-  return json({})
+  return {}
 }
 
 export default function DashboardBilling() {

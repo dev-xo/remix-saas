@@ -1,6 +1,5 @@
-import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
+import type { MetaFunction, LoaderFunctionArgs, TypedResponse } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { json } from '@remix-run/node'
 import { ShoppingBasket, ExternalLink } from 'lucide-react'
 import { requireUserWithRole } from '#app/utils/permissions.server'
 import { prisma } from '#app/utils/db.server'
@@ -16,12 +15,17 @@ export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Admin` }]
 }
 
+export type LoaderData = Exclude<
+  Awaited<ReturnType<typeof loader>>,
+  Response | TypedResponse<unknown>
+>
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await requireUserWithRole(request, 'admin')
   const subscription = await prisma.subscription.findUnique({
     where: { userId: user.id },
   })
-  return json({ user, subscription } as const)
+  return { user, subscription }
 }
 
 export default function Admin() {

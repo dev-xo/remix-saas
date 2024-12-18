@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
-import { json, redirect } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { requireUser } from '#app/modules/auth/auth.server'
 import { getDomainPathname } from '#app/utils/misc.server'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (isOnboardingPathname) return redirect(DASHBOARD_PATH)
   if (user.username && isOnboardingUsernamePathname) return redirect(DASHBOARD_PATH)
 
-  return json({})
+  return {}
 }
 
 export default function Onboarding() {

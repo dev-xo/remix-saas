@@ -1,7 +1,7 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { useState } from 'react'
 import { Link, useLoaderData, useRevalidator } from '@remix-run/react'
-import { json, redirect } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { Loader2, BadgeCheck, AlertTriangle, ExternalLink } from 'lucide-react'
 import { requireSessionUser } from '#app/modules/auth/auth.server'
 import { PLANS } from '#app/modules/stripe/plans'
@@ -24,7 +24,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
   if (!subscription) return redirect(DASHBOARD_PATH)
 
-  return json({ isFreePlan: subscription.planId === PLANS.FREE } as const)
+  return { isFreePlan: subscription.planId === PLANS.FREE }
 }
 
 export default function DashboardCheckout() {

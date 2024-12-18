@@ -7,7 +7,9 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 
-installGlobals()
+// Info about Single Fetch and `installGlobals`:
+// https://remix.run/docs/en/main/guides/single-fetch#enabling-single-fetch
+installGlobals({ nativeFetch: true })
 
 const PORT = process.env.PORT || 3000
 const NODE_ENV = process.env.NODE_ENV ?? 'development'

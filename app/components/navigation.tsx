@@ -1,4 +1,5 @@
-import type { User } from '@prisma/client'
+import type { LoaderData as AdminLoaderData } from '#app/routes/admin+/_layout'
+import type { LoaderData as DashboardLoaderData } from '#app/routes/dashboard+/_layout'
 import { Link, useLocation, useSubmit, useNavigate } from '@remix-run/react'
 import {
   ChevronUp,
@@ -30,23 +31,8 @@ import {
 import { Button, buttonVariants } from '#app/components/ui/button'
 import { Logo } from '#app/components/logo'
 
-/**
- * Required to handle JsonifyObject Typescript mismatch.
- * This will be fixed in future versions of Remix.
- */
-type JsonifyObjectUser = Omit<User, 'createdAt' | 'updatedAt'> & {
-  image: {
-    id: string
-  } | null
-  roles: {
-    name: string
-  }[]
-  createdAt: string | null
-  updatedAt: string | null
-}
-
 type NavigationProps = {
-  user: JsonifyObjectUser | null
+  user: AdminLoaderData['user'] | DashboardLoaderData['user'] | null
   planId?: string
 }
 

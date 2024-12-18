@@ -4,8 +4,8 @@ import type {
   ActionFunctionArgs,
 } from '@remix-run/node'
 import { useRef, useEffect } from 'react'
-import { Form, useActionData } from '@remix-run/react'
-import { json, redirect } from '@remix-run/node'
+import { Form, useActionData, data } from '@remix-run/react'
+import { redirect } from '@remix-run/node'
 import { useHydrated } from 'remix-utils/use-hydrated'
 import { AuthenticityTokenInput } from 'remix-utils/csrf/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
@@ -46,7 +46,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await requireSessionUser(request, { redirectTo: LOGIN_PATH })
-  return json({})
+  return {}
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -61,14 +61,14 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const submission = parseWithZod(formData, { schema: UsernameSchema })
   if (submission.status !== 'success') {
-    return json(submission.reply(), { status: submission.status === 'error' ? 400 : 200 })
+    return data(submission.reply(), { status: submission.status === 'error' ? 400 : 200 })
   }
 
   const { username } = submission.value
   const isUsernameTaken = await prisma.user.findUnique({ where: { username } })
 
   if (isUsernameTaken) {
-    return json(
+    return data(
       submission.reply({
         fieldErrors: {
           username: [ERRORS.ONBOARDING_USERNAME_ALREADY_EXISTS],

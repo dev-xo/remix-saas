@@ -4,8 +4,8 @@ import type {
   ActionFunctionArgs,
 } from '@remix-run/node'
 import { useRef, useEffect } from 'react'
-import { Form, useLoaderData } from '@remix-run/react'
-import { json, redirect } from '@remix-run/node'
+import { Form, useLoaderData, data } from '@remix-run/react'
+import { redirect } from '@remix-run/node'
 import { useHydrated } from 'remix-utils/use-hydrated'
 import { AuthenticityTokenInput } from 'remix-utils/csrf/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
@@ -73,11 +73,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const authEmail = cookie.get('auth:email')
   const authError = cookie.get(authenticator.sessionErrorKey)
 
-  return json({ authEmail, authError } as const, {
-    headers: {
-      'Set-Cookie': await commitSession(cookie),
-    },
-  })
+  return data(
+    { authEmail, authError },
+    { headers: { 'Set-Cookie': await commitSession(cookie) } },
+  )
 }
 
 export async function action(args: ActionFunctionArgs) {

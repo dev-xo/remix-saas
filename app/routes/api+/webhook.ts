@@ -130,11 +130,10 @@ export async function action({ request }: ActionFunctionArgs) {
         const subscription = event.data.object
         const { id } = z.object({ id: z.string() }).parse(subscription)
 
-        const dbSubscription = await prisma.subscription.findUnique({
-          where: { id },
-        })
-        if (dbSubscription)
+        const dbSubscription = await prisma.subscription.findUnique({ where: { id } })
+        if (dbSubscription) {
           await prisma.subscription.delete({ where: { id: dbSubscription.id } })
+        }
 
         return new Response(null)
       }
