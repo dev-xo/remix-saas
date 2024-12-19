@@ -163,7 +163,7 @@ async function copyArcjetImplementation(rootDirectory) {
  * Creates a new `.env` file, based on `.env.example`.
  * Also removes `.env.example`.
  */
-async function initEnvFile(rootDirectory, useArcjet) {
+async function initEnvFile(rootDirectory) {
   const NEW_ENV_PATH = path.join(rootDirectory, '.env')
   const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
 
@@ -180,12 +180,6 @@ async function initEnvFile(rootDirectory, useArcjet) {
     /^HONEYPOT_ENCRYPTION_SEED=.*$/m,
     `HONEYPOT_ENCRYPTION_SEED="${generateRandomHexadecimalString(64)}"`,
   )
-
-  if (useArcjet) {
-    newEnv += `\n\n# Arcjet Security - Bot detection, spam signup detection, and attack prevention.
-# Get your free API key at https://arcjet.com and increase your app security.
-ARCJET_KEY=""`
-  }
 
   await fs.writeFile(NEW_ENV_PATH, newEnv)
   await fs.unlink(EXAMPLE_ENV_PATH)
@@ -303,7 +297,7 @@ async function main({ rootDirectory, packageManager }) {
 
     await Promise.all([
       updatePackageJson(rootDirectory, APP_NAME, optInArcjet),
-      initEnvFile(rootDirectory, optInArcjet),
+      initEnvFile(rootDirectory),
       updateProjectNameFromRiles(rootDirectory, APP_NAME),
       removeUnusedFiles(rootDirectory),
     ])
