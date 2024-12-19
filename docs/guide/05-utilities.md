@@ -36,7 +36,7 @@ The default admin email can be changed in the `/prisma/seed.ts` file.
 
 ## Arcjet Security
 
-Remix SaaS includes an optional integration with [Arcjet](https://arcjet.com/), a security-as-code product that helps secure your application with bot protection, rate limiting, and signup form spam protection.
+Remix SaaS includes an optional integration with [Arcjet](https://launch.arcjet.com/hdXzPbO), a security-as-code product that helps secure your application with bot protection, rate limiting, and signup form spam protection.
 
 Arcjet's philosophy is that proper security protections need the full context of the application, which is why security rules and protections should be located alongside the code they are protecting.
 
