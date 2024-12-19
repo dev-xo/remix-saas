@@ -1,4 +1,4 @@
-<a href="https://arcjet.com" target="_arcjet-home">
+<a href="https://launch.arcjet.com/hdXzPbO" target="_arcjet-home">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://arcjet.com/logo/arcjet-dark-lockup-voyage-horizontal.svg">
     <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet Logo" height="128" width="auto">
