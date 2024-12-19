@@ -94,7 +94,7 @@ async function removeUnusedFiles(rootDirectory) {
 async function promptUser() {
   try {
     const optInArcjet = await confirm({
-      message: chalk.blue('Would you like to use Arcjet Security?'),
+      message: chalk.blue('Would you like to use Arcjet?\n\nAdding Arcjet provides bot protection, spam signup detection and attack prevention for out of the box for free. Other features e.g. rate limiting & PII redaction can be enabled.'),
       default: true,
     })
     return { optInArcjet }
