@@ -45,7 +45,7 @@ Special thanks to [@mw10013](https://github.com/mw10013) who has been part of th
 
 ## Sponsors
 
-Remix SaaS is proudly supported by [Arcjet](https://arcjet.com/).
+Remix SaaS is proudly supported by [Arcjet](https://launch.arcjet.com/hdXzPbO).
 
 <a href="https://arcjet.com" target="_arcjet-home">
   <picture>
