@@ -47,7 +47,7 @@ Special thanks to [@mw10013](https://github.com/mw10013) who has been part of th
 
 Remix SaaS is proudly supported by [Arcjet](https://launch.arcjet.com/hdXzPbO).
 
-<a href="https://arcjet.com" target="_arcjet-home">
+<a href="https://launch.arcjet.com/hdXzPbO" target="_arcjet-home">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://arcjet.com/logo/arcjet-dark-lockup-voyage-horizontal.svg">
     <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet Logo" height="128" width="auto">
