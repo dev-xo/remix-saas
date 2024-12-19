@@ -145,7 +145,7 @@ If you found **Remix SaaS** helpful, consider supporting it with a ⭐ [Star](ht
 
 ## Sponsors
 
-Remix SaaS is proudly supported by [Arcjet](https://arcjet.com/).
+Remix SaaS is proudly supported by [Arcjet](https://launch.arcjet.com/hdXzPbO).
 
 <a href="https://launch.arcjet.com/hdXzPbO" target="_arcjet-home">
   <picture>
