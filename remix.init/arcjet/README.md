@@ -16,7 +16,7 @@ Data redaction. A developer-first approach to security.
 1. Sign up for a free account at [arcjet.com][arcjet].
 2. [Follow the quick start][quick-start] for your platform.
 
-[arcjet]: https://arcjet.com
+[arcjet]: https://launch.arcjet.com/hdXzPbO
 [quick-start]: https://docs.arcjet.com/get-started
 
 ## Support
