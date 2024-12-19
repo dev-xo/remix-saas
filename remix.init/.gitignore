@@ -7,17 +7,3 @@ node_modules
 .idea
 .vscode
 .DS_Store
-
-# Miscelaneous
-/.cache
-/build
-/public/build
-.env
-
-# Prisma
-/prisma/data.db
-/prisma/data.db-journal
-/prisma/migrations
-
-# Tests
-/coverage
