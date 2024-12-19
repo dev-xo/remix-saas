@@ -256,7 +256,7 @@ function printSuccessMessage(optInArcjet, pm) {
     console.log(colors.header('⚡ Next Steps:'))
     console.log(colors.subHeader('📚 Arcjet Security Setup:'))
     console.log(
-      `${colors.bullet('1.')} Visit your Dashboard: ${colors.link('https://arcjet.com')}`,
+      `${colors.bullet('1.')} Sign up for a free Arcjet account ${colors.link('https://launch.arcjet.com/hdXzPbO')}`,
     )
     console.log(`${colors.bullet('2.')} Update the .env file with your Arcjet API key.`)
     console.log(
