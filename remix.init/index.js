@@ -94,7 +94,9 @@ async function removeUnusedFiles(rootDirectory) {
 async function promptUser() {
   try {
     const optInArcjet = await confirm({
-      message: chalk.blue('Would you like to use Arcjet?\n\nAdding Arcjet provides bot protection, spam signup detection and attack prevention for out of the box for free. Other features e.g. rate limiting & PII redaction can be enabled.'),
+      message: chalk.blue(
+        'Would you like to use Arcjet?\n\nAdding Arcjet provides bot protection, spam signup detection and attack prevention for out of the box for free. Other features e.g. rate limiting & PII redaction can be enabled.',
+      ),
       default: true,
     })
     return { optInArcjet }
@@ -180,7 +182,7 @@ async function initEnvFile(rootDirectory, useArcjet) {
   )
 
   if (useArcjet) {
-    newEnv += `\n\n# Arcjet Security (Optional) - Rate limiting, bot detection, and request filtering.
+    newEnv += `\n\n# Arcjet Security - Bot detection, spam signup detection, and attack prevention.
 # Get your free API key at https://arcjet.com and increase your app security.
 ARCJET_KEY=""`
   }
