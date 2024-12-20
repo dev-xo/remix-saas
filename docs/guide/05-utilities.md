@@ -55,7 +55,7 @@ By opting into Arcjet, you will benefit from:
 
 Both of these use a central client with a base rule to detect common attacks that is applied everywhere the client is used. This is defined in `app/utils/arcjet.server.ts`.
 
-See [the Arcjet documentation](https://launch.arcjet.com/hdXzPbO) for full details.
+See [the Arcjet documentation](https://docs.arcjet.com) for full details.
 
 ## Toasts
 
