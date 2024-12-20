@@ -1,6 +1,5 @@
-import type { SerializeFrom } from '@remix-run/node'
 import type { ClassValue } from 'clsx'
-import type { loader as rootLoader } from '#app/root'
+import type { LoaderData as RootLoaderData } from '#app/root'
 import { useFormAction, useNavigation, useRouteLoaderData } from '@remix-run/react'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -16,14 +15,14 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Use root-loader data.
  */
-function isUser(user: any): user is SerializeFrom<typeof rootLoader>['user'] {
+function isUser(user: RootLoaderData['data']['user']) {
   return user && typeof user === 'object' && typeof user.id === 'string'
 }
 
 export function useOptionalUser() {
-  const data = useRouteLoaderData<typeof rootLoader>('root')
-  if (!data || !isUser(data.user)) return undefined
-  return data.user
+  const loaderData = useRouteLoaderData<RootLoaderData>('root')
+  if (!loaderData || !isUser(loaderData.data.user)) return undefined
+  return loaderData.data.user
 }
 
 export function useUser() {

@@ -1,9 +1,4 @@
-import type {
-  MetaFunction,
-  LinksFunction,
-  LoaderFunctionArgs,
-  TypedResponse,
-} from '@remix-run/node'
+import type { MetaFunction, LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import type { Theme } from '#app/utils/hooks/use-theme'
 import {
   Links,
@@ -33,13 +28,15 @@ import { ClientHintCheck } from '#app/components/misc/client-hints'
 import { GenericErrorBoundary } from '#app/components/misc/error-boundary'
 import i18nServer, { localeCookie } from '#app/modules/i18n/i18n.server'
 
-import RootCSS from './root.css?url'
+import RootCSS from '#app/root.css?url'
 
 export const handle = { i18n: ['translation'] }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
-    { title: data ? `${siteConfig.siteTitle}` : `Error | ${siteConfig.siteTitle}` },
+    {
+      title: data ? `${siteConfig.siteTitle}` : `Error | ${siteConfig.siteTitle}`,
+    },
     {
       name: 'description',
       content: siteConfig.siteDescription,
@@ -50,11 +47,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: RootCSS }]
 }
-
-export type LoaderData = Exclude<
-  Awaited<ReturnType<typeof loader>>,
-  Response | TypedResponse<unknown>
->
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const sessionUser = await authenticator.isAuthenticated(request)
@@ -163,9 +155,7 @@ export function ErrorBoundary() {
     <Document nonce={nonce} theme={theme}>
       <GenericErrorBoundary
         statusHandlers={{
-          403: ({ error }) => (
-            <p>You are not allowed to do that: {error?.data.message}</p>
-          ),
+          403: ({ error }) => <p>You are not allowed to do that: {error.data}</p>,
         }}
       />
     </Document>

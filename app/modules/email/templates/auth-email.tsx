@@ -106,7 +106,7 @@ export function renderAuthEmailEmail(args: AuthEmailOptions) {
  * Senders.
  */
 export async function sendAuthEmail({ email, code, magicLink }: AuthEmailOptions) {
-  const html = renderAuthEmailEmail({ email, code, magicLink })
+  const html = await renderAuthEmailEmail({ email, code, magicLink })
 
   await sendEmail({
     to: email,

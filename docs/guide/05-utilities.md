@@ -34,6 +34,29 @@ You can authenticate as `admin` by using the following credentials:
 
 The default admin email can be changed in the `/prisma/seed.ts` file.
 
+## Arcjet Security
+
+Remix SaaS includes an optional integration with [Arcjet](https://launch.arcjet.com/hdXzPbO), a security-as-code product that helps secure your application with bot protection, rate limiting, and signup form spam protection.
+
+Arcjet's philosophy is that proper security protections need the full context of the application, which is why security rules and protections should be located alongside the code they are protecting.
+
+Arcjet security-as-code means you can version control your security rules, track changes through pull requests, and test them locally before deploying to production.
+
+### Arcjet Configuration
+
+You can enable this integration by [signing up for a free account](https://launch.arcjet.com/hdXzPbO) and setting the `ARCJET_KEY` environment variable in the `.env` file.
+
+An easier approach is to simply initialize the template opting into Arcjet, as this will automatically add the `ARCJET_KEY` environment variable to the `.env` file and update a few other files to fully enable Arcjet for you.
+
+By opting into Arcjet, you will benefit from:
+
+- Bot protection on the website index. The rules are defined in the loader of `app/routes/_home+/_index.tsx`.
+- Bot protection, rate limiting, email verification, and validation on the login form. This will help protect against fraudulent or spam signups. The rules are defined in the action of `app/routes/auth+/login.tsx`.
+
+Both of these use a central client with a base rule to detect common attacks that is applied everywhere the client is used. This is defined in `app/utils/arcjet.server.ts`.
+
+See [the Arcjet documentation](https://docs.arcjet.com) for full details.
+
 ## Toasts
 
 Toasts are a way to display messages to the user. They are defined in the `/utils/toasts` directory. Some of the toasts that are available are:

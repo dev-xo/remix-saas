@@ -110,7 +110,7 @@ export default function OnboardingUsername() {
         <span className="mb-2 animate-pulse select-none text-6xl">👋</span>
         <h3 className="text-center text-2xl font-medium text-primary">Welcome!</h3>
         <p className="text-center text-base font-normal text-primary/60">
-          Let's get started by choosing a username.
+          Let&apos;s get started by choosing a username.
         </p>
       </div>
 
