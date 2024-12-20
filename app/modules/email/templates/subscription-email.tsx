@@ -108,7 +108,7 @@ export async function sendSubscriptionSuccessEmail({
   email,
   subscriptionId,
 }: SubscriptionEmailOptions) {
-  const html = renderSubscriptionSuccessEmail({ email, subscriptionId })
+  const html = await renderSubscriptionSuccessEmail({ email, subscriptionId })
 
   await sendEmail({
     to: email,
@@ -121,7 +121,7 @@ export async function sendSubscriptionErrorEmail({
   email,
   subscriptionId,
 }: SubscriptionEmailOptions) {
-  const html = renderSubscriptionErrorEmail({ email, subscriptionId })
+  const html = await renderSubscriptionErrorEmail({ email, subscriptionId })
 
   await sendEmail({
     to: email,
