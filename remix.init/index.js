@@ -133,7 +133,8 @@ async function updatePackageJson(rootDirectory, APP_NAME, useArcjet) {
  * Copies Arcjet implementation files.
  */
 async function copyArcjetImplementation(rootDirectory) {
-  const ARCJET_DIR = path.join(rootDirectory, 'arcjet')
+  const ARCJET_DIR = path.join(rootDirectory, 'remix.init', 'arcjet')
+
   const arcjetFiles = [
     { from: 'app/root.tsx', to: 'app/root.tsx' },
     { from: 'app/routes/_home+/_index.tsx', to: 'app/routes/_home+/_index.tsx' },
@@ -142,21 +143,20 @@ async function copyArcjetImplementation(rootDirectory) {
     { from: 'app/utils/env.server.ts', to: 'app/utils/env.server.ts' },
   ]
 
-  await Promise.all(
-    arcjetFiles.map(async ({ from, to }) => {
-      try {
-        await fs.copyFile(path.join(ARCJET_DIR, from), path.join(rootDirectory, to))
-      } catch (error) {
-        if (error.code === 'ENOENT') {
-          console.log(
-            chalk.yellow(`Warning: Source file ${from} not found in Arcjet directory.`),
-          )
-        } else {
-          throw error
-        }
-      }
-    }),
-  )
+  for (const { from, to } of arcjetFiles) {
+    try {
+      const sourcePath = path.join(ARCJET_DIR, from)
+      const targetPath = path.join(rootDirectory, to)
+
+      // Ensure target directory exists.
+      const targetDir = path.dirname(targetPath)
+      await fs.mkdir(targetDir, { recursive: true })
+
+      await fs.copyFile(sourcePath, targetPath)
+    } catch (error) {
+      console.error(`Error copying ${from}:`, error.message)
+    }
+  }
 }
 
 /**
@@ -304,6 +304,13 @@ async function main({ rootDirectory, packageManager }) {
 
     if (optInArcjet) {
       await copyArcjetImplementation(rootDirectory)
+
+      // Run npm install after adding Arcjet
+      console.log('\n📦 Updating dependencies...')
+      execSync(`cd "${rootDirectory}" && ${packageManager} install`, {
+        stdio: 'inherit',
+      })
+      console.log('✓ Dependencies updated successfully.')
     }
 
     printSuccessMessage(optInArcjet, pm)
