@@ -1,69 +1,37 @@
-import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import { Star, ArrowRight } from "lucide-react";
-import { authenticator } from "#app/modules/auth/auth.server";
-import { cn } from "#app/utils/misc";
-import { useTheme } from "#app/utils/hooks/use-theme.js";
-import { siteConfig } from "#app/utils/constants/brand";
-import { ROUTE_PATH as LOGIN_PATH } from "#app/routes/auth+/login";
-import { Button, buttonVariants } from "#app/components/ui/button";
-import { ThemeSwitcherHome } from "#app/components/misc/theme-switcher";
-import arcjet from "#app/utils/arcjet.server";
-import { detectBot } from "@arcjet/remix";
+import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
+import { Link, useLoaderData } from '@remix-run/react'
+import { Star, ArrowRight } from 'lucide-react'
+import { authenticator } from '#app/modules/auth/auth.server'
+import { cn } from '#app/utils/misc'
+import { useTheme } from '#app/utils/hooks/use-theme.js'
+import { siteConfig } from '#app/utils/constants/brand'
+import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
+import { Button, buttonVariants } from '#app/components/ui/button'
+import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
 
-import { Logo } from "#app/components/logo";
-import ShadowPNG from "#public/images/shadow.png";
+import { Logo } from '#app/components/logo'
+import ShadowPNG from '#public/images/shadow.png'
 
 export const meta: MetaFunction = () => {
-  return [{ title: `${siteConfig.siteTitle} - Starter Kit` }];
-};
+  return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
+}
 
-// Add rules to the base Arcjet instance outside of the handler function
-const aj = arcjet.withRule(
-  detectBot({
-    mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
-    // configured with a list of bots to allow from
-    // https://arcjet.com/bot-list
-    // blocks all bots except monitoring services and search engines
-    allow: ["CATEGORY:MONITOR", "CATEGORY:SEARCH_ENGINE"],
-  })
-);
-
-export async function loader(args: LoaderFunctionArgs) {
-  if (process.env.ARCJET_KEY) {
-    const decision = await aj.protect(args);
-
-    if (decision.isDenied()) {
-      if (decision.reason.isBot()) {
-        // Distinguish between bots and other errors in case you want to show a
-        // custom message
-        throw new Response("Forbidden", {
-          status: 403,
-        });
-      } else {
-        throw new Response("Not allowed", {
-          status: 403,
-        });
-      }
-    }
-  }
-
-  const sessionUser = await authenticator.isAuthenticated(args.request);
-  return { user: sessionUser };
+export async function loader({ request }: LoaderFunctionArgs) {
+  const sessionUser = await authenticator.isAuthenticated(request)
+  return { user: sessionUser }
 }
 
 export default function Index() {
-  const { user } = useLoaderData<typeof loader>();
-  const theme = useTheme();
+  const { user } = useLoaderData<typeof loader>()
+  const theme = useTheme()
 
   return (
     <div className="relative flex h-full w-full flex-col bg-card">
       {/* Navigation */}
       <nav
         className={cn(
-          "sticky top-1.5 z-50 mx-auto flex w-full max-w-screen-lg items-center justify-between rounded-lg bg-card/20 p-6 py-3 backdrop-blur transition-all duration-300 dark:bg-secondary/20"
-        )}
-      >
+          'sticky top-1.5 z-50 mx-auto flex w-full max-w-screen-lg items-center justify-between rounded-lg bg-card/20 p-6 py-3 backdrop-blur transition-all duration-300 dark:bg-secondary/20',
+        )}>
         <Link to="/" prefetch="intent" className="flex h-10 items-center gap-1">
           <Logo />
         </Link>
@@ -74,16 +42,14 @@ export default function Index() {
               target="_blank"
               rel="noreferrer"
               className={cn(
-                buttonVariants({ variant: "link", size: "sm" }),
-                "group flex gap-3 px-0 text-primary/80 hover:text-primary hover:no-underline"
-              )}
-            >
+                buttonVariants({ variant: 'link', size: 'sm' }),
+                'group flex gap-3 px-0 text-primary/80 hover:text-primary hover:no-underline',
+              )}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-primary/80 transition group-hover:text-primary"
                 viewBox="0 0 24 24"
-                fill="currentColor"
-              >
+                fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
               <span className="hidden select-none items-center gap-1 rounded-full bg-green-500/5 px-2 py-1.5 pr-2.5 text-xs font-semibold tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 group-hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
@@ -99,13 +65,11 @@ export default function Index() {
             href="https://twitter.com/DanielKanem"
             target="_blank"
             rel="noreferrer"
-            className="group flex h-9 w-9 items-center justify-center"
-          >
+            className="group flex h-9 w-9 items-center justify-center">
             <svg
               className="h-5 w-5 text-primary transition group-hover:scale-110"
               strokeLinejoin="round"
-              viewBox="0 0 16 16"
-            >
+              viewBox="0 0 16 16">
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -114,11 +78,8 @@ export default function Index() {
               />
             </svg>
           </a>
-          <Link
-            to={LOGIN_PATH}
-            className={cn(buttonVariants({ size: "sm" }), "h-8")}
-          >
-            {user ? "Dashboard" : "Get Started"}
+          <Link to={LOGIN_PATH} className={cn(buttonVariants({ size: 'sm' }), 'h-8')}>
+            {user ? 'Dashboard' : 'Get Started'}
           </Link>
         </div>
       </nav>
@@ -130,16 +91,14 @@ export default function Index() {
           <Button
             variant="outline"
             className={cn(
-              "hidden h-8 rounded-full bg-white/60 px-3 text-sm font-bold ring-1 ring-primary/5 backdrop-blur transition hover:text-primary hover:brightness-110 dark:bg-secondary md:flex"
-            )}
-          >
+              'hidden h-8 rounded-full bg-white/60 px-3 text-sm font-bold ring-1 ring-primary/5 backdrop-blur transition hover:text-primary hover:brightness-110 dark:bg-secondary md:flex',
+            )}>
             <span className="flex items-center font-medium text-primary/60">
               Introducing
               <svg
                 className="mx-1.5 h-4 w-4 text-primary"
                 strokeLinejoin="round"
-                viewBox="0 0 16 16"
-              >
+                viewBox="0 0 16 16">
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
@@ -156,12 +115,10 @@ export default function Index() {
             SaaS Stack for Remix
           </h1>
           <p className="max-w-screen-md text-center text-lg !leading-normal text-muted-foreground md:text-xl">
-            Launch in days with a modern{" "}
-            <span className="font-medium text-primary">
-              Production-Ready Stack
-            </span>
-            <br className="hidden lg:inline-block" /> Stripe integration.
-            Vite-powered. Open Source.
+            Launch in days with a modern{' '}
+            <span className="font-medium text-primary">Production-Ready Stack</span>
+            <br className="hidden lg:inline-block" /> Stripe integration. Vite-powered.
+            Open Source.
           </p>
           <div className="mx-auto mt-4 flex items-center gap-3">
             <Link to="/auth/login" tabIndex={-1} className="outline-none">
@@ -174,12 +131,8 @@ export default function Index() {
               target="_blank"
               rel="noreferrer"
               tabIndex={-1}
-              className="outline-none"
-            >
-              <Button
-                variant="ghost"
-                className="group h-9 gap-1.5 pr-2.5 font-semibold"
-              >
+              className="outline-none">
+              <Button variant="ghost" className="group h-9 gap-1.5 pr-2.5 font-semibold">
                 Explore Documentation
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -198,15 +151,13 @@ export default function Index() {
               rel="noreferrer"
               aria-label="Remix.run"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://remix.run"
-            >
+              href="https://remix.run">
               <div className="relative flex h-6 w-[98px] items-center justify-center">
                 <svg
                   viewBox="0 0 1200 627"
                   className="absolute h-20 w-auto"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -241,22 +192,19 @@ export default function Index() {
               rel="noreferrer"
               aria-label="Vite"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://vitejs.dev"
-            >
+              href="https://vitejs.dev">
               <svg
                 viewBox="0 0 256 257"
                 className="h-8 w-8 transition group-hover:scale-110 group-hover:brightness-125"
                 xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid"
-              >
+                preserveAspectRatio="xMidYMid">
                 <defs>
                   <linearGradient
                     x1="-.828%"
                     y1="7.652%"
                     x2="57.636%"
                     y2="78.411%"
-                    id="vite-1"
-                  >
+                    id="vite-1">
                     <stop stopColor="currentColor" offset="0%" />
                     <stop stopColor="currentColor" offset="100%" />
                   </linearGradient>
@@ -265,8 +213,7 @@ export default function Index() {
                     y1="2.242%"
                     x2="50.316%"
                     y2="89.03%"
-                    id="vite-2"
-                  >
+                    id="vite-2">
                     <stop stopColor="#FFEA83" offset="0%" />
                     <stop stopColor="#FFDD35" offset="8.333%" />
                     <stop stopColor="#FFA800" offset="100%" />
@@ -287,15 +234,13 @@ export default function Index() {
               rel="noreferrer"
               aria-label="Stripe"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://stripe.com"
-            >
+              href="https://stripe.com">
               <svg
                 className="h-8 w-auto"
                 viewBox="0 0 60 25"
                 xmlns="http://www.w3.org/2000/svg"
                 width={60}
-                height={25}
-              >
+                height={25}>
                 <path
                   fill="currentColor"
                   d="M59.64 14.28h-8.06c.19 1.93 1.6 2.55 3.2 2.55 1.64 0 2.96-.37 4.05-.95v3.32a8.33 8.33 0 0 1-4.56 1.1c-4.01 0-6.83-2.5-6.83-7.48 0-4.19 2.39-7.52 6.3-7.52 3.92 0 5.96 3.28 5.96 7.5 0 .4-.04 1.26-.06 1.48zm-5.92-5.62c-1.03 0-2.17.73-2.17 2.58h4.25c0-1.85-1.07-2.58-2.08-2.58zM40.95 20.3c-1.44 0-2.32-.6-2.9-1.04l-.02 4.63-4.12.87V5.57h3.76l.08 1.02a4.7 4.7 0 0 1 3.23-1.29c2.9 0 5.62 2.6 5.62 7.4 0 5.23-2.7 7.6-5.65 7.6zM40 8.95c-.95 0-1.54.34-1.97.81l.02 6.12c.4.44.98.78 1.95.78 1.52 0 2.54-1.65 2.54-3.87 0-2.15-1.04-3.84-2.54-3.84zM28.24 5.57h4.13v14.44h-4.13V5.57zm0-4.7L32.37 0v3.36l-4.13.88V.88zm-4.32 9.35v9.79H19.8V5.57h3.7l.12 1.22c1-1.77 3.07-1.41 3.62-1.22v3.79c-.52-.17-2.29-.43-3.32.86zm-8.55 4.72c0 2.43 2.6 1.68 3.12 1.46v3.36c-.55.3-1.54.54-2.89.54a4.15 4.15 0 0 1-4.27-4.24l.01-13.17 4.02-.86v3.54h3.14V9.1h-3.13v5.85zm-4.91.7c0 2.97-2.31 4.66-5.73 4.66a11.2 11.2 0 0 1-4.46-.93v-3.93c1.38.75 3.1 1.31 4.46 1.31.92 0 1.53-.24 1.53-1C6.26 13.77 0 14.51 0 9.95 0 7.04 2.28 5.3 5.62 5.3c1.36 0 2.72.2 4.09.75v3.88a9.23 9.23 0 0 0-4.1-1.06c-.86 0-1.44.25-1.44.9 0 1.85 6.29.97 6.29 5.88z"
@@ -308,13 +253,11 @@ export default function Index() {
               rel="noreferrer"
               aria-label="Prisma"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://www.prisma.io"
-            >
+              href="https://www.prisma.io">
               <svg
                 className="h-9 w-auto"
                 viewBox="0 0 256 310"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M254.313 235.519 148 9.749A17.063 17.063 0 0 0 133.473.037a16.87 16.87 0 0 0-15.533 8.052L2.633 194.848a17.465 17.465 0 0 0 .193 18.747L59.2 300.896a18.13 18.13 0 0 0 20.363 7.489l163.599-48.392a17.929 17.929 0 0 0 11.26-9.722 17.542 17.542 0 0 0-.101-14.76l-.008.008zm-23.802 9.683-138.823 41.05c-4.235 1.26-8.3-2.411-7.419-6.685l49.598-237.484c.927-4.443 7.063-5.147 9.003-1.035l91.814 194.973a6.63 6.63 0 0 1-4.18 9.18h.007z"
                   fill="currentColor"
@@ -326,15 +269,13 @@ export default function Index() {
               rel="noreferrer"
               aria-label="Resend"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://resend.com"
-            >
+              href="https://resend.com">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 65 16"
                 width={60}
                 fill="none"
-                className="h-6 w-auto"
-              >
+                className="h-6 w-auto">
                 <path
                   d="M0.820068 15V1.00001H7.02007C7.88674 1.00001 8.6734 1.20001 9.38007 1.60001C10.0867 1.98668 10.6401 2.51334 11.0401 3.18001C11.4534 3.84668 11.6601 4.60668 11.6601 5.46001C11.6601 6.30001 11.4534 7.06668 11.0401 7.76001C10.6401 8.44001 10.0867 8.98001 9.38007 9.38001C8.6734 9.78001 7.88674 9.98001 7.02007 9.98001H3.72007V15H0.820068ZM8.76007 15L5.20007 8.68001L8.28007 8.18001L12.2401 15.02L8.76007 15ZM3.72007 7.54001H6.88007C7.24007 7.54001 7.5534 7.46001 7.82007 7.30001C8.10007 7.12668 8.3134 6.89334 8.46007 6.60001C8.60673 6.29335 8.68007 5.95335 8.68007 5.58001C8.68007 5.18001 8.5934 4.83335 8.42007 4.54001C8.24674 4.24668 7.9934 4.02001 7.66007 3.86001C7.32674 3.68668 6.94007 3.60001 6.50007 3.60001H3.72007V7.54001Z"
                   fill="currentColor"
@@ -366,13 +307,11 @@ export default function Index() {
               rel="noreferrer"
               aria-label="shadcn/ui"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://ui.shadcn.com/"
-            >
+              href="https://ui.shadcn.com/">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 256 256"
-                className="h-10 w-10"
-              >
+                className="h-10 w-10">
                 <rect width={256} height={256} fill="none" />
                 <line
                   x1={208}
@@ -403,12 +342,11 @@ export default function Index() {
               rel="noreferrer"
               aria-label="Fly.io"
               className="flex items-center text-primary opacity-80 grayscale transition hover:opacity-100"
-              href="https://fly.io"
-            >
+              href="https://fly.io">
               <svg viewBox="0 0 259 84" className="h-9" fillRule="evenodd">
                 <title id="title-F7R838wtvsn8DF6B"></title>
                 <desc id="description-F7R838wtzc_8DF6R"></desc>
-                <g buffered-rendering="static">
+                <g>
                   <path
                     d="M57.413 10.134h9.454c8.409 0 15.236 6.827 15.236 15.236v33.243c0 8.409-6.827 15.236-15.236 15.236h-.745c-4.328-.677-6.205-1.975-7.655-3.072l-12.02-9.883a1.692 1.692 0 0 0-2.128 0l-3.905 3.211-10.998-9.043a1.688 1.688 0 0 0-2.127 0L12.01 68.503c-3.075 2.501-5.109 2.039-6.428 1.894C2.175 67.601 0 63.359 0 58.613V25.37c0-8.409 6.827-15.236 15.237-15.236h9.433l-.017.038-.318.927-.099.318-.428 1.899-.059.333-.188 1.902-.025.522-.004.183.018.872.043.511.106.8.135.72.16.663.208.718.54 1.52.178.456.94 1.986.332.61 1.087 1.866.416.673 1.517 2.234.219.296 1.974 2.569.638.791 2.254 2.635.463.507 1.858 1.999.736.762 1.216 1.208-.244.204-.152.137c-.413.385-.805.794-1.172 1.224a10.42 10.42 0 0 0-.504.644 8.319 8.319 0 0 0-.651 1.064 6.234 6.234 0 0 0-.261.591 5.47 5.47 0 0 0-.353 1.606l-.007.475a5.64 5.64 0 0 0 .403 1.953 5.44 5.44 0 0 0 1.086 1.703c.338.36.723.674 1.145.932.359.22.742.401 1.14.539a6.39 6.39 0 0 0 2.692.306h.005a6.072 6.072 0 0 0 2.22-.659c.298-.158.582-.341.848-.549a5.438 5.438 0 0 0 1.71-2.274c.28-.699.417-1.446.405-2.198l-.022-.393a5.535 5.535 0 0 0-.368-1.513 6.284 6.284 0 0 0-.285-.618 8.49 8.49 0 0 0-.67-1.061 11.022 11.022 0 0 0-.354-.453 14.594 14.594 0 0 0-1.308-1.37l-.329-.28.557-.55 2.394-2.5.828-.909 1.287-1.448.837-.979 1.194-1.454.808-1.016 1.187-1.587.599-.821.85-1.271.708-1.083 1.334-2.323.763-1.524.022-.047.584-1.414a.531.531 0 0 0 .02-.056l.629-1.962.066-.286.273-1.562.053-.423.016-.259.019-.978-.005-.182-.05-.876-.062-.68-.31-1.961c-.005-.026-.01-.052-.018-.078l-.398-1.45-.137-.403-.179-.446Zm4.494 41.455a3.662 3.662 0 0 0-3.61 3.61 3.663 3.663 0 0 0 3.61 3.609 3.665 3.665 0 0 0 3.611-3.609 3.663 3.663 0 0 0-3.611-3.61Z"
                     fill="url(#a)"
@@ -435,8 +373,7 @@ export default function Index() {
                     fy="49.564%"
                     r="93.348%"
                     gradientTransform="matrix(.77604 0 0 1 .119 0)"
-                    id="a"
-                  >
+                    id="a">
                     <stop stopColor="#BA7BF0" offset="0%" />
                     <stop stopColor="#996BEC" offset="45%" />
                     <stop stopColor="#5046E4" offset="100%" />
@@ -449,18 +386,16 @@ export default function Index() {
         <div className="relative z-10 flex flex-col border border-border backdrop-blur-sm lg:flex-row">
           <div className="flex w-full flex-col items-start justify-center gap-6 border-r border-primary/10 p-10 lg:p-12">
             <p className="h-14 text-lg text-primary/60">
-              <span className="font-semibold text-primary">
-                Production Ready.
-              </span>{" "}
-              Build your app on a solid, scalable, well-tested foundation.
+              <span className="font-semibold text-primary">Production Ready.</span> Build
+              your app on a solid, scalable, well-tested foundation.
             </p>
-            <Link to={LOGIN_PATH} className={buttonVariants({ size: "sm" })}>
+            <Link to={LOGIN_PATH} className={buttonVariants({ size: 'sm' })}>
               Get Started
             </Link>
           </div>
           <div className="flex w-full flex-col items-start justify-center gap-6 p-10 lg:w-[60%] lg:border-b-0 lg:p-12">
             <p className="h-14 text-lg text-primary/60">
-              <span className="font-semibold text-primary">Ready to Ship.</span>{" "}
+              <span className="font-semibold text-primary">Ready to Ship.</span>{' '}
               Deployments ready with a single command.
             </p>
             <a
@@ -468,12 +403,8 @@ export default function Index() {
               target="_blank"
               rel="noreferrer"
               className={cn(
-                `${buttonVariants({
-                  variant: "outline",
-                  size: "sm",
-                })} dark:bg-secondary dark:hover:opacity-80`
-              )}
-            >
+                `${buttonVariants({ variant: 'outline', size: 'sm' })} dark:bg-secondary dark:hover:opacity-80`,
+              )}>
               Explore Documentation
             </a>
           </div>
@@ -492,9 +423,8 @@ export default function Index() {
             Proudly Open Source
           </h1>
           <p className="text-center text-lg text-primary/60">
-            Remix SaaS is a fully{" "}
-            <span className="font-semibold text-primary">Open Source</span>{" "}
-            project.
+            Remix SaaS is a fully{' '}
+            <span className="font-semibold text-primary">Open Source</span> project.
             <br />
             Code is available on GitHub.
           </p>
@@ -503,14 +433,12 @@ export default function Index() {
               href="https://github.com/dev-xo/remix-saas"
               target="_blank"
               rel="noreferrer"
-              className="hidden h-10 select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex"
-            >
+              className="hidden h-10 select-none items-center gap-2 rounded-full bg-green-500/5 px-2 py-1 pr-2.5 text-base font-medium tracking-tight text-green-600 ring-1 ring-inset ring-green-600/20 backdrop-blur-sm transition-all duration-300 hover:brightness-110 dark:bg-yellow-800/40 dark:text-yellow-100 dark:ring-yellow-200/50 md:flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-green-600 dark:text-yellow-100"
                 viewBox="0 0 24 24"
-                fill="currentColor"
-              >
+                fill="currentColor">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
               Star Us on GitHub
@@ -525,13 +453,11 @@ export default function Index() {
           href="https://twitter.com/DanielKanem"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center justify-center hover:scale-110"
-        >
+          className="flex items-center justify-center hover:scale-110">
           <svg
             className="h-8 w-8 text-primary"
             strokeLinejoin="round"
-            viewBox="0 0 16 16"
-          >
+            viewBox="0 0 16 16">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -550,19 +476,17 @@ export default function Index() {
               href="https://twitter.com/DanielKanem"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center text-primary hover:text-primary hover:underline"
-            >
+              className="flex items-center text-primary hover:text-primary hover:underline">
               DanielKanem
             </a>
           </p>
           <p className="flex items-center whitespace-nowrap text-center text-sm font-medium text-primary/60">
-            Source code available on&nbsp;{" "}
+            Source code available on&nbsp;{' '}
             <a
               href="https://github.com/dev-xo/remix-saas"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center text-primary hover:text-primary hover:underline"
-            >
+              className="flex items-center text-primary hover:text-primary hover:underline">
               GitHub.
             </a>
           </p>
@@ -573,12 +497,10 @@ export default function Index() {
       <img
         src={ShadowPNG}
         alt="Hero"
-        className={`fixed left-0 top-0 z-0 h-full w-full opacity-60 ${
-          theme === "dark" ? "invert" : ""
-        }`}
+        className={`fixed left-0 top-0 z-0 h-full w-full opacity-60 ${theme === 'dark' ? 'invert' : ''}`}
       />
       <div className="base-grid fixed h-screen w-screen opacity-40" />
       <div className="fixed bottom-0 h-screen w-screen bg-gradient-to-t from-[hsl(var(--card))] to-transparent" />
     </div>
-  );
+  )
 }

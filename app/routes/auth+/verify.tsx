@@ -84,7 +84,7 @@ export default function Verify() {
       <div className="mb-2 flex flex-col gap-2">
         <p className="text-center text-2xl text-primary">Check your inbox!</p>
         <p className="text-center text-base font-normal text-primary/60">
-          We've just emailed you a temporary password.
+          We&apos;ve just emailed you a temporary password.
           <br />
           Please enter it below.
         </p>

@@ -1,4 +1,9 @@
-import type { MetaFunction, LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
+import type {
+  MetaFunction,
+  LinksFunction,
+  LoaderFunctionArgs,
+  TypedResponse,
+} from '@remix-run/node'
 import type { Theme } from '#app/utils/hooks/use-theme'
 import {
   Links,
@@ -45,6 +50,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: RootCSS }]
 }
+
+export type LoaderData = Exclude<
+  Awaited<ReturnType<typeof loader>>,
+  Response | TypedResponse<unknown>
+>
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const sessionUser = await authenticator.isAuthenticated(request)

@@ -2,147 +2,83 @@ import type {
   MetaFunction,
   LoaderFunctionArgs,
   ActionFunctionArgs,
-} from "@remix-run/node";
-import { useRef, useEffect } from "react";
-import { Form, useLoaderData, data } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
-import { useHydrated } from "remix-utils/use-hydrated";
-import { AuthenticityTokenInput } from "remix-utils/csrf/react";
-import { HoneypotInputs } from "remix-utils/honeypot/react";
-import { z } from "zod";
-import { getZodConstraint, parseWithZod } from "@conform-to/zod";
-import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Loader2 } from "lucide-react";
-import { authenticator } from "#app/modules/auth/auth.server";
-import {
-  getSession,
-  commitSession,
-} from "#app/modules/auth/auth-session.server";
-import { validateCSRF } from "#app/utils/csrf.server";
-import { checkHoneypot } from "#app/utils/honeypot.server";
-import { useIsPending } from "#app/utils/misc";
-import { siteConfig } from "#app/utils/constants/brand";
-import { Input } from "#app/components/ui/input";
-import { Button } from "#app/components/ui/button";
-import { ROUTE_PATH as DASHBOARD_PATH } from "#app/routes/dashboard+/_layout";
-import { ROUTE_PATH as AUTH_VERIFY_PATH } from "#app/routes/auth+/verify";
-import arcjet from "#app/utils/arcjet.server";
-import { detectBot, slidingWindow, validateEmail } from "@arcjet/remix";
+} from '@remix-run/node'
+import { useRef, useEffect } from 'react'
+import { Form, useLoaderData, data } from '@remix-run/react'
+import { useHydrated } from 'remix-utils/use-hydrated'
+import { AuthenticityTokenInput } from 'remix-utils/csrf/react'
+import { HoneypotInputs } from 'remix-utils/honeypot/react'
+import { z } from 'zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import { Loader2 } from 'lucide-react'
+import { authenticator } from '#app/modules/auth/auth.server'
+import { getSession, commitSession } from '#app/modules/auth/auth-session.server'
+import { validateCSRF } from '#app/utils/csrf.server'
+import { checkHoneypot } from '#app/utils/honeypot.server'
+import { useIsPending } from '#app/utils/misc'
+import { siteConfig } from '#app/utils/constants/brand'
+import { Input } from '#app/components/ui/input'
+import { Button } from '#app/components/ui/button'
+import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
+import { ROUTE_PATH as AUTH_VERIFY_PATH } from '#app/routes/auth+/verify'
 
-export const ROUTE_PATH = "/auth/login" as const;
+export const ROUTE_PATH = '/auth/login' as const
 
 export const LoginSchema = z.object({
-  email: z.string().max(256).email("Email address is not valid."),
-});
+  email: z.string().max(256).email('Email address is not valid.'),
+})
 
 export const meta: MetaFunction = () => {
-  return [{ title: `${siteConfig.siteTitle} - Login` }];
-};
-
-// Add rules to the base Arcjet instance outside of the handler function
-const aj = arcjet
-  .withRule(
-    detectBot({
-      mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
-      // configured with a list of bots to allow from
-      // https://arcjet.com/bot-list
-      allow: ["CATEGORY:MONITOR"], // blocks all bots except monitoring services
-    })
-  )
-  .withRule(
-    // Chain bot protection with rate limiting because a login form shouldn't
-    // be submitted more than a few times a minute
-    slidingWindow({
-      mode: "LIVE",
-      max: 10, // 10 requests per window
-      interval: "60s", // 60 second sliding window
-    })
-  )
-  .withRule(
-    // Validate the email address to prevent spam
-    validateEmail({
-      mode: "LIVE",
-      // block disposable, invalid, and email addresses with no MX records
-      block: ["DISPOSABLE", "INVALID", "NO_MX_RECORDS"],
-    })
-  );
+  return [{ title: `${siteConfig.siteTitle} - Login` }]
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await authenticator.isAuthenticated(request, {
     successRedirect: DASHBOARD_PATH,
-  });
+  })
 
-  const cookie = await getSession(request.headers.get("Cookie"));
-  const authEmail = cookie.get("auth:email");
-  const authError = cookie.get(authenticator.sessionErrorKey);
+  const cookie = await getSession(request.headers.get('Cookie'))
+  const authEmail = cookie.get('auth:email')
+  const authError = cookie.get(authenticator.sessionErrorKey)
 
   return data(
     { authEmail, authError },
-    { headers: { "Set-Cookie": await commitSession(cookie) } }
-  );
+    { headers: { 'Set-Cookie': await commitSession(cookie) } },
+  )
 }
 
-export async function action(args: ActionFunctionArgs) {
-  const url = new URL(args.request.url);
-  const pathname = url.pathname;
+export async function action({ request }: ActionFunctionArgs) {
+  const url = new URL(request.url)
+  const pathname = url.pathname
 
-  const clonedRequest = args.request.clone();
-  const formData = await clonedRequest.formData();
-  await validateCSRF(formData, clonedRequest.headers);
-  checkHoneypot(formData);
+  const clonedRequest = request.clone()
+  const formData = await clonedRequest.formData()
+  await validateCSRF(formData, clonedRequest.headers)
+  checkHoneypot(formData)
 
-  if (process.env.ARCJET_KEY) {
-    const email = formData.get("email") as string;
-    const decision = await aj.protect(args, { email });
-
-    let authError: { message: string } | undefined;
-
-    if (decision.isDenied()) {
-      if (decision.reason.isBot()) {
-        authError = { message: "Forbidden" };
-      } else if (decision.reason.isRateLimit()) {
-        authError = { message: "Too many login attempts - try again shortly" };
-      } else if (decision.reason.isEmail()) {
-        // This is a generic error, but you could be more specific
-        // See https://docs.arcjet.com/email-validation/reference#checking-the-email-type
-        authError = { message: "Invalid email address" };
-      } else {
-        authError = { message: "Access denied" };
-      }
-
-      let cookie = await getSession(args.request.headers.get("Cookie"));
-      cookie.set(authenticator.sessionErrorKey, authError);
-
-      return redirect(pathname, {
-        headers: {
-          "Set-Cookie": await commitSession(cookie),
-        },
-      });
-    }
-  }
-
-  await authenticator.authenticate("TOTP", args.request, {
+  await authenticator.authenticate('TOTP', request, {
     successRedirect: AUTH_VERIFY_PATH,
     failureRedirect: pathname,
-  });
+  })
 }
 
 export default function Login() {
-  const { authEmail, authError } = useLoaderData<typeof loader>();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const isHydrated = useHydrated();
-  const isPending = useIsPending();
+  const { authEmail, authError } = useLoaderData<typeof loader>()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const isHydrated = useHydrated()
+  const isPending = useIsPending()
 
   const [emailForm, { email }] = useForm({
     constraint: getZodConstraint(LoginSchema),
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: LoginSchema });
+      return parseWithZod(formData, { schema: LoginSchema })
     },
-  });
+  })
 
   useEffect(() => {
-    isHydrated && inputRef.current?.focus();
-  }, [isHydrated]);
+    isHydrated && inputRef.current?.focus()
+  }, [isHydrated])
 
   return (
     <div className="mx-auto flex h-full w-full max-w-96 flex-col items-center justify-center gap-6">
@@ -159,8 +95,7 @@ export default function Login() {
         method="POST"
         autoComplete="off"
         className="flex w-full flex-col items-start gap-1"
-        {...getFormProps(emailForm)}
-      >
+        {...getFormProps(emailForm)}>
         {/* Security */}
         <AuthenticityTokenInput />
         <HoneypotInputs />
@@ -172,19 +107,18 @@ export default function Login() {
           <Input
             placeholder="Email"
             ref={inputRef}
-            defaultValue={authEmail ? authEmail : ""}
+            defaultValue={authEmail ? authEmail : ''}
             className={`bg-transparent ${
-              email.errors &&
-              "border-destructive focus-visible:ring-destructive"
+              email.errors && 'border-destructive focus-visible:ring-destructive'
             }`}
-            {...getInputProps(email, { type: "email" })}
+            {...getInputProps(email, { type: 'email' })}
           />
         </div>
 
         <div className="flex flex-col">
           {!authError && email.errors && (
             <span className="mb-2 text-sm text-destructive dark:text-destructive-foreground">
-              {email.errors.join(" ")}
+              {email.errors.join(' ')}
             </span>
           )}
           {!authEmail && authError && (
@@ -192,19 +126,10 @@ export default function Login() {
               {authError.message}
             </span>
           )}
-          {authError && (
-            <span className="mb-2 text-sm text-destructive dark:text-destructive-foreground">
-              {authError.message}
-            </span>
-          )}
         </div>
 
         <Button type="submit" className="w-full">
-          {isPending ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            "Continue with Email"
-          )}
+          {isPending ? <Loader2 className="animate-spin" /> : 'Continue with Email'}
         </Button>
       </Form>
 
@@ -220,8 +145,7 @@ export default function Login() {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4 text-primary/80 group-hover:text-primary"
-            viewBox="0 0 24 24"
-          >
+            viewBox="0 0 24 24">
             <path
               fill="currentColor"
               fillRule="nonzero"
@@ -233,15 +157,15 @@ export default function Login() {
       </Form>
 
       <p className="px-12 text-center text-sm font-normal leading-normal text-primary/60">
-        By clicking continue, you agree to our{" "}
+        By clicking continue, you agree to our{' '}
         <a href="/" className="underline hover:text-primary">
           Terms of Service
-        </a>{" "}
-        and{" "}
+        </a>{' '}
+        and{' '}
         <a href="/" className="underline hover:text-primary">
           Privacy Policy.
         </a>
       </p>
     </div>
-  );
+  )
 }

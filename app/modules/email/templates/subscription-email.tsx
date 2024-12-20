@@ -77,7 +77,7 @@ export function SubscriptionErrorEmail({ email }: SubscriptionEmailOptions) {
           <Text style={{ fontSize: '16px', lineHeight: '26px' }}>
             We were unable to process your subscription to PRO tier.
             <br />
-            But don't worry, we'll not charge you anything.
+            But don&apos;t worry, we&apos;ll not charge you anything.
           </Text>
           <Text style={{ fontSize: '16px', lineHeight: '26px' }}>
             The <Link href="http://localhost:3000">domain-name.com</Link> team.

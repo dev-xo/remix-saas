@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable */
 
 import { spawn } from 'node:child_process'
 
