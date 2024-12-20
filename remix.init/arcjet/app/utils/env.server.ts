@@ -13,7 +13,7 @@ const schema = z.object({
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_ENDPOINT: z.string().optional(),
   HONEYPOT_ENCRYPTION_SEED: z.string().optional(),
-  ARCJET_KEY: z.string().optional(),
+  ARCJET_KEY: z.string(),
 })
 
 declare global {
