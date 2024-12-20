@@ -43,11 +43,9 @@ export function getSharedEnvs() {
   }
 }
 
-type ENV = ReturnType<typeof getSharedEnvs>
-
 declare global {
-  let ENV: ENV
-  interface Window {
-    ENV: ENV
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof schema> {}
   }
 }
