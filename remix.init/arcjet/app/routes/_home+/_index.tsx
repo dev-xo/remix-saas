@@ -1,6 +1,7 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Star, ArrowRight } from 'lucide-react'
+import { detectBot } from '@arcjet/remix'
 import { authenticator } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
 import { useTheme } from '#app/utils/hooks/use-theme.js'
@@ -8,6 +9,7 @@ import { siteConfig } from '#app/utils/constants/brand'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Button, buttonVariants } from '#app/components/ui/button'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
+import arcjet from '#app/utils/arcjet.server'
 
 import { Logo } from '#app/components/logo'
 import ShadowPNG from '#public/images/shadow.png'
@@ -16,8 +18,37 @@ export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const sessionUser = await authenticator.isAuthenticated(request)
+// Add rules to the base Arcjet instance outside of the handler function
+const aj = arcjet.withRule(
+  detectBot({
+    mode: 'LIVE', // will block requests. Use "DRY_RUN" to log only
+    // configured with a list of bots to allow from
+    // https://arcjet.com/bot-list
+    // blocks all bots except monitoring services and search engines
+    allow: ['CATEGORY:MONITOR', 'CATEGORY:SEARCH_ENGINE'],
+  }),
+)
+
+export async function loader(args: LoaderFunctionArgs) {
+  if (process.env.ARCJET_KEY) {
+    const decision = await aj.protect(args)
+
+    if (decision.isDenied()) {
+      if (decision.reason.isBot()) {
+        // Distinguish between bots and other errors in case you want to show a
+        // custom message
+        throw new Response('Forbidden', {
+          status: 403,
+        })
+      } else {
+        throw new Response('Not allowed', {
+          status: 403,
+        })
+      }
+    }
+  }
+
+  const sessionUser = await authenticator.isAuthenticated(args.request)
   return { user: sessionUser }
 }
 
@@ -346,7 +377,7 @@ export default function Index() {
               <svg viewBox="0 0 259 84" className="h-9" fillRule="evenodd">
                 <title id="title-F7R838wtvsn8DF6B"></title>
                 <desc id="description-F7R838wtzc_8DF6R"></desc>
-                <g>
+                <g buffered-rendering="static">
                   <path
                     d="M57.413 10.134h9.454c8.409 0 15.236 6.827 15.236 15.236v33.243c0 8.409-6.827 15.236-15.236 15.236h-.745c-4.328-.677-6.205-1.975-7.655-3.072l-12.02-9.883a1.692 1.692 0 0 0-2.128 0l-3.905 3.211-10.998-9.043a1.688 1.688 0 0 0-2.127 0L12.01 68.503c-3.075 2.501-5.109 2.039-6.428 1.894C2.175 67.601 0 63.359 0 58.613V25.37c0-8.409 6.827-15.236 15.237-15.236h9.433l-.017.038-.318.927-.099.318-.428 1.899-.059.333-.188 1.902-.025.522-.004.183.018.872.043.511.106.8.135.72.16.663.208.718.54 1.52.178.456.94 1.986.332.61 1.087 1.866.416.673 1.517 2.234.219.296 1.974 2.569.638.791 2.254 2.635.463.507 1.858 1.999.736.762 1.216 1.208-.244.204-.152.137c-.413.385-.805.794-1.172 1.224a10.42 10.42 0 0 0-.504.644 8.319 8.319 0 0 0-.651 1.064 6.234 6.234 0 0 0-.261.591 5.47 5.47 0 0 0-.353 1.606l-.007.475a5.64 5.64 0 0 0 .403 1.953 5.44 5.44 0 0 0 1.086 1.703c.338.36.723.674 1.145.932.359.22.742.401 1.14.539a6.39 6.39 0 0 0 2.692.306h.005a6.072 6.072 0 0 0 2.22-.659c.298-.158.582-.341.848-.549a5.438 5.438 0 0 0 1.71-2.274c.28-.699.417-1.446.405-2.198l-.022-.393a5.535 5.535 0 0 0-.368-1.513 6.284 6.284 0 0 0-.285-.618 8.49 8.49 0 0 0-.67-1.061 11.022 11.022 0 0 0-.354-.453 14.594 14.594 0 0 0-1.308-1.37l-.329-.28.557-.55 2.394-2.5.828-.909 1.287-1.448.837-.979 1.194-1.454.808-1.016 1.187-1.587.599-.821.85-1.271.708-1.083 1.334-2.323.763-1.524.022-.047.584-1.414a.531.531 0 0 0 .02-.056l.629-1.962.066-.286.273-1.562.053-.423.016-.259.019-.978-.005-.182-.05-.876-.062-.68-.31-1.961c-.005-.026-.01-.052-.018-.078l-.398-1.45-.137-.403-.179-.446Zm4.494 41.455a3.662 3.662 0 0 0-3.61 3.61 3.663 3.663 0 0 0 3.61 3.609 3.665 3.665 0 0 0 3.611-3.609 3.663 3.663 0 0 0-3.611-3.61Z"
                     fill="url(#a)"
