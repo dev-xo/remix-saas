@@ -44,7 +44,7 @@ Arcjet security-as-code means you can version control your security rules, track
 
 ### Arcjet Configuration
 
-You can enable this integration by [signing up for a free account](https://arcjet.com/) and setting the `ARCJET_KEY` environment variable in the `.env` file.
+You can enable this integration by [signing up for a free account](https://launch.arcjet.com/hdXzPbO) and setting the `ARCJET_KEY` environment variable in the `.env` file.
 
 An easier approach is to simply initialize the template opting into Arcjet, as this will automatically add the `ARCJET_KEY` environment variable to the `.env` file and update a few other files to fully enable Arcjet for you.
 
@@ -55,7 +55,7 @@ By opting into Arcjet, you will benefit from:
 
 Both of these use a central client with a base rule to detect common attacks that is applied everywhere the client is used. This is defined in `app/utils/arcjet.server.ts`.
 
-See [the Arcjet documentation](https://docs.arcjet.com) for full details.
+See [the Arcjet documentation](https://launch.arcjet.com/hdXzPbO) for full details.
 
 ## Toasts
 
