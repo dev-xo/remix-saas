@@ -18,13 +18,13 @@ export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
 }
 
-// Add rules to the base Arcjet instance outside of the handler function
+// Add rules to the base Arcjet instance outside of the handler function.
 const aj = arcjet.withRule(
   detectBot({
-    mode: 'LIVE', // will block requests. Use "DRY_RUN" to log only
-    // configured with a list of bots to allow from
-    // https://arcjet.com/bot-list
-    // blocks all bots except monitoring services and search engines
+    // Will block requests. Use "DRY_RUN" to log only.
+    mode: 'LIVE',
+    // Configured with a list of bots to allow from https://arcjet.com/bot-list.
+    // Blocks all bots except monitoring services and search engines.
     allow: ['CATEGORY:MONITOR', 'CATEGORY:SEARCH_ENGINE'],
   }),
 )
@@ -35,8 +35,8 @@ export async function loader(args: LoaderFunctionArgs) {
 
     if (decision.isDenied()) {
       if (decision.reason.isBot()) {
-        // Distinguish between bots and other errors in case you want to show a
-        // custom message
+        // Distinguish between bots and other errors,
+        // in case you want to show a custom message.
         throw new Response('Forbidden', {
           status: 403,
         })

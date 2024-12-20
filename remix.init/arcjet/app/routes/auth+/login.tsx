@@ -36,30 +36,31 @@ export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Login` }]
 }
 
-// Add rules to the base Arcjet instance outside of the handler function
+// Add rules to the base Arcjet instance outside of the handler function.
 const aj = arcjet
   .withRule(
     detectBot({
-      mode: 'LIVE', // will block requests. Use "DRY_RUN" to log only
-      // configured with a list of bots to allow from
-      // https://arcjet.com/bot-list
-      allow: ['CATEGORY:MONITOR'], // blocks all bots except monitoring services
+      // Will block requests. Use "DRY_RUN" to log only.
+      mode: 'LIVE',
+      // Configured with a list of bots to allow from https://arcjet.com/bot-list.
+      // Blocks all bots except monitoring services.
+      allow: ['CATEGORY:MONITOR'],
     }),
   )
   .withRule(
-    // Chain bot protection with rate limiting because a login form shouldn't
-    // be submitted more than a few times a minute
+    // Chain bot protection with rate limiting.
+    // A login form shouldn't be submitted more than a few times a minute.
     slidingWindow({
       mode: 'LIVE',
-      max: 10, // 10 requests per window
-      interval: '60s', // 60 second sliding window
+      max: 10, // 10 requests per window.
+      interval: '60s', // 60 second sliding window.
     }),
   )
   .withRule(
-    // Validate the email address to prevent spam
+    // Validate the email address to prevent spam.
     validateEmail({
       mode: 'LIVE',
-      // block disposable, invalid, and email addresses with no MX records
+      // Block disposable, invalid, and email addresses with no MX records.
       block: ['DISPOSABLE', 'INVALID', 'NO_MX_RECORDS'],
     }),
   )
