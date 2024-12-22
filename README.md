@@ -35,21 +35,30 @@ We've created a simple demo that displays all template-provided features. Psst! 
 
 Please, read the [Getting Started Documentation](https://github.com/dev-xo/remix-saas/tree/main/docs#remix-saas-documentation) to successfully initialize your **Remix SaaS** Template.
 
-## Support
-
-If you found **Remix SaaS** helpful, consider supporting it with a ⭐ [Star](https://github.com/dev-xo/remix-saas). It helps the repository grow and provides the required motivation to continue maintaining the project. Thank you!
-
 ## Acknowledgments
 
 Special thanks to [@mw10013](https://github.com/mw10013) who has been part of the Remix SaaS development.
 
+If you found **Remix SaaS** helpful, consider supporting it with a ⭐ [Star](https://github.com/dev-xo/remix-saas). It helps the repository grow and provides the required motivation to continue maintaining the project. Thank you!
+
 ## Sponsors
 
-Remix SaaS is proudly supported by [Arcjet](https://launch.arcjet.com/hdXzPbO).
+Huge thanks to our sponsors who makes it possible to maintain and improve Remix SaaS! 🙌
 
-<a href="https://launch.arcjet.com/hdXzPbO" target="_arcjet-home">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://arcjet.com/logo/arcjet-dark-lockup-voyage-horizontal.svg">
-    <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet Logo" height="128" width="auto">
-  </picture>
-</a>
+<table width="100%">
+  <tr height="187px">
+    <td align="center" width="50%">
+      <a href="https://launch.arcjet.com/hdXzPbO" target="_arcjet-home">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://arcjet.com/logo/arcjet-dark-lockup-voyage-horizontal.svg">
+          <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet Logo" height="128" width="auto">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="50%">
+      <a href="mailto:devxo@mail.com">
+        Be a sponsor! 💝
+      </a>
+    </td>
+  </tr>
+</table>
