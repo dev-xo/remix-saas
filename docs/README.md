@@ -159,7 +159,7 @@ Huge thanks to our sponsors who makes it possible to maintain and improve Remix 
     </td>
     <td align="center" width="50%">
       <a href="mailto:devxo@mail.com">
-        Be a sponsor! 💝
+        Be our sponsor! 💝
       </a>
     </td>
   </tr>
