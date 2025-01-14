@@ -149,17 +149,26 @@ Huge thanks to our sponsors who makes it possible to maintain and improve Remix 
 
 <table width="100%">
   <tr height="187px">
-    <td align="center" width="50%">
-      <a href="https://launch.arcjet.com/hdXzPbO" target="_arcjet-home">
+    <td align="center" width="33%">
+      <a href="https://launch.arcjet.com/hdXzPbO" target="_blank">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="https://arcjet.com/logo/arcjet-dark-lockup-voyage-horizontal.svg">
-          <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet Logo" height="128" width="auto">
+          <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet">
         </picture>
       </a>
     </td>
-    <td align="center" width="50%">
+     <td align="center" width="33%">
+      <a href="https://www.convex.dev" target="_blank">
+        <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://static-http.s3.amazonaws.com/logo/convex-logo-light.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://static-http.s3.amazonaws.com/logo/convex-logo.svg">
+        <img alt="Convex logo" src="https://static-http.s3.amazonaws.com/logo/convex-logo.svg" alt="Convex">
+      </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
       <a href="mailto:devxo@mail.com">
-        Be our sponsor! 💝
+        Support us!<br />💝
       </a>
     </td>
   </tr>
