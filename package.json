@@ -34,7 +34,7 @@
     "@remix-run/express": "^2.15.1",
     "@remix-run/node": "^2.15.1",
     "@remix-run/react": "^2.15.1",
-    "@remix-run/router": "^1.21.0",
+    "@remix-run/router": "^1.21.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "compression": "^1.7.5",
