@@ -37,7 +37,7 @@
     "@remix-run/router": "^1.21.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "compression": "^1.7.5",
+    "compression": "^1.8.0",
     "cookie": "^1.0.2",
     "cross-env": "^7.0.3",
     "express": "^4.21.2",
