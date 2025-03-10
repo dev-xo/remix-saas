@@ -56,7 +56,7 @@
     "remix-auth": "^3.7.0",
     "remix-auth-github": "^2.0.0",
     "remix-auth-totp": "^3.4.2",
-    "remix-i18next": "^6.4.1",
+    "remix-i18next": "^7.1.0",
     "remix-utils": "7.0.0-pre.4",
     "sonner": "^1.7.4",
     "stripe": "^16.12.0",
