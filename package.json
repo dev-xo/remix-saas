@@ -31,7 +31,7 @@
     "@radix-ui/react-switch": "^1.1.1",
     "@react-email/components": "^0.0.31",
     "@react-email/render": "^1.0.3",
-    "@remix-run/express": "^2.15.3",
+    "@remix-run/express": "^2.16.0",
     "@remix-run/node": "^2.15.1",
     "@remix-run/react": "^2.15.1",
     "@remix-run/router": "^1.21.0",
