@@ -45,7 +45,7 @@
     "helmet": "^7.2.0",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^8.0.2",
-    "isbot": "^4.4.0",
+    "isbot": "^5.1.26",
     "lucide-react": "^0.473.0",
     "morgan": "^1.10.0",
     "prisma": "^5.22.0",
