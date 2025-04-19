@@ -58,10 +58,10 @@ Huge thanks to our sponsors who makes it possible to maintain and improve Remix 
      <td align="center" width="33%">
       <a href="https://www.convex.dev/?utm_source=remix-saas-github" target="_blank">
         <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://static-http.s3.amazonaws.com/logo/convex-logo-light.svg">
-        <source media="(prefers-color-scheme: light)" srcset="https://static-http.s3.amazonaws.com/logo/convex-logo.svg">
-        <img alt="Convex logo" src="https://static-http.s3.amazonaws.com/logo/convex-logo.svg" alt="Convex">
-      </picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://static.convex.dev/logo/convex-logo-light.svg">
+          <source media="(prefers-color-scheme: light)" srcset="https://static.convex.dev/logo/convex-logo.svg">
+          <img alt="Convex" src="https://static-http.s3.amazonaws.com/logo/convex-logo.svg">
+        </picture>
       </a>
     </td>
     <td align="center" width="33%">
