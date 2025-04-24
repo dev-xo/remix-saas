@@ -58,7 +58,7 @@
     "remix-auth-totp": "^3.4.2",
     "remix-i18next": "^6.4.1",
     "remix-utils": "7.0.0-pre.4",
-    "sonner": "^1.7.4",
+    "sonner": "^2.0.3",
     "stripe": "^16.12.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
