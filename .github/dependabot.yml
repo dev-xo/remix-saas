@@ -9,7 +9,7 @@ updates:
     directory: '/'
     # Check the npm registry for updates every day.
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
 
   # Enable version updates for Github-Actions.
   - package-ecosystem: github-actions
@@ -17,4 +17,4 @@ updates:
     directory: /
     # Check for updates every day (weekdays)
     schedule:
-      interval: weekly
+      interval: 'monthly'
