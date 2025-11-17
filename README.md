@@ -29,7 +29,7 @@ npx create-remix-saas@latest
 We've created a simple demo that displays all template-provided features. Psst! Give the site a few seconds to load! _(It's running on a free tier!)_
 
 > [!NOTE]
-> Remix SaaS is an Open Source Template that shares common bits of code with: [Indie Stack](https://github.com/remix-run/indie-stack), [Epic Stack](https://github.com/epicweb-dev/epic-stack), [Supa Stripe Stack](https://github.com/rphlmr/supa-stripe-stack), and some other amazing Open Source Remix resources. Check them out, please!
+> Remix SaaS is an Open Source Template that shares common bits of code with: [Indie Stack](https://github.com/remix-run/indie-stack), [Epic Stack](https://github.com/epicweb-dev/epic-stack), [Cloudflare React Router SaaS](https://github.com/mw10013/cloudflare-react-router-saas), and some other amazing Open Source resources. Check them out, please!
 
 ## Getting Started
 
