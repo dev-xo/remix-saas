@@ -24,6 +24,22 @@ We are using `remix-auth-totp` and [Resend](https://resend.com) to handle email 
 
 - You can get your API Key by visiting the [Resend Dashboard](https://resend.com/api-keys).
 
+### Using another provider (MailKite, etc.)
+
+The email module posts to Resend's REST API, and any provider that mirrors
+that API works as a drop-in. Set these three environment variables to switch
+providers (Resend stays the default when they are unset):
+
+| Variable | Resend (default) | MailKite |
+| --- | --- | --- |
+| `EMAIL_API_URL` | `https://api.resend.com/emails` | `https://api.mailkite.dev/v1/send` |
+| `EMAIL_API_KEY` | — (or `RESEND_API_KEY`) | your MailKite API key |
+| `EMAIL_FROM` | `onboarding@resend.dev` | an address on your verified domain |
+
+[MailKite](https://mailkite.dev) is inbound-first — besides transactional send
+it also delivers received email (parsed body + auth verdict) as a signed
+webhook, so the same provider can power support inboxes and reply-to-thread.
+
 ## Social Logins (Github)
 
 Social Logins are a great way to authenticate users in web applications. Remix SaaS provides a simple way to authenticate users with their Github account. We are using `remix-auth-github` to handle the authentication process.

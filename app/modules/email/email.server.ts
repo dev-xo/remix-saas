@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import { ERRORS } from '#app/utils/constants/errors'
 
+// Success/error shapes are Resend's, but any provider that mirrors Resend's
+// REST API works here too — MailKite (https://mailkite.dev) is one example.
 const ResendSuccessSchema = z.object({
   id: z.string(),
 })
@@ -26,17 +28,26 @@ export type SendEmailOptions = {
 }
 
 export async function sendEmail(options: SendEmailOptions) {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error(`Resend - ${ERRORS.ENVS_NOT_INITIALIZED}`)
+  // Provider is configurable via env so any Resend-API-compatible ESP can be
+  // used. Defaults keep Resend as the provider, so existing setups are
+  // unchanged. To use MailKite instead, set:
+  //   EMAIL_API_URL=https://api.mailkite.dev/v1/send
+  //   EMAIL_API_KEY=<your MailKite API key>
+  //   EMAIL_FROM=you@yourverifieddomain.com
+  const apiUrl = process.env.EMAIL_API_URL ?? 'https://api.resend.com/emails'
+  const apiKey = process.env.EMAIL_API_KEY ?? process.env.RESEND_API_KEY
+  const from = process.env.EMAIL_FROM ?? 'onboarding@resend.dev'
+
+  if (!apiKey) {
+    throw new Error(`Email - ${ERRORS.ENVS_NOT_INITIALIZED}`)
   }
 
-  const from = 'onboarding@resend.dev'
   const email = { from, ...options }
 
-  const response = await fetch('https://api.resend.com/emails', {
+  const response = await fetch(apiUrl, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(email),
