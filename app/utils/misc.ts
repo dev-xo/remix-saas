@@ -1,8 +1,8 @@
 import type { ClassValue } from 'clsx'
-import type { LoaderData as RootLoaderData } from '#app/root'
-import { useFormAction, useNavigation, useRouteLoaderData } from '@remix-run/react'
+import { useFormAction, useNavigation } from '@remix-run/react'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { z } from 'zod'
 
 /**
  * Tailwind CSS classnames with support for conditional classes.
@@ -12,24 +12,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-/**
- * Use root-loader data.
- */
-function isUser(user: RootLoaderData['data']['user']) {
-  return user && typeof user === 'object' && typeof user.id === 'string'
-}
-
-export function useOptionalUser() {
-  const loaderData = useRouteLoaderData<RootLoaderData>('root')
-  if (!loaderData || !isUser(loaderData.data.user)) return undefined
-  return loaderData.data.user
-}
-
-export function useUser() {
-  const optionalUser = useOptionalUser()
-  if (!optionalUser) throw new Error('No user found in root loader.')
-  return optionalUser
-}
+/** Shared by onboarding and profile settings. */
+export const UsernameSchema = z.object({
+  username: z
+    .string()
+    .min(3)
+    .max(20)
+    .toLowerCase()
+    .trim()
+    .regex(/^[a-zA-Z0-9]+$/, 'Username may only contain alphanumeric characters.'),
+})
 
 /**
  * Permissions.
@@ -38,7 +30,7 @@ export function useUser() {
 export type RoleName = 'user' | 'admin'
 
 export function userHasRole(
-  user: Pick<ReturnType<typeof useUser>, 'roles'> | null,
+  user: { roles: Array<{ name: string }> } | null,
   role: RoleName,
 ) {
   if (!user) return false

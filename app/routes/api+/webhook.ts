@@ -1,6 +1,7 @@
+import { isMockServices } from '#app/utils/env.server'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { z } from 'zod'
-import { stripe } from '#app/modules/stripe/stripe.server'
+import { getStripe } from '#app/modules/stripe/stripe.server'
 import { PLANS } from '#app/modules/stripe/plans'
 import { prisma } from '#app/utils/db.server'
 import {
@@ -26,7 +27,7 @@ async function getStripeEvent(request: Request) {
     const signature = request.headers.get('Stripe-Signature')
     if (!signature) throw new Error(ERRORS.STRIPE_MISSING_SIGNATURE)
     const payload = await request.text()
-    const event = stripe.webhooks.constructEvent(
+    const event = getStripe().webhooks.constructEvent(
       payload,
       signature,
       process.env.STRIPE_WEBHOOK_ENDPOINT,
@@ -39,6 +40,10 @@ async function getStripeEvent(request: Request) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
+  if (isMockServices())
+    return new Response('Stripe webhooks are disabled in local mock mode.', {
+      status: 503,
+    })
   const event = await getStripeEvent(request)
 
   try {
@@ -56,7 +61,7 @@ export async function action({ request }: ActionFunctionArgs) {
         const user = await prisma.user.findUnique({ where: { customerId } })
         if (!user) throw new Error(ERRORS.SOMETHING_WENT_WRONG)
 
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+        const subscription = await getStripe().subscriptions.retrieve(subscriptionId)
         await prisma.subscription.update({
           where: { userId: user.id },
           data: {
@@ -66,8 +71,8 @@ export async function action({ request }: ActionFunctionArgs) {
             priceId: String(subscription.items.data[0].price.id),
             interval: String(subscription.items.data[0].plan.interval),
             status: subscription.status,
-            currentPeriodStart: subscription.current_period_start,
-            currentPeriodEnd: subscription.current_period_end,
+            currentPeriodStart: subscription.items.data[0].current_period_start,
+            currentPeriodEnd: subscription.items.data[0].current_period_end,
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
           },
         })
@@ -77,7 +82,7 @@ export async function action({ request }: ActionFunctionArgs) {
         // Cancel free subscription. — User upgraded to a paid plan.
         // Not required, but it's a good practice to keep just a single active plan.
         const subscriptions = (
-          await stripe.subscriptions.list({ customer: customerId })
+          await getStripe().subscriptions.list({ customer: customerId })
         ).data.map((sub) => sub.items)
 
         if (subscriptions.length > 1) {
@@ -85,7 +90,7 @@ export async function action({ request }: ActionFunctionArgs) {
             sub.data.some((item) => item.price.product === PLANS.FREE),
           )
           if (freeSubscription) {
-            await stripe.subscriptions.cancel(freeSubscription?.data[0].subscription)
+            await getStripe().subscriptions.cancel(freeSubscription?.data[0].subscription)
           }
         }
 
@@ -114,8 +119,8 @@ export async function action({ request }: ActionFunctionArgs) {
             priceId: String(subscription.items.data[0].price.id),
             interval: String(subscription.items.data[0].plan.interval),
             status: subscription.status,
-            currentPeriodStart: subscription.current_period_start,
-            currentPeriodEnd: subscription.current_period_end,
+            currentPeriodStart: subscription.items.data[0].current_period_start,
+            currentPeriodEnd: subscription.items.data[0].current_period_end,
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
           },
         })

@@ -1,9 +1,11 @@
+import { initEnvs, isMockServices } from '#app/utils/env.server'
 import type { Interval } from '#app/modules/stripe/plans'
-import { stripe } from '#app/modules/stripe/stripe.server'
+import { getStripe } from '#app/modules/stripe/stripe.server'
 import { PRICING_PLANS } from '#app/modules/stripe/plans'
 import { prisma } from '#app/utils/db.server.ts'
 
 async function seed() {
+  initEnvs()
   /**
    * Users, Roles and Permissions.
    */
@@ -13,13 +15,19 @@ async function seed() {
   for (const entity of entities) {
     for (const action of actions) {
       for (const access of accesses) {
-        await prisma.permission.create({ data: { entity, action, access } })
+        await prisma.permission.upsert({
+          where: { action_entity_access: { entity, action, access } },
+          update: {},
+          create: { entity, action, access },
+        })
       }
     }
   }
 
-  await prisma.role.create({
-    data: {
+  await prisma.role.upsert({
+    where: { name: 'admin' },
+    update: {},
+    create: {
       name: 'admin',
       permissions: {
         connect: await prisma.permission.findMany({
@@ -29,8 +37,10 @@ async function seed() {
       },
     },
   })
-  await prisma.role.create({
-    data: {
+  await prisma.role.upsert({
+    where: { name: 'user' },
+    update: {},
+    create: {
       name: 'user',
       permissions: {
         connect: await prisma.permission.findMany({
@@ -40,21 +50,47 @@ async function seed() {
       },
     },
   })
-  await prisma.user.create({
-    select: { id: true },
-    data: {
-      email: 'admin@admin.com',
-      username: 'admin',
-      roles: { connect: [{ name: 'admin' }, { name: 'user' }] },
-    },
-  })
+  if (isMockServices())
+    await prisma.user.upsert({
+      where: { email: 'admin@admin.com' },
+      update: {},
+      select: { id: true },
+      create: {
+        email: 'admin@admin.com',
+        username: 'admin',
+        roles: { connect: [{ name: 'admin' }, { name: 'user' }] },
+      },
+    })
 
   console.info(`🎭 User roles and permissions has been successfully created.`)
 
   /**
    * Stripe Products.
    */
-  const products = await stripe.products.list({
+  if (isMockServices()) {
+    for (const { id, name, description, prices } of Object.values(PRICING_PLANS)) {
+      await prisma.plan.upsert({
+        where: { id },
+        update: { name, description },
+        create: { id, name, description },
+      })
+      for (const [interval, amounts] of Object.entries(prices)) {
+        for (const [currency, amount] of Object.entries(amounts)) {
+          const price = { planId: id, interval, currency, amount }
+          const priceId = `local_${id}_${interval}_${currency}`
+          await prisma.price.upsert({
+            where: { id: priceId },
+            update: price,
+            create: { id: priceId, ...price },
+          })
+        }
+      }
+    }
+    console.info('Local plans seeded. Stripe was not contacted.')
+    return
+  }
+
+  const products = await getStripe().products.list({
     limit: 3,
   })
   if (products?.data?.length) {
@@ -74,7 +110,7 @@ async function seed() {
       })
 
       // Create Stripe product.
-      await stripe.products.create({
+      await getStripe().products.create({
         id,
         name,
         description: description || undefined,
@@ -83,7 +119,7 @@ async function seed() {
       // Create Stripe price for the current product.
       const stripePrices = await Promise.all(
         pricesByInterval.map((price) => {
-          return stripe.prices.create({
+          return getStripe().prices.create({
             product: id,
             currency: price.currency ?? 'usd',
             unit_amount: price.amount ?? 0,
@@ -126,7 +162,7 @@ async function seed() {
   console.info(`📦 Stripe Products has been successfully created.`)
 
   // Configure Customer Portal.
-  await stripe.billingPortal.configurations.create({
+  await getStripe().billingPortal.configurations.create({
     business_profile: {
       headline: 'Organization Name - Customer Portal',
     },
@@ -149,7 +185,7 @@ async function seed() {
 
   console.info(`👒 Stripe Customer Portal has been successfully configured.`)
   console.info(
-    '🎉 Visit: https://dashboard.stripe.com/test/products to see your products.',
+    '🎉 Visit: https://dashboard.getStripe().com/test/products to see your products.',
   )
 }
 

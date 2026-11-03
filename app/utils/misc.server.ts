@@ -26,13 +26,6 @@ export function getDomainPathname(request: Request) {
 /**
  * Locales.
  */
-export function getLocaleByQuality(request: Request) {
-  const locales = getClientLocales(request)
-
-  if (!locales) return 'en'
-  return locales[1]
-}
-
 export function getLocaleCurrency(request: Request) {
   const locales = getClientLocales(request)
   if (!locales) return CURRENCIES.DEFAULT

@@ -15,13 +15,11 @@ const PORT = process.env.PORT || 3000
 const NODE_ENV = process.env.NODE_ENV ?? 'development'
 
 const viteDevServer =
-  process.env.NODE_ENV === 'production'
-    ? undefined
-    : await import('vite').then((vite) =>
-        vite.createServer({
-          server: { middlewareMode: true },
-        }),
+  NODE_ENV === 'development'
+    ? await import('vite').then((vite) =>
+        vite.createServer({ server: { middlewareMode: true } }),
       )
+    : undefined
 
 const app = express()
 
@@ -46,9 +44,9 @@ app.use((_, res, next) => {
 
 app.use(
   helmet({
+    referrerPolicy: { policy: 'same-origin' },
+    crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
-      referrerPolicy: { policy: 'same-origin' },
-      crossOriginEmbedderPolicy: false,
       // ❗Important: Remove `reportOnly` to enforce CSP. (Development only).
       reportOnly: true,
       directives: {

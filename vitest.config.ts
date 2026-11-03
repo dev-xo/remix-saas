@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
@@ -11,9 +11,10 @@ export default defineConfig({
     globals: true,
     // Disables multi-threading and runs test serially. (Prisma will benefit from this).
     pool: 'forks',
+    fileParallelism: false,
     // Path to setup file that runs before your tests.
     setupFiles: ['./tests/setup-test-env.ts'],
     // Path to your test files.
-    include: ['./tests/integration/*.test.ts'],
+    include: ['./tests/integration/*.test.{js,ts,tsx}'],
   },
 })

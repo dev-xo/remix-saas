@@ -3,7 +3,7 @@
 If you are new to Fly.io, please check the [Getting Started](https://fly.io/docs/getting-started/) guide to have a better understanding of the platform.
 
 > [!IMPORTANT]
-> Your Prisma Migrations will be required in order to deploy the app. Also, Stripe Test Data should be cleaned (Only for development purposes).
+> Read the [maintenance notes](../maintenance.md) before deployment, including the remaining upstream security findings. Use real credentials with `MOCK_SERVICES=false`; local mock mode is rejected in production. The initial migration is checked in. Back up and baseline an existing database before applying migrations.
 
 ## Stripe Webhook - Production
 
@@ -12,7 +12,7 @@ To get started, we'll require to get our Stripe Production Webhook API Key. This
 1. Visit the [Stripe Webhook](https://dashboard.stripe.com/test/webhooks) section.
 2. Create a new Webhook Endpoint.
 3. Set the name of your future deployed app as the Webhook URL input. _(Check Notes)_
-4. Select the latest Stripe API version from `API version` selector.
+4. Select the API version matching the installed Stripe SDK from `API version` selector.
 5. Select the following events to listen on: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
 6. Add the Endpoint and reveal the `Signing Secret` value that has been provided from Stripe Webhook page.
 7. Set this new secret as `STRIPE_WEBHOOK_ENDPOINT` variable into your `.env` file.
@@ -55,12 +55,7 @@ fly secrets set SESSION_SECRET="" ENCRYPTION_SECRET="" PROD_HOST_URL="https://my
 
 Some `.env` variables, like `GITHUB_CLIENT_ID` has been skipped, in order to keep the deployment process as simple as possible.
 
-5. After setting the Envs, ensure your app has successfully seeded the Stripe Plans _(you can check that from your Fly App Live Logs)_ and comment out the seed script from `docker-entrypoint.js`. Lastly run `fly deploy` again.
-
-```ts
-// Comment me out after the first deployment ❗.
-// await exec('npx prisma db seed')
-```
+5. Deploy after configuring real credentials. The entrypoint applies migrations and runs the repeatable seed. The local admin user is only seeded in mock mode; provision production administrators deliberately.
 
 ```sh
 fly deploy

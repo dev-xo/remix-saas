@@ -12,15 +12,15 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteLoaderData,
   data,
 } from '@remix-run/react'
 import { useChangeLanguage } from 'remix-i18next/react'
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
-import { authenticator } from '#app/modules/auth/auth.server'
+import { isAuthenticated } from '#app/modules/auth/auth.server'
 import { useNonce } from '#app/utils/hooks/use-nonce'
 import { getHints } from '#app/utils/hooks/use-hints'
-import { prisma } from '#app/utils/db.server'
 import { getTheme, useTheme } from '#app/utils/hooks/use-theme'
 import { getToastSession } from '#app/utils/toast.server'
 import { csrf } from '#app/utils/csrf.server'
@@ -57,20 +57,11 @@ export type LoaderData = Exclude<
 >
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const sessionUser = await authenticator.isAuthenticated(request)
-  const user = sessionUser?.id
-    ? await prisma.user.findUnique({
-        where: { id: sessionUser?.id },
-        include: {
-          image: { select: { id: true } },
-          roles: { select: { name: true } },
-        },
-      })
-    : null
+  const user = await isAuthenticated(request)
 
   const locale = await i18nServer.getLocale(request)
   const { toast, headers: toastHeaders } = await getToastSession(request)
-  const [csrfToken, csrfCookieHeader] = await csrf.commitToken()
+  const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request)
 
   return data(
     {
@@ -157,14 +148,19 @@ export default function AppWithProviders() {
 
 export function ErrorBoundary() {
   const nonce = useNonce()
-  const theme = useTheme()
+  const rootData = useRouteLoaderData<typeof loader>('root')
+  const theme = rootData?.requestInfo?.userPrefs.theme ?? 'light'
 
   return (
     <Document nonce={nonce} theme={theme}>
       <GenericErrorBoundary
         statusHandlers={{
           403: ({ error }) => (
-            <p>You are not allowed to do that: {error?.data.message}</p>
+            <p>
+              {typeof error.data === 'string'
+                ? error.data
+                : (error.data?.message ?? 'You are not allowed to do that.')}
+            </p>
           ),
         }}
       />

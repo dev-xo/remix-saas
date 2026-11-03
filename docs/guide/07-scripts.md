@@ -10,7 +10,11 @@ Remix SaaS comes with a few scripts that can help you manage your application. W
 - `lint`: Lints the application (ESLint).
 - `typecheck`: Typechecks the application.
 - `format`: Formats the application (Prettier).
-- `test`: Runs the tests.
+- `setup`: Creates local environment, generates Prisma, initializes SQLite, and seeds demo data.
+- `check`: Runs lint, type checks, tests, and production build.
+- `test`: Runs tests once.
+- `test:watch`: Runs tests in watch mode.
+- `test:smoke`: Exercises the built app with a temporary database and local server.
 - `test:coverage`: Generates a coverage report.
 
 ## How to run a script?

@@ -9,8 +9,7 @@ import { redirect } from '@remix-run/node'
 import { useHydrated } from 'remix-utils/use-hydrated'
 import { AuthenticityTokenInput } from 'remix-utils/csrf/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
-import { z } from 'zod'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { Loader2 } from 'lucide-react'
 import { requireSessionUser } from '#app/modules/auth/auth.server'
@@ -21,7 +20,7 @@ import {
 import { prisma } from '#app/utils/db.server'
 import { validateCSRF } from '#app/utils/csrf.server'
 import { checkHoneypot } from '#app/utils/honeypot.server'
-import { useIsPending } from '#app/utils/misc'
+import { UsernameSchema, useIsPending } from '#app/utils/misc'
 import { ERRORS } from '#app/utils/constants/errors'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
 import { Input } from '#app/components/ui/input'
@@ -29,16 +28,6 @@ import { Button } from '#app/components/ui/button'
 import { ROUTE_PATH as DASHBOARD_PATH } from '#app/routes/dashboard+/_layout'
 
 export const ROUTE_PATH = '/onboarding/username' as const
-
-export const UsernameSchema = z.object({
-  username: z
-    .string()
-    .min(3)
-    .max(20)
-    .toLowerCase()
-    .trim()
-    .regex(/^[a-zA-Z0-9]+$/, 'Username may only contain alphanumeric characters.'),
-})
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Remix SaaS - Username' }]
@@ -101,7 +90,7 @@ export default function OnboardingUsername() {
   })
 
   useEffect(() => {
-    isHydrated && inputRef.current?.focus()
+    if (isHydrated) inputRef.current?.focus()
   }, [isHydrated])
 
   return (

@@ -1,11 +1,10 @@
 import Stripe from 'stripe'
-import { ERRORS } from '#app/utils/constants/errors'
+import { isMockServices } from '#app/utils/env.server'
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error(`Stripe - ${ERRORS.ENVS_NOT_INITIALIZED})`)
+let client: Stripe | undefined
+
+export function getStripe() {
+  if (isMockServices()) throw new Error('Stripe is disabled in local mock mode.')
+  if (!process.env.STRIPE_SECRET_KEY) throw new Error('STRIPE_SECRET_KEY is required.')
+  return (client ??= new Stripe(process.env.STRIPE_SECRET_KEY, { typescript: true }))
 }
-
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-06-20',
-  typescript: true,
-})

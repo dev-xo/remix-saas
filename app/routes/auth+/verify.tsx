@@ -10,10 +10,13 @@ import { useHydrated } from 'remix-utils/use-hydrated'
 import { AuthenticityTokenInput } from 'remix-utils/csrf/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { authenticator } from '#app/modules/auth/auth.server'
-import { getSession, commitSession } from '#app/modules/auth/auth-session.server'
+import {
+  isAuthenticated,
+  authenticate,
+  getAuthState,
+} from '#app/modules/auth/auth.server'
 import { validateCSRF } from '#app/utils/csrf.server'
 import { checkHoneypot } from '#app/utils/honeypot.server'
 import { siteConfig } from '#app/utils/constants/brand'
@@ -32,35 +35,29 @@ export const meta: MetaFunction = () => {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
+  await isAuthenticated(request, {
     successRedirect: DASHBOARD_PATH,
   })
 
-  const cookie = await getSession(request.headers.get('Cookie'))
-  const authEmail = cookie.get('auth:email')
-  const authError = cookie.get(authenticator.sessionErrorKey)
+  const { authEmail, authError } = await getAuthState(request)
 
   if (!authEmail) return redirect('/auth/login')
-
-  return data(
-    { authEmail, authError },
-    { headers: { 'Set-Cookie': await commitSession(cookie) } },
-  )
+  return data({
+    authEmail,
+    authError,
+    githubEnabled: Boolean(
+      process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET,
+    ),
+  })
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const url = new URL(request.url)
-  const pathname = url.pathname
-
   const clonedRequest = request.clone()
   const formData = await clonedRequest.formData()
   await validateCSRF(formData, clonedRequest.headers)
   checkHoneypot(formData)
 
-  await authenticator.authenticate('TOTP', request, {
-    successRedirect: pathname,
-    failureRedirect: pathname,
-  })
+  await authenticate('TOTP', request)
 }
 
 export default function Verify() {
@@ -76,7 +73,7 @@ export default function Verify() {
   })
 
   useEffect(() => {
-    isHydrated && inputRef.current?.focus()
+    if (isHydrated) inputRef.current?.focus()
   }, [isHydrated])
 
   return (

@@ -1,7 +1,7 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { Star, ArrowRight } from 'lucide-react'
-import { authenticator } from '#app/modules/auth/auth.server'
+import { isAuthenticated } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
 import { useTheme } from '#app/utils/hooks/use-theme.js'
 import { siteConfig } from '#app/utils/constants/brand'
@@ -10,14 +10,13 @@ import { Button, buttonVariants } from '#app/components/ui/button'
 import { ThemeSwitcherHome } from '#app/components/misc/theme-switcher'
 
 import { Logo } from '#app/components/logo'
-import ShadowPNG from '#public/images/shadow.png'
 
 export const meta: MetaFunction = () => {
   return [{ title: `${siteConfig.siteTitle} - Starter Kit` }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const sessionUser = await authenticator.isAuthenticated(request)
+  const sessionUser = await isAuthenticated(request)
   return { user: sessionUser }
 }
 
@@ -57,7 +56,7 @@ export default function Index() {
                   className="h-3 w-3 text-green-600 dark:text-yellow-100"
                   fill="currentColor"
                 />
-                +1.4K Supporters
+                +1.6K Supporters
               </span>
             </a>
           </div>
@@ -495,7 +494,7 @@ export default function Index() {
 
       {/* Background */}
       <img
-        src={ShadowPNG}
+        src="/images/shadow.png"
         alt="Hero"
         className={`fixed left-0 top-0 z-0 h-full w-full opacity-60 ${theme === 'dark' ? 'invert' : ''}`}
       />

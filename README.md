@@ -33,6 +33,20 @@ We've created a simple demo that displays all template-provided features. Psst! 
 
 ## Getting Started
 
+Use Node 24 LTS (see `.nvmrc`) and npm:
+
+```sh
+npm ci
+npm run setup
+npm run dev
+```
+
+Open [localhost:3000](http://localhost:3000). Setup creates an ignored `.env` with random secrets, a local SQLite database, roles, and demo plans. No external credentials are needed. Log in with any email address and use the code or magic link printed in the server terminal. For the local admin account, use `admin@admin.com`.
+
+`MOCK_SERVICES=true` keeps email and billing local; mock mode is rejected in production. GitHub login appears only when its credentials are configured. Google login is not part of this template.
+
+Run `npm run check` and then `npm run test:smoke` to verify the app. See [maintenance notes](docs/maintenance.md) for compatibility choices, known upstream security findings, and production setup.
+
 Please, read the [Getting Started Documentation](https://github.com/dev-xo/remix-saas/tree/main/docs#remix-saas-documentation) to successfully initialize your **Remix SaaS** Template.
 
 ## Acknowledgments

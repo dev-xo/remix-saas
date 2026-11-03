@@ -33,7 +33,7 @@ export default async function handleRequest(
    * Content Security Policy.
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
    */
-  const nonce = String(loadContext.cspNonce) ?? undefined
+  const nonce = String(loadContext.cspNonce ?? '')
 
   /**
    * Currently, we're not setting the CSP headers due to lack of support on deferred scripts.

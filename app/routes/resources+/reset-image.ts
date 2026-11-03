@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs } from '@remix-run/router'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { requireUser } from '#app/modules/auth/auth.server'
 import { prisma } from '#app/utils/db.server.js'
 

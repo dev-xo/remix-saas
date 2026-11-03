@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.11.0
+ARG NODE_VERSION=24
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Remix/Prisma"
@@ -24,7 +24,9 @@ COPY --link .npmrc package-lock.json package.json ./
 RUN npm ci --include=dev
 
 # Generate Prisma Client
-COPY --link prisma .
+COPY --link prisma ./prisma
+COPY --link prisma.config.ts ./
+ENV DATABASE_URL="file:./data.db"
 RUN npx prisma generate
 
 # Copy application code

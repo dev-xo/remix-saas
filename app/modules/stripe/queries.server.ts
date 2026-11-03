@@ -1,5 +1,6 @@
+import { isMockServices } from '#app/utils/env.server'
 import { PLANS } from '#app/modules/stripe/plans'
-import { stripe } from '#app/modules/stripe/stripe.server'
+import { getStripe } from '#app/modules/stripe/stripe.server'
 import { prisma } from '#app/utils/db.server'
 import { getLocaleCurrency, HOST_URL } from '#app/utils/misc.server'
 import { ERRORS } from '#app/utils/constants/errors'
@@ -11,10 +12,18 @@ export async function createCustomer({ userId }: { userId: string }) {
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user || user.customerId) throw new Error(ERRORS.STRIPE_CUSTOMER_NOT_CREATED)
 
+  if (isMockServices()) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { customerId: `local_${userId}` },
+    })
+    return true
+  }
+
   const email = user.email ?? undefined
   const name = user.username ?? undefined
-  const customer = await stripe.customers
-    .create({ email, name })
+  const customer = await getStripe()
+    .customers.create({ email, name })
     .catch((err) => console.error(err))
   if (!customer) throw new Error(ERRORS.STRIPE_CUSTOMER_NOT_CREATED)
 
@@ -50,7 +59,24 @@ export async function createFreeSubscription({
   )
   if (!yearlyPrice) throw new Error(ERRORS.STRIPE_SOMETHING_WENT_WRONG)
 
-  const stripeSubscription = await stripe.subscriptions.create({
+  if (isMockServices()) {
+    const now = Math.floor(Date.now() / 1000)
+    await prisma.subscription.create({
+      data: {
+        id: `local_${userId}`,
+        userId,
+        planId: plan!.id,
+        priceId: yearlyPrice.id,
+        interval: yearlyPrice.interval,
+        status: 'active',
+        currentPeriodStart: now,
+        currentPeriodEnd: now + 365 * 24 * 60 * 60,
+      },
+    })
+    return true
+  }
+
+  const stripeSubscription = await getStripe().subscriptions.create({
     customer: String(user.customerId),
     items: [{ price: yearlyPrice.id }],
   })
@@ -64,8 +90,8 @@ export async function createFreeSubscription({
       priceId: String(stripeSubscription.items.data[0].price.id),
       interval: String(stripeSubscription.items.data[0].plan.interval),
       status: stripeSubscription.status,
-      currentPeriodStart: stripeSubscription.current_period_start,
-      currentPeriodEnd: stripeSubscription.current_period_end,
+      currentPeriodStart: stripeSubscription.items.data[0].current_period_start,
+      currentPeriodEnd: stripeSubscription.items.data[0].current_period_end,
       cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
     },
   })
@@ -106,11 +132,25 @@ export async function createSubscriptionCheckout({
   )
   if (!price) throw new Error(ERRORS.STRIPE_SOMETHING_WENT_WRONG)
 
-  const checkout = await stripe.checkout.sessions.create({
+  if (isMockServices()) {
+    const now = Math.floor(Date.now() / 1000)
+    await prisma.subscription.update({
+      where: { userId },
+      data: {
+        planId,
+        priceId: price.id,
+        interval: planInterval,
+        currentPeriodStart: now,
+        currentPeriodEnd: now + (planInterval === 'year' ? 365 : 30) * 24 * 60 * 60,
+      },
+    })
+    return '/dashboard/checkout'
+  }
+
+  const checkout = await getStripe().checkout.sessions.create({
     customer: user.customerId,
     line_items: [{ price: price.id, quantity: 1 }],
     mode: 'subscription',
-    payment_method_types: ['card'],
     success_url: `${HOST_URL}/dashboard/checkout`,
     cancel_url: `${HOST_URL}/dashboard/settings/billing`,
   })
@@ -125,7 +165,9 @@ export async function createCustomerPortal({ userId }: { userId: string }) {
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user || !user.customerId) throw new Error(ERRORS.STRIPE_SOMETHING_WENT_WRONG)
 
-  const customerPortal = await stripe.billingPortal.sessions.create({
+  if (isMockServices()) return '/dashboard/settings/billing'
+
+  const customerPortal = await getStripe().billingPortal.sessions.create({
     customer: user.customerId,
     return_url: `${HOST_URL}/dashboard/settings/billing`,
   })

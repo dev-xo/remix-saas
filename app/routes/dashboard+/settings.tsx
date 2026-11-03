@@ -1,6 +1,5 @@
 import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLocation } from '@remix-run/react'
-import { z } from 'zod'
 import { requireUser } from '#app/modules/auth/auth.server'
 import { cn } from '#app/utils/misc'
 import { ROUTE_PATH as BILLING_PATH } from '#app/routes/dashboard+/settings.billing'
@@ -8,23 +7,13 @@ import { buttonVariants } from '#app/components/ui/button'
 
 export const ROUTE_PATH = '/dashboard/settings' as const
 
-export const UsernameSchema = z.object({
-  username: z
-    .string()
-    .min(3)
-    .max(20)
-    .toLowerCase()
-    .trim()
-    .regex(/^[a-zA-Z0-9]+$/, 'Username may only contain alphanumeric characters.'),
-})
-
 export const meta: MetaFunction = () => {
   return [{ title: 'Settings' }]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await requireUser(request)
-  return { user }
+  await requireUser(request)
+  return {}
 }
 
 export default function DashboardSettings() {

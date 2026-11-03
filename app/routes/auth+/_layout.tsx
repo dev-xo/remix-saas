@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { Link, Outlet } from '@remix-run/react'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { redirect } from '@remix-run/node'
-import { authenticator } from '#app/modules/auth/auth.server'
+import { isAuthenticated } from '#app/modules/auth/auth.server'
 import { getDomainPathname } from '#app/utils/misc.server'
 import { ROUTE_PATH as HOME_PATH } from '#app/routes/_home+/_layout'
 import { ROUTE_PATH as LOGIN_PATH } from '#app/routes/auth+/login'
@@ -11,12 +11,12 @@ import { Logo } from '#app/components/logo'
 export const ROUTE_PATH = '/auth' as const
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
+  await isAuthenticated(request, {
     successRedirect: DASHBOARD_PATH,
   })
   const pathname = getDomainPathname(request)
   if (pathname === ROUTE_PATH) return redirect(LOGIN_PATH)
-  return {}
+  return { quoteIndex: Math.floor(Math.random() * QUOTES.length) }
 }
 
 const QUOTES = [
@@ -43,7 +43,8 @@ const QUOTES = [
 ]
 
 export default function Layout() {
-  const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)]
+  const { quoteIndex } = useLoaderData<typeof loader>()
+  const randomQuote = QUOTES[quoteIndex]
 
   return (
     <div className="flex h-screen w-full">

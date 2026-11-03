@@ -148,7 +148,7 @@ export function Navigation({ user, planId }: NavigationProps) {
                 className="h-3 w-3 text-green-600 dark:text-yellow-100"
                 fill="currentColor"
               />
-              +1.4K Documentation
+              +1.6K Documentation
             </span>
           </a>
           <DropdownMenu modal={false}>

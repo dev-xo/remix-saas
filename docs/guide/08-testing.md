@@ -1,58 +1,9 @@
 # Testing
 
-Remix SaaS provides a ultra simple testing setup, based on `vitest`.
+Run `npm run check` for lint, TypeScript, Vitest regression tests, and a production build. Run `npm run test:smoke` after building for HTTP checks against the compiled server with an isolated temporary SQLite database. Neither command needs external service credentials.
 
-The testing setup is designed to be as simple as possible, while still providing a good amount of flexibility. This design choice was made in order to allow developers to choose their own testing setup, while still providing a good starting point.
+Vitest tests live in `tests/integration/*.test.{js,ts,tsx}` and are configured in `vitest.config.ts`. They verify environment validation, production mock rejection, signed login state, email rendering, and offline delivery.
 
-## Running tests
+The smoke suite verifies migrations and repeatable seeding, public pages, protected routes, missing OAuth configuration, CSRF rejection, email-code and magic-link authentication, onboarding, admin permissions, profile updates, avatar upload/read/reset, theme persistence, mocked subscription upgrades, and logout. It starts and stops its own server and removes its temporary database.
 
-To run tests, simply run the following command:
-
-```bash
-npm run test
-```
-
-This will run all tests in the `tests` directory.
-
-## Writing tests
-
-Tests are written in the `tests` directory. Each test file should be named `*.test.js` or `*.test.ts`.
-
-Here is an example test file:
-
-```typescript
-import { test } from 'vitest'
-
-test('1 + 1 = 2', () => {
-  expect(1 + 1).toBe(2)
-})
-```
-
-## Configuration
-
-The testing setup can be found in the `vitest.config.js` file. This file allows you to configure the testing setup to your liking.
-
-## Coverage
-
-To generate a coverage report, run the following command:
-
-```bash
-npm run coverage
-```
-
-This will generate a coverage report in the `coverage` directory.
-
-## Additional Resources
-
-Database hooking and some other testing utilities has been skipped in this documentation, as the objective is to keep it as simple as possible. If you need a more advanced testing setup, please refer to the `vitest` documentation.
-
-- [Vitest Documentation](https://vitest.dev/guide/)
-- [Testing Library](https://testing-library.com/docs/)
-
-## Contributing
-
-If you have any suggestions or improvements, feel free to open an Issue or a Pull Request. Your contribution will be more than welcome!
-
-- [Documentation](https://github.com/dev-xo/remix-saas/tree/main/docs#getting-started)
-- [Live Demo](https://remix-saas.fly.dev)
-- [Twitter Updates](https://twitter.com/DanielKanem)
+Use `npm run test:watch` while developing, `npm run test:coverage` for coverage, and `npm audit` to review dependency findings. The built-app test is skipped by default; `npm run test:smoke` enables it after a build. Real OAuth, Resend delivery, Stripe payments/portal, and webhook delivery require provider credentials and are not exercised by local mocks.

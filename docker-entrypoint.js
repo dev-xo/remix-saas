@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable */
 
 import { spawn } from 'node:child_process'
 
@@ -11,8 +10,7 @@ const env = { ...process.env }
     await exec('npx prisma migrate deploy')
   }
 
-  // Run the seed script before starting the web server.
-  // Comment me out after the first deployment ❗.
+  // Upsert roles and initialize billing products before starting the web server.
   await exec('npx prisma db seed')
 
   // Launch application.

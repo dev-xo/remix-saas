@@ -1,12 +1,12 @@
-import type { ActionFunctionArgs } from '@remix-run/router'
-import { data } from '@remix-run/router'
+import type { ActionFunctionArgs } from '@remix-run/node'
+import { data } from '@remix-run/node'
 import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
   MaxPartSizeExceededError,
 } from '@remix-run/node'
 import { z } from 'zod'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { type SubmissionResult } from '@conform-to/react'
 import { requireUser } from '#app/modules/auth/auth.server'
 import { prisma } from '#app/utils/db.server.js'

@@ -7,6 +7,7 @@ import type { Interval, Plan } from '#app/modules/stripe/plans'
 import { useState } from 'react'
 import { Form, useLoaderData } from '@remix-run/react'
 import { redirect } from '@remix-run/node'
+import { isMockServices } from '#app/utils/env.server'
 import { requireSessionUser } from '#app/modules/auth/auth.server'
 import { PLANS, PRICING_PLANS, INTERVALS, CURRENCIES } from '#app/modules/stripe/plans'
 import {
@@ -36,7 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   })
   const currency = getLocaleCurrency(request)
 
-  return { subscription, currency }
+  return { subscription, currency, mockServices: isMockServices() }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -71,7 +72,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function DashboardBilling() {
-  const { subscription, currency } = useLoaderData<typeof loader>()
+  const { subscription, currency, mockServices } = useLoaderData<typeof loader>()
 
   const [selectedPlanId, setSelectedPlanId] = useState<Plan>(
     (subscription?.planId as Plan) ?? PLANS.FREE,
@@ -85,16 +86,22 @@ export default function DashboardBilling() {
       <div className="flex w-full flex-col gap-2 p-6 py-2">
         <h2 className="text-xl font-medium text-primary">This is a demo app.</h2>
         <p className="text-sm font-normal text-primary/60">
-          Remix SaaS is a demo app that uses Stripe test environment. You can find a list
-          of test card numbers on the{' '}
-          <a
-            href="https://stripe.com/docs/testing#cards"
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium text-primary/80 underline">
-            Stripe docs
-          </a>
-          .
+          {mockServices ? (
+            'Local billing is simulated. No payment details or external credentials are needed.'
+          ) : (
+            <>
+              Remix SaaS is a demo app that uses Stripe test environment. You can find a
+              list of test card numbers on the{' '}
+              <a
+                href="https://stripe.com/docs/testing#cards"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-primary/80 underline">
+                Stripe docs
+              </a>
+              .
+            </>
+          )}
         </p>
       </div>
 
@@ -238,15 +245,18 @@ export default function DashboardBilling() {
 
         <div className="flex min-h-14 w-full items-center justify-between rounded-lg rounded-t-none border-t border-border bg-secondary px-6 py-3 dark:bg-card">
           <p className="text-sm font-normal text-primary/60">
-            You will be redirected to the Stripe Customer Portal.
+            {mockServices
+              ? 'The Stripe Customer Portal requires real credentials.'
+              : 'You will be redirected to the Stripe Customer Portal.'}
           </p>
           <Form method="POST">
             <Button
               type="submit"
               size="sm"
               name={INTENTS.INTENT}
-              value={INTENTS.SUBSCRIPTION_CREATE_CUSTOMER_PORTAL}>
-              Manage
+              value={INTENTS.SUBSCRIPTION_CREATE_CUSTOMER_PORTAL}
+              disabled={mockServices}>
+              {mockServices ? 'Unavailable locally' : 'Manage'}
             </Button>
           </Form>
         </div>

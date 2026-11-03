@@ -75,61 +75,21 @@ npx create-remix-saas@latest
 # Done! 🎉 Please, continue reading the documentation!
 ```
 
-# Environment
+# Local setup
 
-Remix SaaS requires a few environment variables to be set in order to work as expected. To keep it even simpler, on template initialization, some of these variables are already set for you.
-
-Let's take a look at the required environment variables:
-
-# Email
-
-In order to send emails, Remix SaaS uses [Resend](https://resend.com/), a simple and easy-to-use email service for developers.
-
-- You can get your API Key by visiting the [Resend Dashboard](https://resend.com/api-keys).
-
-# Stripe
-
-In order to use Stripe Subscriptions and seed our database, we'll require to get the secret keys from our Stripe Dashboard.
-
-1. Create a [Stripe Account](https://dashboard.stripe.com/login) or use an existing one.
-2. Visit [API Keys](https://dashboard.stripe.com/test/apikeys) section and copy the `Secret` key.
-3. Paste your secret key into `.env` file as `STRIPE_SECRET_KEY`.
-
-## Stripe Webhook
-
-In order to start receiving Stripe Events to our Webhook Endpoint, we'll require to install the [Stripe CLI.](https://stripe.com/docs/stripe-cli) Once installed run the following command in your console. _(Make sure you're in the root of your project)_:
+Use Node 24 LTS and npm. From a clone, run:
 
 ```sh
-stripe listen --forward-to localhost:3000/api/webhook
-```
-
-This should give you a Webhook Secret Key. Copy and paste it into your `.env` file as `STRIPE_WEBHOOK_ENDPOINT`.
-
-> [!IMPORTANT]
-> This command should be running in your console while developing, especially when testing or handling Stripe Events.
-
-# Database
-
-Before starting our development, we'll require to setup our Prisma Migrations. Remix SaaS uses Prisma as its ORM, with SQLite as its default database. You can change it to any other database supported by Prisma.
-
-To start your migrations, and seed the Database, run the following command in your console:
-
-```sh
-npx prisma migrate dev --name init
-```
-
-> [!NOTE]
-> Resetting migrations will require us to clean our Stripe Data. You can do that by visiting your [Stripe Test Dashboard](https://dashboard.stripe.com/test/developers), scrolling down and clicking on `Delete all test data`.
-
-# Development Server
-
-Now that we have everything configured, we can start our development server. Run the following command in your console:
-
-```sh
+npm ci
+npm run setup
 npm run dev
 ```
 
-You should be able to access your app at 🎉 [http://localhost:3000](http://localhost:3000).
+Setup creates `.env` with random secrets, initializes SQLite, and seeds roles, a local admin, and demo plans. It preserves an existing `.env` and can be run again without duplicating records. No Stripe, Resend, or OAuth credentials are needed with `MOCK_SERVICES=true`.
+
+Open [localhost:3000](http://localhost:3000), enter an email, and use the code or magic link from your server terminal. The local admin email is `admin@admin.com`. Email delivery and subscription upgrades are simulated locally. GitHub login is available when configured; Google is not implemented.
+
+For real integrations, disable mock mode and configure the credentials described in the [maintenance notes](./maintenance.md). Production rejects mock mode. `npm run setup` is a local convenience; use checked-in migrations for deployment.
 
 ## Learn More
 
@@ -149,15 +109,7 @@ Huge thanks to our sponsors who makes it possible to maintain and improve Remix 
 
 <table width="100%">
   <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://launch.arcjet.com/hdXzPbO" target="_blank">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://arcjet.com/logo/arcjet-dark-lockup-voyage-horizontal.svg">
-          <img src="https://arcjet.com/logo/arcjet-light-lockup-voyage-horizontal.svg" alt="Arcjet">
-        </picture>
-      </a>
-    </td>
-     <td align="center" width="33%">
+     <td align="center" width="50%">
       <a href="https://www.convex.dev/?utm_source=remix-saas-github" target="_blank">
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://static.convex.dev/logo/convex-logo-light.svg">
@@ -166,7 +118,7 @@ Huge thanks to our sponsors who makes it possible to maintain and improve Remix 
       </picture>
       </a>
     </td>
-    <td align="center" width="33%">
+    <td align="center" width="50%">
       <a href="mailto:devxo@mail.com">
         Support us!<br />💝
       </a>

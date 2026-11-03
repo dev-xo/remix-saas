@@ -7,3 +7,5 @@ installGlobals({ nativeFetch: true })
 // Handle `beforeEach` | `afterEach` and other setup/teardown logic here.
 // afterEach(() => resetHandlers())
 // afterEach(() => cleanup())
+
+process.env.SESSION_SECRET ??= 'test-session-secret-for-local-tests-only'

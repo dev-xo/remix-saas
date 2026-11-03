@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isMockServices } from '#app/utils/env.server'
 import { ERRORS } from '#app/utils/constants/errors'
 
 const ResendSuccessSchema = z.object({
@@ -26,6 +27,11 @@ export type SendEmailOptions = {
 }
 
 export async function sendEmail(options: SendEmailOptions) {
+  if (isMockServices()) {
+    console.info('[Local email]', options.to, options.subject)
+    return { status: 'success', data: { id: 'local-email' } } as const
+  }
+
   if (!process.env.RESEND_API_KEY) {
     throw new Error(`Resend - ${ERRORS.ENVS_NOT_INITIALIZED}`)
   }

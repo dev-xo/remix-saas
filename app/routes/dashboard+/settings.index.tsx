@@ -2,8 +2,7 @@ import type { LoaderFunctionArgs, ActionFunctionArgs } from '@remix-run/node'
 import { useRef, useState } from 'react'
 import { Form, useFetcher, useLoaderData, useActionData, data } from '@remix-run/react'
 import { redirect } from '@remix-run/node'
-import { z } from 'zod'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { Upload } from 'lucide-react'
 import { requireUser } from '#app/modules/auth/auth.server'
@@ -11,7 +10,7 @@ import { getSession, destroySession } from '#app/modules/auth/auth-session.serve
 import { prisma } from '#app/utils/db.server'
 import { createToastHeaders } from '#app/utils/toast.server'
 import { useDoubleCheck } from '#app/utils/hooks/use-double-check'
-import { getUserImgSrc } from '#app/utils/misc'
+import { UsernameSchema, getUserImgSrc } from '#app/utils/misc'
 import { ERRORS } from '#app/utils/constants/errors'
 import { INTENTS } from '#app/utils/constants/misc'
 import { ROUTE_PATH as HOME_PATH } from '#app/routes/_home+/_layout'
@@ -23,16 +22,6 @@ import {
   ImageSchema,
 } from '#app/routes/resources+/upload-image'
 import { ROUTE_PATH as RESET_IMAGE_PATH } from '#app/routes/resources+/reset-image'
-
-export const UsernameSchema = z.object({
-  username: z
-    .string()
-    .min(3)
-    .max(20)
-    .toLowerCase()
-    .trim()
-    .regex(/^[a-zA-Z0-9]+$/, 'Username may only contain alphanumeric characters.'),
-})
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await requireUser(request)

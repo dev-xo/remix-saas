@@ -1,84 +1,23 @@
-name: 💿 Main
+name: Checks
 on:
   push:
-    branches:
-      - main
-      - dev
+    branches: [main, dev]
   pull_request: {}
-
 permissions:
-  actions: write
   contents: read
-
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  lint:
-    name: ⬣ ESLint
+  check:
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4.2.2
-
-      - name: Setup Node
-        uses: actions/setup-node@v4.1.0
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
         with:
-          node-version: 20
-
-      - name: Install Dependencies
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-          run_install: true
-
-      - name: Run Lint
-        run: pnpm lint
-
-  typecheck:
-    name: ʦ TypeScript
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4.2.2
-
-      - name: Setup Node
-        uses: actions/setup-node@v4.1.0
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-          run_install: true
-
-      - name: Run Typechecking
-        run: pnpm typecheck
-
-  vitest:
-    name: ⚡ Vitest
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4.2.2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.1.0
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-          run_install: true
-
-      - name: Run Vitest
-        run: pnpm test
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run setup
+      - run: npm run check
+      - run: npm run test:smoke

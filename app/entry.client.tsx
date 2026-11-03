@@ -8,7 +8,6 @@ import { getInitialNamespaces } from 'remix-i18next/client'
 import * as i18n from '#app/modules/i18n/i18n'
 
 async function main() {
-  // eslint-disable-next-line import/no-named-as-default-member
   await i18next
     // Initialize `react-i18next`.
     .use(initReactI18next)

@@ -4,67 +4,17 @@
  *
  * https://github.com/dev-xo
  */
-const { execSync } = require('node:child_process')
 const crypto = require('node:crypto')
 const fs = require('node:fs/promises')
 const path = require('node:path')
-const semver = require('semver')
-const toml = require('@iarna/toml')
-const PackageJson = require('@npmcli/package-json')
-const { confirm } = require('@inquirer/prompts')
-const chalk = require('chalk')
+let toml, PackageJson, chalk
 
 const DEFAULT_PROJECT_NAME_MATCHER = /remix-saas/gim
 
-function getRandomString(length) {
-  return crypto.randomBytes(length).toString('hex')
-}
-function generateRandomHexadecimalString(length) {
-  const hex = '0123456789abcdef'
-  let result = ''
-  for (let i = 0; i < length; i++) {
-    result += hex.charAt(Math.floor(Math.random() * hex.length))
-  }
-  return result
-}
-
-/**
- * Returns the version of the package manager used in the workspace.
- */
-function getPackageManagerVersion(packageManager) {
-  return execSync(`${packageManager} --version`).toString('utf-8').trim()
-}
-
-/**
- * Returns commands for the package manager used in workspace.
- */
 function getPackageManagerCommand(packageManager) {
-  return {
-    npm: () => ({
-      exec: 'npx',
-      lockfile: 'package-lock.json',
-      run: (script, args) => `npm run ${script} ${args ? `-- ${args}` : ''}`,
-    }),
-    pnpm: () => {
-      const pnpmVersion = getPackageManagerVersion('pnpm')
-      const includeDoubleDashBeforeArgs = semver.lt(pnpmVersion, '7.0.0')
-      const useExec = semver.gte(pnpmVersion, '6.13.0')
-
-      return {
-        exec: useExec ? 'pnpm exec' : 'pnpx',
-        lockfile: 'pnpm-lock.yaml',
-        run: (script, args) =>
-          includeDoubleDashBeforeArgs
-            ? `pnpm run ${script} ${args ? `-- ${args}` : ''}`
-            : `pnpm run ${script} ${args || ''}`,
-      }
-    },
-    yarn: () => ({
-      exec: 'yarn',
-      lockfile: 'yarn.lock',
-      run: (script, args) => `yarn ${script} ${args || ''}`,
-    }),
-  }[packageManager]()
+  if (!['npm', 'pnpm', 'yarn'].includes(packageManager))
+    throw new Error('Unsupported package manager.')
+  return { run: (script) => `${packageManager} run ${script}` }
 }
 
 /**
@@ -89,100 +39,59 @@ async function removeUnusedFiles(rootDirectory) {
 }
 
 /**
- * Prompts user for Arcjet setup preferences.
- */
-async function promptUser() {
-  try {
-    const optInArcjet = await confirm({
-      message: chalk.blue(
-        'Would you like to use Arcjet?\n\nAdding Arcjet provides bot protection, spam signup detection and attack prevention for out of the box for free. Other features e.g. rate limiting & PII redaction can be enabled.',
-      ),
-      default: true,
-    })
-    return { optInArcjet }
-  } catch (error) {
-    if (error.name === 'ExitPromptError') {
-      console.log('\n👋 Setup cancelled. Exiting...')
-      process.exit(0)
-    }
-    throw error
-  }
-}
-
-/**
  * Updates package.json.
  */
-async function updatePackageJson(rootDirectory, APP_NAME, useArcjet) {
+async function updatePackageJson(rootDirectory, APP_NAME) {
   const packageJson = await PackageJson.load(rootDirectory)
   const updates = {
     name: APP_NAME,
-  }
-
-  if (useArcjet) {
-    updates.dependencies = {
-      ...packageJson.content.dependencies,
-      '@arcjet/remix': '^1.0.0-alpha.34',
-    }
   }
 
   packageJson.update(updates)
   await packageJson.save()
 }
 
-/**
- * Copies Arcjet implementation files.
- */
-async function copyArcjetImplementation(rootDirectory) {
-  const ARCJET_DIR = path.join(rootDirectory, 'remix.init', 'arcjet')
-
-  const arcjetFiles = [
-    { from: 'app/root.tsx', to: 'app/root.tsx' },
-    { from: 'app/routes/_home+/_index.tsx', to: 'app/routes/_home+/_index.tsx' },
-    { from: 'app/routes/auth+/login.tsx', to: 'app/routes/auth+/login.tsx' },
-    { from: 'app/utils/arcjet.server.ts', to: 'app/utils/arcjet.server.ts' },
-    { from: 'app/utils/env.server.ts', to: 'app/utils/env.server.ts' },
-  ]
-
-  for (const { from, to } of arcjetFiles) {
-    try {
-      const sourcePath = path.join(ARCJET_DIR, from)
-      const targetPath = path.join(rootDirectory, to)
-
-      // Ensure target directory exists.
-      const targetDir = path.dirname(targetPath)
-      await fs.mkdir(targetDir, { recursive: true })
-
-      await fs.copyFile(sourcePath, targetPath)
-    } catch (error) {
-      console.error(`Error copying ${from}:`, error.message)
+/** Create the environment once; preserve existing credentials and the example. */
+async function initEnvFile(rootDirectory) {
+  const envPath = path.join(rootDirectory, '.env')
+  try {
+    await fs.readFile(envPath)
+    console.info('Keeping existing .env')
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+    let env = await fs.readFile(path.join(rootDirectory, '.env.example'), 'utf8')
+    for (const key of [
+      'SESSION_SECRET',
+      'ENCRYPTION_SECRET',
+      'HONEYPOT_ENCRYPTION_SEED',
+    ]) {
+      env = env.replace(
+        new RegExp(`^${key}=.*$`, 'm'),
+        `${key}="${crypto.randomBytes(32).toString('hex')}"`,
+      )
     }
+    await fs.writeFile(envPath, env, { flag: 'wx', mode: 0o600 })
+    console.info('Created local .env with random secrets and mocked services')
   }
+  return envPath
 }
 
-/**
- * Creates a new `.env` file, based on `.env.example`.
- * Also removes `.env.example`.
- */
-async function initEnvFile(rootDirectory) {
-  const NEW_ENV_PATH = path.join(rootDirectory, '.env')
-  const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
-
-  let newEnv = await fs.readFile(EXAMPLE_ENV_PATH, 'utf-8')
-  newEnv = newEnv.replace(
-    /^SESSION_SECRET=.*$/m,
-    `SESSION_SECRET="${getRandomString(16)}"`,
+async function setupEnvironment(rootDirectory) {
+  if (process.env.NODE_ENV === 'production')
+    throw new Error('Use migrations to set up a production database.')
+  process.loadEnvFile(await initEnvFile(rootDirectory))
+  if (process.env.NODE_ENV === 'production')
+    throw new Error('Use migrations to set up a production database.')
+  const databaseUrl = process.env.DATABASE_URL
+  if (!databaseUrl?.startsWith('file:'))
+    throw new Error('Local setup requires a SQLite DATABASE_URL.')
+  const databasePath = path.resolve(
+    rootDirectory,
+    'prisma',
+    databaseUrl.slice(5).split('?')[0],
   )
-  newEnv = newEnv.replace(
-    /^ENCRYPTION_SECRET=.*$/m,
-    `ENCRYPTION_SECRET="${generateRandomHexadecimalString(64)}"`,
-  )
-  newEnv = newEnv.replace(
-    /^HONEYPOT_ENCRYPTION_SEED=.*$/m,
-    `HONEYPOT_ENCRYPTION_SEED="${generateRandomHexadecimalString(64)}"`,
-  )
-
-  await fs.writeFile(NEW_ENV_PATH, newEnv)
-  await fs.unlink(EXAMPLE_ENV_PATH)
+  await fs.mkdir(path.dirname(databasePath), { recursive: true })
+  await (await fs.open(databasePath, 'a')).close()
 }
 
 /**
@@ -208,7 +117,7 @@ function printWelcomeMessage() {
   console.log(colors.header('FEATURES'))
 
   const features = [
-    ['Remix v3', 'Latest features.'],
+    ['Remix v2', 'Latest compatible release.'],
     ['Stripe', 'Subscription management.'],
     ['Authentication', 'Passwordless and Social Logins.'],
     ['TailwindCSS & ShadCN', 'Beautiful Components and Easy Theming.'],
@@ -236,7 +145,7 @@ function printWelcomeMessage() {
 /**
  * Prints success message with next steps.
  */
-function printSuccessMessage(optInArcjet, pm) {
+function printSuccessMessage(pm) {
   const isDarkTheme = process.env.FORCE_COLOR !== '0' && process.env.TERM !== 'dumb'
 
   const colors = {
@@ -252,25 +161,16 @@ function printSuccessMessage(optInArcjet, pm) {
 
   console.log('\n')
 
-  if (optInArcjet) {
-    console.log(colors.header('⚡ Next Steps:'))
-    console.log(colors.subHeader('📚 Arcjet Security Setup:'))
-    console.log(
-      `${colors.bullet('1.')} Sign up for a free Arcjet account ${colors.link('https://launch.arcjet.com/hdXzPbO')}`,
-    )
-    console.log(`${colors.bullet('2.')} Update the .env file with your Arcjet API key.`)
-    console.log(
-      `${colors.bullet('3.')} Start development server: ${colors.command(pm.run('dev'))}`,
-    )
-  } else {
-    console.log(colors.header('⚡ Getting Started:'))
-    console.log(
-      `${colors.bullet('1.')} Install dependencies: ${colors.command('npm install')}`,
-    )
-    console.log(
-      `${colors.bullet('2.')} Start development server: ${colors.command(pm.run('dev'))}`,
-    )
-  }
+  console.log(colors.header('⚡ Getting Started:'))
+  console.log(
+    `${colors.bullet('1.')} Install dependencies: ${colors.command('npm install')}`,
+  )
+  console.log(
+    `${colors.bullet('2.')} Initialize the local database: ${colors.command(pm.run('setup'))}`,
+  )
+  console.log(
+    `${colors.bullet('3.')} Start development server: ${colors.command(pm.run('dev'))}`,
+  )
 
   console.log(`\nOpen ${colors.link('http://localhost:3000')} in your browser.`)
 
@@ -291,29 +191,20 @@ async function main({ rootDirectory, packageManager }) {
   const pm = getPackageManagerCommand(packageManager)
 
   try {
+    // Template-only dependencies are not needed by local environment setup.
+    toml = require('@iarna/toml')
+    PackageJson = require('@npmcli/package-json')
+    chalk = require('chalk')
     printWelcomeMessage()
 
-    const { optInArcjet } = await promptUser()
-
     await Promise.all([
-      updatePackageJson(rootDirectory, APP_NAME, optInArcjet),
+      updatePackageJson(rootDirectory, APP_NAME),
       initEnvFile(rootDirectory),
       updateProjectNameFromRiles(rootDirectory, APP_NAME),
       removeUnusedFiles(rootDirectory),
     ])
 
-    if (optInArcjet) {
-      await copyArcjetImplementation(rootDirectory)
-
-      // Run npm install after adding Arcjet
-      console.log('\n📦 Updating dependencies...')
-      execSync(`cd "${rootDirectory}" && ${packageManager} install`, {
-        stdio: 'inherit',
-      })
-      console.log('✓ Dependencies updated successfully.')
-    }
-
-    printSuccessMessage(optInArcjet, pm)
+    printSuccessMessage(pm)
   } catch (error) {
     console.error(error)
     process.exit(1)
@@ -321,3 +212,13 @@ async function main({ rootDirectory, packageManager }) {
 }
 
 module.exports = main
+
+module.exports.initEnvFile = initEnvFile
+
+if (require.main === module) {
+  if (process.argv[2] !== '--env-only') throw new Error('Use --env-only for local setup.')
+  setupEnvironment(process.cwd()).catch((error) => {
+    console.error(error)
+    process.exitCode = 1
+  })
+}

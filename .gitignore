@@ -14,9 +14,7 @@ node_modules
 .env
 
 # Prisma
-/prisma/data.db
-/prisma/data.db-journal
-/prisma/migrations
+/prisma/data.db*
 
 # Tests
 /coverage
