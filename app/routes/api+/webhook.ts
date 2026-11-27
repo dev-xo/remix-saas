@@ -102,7 +102,9 @@ export async function action({ request }: ActionFunctionArgs) {
        * E.g. when a user upgrades or downgrades their plan.
        */
       case 'customer.subscription.updated': {
-        const subscription = event.data.object
+        // Stripe does not guarantee event order, so the payload can be older than what is stored.
+        // Fetch the current subscription and write that, as `checkout.session.completed` does.
+        const subscription = await getStripe().subscriptions.retrieve(event.data.object.id)
         const { customer: customerId } = z
           .object({ customer: z.string() })
           .parse(subscription)
