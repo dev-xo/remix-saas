@@ -66,7 +66,7 @@ describe('stripe webhook', () => {
         headers: { 'Stripe-Signature': 'sig' },
         body: '{}',
       }),
-    } as any)
+    } as Parameters<typeof action>[0])
 
     expect(mocks.retrieve).toHaveBeenCalledWith('sub_1')
     expect(mocks.subscriptionUpdate).toHaveBeenCalledTimes(1)
